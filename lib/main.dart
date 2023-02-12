@@ -4,6 +4,7 @@ import 'package:login/layout/homeLayout/cubit/cubit.dart';
 import 'package:login/layout/homeLayout/cubit/state.dart';
 import 'package:login/layout/homeLayout/homelayout.dart';
 import 'package:login/modules/screens/home/cubit/cubit.dart';
+import 'package:login/shared/bloc_observer.dart';
 import 'package:login/shared/network/local/cache_helper.dart';
 import 'package:login/shared/network/remote/dio_helper.dart';
 import 'package:login/shared/resources/color_manager.dart';
@@ -14,6 +15,7 @@ import 'modules/screens/Login Screen/loginScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
   DioHelper.inti();
   await CacheHelper.init();
   Widget widget;
