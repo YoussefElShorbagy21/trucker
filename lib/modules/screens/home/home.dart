@@ -32,10 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if(mounted)
       {
         setState(() {
-          if (kDebugMode) {
-            print('BlocConsumer');
-          }
-          HomeScreenCubit().getHomeData();
+          const HomeScreen();
         });
       }
   }
@@ -135,25 +132,19 @@ class _HomeScreenState extends State<HomeScreen> {
 );
   }
 
-   Widget listBuilderOrder(GetEquipment data) => SmartRefresher(
-     enablePullDown: true,
-     enablePullUp: true,
-     header: const WaterDropHeader(),
-     controller: refreshController,
-     onRefresh: onRefresh,
-     onLoading: onLoading,
-     child: ListView.builder(
-       reverse: true,
-       itemBuilder: (context,index) => Padding(
-         padding: const EdgeInsets.all(8.0),
-         child: Card(
-           color: ColorManager.white,
-             elevation: 2,
-             child: buildItem(context,data.equipment[index])
-         ),
+   Widget listBuilderOrder(GetEquipment data) => ListView.builder(
+     itemBuilder: (context,index) {
+       int reverse = data.equipment.length - 1 - index;
+       return Padding(
+       padding: const EdgeInsets.all(8.0),
+       child: Card(
+         color: ColorManager.white,
+           elevation: 2,
+           child: buildItem(context,data.equipment[reverse])
        ),
-       itemCount: data.equipment.length,
-     ),
+     );
+     },
+     itemCount: data.equipment.length,
    ) ;
 
    Widget buildItem(BuildContext context,Equipment equipment) =>  Padding(
