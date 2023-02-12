@@ -23,7 +23,7 @@ class HomeCubit extends Cubit<HomeStates>{
 
 
   PostEquipment? postEquipment ;
-  UserData userData  = UserData(name: '', email: '');
+
   HomeCubit() : super(HomeInitialState());
   static HomeCubit get(context) => BlocProvider.of(context);
 
@@ -43,8 +43,7 @@ class HomeCubit extends Cubit<HomeStates>{
     required int price ,
     required int rating ,
     required String type ,
-  })
-  {
+  }) {
     emit(HomePostEquipmentLoadingState());
     DioHelper.postData(
       url: '/Equipments',
@@ -79,6 +78,8 @@ class HomeCubit extends Cubit<HomeStates>{
     });
   }
 
+
+  UserData userData  = UserData(name: 'newName', email: '');
   String? uid = CacheHelper.getData(key: 'token') ;
   void getUserData(){
     emit(LoadingGetUserData());

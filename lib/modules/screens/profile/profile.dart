@@ -12,78 +12,77 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit,HomeStates>(
-          listener: (context, state) {} ,
-          builder: (context, state)
-          {
-
-            return  Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children:
-                [
-                  SizedBox(
-                    height: 190,
-                   child:  CircleAvatar(
-                     radius: 55,
-                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                     child: const CircleAvatar(
-                       radius: 50,
-                       backgroundImage: NetworkImage('https://bk.rentyourmachine.com/images/products/123.jpg',),
-                     ),
-                   ),
-                  ),
-                  const SizedBox(
-                    height: 8.0,
-                  ),
-                  Text(
-                    name,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    email,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  /*Row(
+              listener: (context, state) {} ,
+              builder: (context, state)
+              {
+                return  Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
                     children:
                     [
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: (){},
-                          child: Text(
-                            'Add photos',
-                          ),
-                        ),
-                      ),
                       SizedBox(
-                        width: 10.0,
+                        height: 190,
+                       child:  CircleAvatar(
+                         radius: 55,
+                         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                         child: const CircleAvatar(
+                           radius: 50,
+                           backgroundImage: NetworkImage('https://bk.rentyourmachine.com/images/products/123.jpg',),
+                         ),
+                       ),
                       ),
-                      OutlinedButton(
-                        onPressed: ()
-                        {
-                          navigateTo(context, EditProfileScreen());
-                        },
-                        child: Icon(
-                          IconBroken.Edit_Square,
-                          size: 20,
-                        ),
+                      const SizedBox(
+                        height: 8.0,
                       ),
+                      Text(
+                        HomeCubit.get(context).userData.name,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        HomeCubit.get(context).userData.email,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      /*Row(
+                        children:
+                        [
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: (){},
+                              child: Text(
+                                'Add photos',
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          OutlinedButton(
+                            onPressed: ()
+                            {
+                              navigateTo(context, EditProfileScreen());
+                            },
+                            child: Icon(
+                              IconBroken.Edit_Square,
+                              size: 20,
+                            ),
+                          ),
+                        ],
+                      ),*/
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      defaultButton(function: ()
+                      {
+                        sinOut(context);
+                      }
+                          , text: 'LOGOUT'),
                     ],
-                  ),*/
-                  const SizedBox(
-                    height: 15,
                   ),
-                  defaultButton(function: ()
-                  {
-                    sinOut(context);
-                  }
-                      , text: 'LOGOUT'),
-                ],
-              ),
+                );
+              },
             );
-          },
-        );
   }
 }
