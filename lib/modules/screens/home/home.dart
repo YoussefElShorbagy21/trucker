@@ -38,7 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 body: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
+                    const SizedBox(
+                      height: 10,
+                    ),
+                   /* Container(
                       margin: EdgeInsets.all(MediaQuery.of(context).size.height / 50),
                       color: ColorManager.white,
                       child: Row(
@@ -97,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                    ),
+                    ),*/ // switch order & offer
                     Expanded(child: listBuilderOrder(cubit.homeModel)),
                   ],
                 ),
