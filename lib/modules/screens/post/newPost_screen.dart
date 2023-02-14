@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 import '../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../layout/homeLayout/cubit/state.dart';
-import '../../../shared/components/constants.dart';
 import '../../../shared/resources/color_manager.dart';
 
 
@@ -44,7 +44,7 @@ class NewPostScreen extends StatelessWidget {
                       price: int.parse(priceController.text),
                       rating: int.parse(ratingController.text),
                       type:HomeCubit.get(context).characters.toString() == 'SingingCharacter.Order'? 'Offer' : 'Order');
-                  Navigator.pop(context);
+                      Navigator.pop(context);
                 },
               child:  Text('Post',style: TextStyle(color: ColorManager.black),),
               ),

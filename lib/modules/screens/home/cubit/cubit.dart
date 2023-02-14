@@ -12,7 +12,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
 
   GetEquipment homeModel = GetEquipment(equipment: [], results: 0);
   static HomeScreenCubit get(context) => BlocProvider.of(context);
-  void getHomeData() async{
+  Future<dynamic> getHomeData() async{
     emit(LoadingHomeDataState());
     await DioHelper.getDate(
       url: '/Equipments',
