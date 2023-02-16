@@ -60,6 +60,7 @@ class ProfileScreen extends StatelessWidget {
                             width: 10.0,
                           ),
                           OutlinedButton(
+
                             onPressed: ()
                             {
                               navigateTo(context, EditProfileScreen());
