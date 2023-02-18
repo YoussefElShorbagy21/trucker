@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/modules/screens/home/cubit/state.dart';
@@ -12,23 +14,15 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
 
   GetEquipment homeModel = GetEquipment(equipment: [], results: 0);
   static HomeScreenCubit get(context) => BlocProvider.of(context);
-  Future<dynamic> getHomeData() async{
+
+  Future<void> getHomeData() async{
     emit(LoadingHomeDataState());
     await DioHelper.getDate(
       url: '/Equipments',
     ).then((value)
     {
-      if (kDebugMode) {
-        print('getHomeData');
-      }
-      if (kDebugMode) {
-        print(value.data);
-      }
       homeModel =  GetEquipment.fromJson(value.data);
-      if (kDebugMode) {
-        print(homeModel.equipment);
-      }
-      emit(SuccessHomeDataState());}
+      emit(SuccessHomeDataState(homeModel));}
     ).catchError((error){
       if (kDebugMode) {
         print(error.toString());
@@ -37,6 +31,10 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     });
   }
 
+  Future<void> onRefresh() async {
+    await getHomeData();
+    emit(RefreshIndicatorHome());
+  }
 
 
   bool isClickedOrder = true ;
