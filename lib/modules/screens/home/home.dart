@@ -1,160 +1,132 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login/modules/screens/home/cubit/cubit.dart';
 import 'package:login/modules/screens/home/cubit/state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../models/categeiromodel.dart';
 import '../../../shared/resources/color_manager.dart';
 import '../post/newPost_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
   create: (context) => HomeScreenCubit()..getHomeData(),
-  child: BlocConsumer<HomeScreenCubit,HomeScreenState>(
-      listener: (context,state) {
-      },
+    child : BlocConsumer<HomeScreenCubit,HomeScreenState>(
+      listener: (context,state) {},
       builder: (context,state) {
         var cubit = HomeScreenCubit.get(context);
         return Conditional.single(
           context: context,
           conditionBuilder: (context) => HomeScreenCubit.get(context).homeModel.equipment.isNotEmpty ,
-          widgetBuilder: (context) =>  FutureBuilder(
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              return Scaffold(
-                body: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(MediaQuery.of(context).size.height / 50),
-                      color: ColorManager.white,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: TextButton(
-                              onPressed: (){
-                                cubit.isClickOrder();
-                              },
-                              style:cubit.isClickedOrder ? TextButton.styleFrom(
-                                padding: const EdgeInsets.all(10),
-                                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
-                                backgroundColor:   ColorManager.white,
-                                side: BorderSide(
-                                  color: ColorManager.white2,
-                                  width: 4,
-                                  style: BorderStyle.solid,
-                                  strokeAlign: BorderSide.strokeAlignCenter,
-                                ),
-                              ) : null ,
-                              child:  Text('Order',
-                                style: TextStyle(
-                                    fontSize: cubit.isClickedOrder ? 20 : 15 ,
-                                    fontWeight: FontWeight.bold,
-                                    color: cubit.isClickedOrder ? ColorManager.black : ColorManager.gery),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.05,
-                          ),
-                          Expanded(
-                            child: TextButton(
-                              onPressed: (){
-                                cubit.isClickOffer();
-                              },
-                              style: cubit.isClickedOffer ? TextButton.styleFrom(
-                                padding: const EdgeInsets.all(10),
-                                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
-                                backgroundColor:   ColorManager.white,
-                                side: BorderSide(
-                                  color: ColorManager.white2,
-                                  width: 4,
-                                  style: BorderStyle.solid,
-                                  strokeAlign: BorderSide.strokeAlignCenter,
-                                ),
-                              ) : null ,
-                              child:  Text('Offer',
-                                style: TextStyle(
-                                    fontSize: cubit.isClickedOffer ? 20 : 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: cubit.isClickedOffer ?ColorManager.black : ColorManager.gery),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(child: listBuilderOrder(cubit.homeModel)),
-                  ],
+          widgetBuilder: (context) => Scaffold(
+            body: RefreshIndicator(
+              onRefresh: cubit.onRefresh,
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 10,
                 ),
-                floatingActionButton: FloatingActionButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewPostScreen()));
-                  },
-                  materialTapTargetSize: MaterialTapTargetSize.padded,
-                  elevation: 5,
-                  backgroundColor: ColorManager.white,
-                  child:  Icon(Icons.add,size: 30,color: ColorManager.black,),
-                ),
-              );
-            },
+                /* Container(
+                            margin: EdgeInsets.all(MediaQuery.of(context).size.height / 50),
+                            color: ColorManager.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: TextButton(
+                                    onPressed: (){
+                                      cubit.isClickOrder();
+                                    },
+                                    style:cubit.isClickedOrder ? TextButton.styleFrom(
+                                      padding: const EdgeInsets.all(10),
+                                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                                      backgroundColor:   ColorManager.white,
+                                      side: BorderSide(
+                                        color: ColorManager.white2,
+                                        width: 4,
+                                        style: BorderStyle.solid,
+                                        strokeAlign: BorderSide.strokeAlignCenter,
+                                      ),
+                                    ) : null ,
+                                    child:  Text('Order',
+                                      style: TextStyle(
+                                          fontSize: cubit.isClickedOrder ? 20 : 15 ,
+                                          fontWeight: FontWeight.bold,
+                                          color: cubit.isClickedOrder ? ColorManager.black : ColorManager.gery),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.05,
+                                ),
+                                Expanded(
+                                  child: TextButton(
+                                    onPressed: (){
+                                      cubit.isClickOffer();
+                                    },
+                                    style: cubit.isClickedOffer ? TextButton.styleFrom(
+                                      padding: const EdgeInsets.all(10),
+                                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                                      backgroundColor:   ColorManager.white,
+                                      side: BorderSide(
+                                        color: ColorManager.white2,
+                                        width: 4,
+                                        style: BorderStyle.solid,
+                                        strokeAlign: BorderSide.strokeAlignCenter,
+                                      ),
+                                    ) : null ,
+                                    child:  Text('Offer',
+                                      style: TextStyle(
+                                          fontSize: cubit.isClickedOffer ? 20 : 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: cubit.isClickedOffer ?ColorManager.black : ColorManager.gery),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),*/ // switch order & offer
+                Expanded(child: listBuilderOrder(cubit.homeModel)),
+              ],
+          ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewPostScreen()));
+              },
+              materialTapTargetSize: MaterialTapTargetSize.padded,
+              elevation: 5,
+              backgroundColor: ColorManager.white,
+              child:  Icon(Icons.add,size: 30,color: ColorManager.black,),
+            ),
           ),
           fallbackBuilder: (context) => const Center(child: CircularProgressIndicator()) ,
         );
       },
-    ),
-);
-  }
-  RefreshController refreshController = RefreshController(initialRefresh: false);
-  Future<void> onRefresh() async{
-    await Future.delayed(const Duration(milliseconds: 1000));
-    refreshController.refreshCompleted();
-    onLoading();
-  }
-  Future<void> onLoading() async{
-    await Future.delayed(const Duration(milliseconds: 1000));
-    refreshController.loadComplete();
-    print('refreshController');
-     HomeScreenCubit().getHomeData();
-    if(mounted){
-      setState(() {
-
-      });
-    }
-
+    )
+    );
   }
 
-   Widget listBuilderOrder(GetEquipment data) => SmartRefresher(
-     controller: refreshController,
-     onRefresh: onRefresh ,
-     child: ListView.builder(
-       itemBuilder: (context,index) {
-         int reverse = data.equipment.length - 1 - index;
-         return Padding(
-         padding: const EdgeInsets.all(8.0),
-         child: Card(
-           color: ColorManager.white,
-             elevation: 2,
-             child: buildItem(context,data.equipment[reverse])
-         ),
+   Widget listBuilderOrder(GetEquipment data) => ListView.builder(
+     itemBuilder: (context,index) {
+       int reverse = data.equipment.length - 1 - index;
+       return Padding(
+       padding: const EdgeInsets.all(8.0),
+       child: Card(
+       color: ColorManager.white,
+       elevation: 2,
+       child: buildItem(context,data.equipment[reverse])
+       ),
        );
-       },
-       itemCount: data.equipment.length,
-     ),
+     },
+     itemCount: data.equipment.length,
    ) ;
 
    Widget buildItem(BuildContext context,Equipment equipment) =>  Padding(
