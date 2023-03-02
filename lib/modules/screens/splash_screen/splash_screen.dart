@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../../shared/resources/color_manager.dart';
-import '../onboarding_screen/onboarding_page.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  final Widget widget  ;
+  const SplashScreen({super.key, required this.widget});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +19,7 @@ class SplashScreen extends StatelessWidget {
         radius: 90,
         backgroundImage: AssetImage("assets/images/splash_logo/trucker_logo.png"),
       ),
-
-
-      nextScreen: const OnBoardingPage(),
+      nextScreen: widget,
     );
   }
 }

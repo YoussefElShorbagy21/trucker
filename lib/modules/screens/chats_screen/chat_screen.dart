@@ -18,9 +18,8 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.black,
       appBar: AppBar(
-        backgroundColor: ColorManager.black,
+        backgroundColor: ColorManager.white,
         title: Text(
           widget.user.name,
           style: const TextStyle(
@@ -33,7 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             icon: const Icon(Icons.more_horiz),
             iconSize: 30.0,
-            color: ColorManager.white,
+            color: ColorManager.black,
             onPressed: () {},
           ),
         ],

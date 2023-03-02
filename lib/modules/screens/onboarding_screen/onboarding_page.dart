@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../shared/network/local/cache_helper.dart';
 import '../../../shared/resources/color_manager.dart';
+import '../Login Screen/loginScreen.dart';
 import '../profile/profile_screen.dart';
-
-
 
 class BoardingModel
 {
@@ -19,8 +19,7 @@ class BoardingModel
   });
 }
 
-class OnBoardingPage extends StatefulWidget
-{
+class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
 
   @override
@@ -51,21 +50,18 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   bool isLast = false;
 
-  // void submit(context)
-  // {
-  //   // CacheHelper.saveData(key:'onBoarding', value: true,).then((value){
-  //     if(value)
-  //     {
-  //       Navigator.of(context).push(MaterialPageRoute(
-  //           builder: (BuildContext context) => const ProfileScreen()));
-  //       );
-  //     }
-  //   });
-  // }
+  void submit(context) {
+     CacheHelper.saveData(key:'onBoarding', value: true,).then((value){
+      if(value == true)
+      {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>  LoginScreen()));
+      }
+    });
+  }
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.black,
       appBar: AppBar(
@@ -75,7 +71,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
          TextButton(
              onPressed: (){
                Navigator.of(context).push(MaterialPageRoute(
-                   builder: (BuildContext context) => const ProfileScreen()));
+                   builder: (BuildContext context) =>  LoginScreen()));
              },
              child: const Text(
                'Skip',
@@ -134,11 +130,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 {
                   if(isLast)
                   {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => const ProfileScreen()));
-                    // submit(context);
-                  }else
-                  {
+              /*      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) =>  LoginScreen()));*/
+                    submit(context);
+                  }
+                  else {
                     boardController.nextPage(
                       duration: const Duration(
                         milliseconds: 750,

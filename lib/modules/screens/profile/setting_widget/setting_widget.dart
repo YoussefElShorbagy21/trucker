@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-
 class AccountPage extends StatelessWidget {
   static const keyLanguage = 'key-language';
   static const keyLocation = 'key-location';
@@ -46,7 +45,6 @@ class AccountPage extends StatelessWidget {
     ),
   );
 }
-//===============================================
 
 
 class IconWidget extends StatelessWidget {
@@ -73,7 +71,10 @@ class IconWidget extends StatelessWidget {
       );
 }
 
-Widget buildDarkMode() => SwitchSettingsTile(
+
+Widget buildDarkMode() {
+  Settings.init(cacheProvider: SharePreferenceCache());
+  return SwitchSettingsTile(
       settingKey: HeaderPage.keyDarkMode, //remember before status
       leading: const IconWidget(
         icon: Icons.dark_mode,
@@ -82,6 +83,7 @@ Widget buildDarkMode() => SwitchSettingsTile(
       title: 'Dark Mode',
       onChange: (isDarkMode) {},
     );
+}
 
 Widget buildLogout() => SimpleSettingsTile(
       leading: const IconWidget(

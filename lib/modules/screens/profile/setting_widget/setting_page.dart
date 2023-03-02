@@ -5,7 +5,6 @@ import 'setting_widget.dart';
 
 class SettingsChange extends StatefulWidget {
   const SettingsChange({Key? key}) : super(key: key);
-
   @override
   State<SettingsChange> createState() => _SettingsChangeState();
 }
@@ -16,7 +15,7 @@ class _SettingsChangeState extends State<SettingsChange> {
     return Scaffold(
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 80,horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 40,horizontal: 20),
           children: [
             const Text(
               "Settings",

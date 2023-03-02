@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:login/shared/resources/color_manager.dart';
 
+import '../../../layout/homeLayout/cubit/cubit.dart';
+import '../../../shared/components/constants.dart';
 import '../chats_screen/chat_home.dart';
 import 'setting_widget/setting_page.dart';
 
@@ -16,11 +19,12 @@ class ProfileScreen extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Container(
-          decoration: const BoxDecoration(
+          decoration:  BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color.fromRGBO(4, 9, 35, 1),
-                Color(0xff191919),
+                ColorManager.black,
+              /*  const Color.fromRGBO(4, 9, 35, 1),*/
+                ColorManager.black,
               ],
               begin: FractionalOffset.bottomCenter,
               end: FractionalOffset.topCenter,
@@ -32,24 +36,21 @@ class ProfileScreen extends StatelessWidget {
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 73),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children:  [
                       IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) => const ChatHome()));
-                        },
+                        onPressed: () {},
                         icon: const Icon(
                           AntDesign.arrowleft,
                           color: Colors.white,
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {sinOut(context);},
                         icon: const Icon(
                           AntDesign.logout,
                           color: Colors.white,
@@ -61,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
                     height: screenHeight * 0.028,    //20
                   ),
                   const Text(
-                    'My\nProfile',
+                    'My Profile',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -72,7 +73,7 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(
                     height: 22,
                   ),
-                  Container(
+                  SizedBox(
                     height: screenHeight * 0.43,
                     child: LayoutBuilder(
                       builder: (context, constraints) {
@@ -96,18 +97,26 @@ class ProfileScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                      SizedBox(
-                                      height: localHeight * 0.33, // 80
+                                      height: localHeight * 0.25,
                                     ),
-                                    const Text(
-                                      'Master Joe', //name of user
-                                      style: TextStyle(
+                                     Text(
+                                      HomeCubit.get(context).userData.name, //name of user
+                                      style: const TextStyle(
                                         color: Color.fromRGBO(39, 105, 171, 1),
                                         // fontFamily: '',
                                         fontSize: 37,
                                       ),
                                     ),
                                      SizedBox(
-                                      height: localHeight * 0.02, //5
+                                      height: localHeight /100,
+                                    ),
+                                    Text(
+                                      HomeCubit.get(context).userData.email, //name of user
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(39, 105, 171, 1),
+                                        // fontFamily: '',
+                                        fontSize: 20,
+                                      ),
                                     ),
                                     Row(
                                       mainAxisAlignment:
