@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../setting_screen/profile_screen.dart';
-import '../../shared/style/color_manager.dart';
+import '../../../shared/resources/color_manager.dart';
+import '../profile/profile_screen.dart';
+
+
 
 class BoardingModel
 {

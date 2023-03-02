@@ -9,7 +9,7 @@ class ColorManager {
   static Color gery = const Color(0xffA0A0A0);
   static Color brightBlue = const Color(0xff0096FF);
   static Color bottomColor = const Color(0xff333739);
-  /================================================
+  //================================================
   static Color blue = const Color(0xff0000FF);
   static Color accentColor = const Color(0xFFFEF9EB);
   static Color blueGrey = Colors.blueGrey;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../models/chat_model/message_model.dart';
-import '../../../shared/style/color_manager.dart';
+
+import '../../../../models/chat_model/message_model.dart';
+import '../../../../shared/resources/color_manager.dart';
 import '../chat_screen.dart';
 
 class RecentChats extends StatelessWidget {

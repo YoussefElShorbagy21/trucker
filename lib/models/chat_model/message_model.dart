@@ -1,4 +1,4 @@
-import 'package:truck_app/models/chat_model/user_model.dart';
+import 'user_model.dart';
 
 class Message {
   final User sender;

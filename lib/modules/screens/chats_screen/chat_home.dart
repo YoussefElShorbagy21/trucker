@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../shared/style/color_manager.dart';
+import '../../../shared/resources/color_manager.dart';
 import 'chat_widgets/favourite_contacts.dart';
 import 'chat_widgets/recent_chats.dart';
 

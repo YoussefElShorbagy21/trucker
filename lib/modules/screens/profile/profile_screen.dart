@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:truck_app/modules/setting_widget/setting_page.dart';
 
 import '../chats_screen/chat_home.dart';
+import 'setting_widget/setting_page.dart';
 
 
 class ProfileScreen extends StatelessWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'package:truck_app/modules/setting_widget/setting_widget.dart';
+
+import 'setting_widget.dart';
 
 class SettingsChange extends StatefulWidget {
   const SettingsChange({Key? key}) : super(key: key);

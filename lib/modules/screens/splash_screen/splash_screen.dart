@@ -1,8 +1,10 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:truck_app/modules/onboarding_screen/onboarding_page.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:truck_app/shared/style/color_manager.dart';
+
+import '../../../shared/resources/color_manager.dart';
+import '../onboarding_screen/onboarding_page.dart';
+
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 

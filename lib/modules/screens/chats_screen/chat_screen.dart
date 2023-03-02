@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../models/chat_model/message_model.dart';
-import '../../models/chat_model/user_model.dart';
-import '../../shared/style/color_manager.dart';
+import '../../../models/chat_model/message_model.dart';
+import '../../../models/chat_model/user_model.dart';
+import '../../../shared/resources/color_manager.dart';
+
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key, required this.user}) : super(key: key);
