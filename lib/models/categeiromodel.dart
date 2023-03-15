@@ -36,32 +36,31 @@ class Equipment{
   String description;
   String photo;
   dynamic price ;
-  int rating;
-  bool favourite ;
-  String type ;
+  String category ;
+  String government;
+  String userId;
 
   Equipment({
     required this.id,
     required  this.description,
     required this.photo,
     required  this.price,
-    required  this.rating,
     required  this.title,
-    required  this.favourite,
-    required  this.type,
-});
+    required  this.category,
+    required  this.government,
+    required  this.userId,
+  });
 
   factory Equipment.fromJson(Map<String,dynamic> json) =>
       Equipment(
-          id: json['_id'],
-          title: json['title'],
-          description: json['description'],
-          photo: json['photo'],
-          price: json['price'],
-          rating: json['rating'],
-          favourite: json['favourite'],
-          type: json['type'],
+        id: json['_id']?? '',
+        title: json['title']?? '',
+        description: json['description']?? '',
+        photo: json['photo']?? '',
+        price: json['price']?? '',
+        government: json['government']?? '',
+        userId: json['userId'] ?? '',
+        category: json['category'] ?? '',
       );
 
 }
-

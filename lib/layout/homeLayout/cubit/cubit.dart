@@ -1,26 +1,26 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/models/UserData.dart';
 import 'package:login/models/categeiromodel.dart';
-import 'package:login/modules/screens/favorite/favorite.dart';
-import 'package:login/modules/screens/home/home.dart';
 import 'package:login/shared/network/remote/dio_helper.dart';
 
 
-import '../../../modules/screens/chats_screen/chat_home.dart';
-import '../../../modules/screens/profile/profile_screen.dart';
+import '../../../modules/customer/screens/chats_screen/chat_home.dart';
+import '../../../modules/customer/screens/favorite/favorite.dart';
+import '../../../modules/customer/screens/home/home.dart';
+import '../../../modules/customer/screens/profile/profile_screen.dart';
 import '../../../shared/network/local/cache_helper.dart';
 import 'state.dart';
 
-
-
 enum SingingCharacter { Offer, Order }
-class HomeCubit extends Cubit<HomeStates>{
 
+class HomeCubit extends Cubit<HomeStates>{
 
   PostEquipment? postEquipment ;
 
@@ -36,6 +36,7 @@ class HomeCubit extends Cubit<HomeStates>{
     const ProfileScreen(),
   ];
 
+
   void postNewEquipment({
     required String title ,
     required String description,
@@ -44,29 +45,28 @@ class HomeCubit extends Cubit<HomeStates>{
     required int rating ,
     required String type ,
   }) {
+
     emit(HomePostEquipmentLoadingState());
+    FormData formData = FormData.fromMap({
+      'title' : title,
+      'description' : description,
+      'photo': photo,
+      'price' : price,
+      'rating' : rating,
+      'type' : type,
+    });
     DioHelper.postData(
       url: '/Equipments',
-      data:
-      {
-        'title' : title,
-        'description' : description,
-        'photo': photo,
-        'price' : price,
-        'rating' : rating,
-        'type' : type,
-      },
+      data: formData,
     ).then((value)
     {
       if (kDebugMode) {
         print("postData Equipments") ;
       }
-      if (kDebugMode) {
-        print(value.data);
-      }
       postEquipment = PostEquipment.fromJson(value.data) ;
       if (kDebugMode) {
-        print(postEquipment);
+        print(kDebugMode);
+        print(postImage!.path);
       }
       emit(HomePostEquipmentSuccessState());
     }).catchError((error)
@@ -79,14 +79,77 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
 
+
+  
+  void changeBottomNavIndex(int index){
+    currentIndex = index ;
+    emit(HomeChangeBottomNav());
+  }
+
+  //Image
+  File? postImage ;
+  var picker = ImagePicker();
+  Uint8List imageAfter = Uint8List(0);
+  String baseImage = '';
+  Future<void> getPostImage() async  {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if(pickedFile != null) {
+      postImage = File(pickedFile.path) ;
+      imageAfter = postImage!.readAsBytesSync();
+      baseImage = base64.encode(imageAfter);
+      print(postImage.toString());
+      print(imageAfter);
+      print(baseImage);
+      emit(HomePostImagePickedSuccessState());
+    }
+    else {
+      print('No image selected');
+      emit(HomePostImagePickedErrorState());
+    }
+  }
+  void removePostImage() {
+    postImage = null ;
+    emit(HomeRemovePostImageState());
+  }
+  //Image
+
+  changeRadio(SingingCharacter value ) {
+    characters = value  ;
+    emit(HomeChangeRadio());
+  }
+
+  Locale  locale= const Locale('en');
+ Future<String> getCachedSavedLanguage() async {
+    final String? cachedLanguageCode = await CacheHelper.getData(key: 'LOCALE');
+    if(cachedLanguageCode != null ){
+      print('cachedLanguageCode');
+      return cachedLanguageCode ;
+    }
+    else{
+      print('cachedLanguageCodeEn');
+      return 'en';
+    }
+
+ }
+
+  Future<void> getSavedLanguage() async {
+    final String cachedLanguageCode = await getCachedSavedLanguage();
+    locale = Locale(cachedLanguageCode);
+    emit(ChangeLocalState());
+  }
+
+  Future<void> cachedLanguageCode(String languageCode) async {
+    CacheHelper.saveData(key: 'LOCALE', value: languageCode);
+    locale = Locale(languageCode);
+    emit(ChangeLocalState());
+  }
+
+
   UserData userData  = UserData(name: 'newName', email: '');
   String? uid = CacheHelper.getData(key: 'token') ;
-  void getUserData(){
+   void getUserData(){
     emit(LoadingGetUserData());
-    DioHelper.getDate(url: '/users/$uid').then((value){
-      if (kDebugMode) {
-        print('getUserData');
-      }
+    DioHelper.getDate(url:'users/$uid').then((value){
       if (kDebugMode) {
         print(value.data);
       }
@@ -95,45 +158,18 @@ class HomeCubit extends Cubit<HomeStates>{
       }
       userData = UserData.fromJson(value.data);
       if (kDebugMode) {
-        print(userData);
+     print(value.data['user']['name']);
       }
-      CacheHelper.saveData(key: 'name', value: userData.name);
-      CacheHelper.saveData(key: 'email', value: userData.email);
-      emit(SuccessGetUserData(userData));
+      if (kDebugMode) {
+        print(userData.email);
+      }
+      emit(SuccessGetUserData());
+
     }).catchError((onError){
       if (kDebugMode) {
         print(onError.toString());
       }
     }
     );}
-  
-  void changeBottomNavIndex(int index){
-    currentIndex = index ;
-    emit(HomeChangeBottomNav());
-  }
 
-  var picker = ImagePicker();
-  File? postImage ;
-
-  Future<void> getPostImage() async  {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if(pickedFile != null) {
-      postImage = File(pickedFile.path) ;
-      emit(HomePostImagePickedSuccessState());
-    }
-    else {
-      print('No image selected');
-      emit(HomePostImagePickedErrorState());
-    }
-  }
-
-  void removePostImage() {
-    postImage = null ;
-    emit(HomeRemovePostImageState());
-  }
-
-  changeRadio(SingingCharacter value ) {
-    characters = value  ;
-    emit(HomeChangeRadio());
-  }
 }

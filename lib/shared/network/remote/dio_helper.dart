@@ -8,7 +8,7 @@ class DioHelper
   {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://rich-gray-elephant-cuff.cyclic.app/api/v1',
+        baseUrl: 'https://cute-cyan-coyote-fez.cyclic.app/api/v1/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -36,7 +36,7 @@ class DioHelper
   static Future<Response> postData({
     required String url,
      Map<String,dynamic>? query ,
-    required Map<String,dynamic> data ,
+    required dynamic data , //Map<String,dynamic>
     String lang = 'en',
     String token = '',
   }) async

@@ -1,4 +1,3 @@
-
 import '../../../models/UserData.dart';
 
 abstract class HomeStates {}
@@ -14,13 +13,13 @@ class HomePostImagePickedErrorState extends HomeStates {}
 
 class HomeRemovePostImageState extends HomeStates {}
 
+class ChangeLocalState extends HomeStates{}
+
 class LoadingGetUserData extends HomeStates {}
-class SuccessGetUserData extends HomeStates {
-  UserData userData  ;
-  SuccessGetUserData(this.userData);
-}
+class SuccessGetUserData extends HomeStates {}
 
 
 class HomePostEquipmentLoadingState extends HomeStates {}
 class HomePostEquipmentSuccessState extends HomeStates {}
 class HomePostEquipmentErrorState extends HomeStates {}
+

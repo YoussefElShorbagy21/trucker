@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../modules/screens/Login Screen/loginScreen.dart';
+import '../../modules/customer/screens/Login Screen/loginScreen.dart';
 import '../network/local/cache_helper.dart';
 import 'components.dart';
 
@@ -34,7 +34,3 @@ void navigateFish(context , widget) =>  Navigator.pushAndRemoveUntil(
     ),
         (route) => false
 );
-
-
-String name = CacheHelper.getData(key: 'name');
-String email = CacheHelper.getData(key: 'email');
