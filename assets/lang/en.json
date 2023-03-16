@@ -33,7 +33,7 @@
   "register_conPassword_error": "Not the same the password",
   "phone_error": "Enter a valid phone",
   "invalid_password": "Password must be 8 characters long with at least 1 uppercase letter, 1 lowercase letter, and 1 numeric character",
-
+  "register_text": "Register now",
   "loading": "Loading....",
   "retry_again": "Retry again",
   "error_occurred": "An Error Occurred",
