@@ -3,7 +3,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:login/layout/homeLayout/cubit/cubit.dart';
 import 'package:login/layout/homeLayout/cubit/state.dart';
 import 'package:login/layout/homeLayout/homelayout.dart';
+import 'package:login/modules/customer/screens/Login%20Screen/cubit/login_cubit.dart';
 import 'package:login/shared/bloc_observer.dart';
+import 'package:login/shared/components/constants.dart';
 import 'package:login/shared/network/local/cache_helper.dart';
 import 'package:login/shared/network/remote/dio_helper.dart';
 import 'package:login/shared/resources/app_localizations.dart';
@@ -23,10 +25,6 @@ void main() async {
   DioHelper.inti();
   await CacheHelper.init();
   Widget widget;
-  String? uid = CacheHelper.getData(key: 'token');
-  String? token = CacheHelper.getData(key: 'tokenId');
-  bool? onBoarding = CacheHelper.getData(key: 'onBoarding') ;
-  bool? language = CacheHelper.getData(key: 'SettingsPage') ;
 
   print(token);
   print(uid);
@@ -65,7 +63,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        BlocProvider<HomeCubit>(create: (context) => HomeCubit()..getUserData()..getSavedLanguage()),
+            BlocProvider<HomeCubit>(create: (context) => HomeCubit()..getUserData()..getSavedLanguage()),
       ],
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {},

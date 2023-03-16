@@ -34,6 +34,10 @@ class LoginScreen extends StatelessWidget {
         if(state is LoginSuccessState) {
           if (state.model.id.isNotEmpty) {
             CacheHelper.saveData(
+              key: 'TokenId',
+              value: state.model.token,
+            );
+            CacheHelper.saveData(
               key: 'token',
               value: state.model.id,
             ).then((value) =>
@@ -214,7 +218,6 @@ class LoginScreen extends StatelessWidget {
                                         LoginCubit.get(context).userLogin(email: emailController.text,
                                             password: passwordController.text);
                                       }
-                                      HomeCubit().getUserData() ;
                                   } ,
                                     style: TextButton.styleFrom(
                                       shape: const StadiumBorder(),

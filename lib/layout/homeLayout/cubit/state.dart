@@ -23,3 +23,6 @@ class HomePostEquipmentLoadingState extends HomeStates {}
 class HomePostEquipmentSuccessState extends HomeStates {}
 class HomePostEquipmentErrorState extends HomeStates {}
 
+class LoadingVerifyEmail extends HomeStates {}
+class SuccessVerifyEmail extends HomeStates {}
+

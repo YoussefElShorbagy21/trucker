@@ -39,7 +39,7 @@ class _SettingsChangeState extends State<SettingsChange> {
               const SizedBox(
                 height: 10,
               ),
-              buildDeleteAccount(),
+              buildDeleteAccount(context),
             ],
           ),
           const SizedBox(

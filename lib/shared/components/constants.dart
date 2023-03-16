@@ -34,3 +34,8 @@ void navigateFish(context , widget) =>  Navigator.pushAndRemoveUntil(
     ),
         (route) => false
 );
+
+String? token = CacheHelper.getData(key: 'TokenId');
+String? uid = CacheHelper.getData(key: 'token');
+bool? onBoarding = CacheHelper.getData(key: 'onBoarding') ;
+bool? language = CacheHelper.getData(key: 'SettingsPage') ;

@@ -15,6 +15,7 @@ import '../../../modules/customer/screens/chats_screen/chat_home.dart';
 import '../../../modules/customer/screens/favorite/favorite.dart';
 import '../../../modules/customer/screens/home/home.dart';
 import '../../../modules/customer/screens/profile/profile_screen.dart';
+import '../../../shared/components/constants.dart';
 import '../../../shared/network/local/cache_helper.dart';
 import 'state.dart';
 
@@ -146,7 +147,7 @@ class HomeCubit extends Cubit<HomeStates>{
 
 
   UserData userData  = UserData(name: 'newName', email: '');
-  String? uid = CacheHelper.getData(key: 'token') ;
+
    void getUserData(){
     emit(LoadingGetUserData());
     DioHelper.getDate(url:'users/$uid').then((value){
@@ -157,12 +158,6 @@ class HomeCubit extends Cubit<HomeStates>{
         print(uid);
       }
       userData = UserData.fromJson(value.data);
-      if (kDebugMode) {
-     print(value.data['user']['name']);
-      }
-      if (kDebugMode) {
-        print(userData.email);
-      }
       emit(SuccessGetUserData());
 
     }).catchError((onError){
@@ -172,4 +167,11 @@ class HomeCubit extends Cubit<HomeStates>{
     }
     );}
 
+  void  verifyEmail(String otpCode){
+    emit(LoadingVerifyEmail());
+    DioHelper.postData(url: 'users/verfiy', data: {
+      'otpCode':otpCode,
+    });
+    emit(SuccessVerifyEmail());
+    }
 }

@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 
+import '../../components/constants.dart';
+import '../local/cache_helper.dart';
+
 class DioHelper
 {
   static late Dio dio ;
-
   static inti()
   {
     dio = Dio(
@@ -14,18 +16,14 @@ class DioHelper
     );
   }
 
+
   static Future<Response> getDate({
   required String url,
    Map<String,dynamic>? query ,
-    String lang = 'en',
-    String token = '' ,
   }) async
   {
-    dio.options.headers =
-    {
-      'Content-Type':'application/json',
-      'lang' : lang ,
-      'Authorization':token,
+    dio.options.headers = {
+      'Authorization':'Bearer $token',
     };
     return await dio.get(
       url ,
@@ -37,14 +35,10 @@ class DioHelper
     required String url,
      Map<String,dynamic>? query ,
     required dynamic data , //Map<String,dynamic>
-    String lang = 'en',
-    String token = '',
   }) async
   {
-    dio.options.headers =
-    {
-        'lang' : lang ,
-        'Authorization':token,
+    dio.options.headers = {
+      'Authorization':'Bearer $token',
     };
      return dio.post(
        url ,
@@ -57,14 +51,10 @@ class DioHelper
     required String url,
     Map<String,dynamic>? query ,
     required Map<String,dynamic> data ,
-    String lang = 'en',
-    String token = '',
   }) async
   {
-    dio.options.headers =
-    {
-      'lang' : lang ,
-      'Authorization':token,
+    dio.options.headers = {
+      'Authorization':'Bearer $token',
     };
     return dio.put(
       url ,
@@ -73,4 +63,16 @@ class DioHelper
     );
   }
 
+  static Future<Response> deleteData({
+    required String url, //Map<String,dynamic>
+  }) async
+  {
+    print(token);
+    dio.options.headers = {
+      'Authorization':'Bearer $token',
+    };
+    return dio.delete(
+      url ,
+    );
+  }
 }

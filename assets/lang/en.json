@@ -77,5 +77,10 @@
   "contact_us": "Contact Us",
   "invite_your_friends": "Invite Your Friends",
   "logout": "Logout",
-  "reset_password": "Reset Password"
+  "reset_password": "Reset Password",
+
+  "Verify_button": "Verification",
+  "Verify_title": "Verification Code",
+  "Verify_suptitle": "We texted you a code please enter it below",
+  "Verify_help": "This help us verify every user in our market place"
 }

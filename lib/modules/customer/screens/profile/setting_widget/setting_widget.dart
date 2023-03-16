@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/shared/network/remote/dio_helper.dart';
 import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../layout/homeLayout/cubit/state.dart';
 import '../../../../../shared/components/constants.dart';
-import '../../../../../shared/network/local/cache_helper.dart';
+
 class AccountPage extends StatelessWidget {
   static const keyLanguage = 'key-language';
   static const keyLocation = 'key-location';
@@ -103,13 +104,16 @@ Widget buildLogout(BuildContext context) => SimpleSettingsTile(
       },
     );
 
-Widget buildDeleteAccount() => SimpleSettingsTile(
+Widget buildDeleteAccount(BuildContext context) => SimpleSettingsTile(
       leading: const IconWidget(
         icon: Icons.delete,
         color: Colors.pinkAccent,
       ),
       title: 'Delete Account',
-      onTap: () {},
+      onTap: () {
+        DioHelper.deleteData(url: 'users/deleteMe');
+        sinOut(context);
+      },
     );
 
 Widget buildAccount() => SimpleSettingsTile(
