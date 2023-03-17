@@ -6,6 +6,7 @@ import 'components.dart';
 
 void sinOut(context)
 {
+  CacheHelper.clearData(key: 'TokenId');
   CacheHelper.clearData(key: 'token').then((value)
       {
       if(value == true) {
@@ -36,6 +37,7 @@ void navigateFish(context , widget) =>  Navigator.pushAndRemoveUntil(
 );
 
 String? token = CacheHelper.getData(key: 'TokenId');
-String? uid = CacheHelper.getData(key: 'token');
+String? uid = CacheHelper.getData(key: 'ID');
 bool? onBoarding = CacheHelper.getData(key: 'onBoarding') ;
+bool? choseUser = CacheHelper.getData(key: 'ChoseUser');
 bool? language = CacheHelper.getData(key: 'SettingsPage') ;

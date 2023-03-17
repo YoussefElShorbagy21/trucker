@@ -4,6 +4,7 @@ import 'package:login/layout/homeLayout/cubit/cubit.dart';
 import 'package:login/layout/homeLayout/cubit/state.dart';
 import 'package:login/layout/homeLayout/homelayout.dart';
 import 'package:login/modules/customer/screens/Login%20Screen/cubit/login_cubit.dart';
+import 'package:login/modules/customer/screens/Login%20Screen/loginScreen.dart';
 import 'package:login/shared/bloc_observer.dart';
 import 'package:login/shared/components/constants.dart';
 import 'package:login/shared/network/local/cache_helper.dart';
@@ -28,6 +29,7 @@ void main() async {
 
   print(token);
   print(uid);
+  print(choseUser);
   print(onBoarding);
   print(language);
 
@@ -35,9 +37,15 @@ void main() async {
     {
       if(onBoarding != null)
       {
-        if (uid != null) {
-          widget = const HomeLayout();
-        }
+        if(choseUser != null)
+          {
+            if (uid != null) {
+              widget = const HomeLayout();
+            }
+            else {
+              widget =  LoginScreen();
+            }
+          }
         else {
           widget = const ChoseApp();
         }

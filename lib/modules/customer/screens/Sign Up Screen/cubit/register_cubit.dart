@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/models/signupmodel.dart';
+import 'package:login/shared/components/constants.dart';
 
+import '../../../../../shared/network/local/cache_helper.dart';
 import '../../../../../shared/network/remote/dio_helper.dart';
 import 'register_state.dart';
 
@@ -45,7 +47,9 @@ class RegisterCubit extends Cubit<RegisterState>
       if (kDebugMode) {
         print(model);
       }
+      CacheHelper.saveData(key: 'TokenId', value: model!.token);
       emit(RegisterSuccessState(model!));
+      print(token);
     }).catchError((error)
     {
       if (kDebugMode) {

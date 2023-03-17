@@ -31,7 +31,7 @@ class HomeCubit extends Cubit<HomeStates>{
   int currentIndex = 0 ;
   SingingCharacter characters = SingingCharacter.Order;
   List<Widget> screens =  [
-    const HomeScreen(),
+    HomeScreen(),
     const FavoriteScreen(),
     const ChatHome(),
     const ProfileScreen(),
@@ -171,7 +171,11 @@ class HomeCubit extends Cubit<HomeStates>{
     emit(LoadingVerifyEmail());
     DioHelper.postData(url: 'users/verfiy', data: {
       'otpCode':otpCode,
+    }).then((value) => {
+      print(value.data),
+      emit(SuccessVerifyEmail())
+    }).catchError((onError){
+      print(onError.toString());
     });
-    emit(SuccessVerifyEmail());
-    }
+   }
 }

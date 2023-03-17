@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/Login%20Screen/loginScreen.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 
+import '../../../../shared/network/local/cache_helper.dart';
 import '../../../../shared/resources/color_manager.dart';
 import '../../../../shared/resources/font_manager.dart';
 
@@ -35,7 +36,10 @@ class ChoseApp extends StatelessWidget {
           ),
           child: TextButton(
             onPressed:(){
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) => LoginScreen()));
+              CacheHelper.saveData(key:'ChoseUser', value: true,).then((value) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => LoginScreen()));
+              });
+
             } ,
             style: TextButton.styleFrom(
               shape: const StadiumBorder(),
@@ -62,7 +66,9 @@ class ChoseApp extends StatelessWidget {
         ),
         child: TextButton(
           onPressed:(){
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => LoginScreen()));
+            CacheHelper.saveData(key:'ChoseUser', value: true,).then((value) {
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) => LoginScreen()));
+            });
           } ,
           style: TextButton.styleFrom(
             shape: const StadiumBorder(),

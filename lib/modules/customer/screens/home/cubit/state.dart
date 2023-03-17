@@ -11,6 +11,16 @@ class  SuccessHomeDataState extends HomeScreenState {
 }
 class  ErrorHomeDataState extends HomeScreenState {}
 
+
+class  LoadingDetailsCategoryDataState extends HomeScreenState {}
+class  SuccessDetailsCategoryDataState extends HomeScreenState {}
+class  ErrorDetailsCategoryDataState extends HomeScreenState {}
+
+
+class  LoadingCategoryDataState extends HomeScreenState {}
+class  SuccessCategoryDataState extends HomeScreenState {}
+class  ErrorCategoryDataState extends HomeScreenState {}
+
 class ChangeClickOrderButton extends HomeScreenState {}
 
 class ChangeClickOfferButton extends HomeScreenState {}

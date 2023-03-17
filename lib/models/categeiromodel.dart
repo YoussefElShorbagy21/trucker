@@ -30,6 +30,19 @@ class PostEquipment{
       );
 }
 
+class GetDetailsEquipment{
+  Equipment equipment;
+  GetDetailsEquipment({
+    required this.equipment,
+  });
+
+  factory GetDetailsEquipment.fromJson(Map<String,dynamic> json) =>
+      GetDetailsEquipment(
+        equipment : Equipment.fromJson(json['oneEquipment']),
+      );
+
+}
+
 class Equipment{
   String id;
   String title ;

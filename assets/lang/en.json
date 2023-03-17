@@ -82,5 +82,11 @@
   "Verify_button": "Verification",
   "Verify_title": "Verification Code",
   "Verify_suptitle": "We texted you a code please enter it below",
-  "Verify_help": "This help us verify every user in our market place"
+  "Verify_help": "This help us verify every user in our market place",
+
+  "title_home": "Let`s find Your Favourite Trucker here",
+  "search-title": "Find you trucker",
+  "trend-title": "Category",
+  "home-title": "New Equipments",
+  "rent-title": "Rent New"
 }

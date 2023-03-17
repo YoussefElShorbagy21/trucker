@@ -71,8 +71,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         actions: [
          TextButton(
              onPressed: (){
-               Navigator.of(context).push(MaterialPageRoute(
-                   builder: (BuildContext context) =>  const ChoseApp()));
+               CacheHelper.saveData(key:'onBoarding', value: true,).then((value) {
+                 Navigator.of(context).push(MaterialPageRoute(
+                     builder: (BuildContext context) =>  const ChoseApp()));
+               });
+
              },
              child:   Text( 'skip'.tr(context),
                style: const TextStyle(

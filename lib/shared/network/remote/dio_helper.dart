@@ -67,7 +67,6 @@ class DioHelper
     required String url, //Map<String,dynamic>
   }) async
   {
-    print(token);
     dio.options.headers = {
       'Authorization':'Bearer $token',
     };

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:login/modules/customer/screens/Sign%20Up%20Screen/verfiy_screen.dart';
+import 'package:login/shared/components/constants.dart';
 import 'package:login/shared/resources/app_localizations.dart';
+import '../../../../layout/homeLayout/homelayout.dart';
 import '../../../../shared/network/local/cache_helper.dart';
 import '../../../../shared/resources/color_manager.dart';
 import '../../../../shared/resources/font_manager.dart';
@@ -34,13 +35,12 @@ class RegisterScreenScreen extends StatelessWidget {
             if(state.model.status == "success")
             {
               CacheHelper.saveData(key: 'TokenId', value: state.model.token);
-              print(state.model.token);
+              print(token);
               print('success');
-              CacheHelper.saveData(key: 'token', value: state.model.newUser?.id).then((value) =>
-              {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>  VerifyScreen()))
-              }
-              );
+         /*     CacheHelper.saveData(key: 'ID', value: state.model.status);
+              print(uid);*/
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>  const HomeLayout()));
+
             }
             else{
               print('error');
@@ -50,7 +50,7 @@ class RegisterScreenScreen extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 content: AwesomeSnackbarContent(
                   title: '     Error!',
-                  message: '    ${state.model.message}',
+                  message: '    ${state.model.status}',
                   contentType: ContentType.failure,
                 ),
               );

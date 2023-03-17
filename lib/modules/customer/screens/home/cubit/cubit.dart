@@ -36,6 +36,53 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     emit(RefreshIndicatorHome());
   }
 
+  GetDetailsEquipment getDetailsEquipment = GetDetailsEquipment(equipment: Equipment(id: '',
+      description: '',
+      photo: '',
+      price: null,
+      title: '',
+      category: '',
+      government: '',
+      userId: ''
+  )) ;
+
+  Future<void> getDetailsCategoryData(String id) async{
+    emit(LoadingDetailsCategoryDataState());
+    await DioHelper.getDate(
+      url: 'Equipments/$id',
+    ).then((value)
+    {
+      print(id);
+      print(value.data);
+      getDetailsEquipment = GetDetailsEquipment.fromJson(value.data);
+      emit(SuccessDetailsCategoryDataState());}
+    ).catchError((error){
+      if (kDebugMode) {
+        print(error.toString());
+      }
+      emit(ErrorDetailsCategoryDataState());
+    });
+  }
+
+  GetEquipment homeModel1 = GetEquipment(equipment: [], results: 0);
+  Future<void> getCategoryData(String title) async{
+    emit(LoadingCategoryDataState());
+    await DioHelper.getDate(
+      url: 'Equipments/?category=$title',
+    ).then((value)
+    {
+      print(title);
+      print(value.data);
+      homeModel1 = GetEquipment.fromJson(value.data);
+      emit(SuccessCategoryDataState());}
+    ).catchError((error){
+      if (kDebugMode) {
+        print(error.toString());
+      }
+      emit(ErrorCategoryDataState());
+    });
+  }
+
 
   bool isClickedOrder = true ;
   bool isClickedOffer = false ;

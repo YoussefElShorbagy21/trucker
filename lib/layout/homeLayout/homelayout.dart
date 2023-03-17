@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/modules/customer/screens/home/cubit/cubit.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 
+import '../../models/categeiromodel.dart';
 import '../../modules/customer/screens/search/search_screen.dart';
 import '../../shared/resources/color_manager.dart';
 import 'cubit/cubit.dart';
@@ -22,6 +24,8 @@ class HomeLayout extends StatelessWidget {
         var cubit = HomeCubit.get(context);
         return Scaffold(
           appBar: AppBar(
+            titleSpacing: 30,
+            toolbarHeight: MediaQuery.of(context).size.height / 10,
             elevation: 0,
             backgroundColor: ColorManager.white,
             leading: IconButton(
@@ -29,14 +33,29 @@ class HomeLayout extends StatelessWidget {
               icon: Icon(Icons.local_shipping_outlined, size: 30,
                 color: ColorManager.gery,),
             ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => SearchScreen()));
-                },
-                icon: Icon(Icons.search, size: 30, color: ColorManager.gery,),
+            title: Row(
+              children:  [
+                const Icon(Icons.location_on_rounded, size: 25,),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 22,
+                ),
+                 const Text('California, Us',
+                  style:TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Montserrat'
+                  ),),
+              ],
+            ),
+
+            actions: const [
+               Padding(
+                 padding: EdgeInsets.all(10.0),
+                 child: CircleAvatar(
+                  radius: 28,
+                  backgroundImage: NetworkImage('https://images.ctfassets.net/hrltx12pl8hq/3j5RylRv1ZdswxcBaMi0y7/b84fa97296bd2350db6ea194c0dce7db/Music_Icon.jpg'),
               ),
+               ),
             ],
           ),
           body: cubit.screens[cubit.currentIndex],

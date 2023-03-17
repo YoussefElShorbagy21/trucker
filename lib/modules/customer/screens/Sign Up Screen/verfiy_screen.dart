@@ -80,6 +80,7 @@ class VerifyScreen extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed:(){
+                    print(verify);
                     HomeCubit.get(context).verifyEmail(verify);
                   } ,
                   style: TextButton.styleFrom(
