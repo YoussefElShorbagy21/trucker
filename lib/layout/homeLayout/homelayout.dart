@@ -12,8 +12,7 @@ import 'cubit/state.dart';
 
 
 class HomeLayout extends StatelessWidget {
-
-
+  
   const HomeLayout({super.key});
 
   @override

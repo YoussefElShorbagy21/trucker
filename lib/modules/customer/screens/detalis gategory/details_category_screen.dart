@@ -21,6 +21,7 @@ class DetailsCategoryScreen extends StatelessWidget {
     var cubit = HomeScreenCubit.get(context).getDetailsEquipment.equipment ;
     return Scaffold(
       appBar: AppBar(
+        title: Text(cubit.category),
         toolbarHeight: 70,
         elevation: 0,
         leading: IconButton(

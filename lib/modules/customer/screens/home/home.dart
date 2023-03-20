@@ -11,6 +11,7 @@ import '../../../../models/categeiromodel.dart';
 import '../detalis gategory/details_category_screen.dart';
 import '../post/newPost_screen.dart';
 import '../search/search_screen.dart';
+import 'AllviewEquipmentsScreen.dart';
 import 'cubit/cubit.dart';
 import 'cubit/state.dart';
 
@@ -37,6 +38,7 @@ class HomeScreen extends StatelessWidget {
      "https://p7.hiclipart.com/preview/544/342/492/forklift-linde-material-handling-clip-art-forklift-truck.jpg",
      "https://www.seekpng.com/png/detail/256-2566528_electric-motor-png-transparent-image-electric-motor-no.png"
    ];
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -50,10 +52,12 @@ class HomeScreen extends StatelessWidget {
           conditionBuilder: (context) => HomeScreenCubit.get(context).homeModel.equipment.isNotEmpty ,
           widgetBuilder: (context) => Scaffold(
             body: RefreshIndicator(
+              color: ColorManager.black,
+              backgroundColor: ColorManager.white1,
               onRefresh: cubit.onRefresh,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -106,13 +110,27 @@ class HomeScreen extends StatelessWidget {
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),),
-                    Expanded(child: listBuilderCategory()),
-                    Text('home-title'.tr(context),
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),),
-                    Expanded(child: listBuilderOrder(cubit.homeModel)),
+                    listBuilderCategory(context),
+                    Row(
+                      children: [
+                        Text('home-title'.tr(context),
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),),
+                        const Spacer(),
+                        TextButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => const AllViewEquipments()));
+                            },
+                            child: Text('view_all(${cubit.homeModel.results.toString()})',
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),),),
+                      ],
+                    ),
+                    listBuilderOrder(cubit.homeModel, context),
                   ],
           ),
                 ),
@@ -135,24 +153,27 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-   Widget listBuilderOrder(GetEquipment data) => ListView.builder(
-     itemBuilder: (context,index) {
-       int reverse = data.equipment.length - 1 - index;
-       return GestureDetector(
-         onTap: (){
-           Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsCategoryScreen(data.equipment[index].id)));
-         },
-         child: Padding(
-         padding: const EdgeInsets.all(8.0),
-         child: Card(
-         color: ColorManager.white,
-         elevation: 2,
-         child: buildItem(context,data.equipment[reverse])
-         ),
-         ),
-       );
-     },
-     itemCount: data.equipment.length,
+   Widget listBuilderOrder(GetEquipment data , BuildContext context) => SizedBox(
+     height: MediaQuery.of(context).size.height / 2,
+     child: ListView.builder(
+       itemBuilder: (context,index) {
+         int reverse = data.equipment.length - 1 - index;
+         return GestureDetector(
+           onTap: (){
+             Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsCategoryScreen(data.equipment[index].id)));
+           },
+           child: Padding(
+           padding: const EdgeInsets.all(8.0),
+           child: Card(
+           color: ColorManager.white,
+           elevation: 2,
+           child: buildItem(context,data.equipment[reverse])
+           ),
+           ),
+         );
+       },
+       itemCount: data.equipment.length,
+     ),
    ) ;
 
    Widget buildItem(BuildContext context,Equipment equipment) =>  Padding(
@@ -286,18 +307,22 @@ class HomeScreen extends StatelessWidget {
      ),
    );
 
-   Widget listBuilderCategory() => ListView.builder(
-     scrollDirection: Axis.horizontal,
-    itemBuilder: (context,index) {
-      return GestureDetector(
-        onTap: (){
-          print(title[index]);
-          Navigator.push(context, MaterialPageRoute(builder: (_) => CategoryScreen(title[index])));
-        },
-          child: buildCategory(context,title[index],image[index]));
-    },
-    itemCount: 8,
-  ) ;
+   Widget listBuilderCategory(BuildContext context) => SizedBox(
+     height: MediaQuery.of(context).size.height / 5,
+     width: double.infinity,
+     child: ListView.builder(
+       scrollDirection: Axis.horizontal,
+      itemBuilder: (context,index) {
+        return GestureDetector(
+          onTap: (){
+            print(title[index]);
+            Navigator.push(context, MaterialPageRoute(builder: (_) => CategoryScreen(title[index])));
+          },
+            child: buildCategory(context,title[index],image[index]));
+      },
+      itemCount: 8,
+  ),
+   ) ;
 
    Widget buildCategory(BuildContext context,String text,String img) =>  Padding(
      padding: const EdgeInsets.all(8.0),

@@ -10,26 +10,21 @@ import '../detalis gategory/details_category_screen.dart';
 import 'cubit/cubit.dart';
 import 'cubit/state.dart';
 
-class CategoryScreen extends StatelessWidget {
-  String title ;
-
-  CategoryScreen(this.title,{super.key});
-
+class AllViewEquipments extends StatelessWidget {
+  const AllViewEquipments({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => HomeScreenCubit()..getCategoryData(title),
+        create: (context) => HomeScreenCubit()..getHomeData(),
         child : BlocConsumer<HomeScreenCubit,HomeScreenState>(
           listener: (context,state) {},
           builder: (context,state) {
             var cubit = HomeScreenCubit.get(context);
             return Conditional.single(
               context: context,
-              conditionBuilder: (context) => HomeScreenCubit.get(context).homeModel1.equipment.isNotEmpty ,
+              conditionBuilder: (context) => HomeScreenCubit.get(context).homeModel.equipment.isNotEmpty ,
               widgetBuilder: (context) => Scaffold(
-                appBar: AppBar(
-                  title: Text(cubit.homeModel1.equipment[1].category),
-                ),
+                appBar: AppBar(),
                 body: RefreshIndicator(
                   onRefresh: cubit.onRefresh,
                   child: Padding(
@@ -38,7 +33,7 @@ class CategoryScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(child: listBuilderOrder(cubit.homeModel1)),
+                          Expanded(child: listBuilderOrder(cubit.homeModel)),
                         ],
                       ),
                     ),
