@@ -146,7 +146,7 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
 
-  UserData userData  = UserData(name: 'newName', email: '');
+  UserData userData  = UserData(name: 'newName', email: '',verified: false);
 
    void getUserData(){
     emit(LoadingGetUserData());
@@ -167,12 +167,15 @@ class HomeCubit extends Cubit<HomeStates>{
     }
     );}
 
-  void  verifyEmail(String otpCode){
+  void  verifyEmail(String otpCode ,String  tokenVerify){
     emit(LoadingVerifyEmail());
-    DioHelper.postData(url: 'users/verfiy', data: {
+    DioHelper.postData(url: 'users/verfiy',
+        tokenVerify: tokenVerify,
+        data: {
       'otpCode':otpCode,
     }).then((value) => {
       print(value.data),
+      print(token),
       emit(SuccessVerifyEmail())
     }).catchError((onError){
       print(onError.toString());

@@ -5,14 +5,16 @@ import 'package:login/shared/resources/app_localizations.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../layout/homeLayout/homelayout.dart';
+import '../../../../shared/network/local/cache_helper.dart';
 import '../../../../shared/resources/color_manager.dart';
 import '../../../../shared/resources/font_manager.dart';
+import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 
 
 
 class VerifyScreen extends StatelessWidget {
-   VerifyScreen({Key? key}) : super(key: key);
-
+   VerifyScreen(this.tokenVerify, {Key? key}) : super(key: key);
+   String tokenVerify;
   String verify = ' ' ;
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,9 @@ class VerifyScreen extends StatelessWidget {
   listener: (context, state) {
     if(state is SuccessVerifyEmail)
       {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeLayout()));
+        CacheHelper.saveData(key:'VerifyScreen', value: true,).then((value) =>
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeLayout()))
+        );
       }
   },
   builder: (context, state) {
@@ -73,30 +77,39 @@ class VerifyScreen extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 7,
               ),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width/35,
-                ),
-                child: TextButton(
-                  onPressed:(){
-                    print(verify);
-                    HomeCubit.get(context).verifyEmail(verify);
-                  } ,
-                  style: TextButton.styleFrom(
-                    shape: const StadiumBorder(),
-                    backgroundColor: ColorManager.black,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  child:  Text("Verify_button".tr(context),
-                    style: TextStyle(
-                      color: ColorManager.white,
-                      fontFamily: FontConstants.fontFamily,
-                      fontSize: FontSize.s22,
-                      fontWeight: FontWeightManager.semiBold,
-                    ),
-                  ),
-                ),
+              Conditional.single(
+                  context: context ,
+                  conditionBuilder: (BuildContext  context) => state is! LoadingVerifyEmail,
+                  widgetBuilder: (context){
+                    return Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width/35,
+                      ),
+                      child: TextButton(
+                        onPressed:(){
+                          print(verify);
+                          HomeCubit.get(context).verifyEmail(verify,tokenVerify);
+                        } ,
+                        style: TextButton.styleFrom(
+                          shape: const StadiumBorder(),
+                          backgroundColor: ColorManager.black,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        child:  Text("Verify_button".tr(context),
+                          style: TextStyle(
+                            color: ColorManager.white,
+                            fontFamily: FontConstants.fontFamily,
+                            fontSize: FontSize.s22,
+                            fontWeight: FontWeightManager.semiBold,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  fallbackBuilder: (context) {
+                    return const Center(child: CircularProgressIndicator()) ;
+                  }
               ),
             ],
           ),

@@ -12,7 +12,7 @@ class RegisterCubit extends Cubit<RegisterState>
 {
   RegisterCubit() : super(RegisterInitialState()) ;
 
-  SignupModel? model ;
+  SignupModel model = SignupModel(status: '', token: '', userSignupModel: UserSignupModel(id: ''));
 
   static RegisterCubit get(context) => BlocProvider.of(context) ;
 
@@ -40,16 +40,11 @@ class RegisterCubit extends Cubit<RegisterState>
       if (kDebugMode) {
         print(value.data);
       }
-      if (kDebugMode) {
-        print(value.data);
-      }
       model = SignupModel.fromJson(value.data) ;
-      if (kDebugMode) {
-        print(model);
-      }
       CacheHelper.saveData(key: 'TokenId', value: model!.token);
       emit(RegisterSuccessState(model!));
-      print(token);
+      print('userSignup $token');
+      print('RegisterSuccessState ${model!.token}');
     }).catchError((error)
     {
       if (kDebugMode) {

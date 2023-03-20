@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:login/modules/customer/screens/Sign%20Up%20Screen/verfiy_screen.dart';
 import 'package:login/shared/components/constants.dart';
 import 'package:login/shared/resources/app_localizations.dart';
-import '../../../../layout/homeLayout/homelayout.dart';
 import '../../../../shared/network/local/cache_helper.dart';
 import '../../../../shared/resources/color_manager.dart';
 import '../../../../shared/resources/font_manager.dart';
@@ -35,11 +35,11 @@ class RegisterScreenScreen extends StatelessWidget {
             if(state.model.status == "success")
             {
               CacheHelper.saveData(key: 'TokenId', value: state.model.token);
-              print(token);
+              print('RegisterSuccessState $token');
               print('success');
-         /*     CacheHelper.saveData(key: 'ID', value: state.model.status);
-              print(uid);*/
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>  const HomeLayout()));
+              CacheHelper.saveData(key: 'ID', value: state.model.userSignupModel.id);
+              print('RegisterSuccessState $uid');
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyScreen(state.model.token)));
 
             }
             else{
@@ -214,7 +214,7 @@ class RegisterScreenScreen extends StatelessWidget {
                             },
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height/20,
+                            height: MediaQuery.of(context).size.height/35,
                           ),
                           TextFormField(
                             decoration: InputDecoration(
@@ -235,7 +235,7 @@ class RegisterScreenScreen extends StatelessWidget {
                             },
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height/35,
+                            height: MediaQuery.of(context).size.height/25,
                           ),
                           Conditional.single(
                               context: context ,

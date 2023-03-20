@@ -6,9 +6,9 @@ import 'components.dart';
 
 void sinOut(context)
 {
-  CacheHelper.clearData(key: 'TokenId');
-  CacheHelper.clearData(key: 'token').then((value)
+  CacheHelper.clearData(key: 'ID').then((value)
       {
+        CacheHelper.clearData(key: 'TokenId');
       if(value == true) {
         navigatefisnh(context,LoginScreen() ) ;
       }
@@ -41,3 +41,4 @@ String? uid = CacheHelper.getData(key: 'ID');
 bool? onBoarding = CacheHelper.getData(key: 'onBoarding') ;
 bool? choseUser = CacheHelper.getData(key: 'ChoseUser');
 bool? language = CacheHelper.getData(key: 'SettingsPage') ;
+bool? verify = CacheHelper.getData(key: 'VerifyScreen') ;

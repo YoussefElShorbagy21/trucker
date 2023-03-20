@@ -29,13 +29,11 @@ class AllViewEquipments extends StatelessWidget {
                   onRefresh: cubit.onRefresh,
                   child: Padding(
                     padding: const EdgeInsets.all(10),
-                    child: Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(child: listBuilderOrder(cubit.homeModel)),
-                        ],
-                      ),
+                    child: ListView(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        listBuilderOrder(cubit.homeModel,context),
+                      ],
                     ),
                   ),
                 ),
@@ -76,24 +74,43 @@ class AllViewEquipments extends StatelessWidget {
   }
 }
 
-Widget listBuilderOrder(GetEquipment data) => ListView.builder(
-  itemBuilder: (context,index) {
-    int reverse = data.equipment.length - 1 - index;
-    return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsCategoryScreen(data.equipment[index].id)));
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
-            color: ColorManager.white,
-            elevation: 2,
-            child: buildItem(context,data.equipment[reverse])
+Widget listBuilderOrder(GetEquipment data, BuildContext context) => SizedBox(
+  height: MediaQuery.of(context).size.height/ 1,
+  child:   ListView.builder(
+    itemBuilder: (context,index) {
+      int reverse = data.equipment.length - 1 - index;
+
+      return GestureDetector(
+
+        onTap: (){
+
+          Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsCategoryScreen(data.equipment[index].id)));
+
+        },
+
+        child: Padding(
+
+          padding: const EdgeInsets.all(8.0),
+
+          child: Card(
+
+              color: ColorManager.white,
+
+              elevation: 2,
+
+              child: buildItem(context,data.equipment[reverse])
+
+          ),
+
         ),
-      ),
-    );
-  },
-  itemCount: data.equipment.length,
+
+      );
+
+    },
+
+    itemCount: data.equipment.length,
+
+  ),
 ) ;
 
 Widget buildItem(BuildContext context,Equipment equipment) =>  Padding(

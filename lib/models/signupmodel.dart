@@ -19,10 +19,11 @@ class SignupModel {
 
 class UserSignupModel {
   late String id ;
-  late String token;
+
 
   UserSignupModel({
     required this.id,
+
 
   });
 

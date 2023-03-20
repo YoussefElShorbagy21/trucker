@@ -34,11 +34,12 @@ class DioHelper
   static Future<Response> postData({
     required String url,
      Map<String,dynamic>? query ,
-    required dynamic data , //Map<String,dynamic>
+    required dynamic data ,
+    String tokenVerify = '',//Map<String,dynamic>
   }) async
   {
     dio.options.headers = {
-      'Authorization':'Bearer $token',
+      'Authorization':'Bearer ${tokenVerify.isEmpty ? token : tokenVerify}',
     };
      return dio.post(
        url ,

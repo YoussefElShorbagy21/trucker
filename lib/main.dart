@@ -13,6 +13,8 @@ import 'package:login/shared/resources/app_localizations.dart';
 import 'package:login/shared/resources/color_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'modules/customer/screens/Sign Up Screen/cubit/register_cubit.dart';
+import 'modules/customer/screens/Sign Up Screen/verfiy_screen.dart';
 import 'modules/customer/screens/chose_app/chose_app.dart';
 import 'modules/customer/screens/onboarding_screen/onboarding_page.dart';
 import 'modules/customer/screens/splash_screen/language.dart';
@@ -32,6 +34,7 @@ void main() async {
   print(choseUser);
   print(onBoarding);
   print(language);
+  print(verify);
 
   if(language != null)
     {
@@ -39,11 +42,16 @@ void main() async {
       {
         if(choseUser != null)
           {
-            if (uid != null) {
-              widget = const HomeLayout();
+            if(verify != null) {
+              if (uid != null) {
+                widget = const HomeLayout();
+              }
+              else {
+                widget = LoginScreen();
+              }
             }
             else {
-              widget =  LoginScreen();
+              widget = VerifyScreen('');
             }
           }
         else {
