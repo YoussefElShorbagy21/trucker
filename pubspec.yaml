@@ -82,7 +82,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
-    - assets/images/forklift_03.jpg
+#    - assets/images/forklift_03.jpg
     - assets/images/chat_photo/
     - assets/images/on_boarding_images/
     - assets/images/splash_logo/
@@ -114,5 +114,11 @@ flutter:
           weight: 400
         - asset: assets/fonts/Montserrat-SemiBold.ttf
           weight: 600
+    - family: NiseBuschGardens
+      fonts:
+        - asset: assets/fonts/NiseBuschGardens.ttf
+    - family: Nunito
+      fonts:
+         - asset: assets/fonts/NunitoBold.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

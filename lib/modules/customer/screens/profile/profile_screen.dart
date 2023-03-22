@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:login/shared/resources/color_manager.dart';
 
 import '../../../../layout/homeLayout/cubit/cubit.dart';
 import 'setting_widget/setting_page.dart';
@@ -17,12 +16,14 @@ class ProfileScreen extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Container(
-          decoration:  BoxDecoration(
+          decoration:  const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                ColorManager.black,
-               const Color.fromRGBO(4, 9, 35, 1),
-                ColorManager.white,
+                Color.fromRGBO(4, 9, 35, 1),
+                Color.fromRGBO(39, 105, 171, 1),
+               //  ColorManager.black,
+               // const Color.fromRGBO(4, 9, 35, 1),
+               //  ColorManager.white,
               ],
               begin: FractionalOffset.bottomCenter,
               end: FractionalOffset.topCenter,
@@ -40,13 +41,13 @@ class ProfileScreen extends StatelessWidget {
                    SizedBox(
                     height: screenHeight * 0.028,    //20
                   ),
-                  const Text(
-                    'My Profile',
+                   const Text(
+                    'My\nProfile',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 34,
-                      // fontFamily: '',
+                      fontFamily: 'NiseBuschGardens',
                     ),
                   ),
                   const SizedBox(
@@ -82,7 +83,7 @@ class ProfileScreen extends StatelessWidget {
                                        HomeCubit.get(context).userData.name, //name of user
                                       style: const TextStyle(
                                         color: Color.fromRGBO(39, 105, 171, 1),
-                                        // fontFamily: '',
+                                        fontFamily: 'Nunito',
                                         fontSize: 37,
                                       ),
                                     ),
@@ -93,7 +94,7 @@ class ProfileScreen extends StatelessWidget {
                                       HomeCubit.get(context).userData.email, //name of user
                                       style: const TextStyle(
                                         color: Color.fromRGBO(39, 105, 171, 1),
-                                        // fontFamily: '',
+                                        fontFamily: 'Nunito',
                                         fontSize: 20,
                                       ),
                                     ),
@@ -107,8 +108,8 @@ class ProfileScreen extends StatelessWidget {
                                               'Orders',
                                               style: TextStyle(
                                                 color: Colors.grey[700],
-                                                // fontFamily: '',
-                                                fontSize: 25,
+                                                fontFamily: 'NiseBuschGardens',
+                                                fontSize: 20,
                                               ),
                                             ),
                                             const Text(
@@ -116,8 +117,8 @@ class ProfileScreen extends StatelessWidget {
                                               style: TextStyle(
                                                 color:
                                                 Color.fromRGBO(39, 105, 171, 1),
-                                                // fontFamily: '',
-                                                fontSize: 25,
+                                                fontFamily: 'NiseBuschGardens',
+                                                fontSize: 20,
                                               ),
                                             ),
                                           ],
@@ -128,7 +129,7 @@ class ProfileScreen extends StatelessWidget {
                                             vertical: 8,
                                           ),
                                           child: Container(
-                                            height: 50,
+                                            height: 40,
                                             width: 3,
                                             decoration: BoxDecoration(
                                               borderRadius:
@@ -143,8 +144,8 @@ class ProfileScreen extends StatelessWidget {
                                               'Offer',
                                               style: TextStyle(
                                                 color: Colors.grey[700],
-                                                // fontFamily: '',
-                                                fontSize: 25,
+                                                fontFamily: 'NiseBuschGardens',
+                                                fontSize: 20,
                                               ),
                                             ),
                                             const Text(
@@ -152,8 +153,8 @@ class ProfileScreen extends StatelessWidget {
                                               style: TextStyle(
                                                 color: Color.fromRGBO(
                                                     39, 105, 171, 1),
-                                                // fontFamily: '',
-                                                fontSize: 25,
+                                                fontFamily: 'NiseBuschGardens',
+                                                fontSize: 20,
                                               ),
                                             ),
                                           ],
@@ -224,7 +225,7 @@ class ProfileScreen extends StatelessWidget {
                             style: TextStyle(
                               color: Color.fromRGBO(39, 105, 171, 1),
                               fontSize: 27,
-                              // fontFamily: '',
+                              fontFamily: 'NiseBuschGardens',
                             ),
                           ),
                           const Divider(
