@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login/modules/customer/screens/Login%20Screen/forgot_password.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../layout/homeLayout/homelayout.dart';
 import '../../../../shared/components/constants.dart';
@@ -188,7 +189,9 @@ class LoginScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const Spacer(),
-                                TextButton(onPressed: (){},
+                                TextButton(onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (_) =>  ForgotPassword()));
+                                },
                                     child: Text('forgot_password_text'.tr(context),
                                       style: TextStyle(
                                         color: ColorManager.black,

@@ -59,5 +59,32 @@ class LoginCubit extends Cubit<LoginState>
 
   }
 
-
+  void forgotPassword({
+    required String email
+  })
+  {
+    emit(ForgotPasswordLoadingState());
+    DioHelper.postData(
+      url: 'users/forgotPassword',
+      data:
+      {
+        'email':email,
+      },
+    ).then((value)
+    {
+      if (kDebugMode) {
+        print("postData");
+      }
+      if (kDebugMode) {
+        print(value.data);
+      }
+      model = LoginModel.fromJson(value.data) ;
+      emit(ForgotPasswordSuccessState());
+    }).catchError((onError){
+      if (kDebugMode) {
+        print(onError.toString());
+      }
+      emit(ForgotPasswordErrorState());
+    });
+  }
 }

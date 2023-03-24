@@ -17,3 +17,9 @@ class LoginErrorState extends LoginState {
 }
 
 class ChangePasswordVisibilityState extends LoginState {}
+
+class ForgotPasswordLoadingState extends LoginState {}
+
+class ForgotPasswordSuccessState extends LoginState {}
+
+class ForgotPasswordErrorState extends LoginState {}
