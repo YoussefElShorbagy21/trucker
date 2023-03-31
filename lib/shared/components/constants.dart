@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../modules/screens/Login Screen/loginScreen.dart';
+import '../../modules/customer/screens/Login Screen/loginScreen.dart';
 import '../network/local/cache_helper.dart';
 import 'components.dart';
 
 void sinOut(context)
 {
-  CacheHelper.clearData(key: 'token').then((value)
+  CacheHelper.clearData(key: 'ID').then((value)
       {
+        CacheHelper.clearData(key: 'TokenId');
       if(value == true) {
         navigatefisnh(context,LoginScreen() ) ;
       }
@@ -35,6 +36,9 @@ void navigateFish(context , widget) =>  Navigator.pushAndRemoveUntil(
         (route) => false
 );
 
-
-String name = CacheHelper.getData(key: 'name');
-String email = CacheHelper.getData(key: 'email');
+String? token = CacheHelper.getData(key: 'TokenId');
+String? uid = CacheHelper.getData(key: 'ID');
+bool? onBoarding = CacheHelper.getData(key: 'onBoarding') ;
+bool? choseUser = CacheHelper.getData(key: 'ChoseUser');
+bool? language = CacheHelper.getData(key: 'SettingsPage') ;
+bool? verify = CacheHelper.getData(key: 'VerifyScreen') ;

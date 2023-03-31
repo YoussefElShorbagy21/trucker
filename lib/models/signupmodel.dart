@@ -1,35 +1,34 @@
 class SignupModel {
   late String status ;
   late String token;
-  NewUser? newUser ;
-  late String message ;
+  UserSignupModel userSignupModel;
 
   SignupModel({
     required this.status,
     required this.token,
-    required this.message,
-    required this.newUser
+    required this.userSignupModel,
 });
 
   factory SignupModel.fromJson(Map<String,dynamic> json) =>
       SignupModel(
         status: json['status'],
         token: json['token'] ?? '',
-        newUser: json['newUser'] == null ? null : NewUser.fromJson(json['newUser']),
-        message: json['message']?? '',
-
+        userSignupModel: UserSignupModel.fromJson(json["user"]),
       );
 }
 
-class NewUser {
+class UserSignupModel {
   late String id ;
 
-  NewUser({
+
+  UserSignupModel({
     required this.id,
+
+
   });
 
-  factory NewUser.fromJson(Map<String,dynamic> json) =>
-      NewUser(
+  factory UserSignupModel.fromJson(Map<String,dynamic> json) =>
+      UserSignupModel(
         id: json['_id'],
       );
 }

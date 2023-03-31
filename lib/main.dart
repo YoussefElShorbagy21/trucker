@@ -1,16 +1,25 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:login/layout/homeLayout/cubit/cubit.dart';
 import 'package:login/layout/homeLayout/cubit/state.dart';
 import 'package:login/layout/homeLayout/homelayout.dart';
-import 'package:login/modules/screens/home/cubit/cubit.dart';
+import 'package:login/modules/customer/screens/Login%20Screen/cubit/login_cubit.dart';
+import 'package:login/modules/customer/screens/Login%20Screen/loginScreen.dart';
 import 'package:login/shared/bloc_observer.dart';
+import 'package:login/shared/components/constants.dart';
 import 'package:login/shared/network/local/cache_helper.dart';
 import 'package:login/shared/network/remote/dio_helper.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 import 'package:login/shared/resources/color_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'modules/screens/Login Screen/loginScreen.dart';
+import 'modules/customer/screens/Sign Up Screen/cubit/register_cubit.dart';
+import 'modules/customer/screens/Sign Up Screen/verfiy_screen.dart';
+import 'modules/customer/screens/chose_app/chose_app.dart';
+import 'modules/customer/screens/onboarding_screen/onboarding_page.dart';
+import 'modules/customer/screens/splash_screen/language.dart';
+import 'modules/customer/screens/splash_screen/splash_screen.dart';
+
 
 
 void main() async {
@@ -19,17 +28,45 @@ void main() async {
   DioHelper.inti();
   await CacheHelper.init();
   Widget widget;
-  String? uid = CacheHelper.getData(key: 'token');
-  if (kDebugMode) {
-    print(uid);
-  }
 
-  if (uid != null) {
-    widget = const HomeLayout();
-  }
-  else {
-    widget = LoginScreen();
-  }
+  print(token);
+  print(uid);
+  print(choseUser);
+  print(onBoarding);
+  print(language);
+  print(verify);
+
+  if(language != null)
+    {
+      if(onBoarding != null)
+      {
+        if(choseUser != null)
+          {
+            if(verify != null) {
+              if (uid != null) {
+                widget = const HomeLayout();
+              }
+              else {
+                widget = LoginScreen();
+              }
+            }
+            else {
+              widget = VerifyScreen('');
+            }
+          }
+        else {
+          widget = const ChoseApp();
+        }
+      }
+      else{
+        widget = const OnBoardingPage();
+      }
+    }
+  else
+    {
+      widget = const SettingsPage();
+    }
+
   runApp(MyApp(widget));
 }
 
@@ -40,23 +77,43 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider(create: (context) => HomeCubit()..getUserData()),
+            BlocProvider<HomeCubit>(create: (context) => HomeCubit()..getUserData()..getSavedLanguage()),
       ],
       child: BlocConsumer<HomeCubit, HomeStates>(
-        listener: (context, state) {
-        },
+        listener: (context, state) {},
         builder: (context, state) {
-          return MaterialApp(
-            theme: ThemeData(
-              useMaterial3: true,
-              colorSchemeSeed: ColorManager.white,
-            ),
-            title: 'Login screen',
-            debugShowCheckedModeBanner: false,
-            home: startWidget,
-          );
+            return MaterialApp(
+              locale: HomeCubit.get(context).locale,
+              theme: ThemeData(
+                useMaterial3: true,
+                colorSchemeSeed: ColorManager.white,
+              ),
+              supportedLocales: const [
+                Locale('ar'),
+                Locale('en'),
+              ],
+              localizationsDelegates:  const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              localeResolutionCallback: (deviceLocal,supportedLocales){
+                for(var locale in supportedLocales)
+                {
+                  if(deviceLocal != null && deviceLocal.languageCode == locale.languageCode)
+                  {
+                    return deviceLocal;
+                  }
+                }
+                return supportedLocales.first;
+
+              },
+              debugShowCheckedModeBanner: false,
+              home: SplashScreen(widget: startWidget),
+            );
         },
       ),
     );

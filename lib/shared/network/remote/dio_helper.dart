@@ -1,31 +1,29 @@
 import 'package:dio/dio.dart';
 
+import '../../components/constants.dart';
+import '../local/cache_helper.dart';
+
 class DioHelper
 {
   static late Dio dio ;
-
   static inti()
   {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://rich-gray-elephant-cuff.cyclic.app/api/v1',
+        baseUrl: 'https://cute-cyan-coyote-fez.cyclic.app/api/v1/',
         receiveDataWhenStatusError: true,
       ),
     );
   }
 
+
   static Future<Response> getDate({
   required String url,
    Map<String,dynamic>? query ,
-    String lang = 'en',
-    String token = '' ,
   }) async
   {
-    dio.options.headers =
-    {
-      'Content-Type':'application/json',
-      'lang' : lang ,
-      'Authorization':token,
+    dio.options.headers = {
+      'Authorization':'Bearer $token',
     };
     return await dio.get(
       url ,
@@ -36,15 +34,12 @@ class DioHelper
   static Future<Response> postData({
     required String url,
      Map<String,dynamic>? query ,
-    required Map<String,dynamic> data ,
-    String lang = 'en',
-    String token = '',
+    required dynamic data ,
+    String tokenVerify = '',//Map<String,dynamic>
   }) async
   {
-    dio.options.headers =
-    {
-        'lang' : lang ,
-        'Authorization':token,
+    dio.options.headers = {
+      'Authorization':'Bearer ${tokenVerify.isEmpty ? token : tokenVerify}',
     };
      return dio.post(
        url ,
@@ -57,14 +52,10 @@ class DioHelper
     required String url,
     Map<String,dynamic>? query ,
     required Map<String,dynamic> data ,
-    String lang = 'en',
-    String token = '',
   }) async
   {
-    dio.options.headers =
-    {
-      'lang' : lang ,
-      'Authorization':token,
+    dio.options.headers = {
+      'Authorization':'Bearer $token',
     };
     return dio.put(
       url ,
@@ -73,4 +64,15 @@ class DioHelper
     );
   }
 
+  static Future<Response> deleteData({
+    required String url, //Map<String,dynamic>
+  }) async
+  {
+    dio.options.headers = {
+      'Authorization':'Bearer $token',
+    };
+    return dio.delete(
+      url ,
+    );
+  }
 }
