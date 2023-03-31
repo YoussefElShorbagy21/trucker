@@ -142,39 +142,46 @@ class DetailsCategoryScreen extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.all(10.0),
                     child: CircleAvatar(
-                      radius: 28,
+                      radius: 25,
                       backgroundImage: NetworkImage('https://images.ctfassets.net/hrltx12pl8hq/3j5RylRv1ZdswxcBaMi0y7/b84fa97296bd2350db6ea194c0dce7db/Music_Icon.jpg'),
                     ),
                   ),
-                  Text(
-                    HomeCubit.get(context).userData.name,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: ColorManager.blueGrey
+                  Expanded(
+                    child: Text(
+                      HomeCubit.get(context).userData.name,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: ColorManager.blueGrey
+                      ),
                     ),
                   ),
                   const Spacer(),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 10,
-                    height: MediaQuery.of(context).size.width / 10,
-                    decoration: BoxDecoration(
-                      color: ColorManager.blueGrey,
-                      borderRadius: BorderRadius.circular(10.0),
+                  Expanded(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 10,
+                      height: MediaQuery.of(context).size.width / 10,
+                      decoration: BoxDecoration(
+                        color: ColorManager.blueGrey,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: const Icon(Icons.message,size: 20,),
                     ),
-                    child: const Icon(Icons.message,size: 20,),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 18,
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 10,
-                    height: MediaQuery.of(context).size.width / 10,
-                    decoration: BoxDecoration(
-                      color: ColorManager.blueGrey,
-                      borderRadius: BorderRadius.circular(10.0),
+                  Expanded(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 10,
+                      height: MediaQuery.of(context).size.width / 10,
+                      decoration: BoxDecoration(
+                        color: ColorManager.blueGrey,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: const Icon(Icons.call,size: 20,),
                     ),
-                    child: const Icon(Icons.call,size: 20,),
                   ),
                 ],
               ),
