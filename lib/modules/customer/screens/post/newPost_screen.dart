@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../layout/homeLayout/cubit/state.dart';
+import '../../../../shared/components/constants.dart';
 import '../../../../shared/resources/color_manager.dart';
 
 class NewPostScreen extends StatelessWidget {
@@ -11,7 +12,8 @@ class NewPostScreen extends StatelessWidget {
   final textController = TextEditingController();
   final descriptionController = TextEditingController();
   final priceController = TextEditingController();
-  final ratingController = TextEditingController();
+  dynamic categoryController = '';
+  dynamic governmentController = '';
   NewPostScreen({super.key});
 
 
@@ -38,10 +40,11 @@ class NewPostScreen extends StatelessWidget {
                   HomeCubit.get(context).postNewEquipment(
                       title: textController.text,
                       description: descriptionController.text,
-                      photo: cubit.baseImage,
+                      photo: cubit.postImage,
                       price: int.parse(priceController.text),
-                      rating: int.parse(ratingController.text),
-                      type:HomeCubit.get(context).characters.toString() == 'SingingCharacter.Order'? 'Offer' : 'Order',);
+                      category: categoryController,
+                      government: governmentController,
+                      userId: uid);
                       cubit.postImage = null ;
                       Navigator.pop(context);
                 },
@@ -110,15 +113,112 @@ class NewPostScreen extends StatelessWidget {
                     labelText: 'price',
                   ),
                 ),
-                TextFormField(
-                  controller:  ratingController,
-                  decoration:  const InputDecoration(
-                    hintText: 'rating',
-                    labelText: 'rating',
-                  ),
+                const SizedBox(
+                  height: 20.0,
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 20,
+                 DropdownMenu(
+                     onSelected: (selected){
+                       categoryController = selected ;
+                       print(categoryController);
+                     },
+                     label: const Text('category'),
+                     initialSelection: 'category',
+                     leadingIcon:const Icon(Icons.category),
+                     menuStyle: MenuStyle(
+                       surfaceTintColor: MaterialStateProperty.all(ColorManager.black),
+                       elevation: const MaterialStatePropertyAll(5),
+                       maximumSize: MaterialStateProperty.all(Size.fromHeight(MediaQuery.of(context).size.height/3)),
+                       backgroundColor: MaterialStatePropertyAll(ColorManager.white1),
+                       shape: MaterialStateProperty.all(const BeveledRectangleBorder()),
+                     ),
+                     dropdownMenuEntries:const [
+                       DropdownMenuEntry(value: 'Aerial Lifts', label: 'Aerial Lifts'),
+                       DropdownMenuEntry(value: 'Air Compressors', label: 'Air Compressors'),
+                       DropdownMenuEntry(value: 'Cabin', label: 'Cabin'),
+                       DropdownMenuEntry(value: 'Cranes', label: 'Cranes'),
+                       DropdownMenuEntry(value: 'Dump truck', label: 'Dump truck'),
+                       DropdownMenuEntry(value: 'Earth Moving', label: 'Earth Moving'),
+                       DropdownMenuEntry(value: 'Material Handling', label: 'Material Handling'),
+                       DropdownMenuEntry(value: 'Motors', label: 'Motors'),
+                     ]),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                 DropdownMenu(
+                     enableFilter: true,
+                     enableSearch: true,
+                     onSelected: (selected){
+                       governmentController = selected ;
+                       print(governmentController);
+                     },
+                     label: const Text('government', style:  TextStyle(fontSize: 10),),
+                     initialSelection: 'government',
+                     leadingIcon:const Icon(Icons.podcasts_sharp),
+                     menuStyle: MenuStyle(
+                       surfaceTintColor: MaterialStateProperty.all(ColorManager.black),
+                       elevation: const MaterialStatePropertyAll(5),
+                       maximumSize: MaterialStateProperty.all(Size.fromHeight(MediaQuery.of(context).size.height/5)),
+                       backgroundColor: MaterialStatePropertyAll(ColorManager.white1),
+                       shape: MaterialStateProperty.all(const BeveledRectangleBorder()),
+                     ),
+                     dropdownMenuEntries:const [
+                       DropdownMenuEntry(value: "الإسكندرية",
+                         label: "الإسكندرية",),
+                       DropdownMenuEntry(    value: "الإسماعيلية",
+                         label: "الإسماعيلية",),
+                       DropdownMenuEntry(    value: "كفر الشيخ",
+                         label: "كفر الشيخ",),
+                       DropdownMenuEntry(    value: "أسوان",
+                         label: "أسوان",),
+                       DropdownMenuEntry(    value: "أسيوط",
+                         label: "أسيوط",),
+                       DropdownMenuEntry(    value: "الأقصر",
+                         label: "الأقصر",),
+                       DropdownMenuEntry(value : "الوادي الجديد",
+                         label: "الوادي الجديد",),
+                       DropdownMenuEntry( value: "شمال سيناء",
+                         label: "شمال سيناء",),
+                       DropdownMenuEntry( value: "البحيرة",
+                         label: "البحيرة",),
+                       DropdownMenuEntry(value: "بني سويف",
+                         label: "بني سويف",),
+                       DropdownMenuEntry( value: "بورسعيد",
+                         label: "بورسعيد",),
+                       DropdownMenuEntry(   value: "البحر الأحمر",
+                         label: "البحر الأحمر",),
+                       DropdownMenuEntry(  value: "الجيزة",
+                         label: "الجيزة",),
+                       DropdownMenuEntry(      value: "الدقهلية",
+                         label: "الدقهلية",),
+                       DropdownMenuEntry( value: "جنوب سيناء",
+                         label: "جنوب سيناء",),
+                       DropdownMenuEntry(  value: "دمياط",
+                         label: "دمياط",),
+                       DropdownMenuEntry(     value: "سوهاج",
+                         label: "سوهاج",),
+                       DropdownMenuEntry( value: "السويس",
+                         label: "السويس",),
+                       DropdownMenuEntry( value: "الشرقية",
+                         label: "الشرقية",),
+                       DropdownMenuEntry( value: "الغربية",
+                         label: "الغربية",),
+                       DropdownMenuEntry(    value: "الفيوم",
+                         label: "الفيوم",),
+                       DropdownMenuEntry(  value: "القاهرة",
+                         label: "القاهرة",),
+                       DropdownMenuEntry(  value: "القليوبية",
+                         label: "القليوبية",),
+                       DropdownMenuEntry(    value: "قنا",
+                         label: "قنا",),
+                       DropdownMenuEntry(   value: "مطروح",
+                         label: "مطروح",),
+                       DropdownMenuEntry(     value: "المنيا",
+                         label: "المنيا",),
+                       DropdownMenuEntry(     value: "المنوفية",
+                         label: "المنوفية",),
+                     ]),
+                const SizedBox(
+                  height: 20.0,
                 ),
                 if(HomeCubit.get(context).postImage != null)
                 Stack(
@@ -164,28 +264,6 @@ class NewPostScreen extends StatelessWidget {
                       ],
                     ),
                 ),
-                ListTile(
-                  title: const Text('Offer'),
-                  leading: Radio<SingingCharacter>(
-                    value: SingingCharacter.Offer,
-                    groupValue: cubit.characters,
-                    activeColor: ColorManager.gery,
-                    onChanged: (SingingCharacter? value) {
-                      cubit.changeRadio(value!);
-                    },
-                  ),
-                ),
-                ListTile(
-                  title: const Text('Order'),
-                  leading: Radio<SingingCharacter>(
-                    value: SingingCharacter.Order,
-                    activeColor: ColorManager.gery,
-                    groupValue: cubit.characters,
-                    onChanged: (SingingCharacter? value) {
-                      cubit.changeRadio(value!);
-                    },
-                  ),
-                ),
               ],
             ),
           ),
@@ -194,4 +272,6 @@ class NewPostScreen extends StatelessWidget {
     },
     );
   }
+
+
 }

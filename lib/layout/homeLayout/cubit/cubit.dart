@@ -19,7 +19,6 @@ import '../../../shared/components/constants.dart';
 import '../../../shared/network/local/cache_helper.dart';
 import 'state.dart';
 
-enum SingingCharacter { Offer, Order }
 
 class HomeCubit extends Cubit<HomeStates>{
 
@@ -29,7 +28,6 @@ class HomeCubit extends Cubit<HomeStates>{
   static HomeCubit get(context) => BlocProvider.of(context);
 
   int currentIndex = 0 ;
-  SingingCharacter characters = SingingCharacter.Order;
   List<Widget> screens =  [
     HomeScreen(),
     const FavoriteScreen(),
@@ -38,23 +36,25 @@ class HomeCubit extends Cubit<HomeStates>{
   ];
 
 
-  void postNewEquipment({
+  Future<void> postNewEquipment({
     required String title ,
     required String description,
-    required String photo,
+    required File? photo,
     required int price ,
-    required int rating ,
-    required String type ,
-  }) {
+    required String category ,
+    required String government ,
+    required String? userId ,
+  }) async {
 
     emit(HomePostEquipmentLoadingState());
     FormData formData = FormData.fromMap({
       'title' : title,
       'description' : description,
-      'photo': photo,
+      'photo': await MultipartFile.fromFile(photo!.path),
       'price' : price,
-      'rating' : rating,
-      'type' : type,
+      'category' : category,
+      'government' : government,
+      'userId' : userId,
     });
     DioHelper.postData(
       url: '/Equipments',
@@ -90,17 +90,11 @@ class HomeCubit extends Cubit<HomeStates>{
   //Image
   File? postImage ;
   var picker = ImagePicker();
-  Uint8List imageAfter = Uint8List(0);
-  String baseImage = '';
   Future<void> getPostImage() async  {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if(pickedFile != null) {
       postImage = File(pickedFile.path) ;
-      imageAfter = postImage!.readAsBytesSync();
-      baseImage = base64.encode(imageAfter);
       print(postImage.toString());
-      print(imageAfter);
-      print(baseImage);
       emit(HomePostImagePickedSuccessState());
     }
     else {
@@ -114,10 +108,6 @@ class HomeCubit extends Cubit<HomeStates>{
   }
   //Image
 
-  changeRadio(SingingCharacter value ) {
-    characters = value  ;
-    emit(HomeChangeRadio());
-  }
 
   Locale  locale= const Locale('en');
  Future<String> getCachedSavedLanguage() async {
