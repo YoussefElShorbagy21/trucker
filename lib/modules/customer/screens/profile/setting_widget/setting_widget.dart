@@ -206,14 +206,9 @@ Widget buildAccountInfo(BuildContext context) => SimpleSettingsTile(
 
 Widget buildImageChange(BuildContext context) => SimpleSettingsTile(
       title: 'Profile',
-      leading: const CircleAvatar(
+      leading:  CircleAvatar(
         radius: 24,
-        backgroundImage: AssetImage('assets/images/chat_photo/greg.jpg'),
-        // child: Image.asset(
-        //   'assets/images/chat_photo/greg.jpg',
-        //   width: localWidth * 0.45,
-        //   fit: BoxFit.fitWidth,
-        // ),
+        backgroundImage: NetworkImage(HomeCubit.get(context).userData.avatar),
       ),
       child: Container(),
     );

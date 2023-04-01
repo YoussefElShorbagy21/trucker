@@ -136,7 +136,7 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
 
-  UserData userData  = UserData(name: 'newName', email: '',verified: false);
+  UserData userData  = UserData(name: 'newName', email: '',verified: false, avatar: '');
 
    void getUserData(){
     emit(LoadingGetUserData());

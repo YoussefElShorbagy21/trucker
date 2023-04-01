@@ -84,7 +84,7 @@ class ProfileScreen extends StatelessWidget {
                                       style: const TextStyle(
                                         color: Color.fromRGBO(39, 105, 171, 1),
                                         fontFamily: 'Nunito',
-                                        fontSize: 37,
+                                        fontSize: 30,
                                       ),
                                     ),
                                      SizedBox(
@@ -95,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
                                       style: const TextStyle(
                                         color: Color.fromRGBO(39, 105, 171, 1),
                                         fontFamily: 'Nunito',
-                                        fontSize: 20,
+                                        fontSize: 25,
                                       ),
                                     ),
                                     Row(
@@ -186,14 +186,9 @@ class ProfileScreen extends StatelessWidget {
                               right: 0,
                               child: Center(
                                 child: Container(
-                                  child: const CircleAvatar(
+                                  child:  CircleAvatar(
                                     radius:80,
-                                    backgroundImage: AssetImage('assets/images/chat_photo/greg.jpg'),
-                                    // child: Image.asset(
-                                    //   'assets/images/chat_photo/greg.jpg',
-                                    //   width: localWidth * 0.45,
-                                    //   fit: BoxFit.fitWidth,
-                                    // ),
+                                    backgroundImage: NetworkImage(HomeCubit.get(context).userData.avatar),
                                   ),
                                 ),
                               ),
