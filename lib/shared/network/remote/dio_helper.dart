@@ -57,7 +57,7 @@ class DioHelper
     dio.options.headers = {
       'Authorization':'Bearer $token',
     };
-    return dio.put(
+    return dio.patch(
       url ,
       queryParameters: query,
       data: data,

@@ -28,7 +28,7 @@ class CategoryScreen extends StatelessWidget {
               conditionBuilder: (context) => HomeScreenCubit.get(context).homeModel1.equipment.isNotEmpty ,
               widgetBuilder: (context) => Scaffold(
                 appBar: AppBar(
-                  title: Text(cubit.homeModel1.equipment[1].category),
+                  title: Text(cubit.homeModel1.equipment[0].category),
                 ),
                 body: RefreshIndicator(
                   onRefresh: cubit.onRefresh,
@@ -86,7 +86,7 @@ Widget listBuilderOrder(GetEquipment data) => ListView.builder(
     int reverse = data.equipment.length - 1 - index;
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsCategoryScreen(data.equipment[index].id)));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsCategoryScreen(data.equipment[reverse].id)));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

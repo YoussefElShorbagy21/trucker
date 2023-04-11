@@ -7,8 +7,8 @@ class  HomeInitialState extends HomeStates {}
 
 class HomeChangeBottomNav extends HomeStates {}
 class HomeChangeRadio extends HomeStates {}
-class HomePostImagePickedSuccessState extends HomeStates {}
 
+class HomePostImagePickedSuccessState extends HomeStates {}
 class HomePostImagePickedErrorState extends HomeStates {}
 
 class HomeRemovePostImageState extends HomeStates {}
@@ -25,4 +25,15 @@ class HomePostEquipmentErrorState extends HomeStates {}
 
 class LoadingVerifyEmail extends HomeStates {}
 class SuccessVerifyEmail extends HomeStates {}
+
+class LoadingUpdateUSERState extends HomeStates {}
+class SuccessUpdateUSERState extends HomeStates {}
+class ErrorUpdateUSERState extends HomeStates {}
+
+
+class HomeSetCategory extends HomeStates {}
+class HomeSetGovernment extends HomeStates {}
+
+class DelayFunctionState extends HomeStates {}
+
 

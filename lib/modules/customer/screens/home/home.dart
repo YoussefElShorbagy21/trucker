@@ -160,7 +160,7 @@ class HomeScreen extends StatelessWidget {
          int reverse = data.equipment.length - 1 - index;
          return GestureDetector(
            onTap: (){
-             Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsCategoryScreen(data.equipment[index].id)));
+             Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsCategoryScreen(data.equipment[reverse].id)));
            },
            child: Padding(
            padding: const EdgeInsets.all(8.0),

@@ -84,7 +84,7 @@ Widget listBuilderOrder(GetEquipment data, BuildContext context) => SizedBox(
 
         onTap: (){
 
-          Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsCategoryScreen(data.equipment[index].id)));
+          Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsCategoryScreen(data.equipment[reverse].id)));
 
         },
 

@@ -6,6 +6,7 @@ import 'package:login/shared/network/remote/dio_helper.dart';
 import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../layout/homeLayout/cubit/state.dart';
 import '../../../../../shared/components/constants.dart';
+import '../edit_profile/edit_profile.dart';
 
 class AccountPage extends StatelessWidget {
   static const keyLanguage = 'key-language';
@@ -210,17 +211,18 @@ Widget buildImageChange(BuildContext context) => SimpleSettingsTile(
         radius: 24,
         backgroundImage: NetworkImage(HomeCubit.get(context).userData.avatar),
       ),
-      child: Container(),
+      child: EditProfileScreen(),
     );
 
 Widget buildPassword(BuildContext context) => TextInputSettingsTile(
       settingKey: AccountPage.keyPassword,
-      title: 'Password',
+      title: 'Update Password',
       obscureText: true,
-      validator: (password) => password != null && password.length >= 6
-          ? null
-          : 'Enter 6 characters',
-    );
+      validator: (password) => password != null && password.length >= 6 ? null : 'Enter 6 characters',
+      onChange: (password){
+        HomeCubit.get(context).updatePassword(password: password);
+      },
+);
 
 //===================================================
 

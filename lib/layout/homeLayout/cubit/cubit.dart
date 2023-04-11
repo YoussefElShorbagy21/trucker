@@ -23,7 +23,6 @@ import 'state.dart';
 class HomeCubit extends Cubit<HomeStates>{
 
   PostEquipment? postEquipment ;
-
   HomeCubit() : super(HomeInitialState());
   static HomeCubit get(context) => BlocProvider.of(context);
 
@@ -61,20 +60,12 @@ class HomeCubit extends Cubit<HomeStates>{
       data: formData,
     ).then((value)
     {
-      if (kDebugMode) {
         print("postData Equipments") ;
-      }
       postEquipment = PostEquipment.fromJson(value.data) ;
-      if (kDebugMode) {
-        print(kDebugMode);
-        print(postImage!.path);
-      }
       emit(HomePostEquipmentSuccessState());
     }).catchError((error)
     {
-      if (kDebugMode) {
         print(error.toString());
-      }
       emit(HomePostEquipmentErrorState());
     });
   }
@@ -136,7 +127,7 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
 
-  UserData userData  = UserData(name: 'newName', email: '',verified: false, avatar: '');
+  UserData userData  = UserData(name: 'newName', email: '',verified: false, avatar: '', phone: '');
 
    void getUserData(){
     emit(LoadingGetUserData());
@@ -171,4 +162,83 @@ class HomeCubit extends Cubit<HomeStates>{
       print(onError.toString());
     });
    }
+
+
+
+  void updateUserData(
+      {
+        required String name ,
+        required String email,
+        required String phone ,
+      })
+  {
+    emit(LoadingUpdateUSERState());
+    DioHelper.putData(
+      url: 'users/updateMe',
+      data: {
+        'name' : name ,
+        'email' :email,
+        'phone' : phone ,
+      },
+    ).then((value)
+    {
+      print(value.data);
+      userData = UserData.fromJson(value.data);
+      emit(SuccessUpdateUSERState());
+    }).catchError((error){
+      print(error.toString());
+      emit(ErrorUpdateUSERState());
+    });
+  }
+
+  void updatePassword(
+      {
+        required String password ,
+      })
+  {
+    emit(LoadingUpdateUSERState());
+    DioHelper.putData(
+      url: 'users/updatePassword',
+      data: {
+        'password' : password ,
+      },
+    ).then((value)
+    {
+      emit(SuccessUpdateUSERState());
+    }).catchError((error){
+      print(error.toString());
+      emit(ErrorUpdateUSERState());
+    });
+  }
+
+  var textController = TextEditingController();
+  var descriptionController = TextEditingController();
+  var priceController = TextEditingController();
+
+  dynamic categoryController = '';
+  dynamic governmentController = '';
+
+  void setCategory(String selected) {
+    categoryController = selected ;
+    emit(HomeSetCategory());
+  }
+
+  void setGovernment(String selected) {
+    governmentController = selected ;
+    emit(HomeSetGovernment());
+  }
+
+  void delayFunction(int time)
+  {
+    Future.delayed(Duration(seconds: time),(){
+      print(time);
+     textController.text = '';
+      descriptionController.text = '';
+      categoryController = '';
+      governmentController = '';
+      priceController.text = '';
+      postImage = null;
+    });
+    emit(DelayFunctionState());
+  }
 }
