@@ -75,19 +75,16 @@ class AllViewEquipments extends StatelessWidget {
 }
 
 Widget listBuilderOrder(GetEquipment data, BuildContext context) => SizedBox(
-  height: MediaQuery.of(context).size.height/ 1,
+  height: MediaQuery.of(context).size.height * 1,
   child:   ListView.builder(
     itemBuilder: (context,index) {
       int reverse = data.equipment.length - 1 - index;
-
       return GestureDetector(
-
         onTap: (){
 
           Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsCategoryScreen(data.equipment[reverse].id)));
 
         },
-
         child: Padding(
 
           padding: const EdgeInsets.all(8.0),
@@ -103,11 +100,8 @@ Widget listBuilderOrder(GetEquipment data, BuildContext context) => SizedBox(
           ),
 
         ),
-
       );
-
     },
-
     itemCount: data.equipment.length,
 
   ),
