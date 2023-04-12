@@ -12,10 +12,6 @@ import '../../../../../shared/resources/color_manager.dart';
 
 class EditProfileScreen extends StatelessWidget {
 
-  var fullNameController = TextEditingController();
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  var phoneController = TextEditingController();
 
   EditProfileScreen({super.key});
 
@@ -25,12 +21,12 @@ class EditProfileScreen extends StatelessWidget {
       listener:(context,state) {},
       builder: (context,state)
       {
-        var  profileImage = HomeCubit.get(context).userData.avatar;
         var userModel = HomeCubit.get(context).userData;
 
-        fullNameController.text = userModel.name;
-        emailController.text = userModel.email;
-        phoneController.text = userModel.phone;
+        HomeCubit.get(context).fullNameController.text = userModel.name;
+        HomeCubit.get(context).emailController.text = userModel.email;
+        HomeCubit.get(context).phoneController.text = userModel.phone;
+
         return Scaffold(
           appBar: AppBar(
             title: const Text('Edit Profile'),
@@ -51,9 +47,11 @@ class EditProfileScreen extends StatelessWidget {
                   onPressed: ()
                   {
                     HomeCubit.get(context).updateUserData(
-                        name: fullNameController.text ,
-                        phone: phoneController.text,
-                        email: emailController.text);
+                        name: HomeCubit.get(context).fullNameController.text ,
+                        phone: HomeCubit.get(context).phoneController.text,
+                        email: HomeCubit.get(context).emailController.text,
+                        avatar: HomeCubit.get(context).profileImage,
+                    );
                     Navigator.pop(context);
                   },
                   child: const Text('Update',style: TextStyle(color: Colors.blue),),
@@ -87,13 +85,13 @@ class EditProfileScreen extends StatelessWidget {
                               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                               child: CircleAvatar(
                                 radius: 50,
-                                backgroundImage: NetworkImage(userModel.avatar)
+                                backgroundImage: FileImage(HomeCubit.get(context).profileImage!)
                               ),
                             ),
                             IconButton(
                               onPressed: ()
                               {
-                                HomeCubit.get(context).getPostImage();
+                                HomeCubit.get(context).getProfileImage();
                               },
                               icon: const CircleAvatar(
                                   radius: 20,
@@ -111,43 +109,6 @@ class EditProfileScreen extends StatelessWidget {
                   const SizedBox(
                     height: 8.0,
                   ),
-                  if(HomeCubit.get(context).postImage != null )
-                      Row(
-                        children:
-                        [
-                          if(HomeCubit.get(context).postImage != null)
-                            Expanded(
-                            child: Column(
-                              children: [
-                                defaultButton(
-                                  function: ()
-                                  {
-                                 /*   SocialCubit.get(context).uploadProfileImage(
-                                        name: nameController.text,
-                                        phone: phoneController.text,
-                                        bio: bioCtroller.text,
-                                    );*/
-                                  },
-                                  text: 'update profile',
-                                ),
-                                if(state is LoadingUpdateUSERState)
-                                    const SizedBox(
-                                  height: 5.0,
-                                ),
-                                if(state is LoadingUpdateUSERState)
-                                    const LinearProgressIndicator(),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                        ],
-                      ),
-                  if(HomeCubit.get(context).postImage != null)
-                      const SizedBox(
-                        height: 20,
-                      ),
                   TextFormField(
                     decoration: InputDecoration(
                         labelText: 'Name',
@@ -156,7 +117,7 @@ class EditProfileScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(35.0),
                         )
                     ),
-                    controller: fullNameController,
+                    controller: HomeCubit.get(context).fullNameController,
                     keyboardType: TextInputType.name,
                     textInputAction: TextInputAction.next,
                   ),
@@ -171,7 +132,7 @@ class EditProfileScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(35.0),
                         )
                     ),
-                    controller: emailController,
+                    controller: HomeCubit.get(context).emailController,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                   ),
@@ -186,7 +147,7 @@ class EditProfileScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(35.0),
                         )
                     ),
-                    controller: phoneController,
+                    controller: HomeCubit.get(context).phoneController,
                     keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.done,
                   ),

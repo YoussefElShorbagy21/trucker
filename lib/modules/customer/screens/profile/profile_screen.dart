@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../layout/homeLayout/cubit/cubit.dart';
+import '../../../../layout/homeLayout/cubit/state.dart';
 import 'setting_widget/setting_page.dart';
 
 
@@ -12,6 +13,9 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    return BlocConsumer<HomeCubit,HomeStates>(
+        listener:(context,state) {},
+  builder: (context, state) {
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -185,11 +189,9 @@ class ProfileScreen extends StatelessWidget {
                               left: 0,
                               right: 0,
                               child: Center(
-                                child: Container(
-                                  child:  CircleAvatar(
-                                    radius:80,
-                                    backgroundImage: NetworkImage(HomeCubit.get(context).userData.avatar),
-                                  ),
+                                child: CircleAvatar(
+                                  radius:80,
+                                  backgroundImage: NetworkImage(HomeCubit.get(context).userData.avatar),
                                 ),
                               ),
                             ),
@@ -257,5 +259,7 @@ class ProfileScreen extends StatelessWidget {
         )
       ],
     );
+  },
+);
   }
 }

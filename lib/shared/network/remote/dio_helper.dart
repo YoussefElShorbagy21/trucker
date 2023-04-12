@@ -51,7 +51,7 @@ class DioHelper
   static Future<Response> putData({
     required String url,
     Map<String,dynamic>? query ,
-    required Map<String,dynamic> data ,
+    required dynamic data ,
   }) async
   {
     dio.options.headers = {

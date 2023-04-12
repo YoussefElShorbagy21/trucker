@@ -164,26 +164,57 @@ class HomeCubit extends Cubit<HomeStates>{
    }
 
 
+  //update Data User
+  var fullNameController = TextEditingController();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var phoneController = TextEditingController();
 
-  void updateUserData(
+  File? profileImage ;
+  var profilePicker = ImagePicker();
+  Future<void> getProfileImage() async  {
+    final pickedFile = await profilePicker.pickImage(source: ImageSource.gallery);
+    if(pickedFile != null) {
+      profileImage = File(pickedFile.path) ;
+      print(profileImage.toString());
+      emit(HomeProfileImagePickedSuccessState());
+    }
+    else {
+      print('No image selected');
+      emit(HomeProfileImagePickedErrorState());
+    }
+  }
+
+
+  Future<void> updateUserData(
       {
         required String name ,
         required String email,
         required String phone ,
+        required File? avatar,
       })
-  {
+  async {
     emit(LoadingUpdateUSERState());
+    FormData formData = FormData.fromMap({
+      'avatar': await MultipartFile.fromFile(avatar!.path),
+      'name' : name ,
+      'email' :email,
+      'phone' : phone ,
+    });
     DioHelper.putData(
       url: 'users/updateMe',
-      data: {
-        'name' : name ,
-        'email' :email,
-        'phone' : phone ,
-      },
+      data: formData,
     ).then((value)
     {
-      print(value.data);
-      userData = UserData.fromJson(value.data);
+      userData.name = value.data['updatedUser']['name'];
+      userData.avatar = value.data['updatedUser']['avatar'];
+      userData.email = value.data['updatedUser']['email'];
+      userData.phone = value.data['updatedUser']['phone'];
+      userData.verified = value.data['updatedUser']['verified'];
+      print(userData.avatar);
+      Future.delayed(const Duration(seconds: 10),(){
+        getUserData();
+      });
       emit(SuccessUpdateUSERState());
     }).catchError((error){
       print(error.toString());
@@ -210,7 +241,10 @@ class HomeCubit extends Cubit<HomeStates>{
       emit(ErrorUpdateUSERState());
     });
   }
+  //update Data User
 
+
+  // post data
   var textController = TextEditingController();
   var descriptionController = TextEditingController();
   var priceController = TextEditingController();
@@ -228,8 +262,7 @@ class HomeCubit extends Cubit<HomeStates>{
     emit(HomeSetGovernment());
   }
 
-  void delayFunction(int time)
-  {
+  void delayFunction(int time) {
     Future.delayed(Duration(seconds: time),(){
       print(time);
      textController.text = '';

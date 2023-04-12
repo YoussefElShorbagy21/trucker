@@ -36,4 +36,7 @@ class HomeSetGovernment extends HomeStates {}
 
 class DelayFunctionState extends HomeStates {}
 
+class HomeProfileImagePickedSuccessState extends HomeStates {}
+class HomeProfileImagePickedErrorState extends HomeStates {}
+
 
