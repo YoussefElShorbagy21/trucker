@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,6 +17,7 @@ import '../../../modules/customer/screens/profile/profile_screen.dart';
 import '../../../shared/components/constants.dart';
 import '../../../shared/network/local/cache_helper.dart';
 import 'state.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 
 class HomeCubit extends Cubit<HomeStates>{
@@ -81,10 +81,11 @@ class HomeCubit extends Cubit<HomeStates>{
   //Image
   File? postImage ;
   var picker = ImagePicker();
-  Future<void> getPostImage() async  {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> getPostImage(ImageSource imageSource) async  {
+    final pickedFile = await picker.pickImage(source: imageSource);
     if(pickedFile != null) {
       postImage = File(pickedFile.path) ;
+      postImage = await croppedImage(file: postImage);
       print(postImage.toString());
       emit(HomePostImagePickedSuccessState());
     }
@@ -172,10 +173,11 @@ class HomeCubit extends Cubit<HomeStates>{
 
   File? profileImage ;
   var profilePicker = ImagePicker();
-  Future<void> getProfileImage() async  {
-    final pickedFile = await profilePicker.pickImage(source: ImageSource.gallery);
+  Future<void> getProfileImage(ImageSource imageSource) async  {
+    final pickedFile = await profilePicker.pickImage(source: imageSource);
     if(pickedFile != null) {
       profileImage = File(pickedFile.path) ;
+      profileImage = await croppedImage(file: profileImage);
       print(profileImage.toString());
       emit(HomeProfileImagePickedSuccessState());
     }
@@ -274,4 +276,32 @@ class HomeCubit extends Cubit<HomeStates>{
     });
     emit(DelayFunctionState());
   }
+
+
+  Future<File?> croppedImage({required File? file}) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: file!.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+    if(croppedFile == null) return null ;
+    return File(croppedFile.path);
+  }
+
 }

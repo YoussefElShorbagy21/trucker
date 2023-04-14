@@ -8,6 +8,7 @@ import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../layout/homeLayout/cubit/state.dart';
 import '../../../../../shared/components/components.dart';
 import '../../../../../shared/resources/color_manager.dart';
+import '../../../../../shared/resources/select_photo_options_screen.dart';
 
 
 class EditProfileScreen extends StatelessWidget {
@@ -80,18 +81,28 @@ class EditProfileScreen extends StatelessWidget {
                         Stack(
                           alignment: AlignmentDirectional.bottomEnd,
                           children: [
-                            CircleAvatar(
+                            if(HomeCubit.get(context).profileImage != null)
+                              CircleAvatar(
                               radius: 55,
                               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                               child: CircleAvatar(
                                 radius: 50,
-                                backgroundImage: FileImage(HomeCubit.get(context).profileImage!)
+                                backgroundImage:FileImage(HomeCubit.get(context).profileImage!) ,
+                              ),
+                            ),
+                            if(HomeCubit.get(context).profileImage == null)
+                              CircleAvatar(
+                              radius: 55,
+                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                              child: CircleAvatar(
+                                radius: 50,
+                                backgroundImage:NetworkImage(userModel.avatar) ,
                               ),
                             ),
                             IconButton(
                               onPressed: ()
                               {
-                                HomeCubit.get(context).getProfileImage();
+                                _showSelectPhotoOptions(context);
                               },
                               icon: const CircleAvatar(
                                   radius: 20,
@@ -159,4 +170,29 @@ class EditProfileScreen extends StatelessWidget {
       },
     );
   }
+}
+
+void _showSelectPhotoOptions(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(25.0),
+      ),
+    ),
+    builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.28,
+        maxChildSize: 0.4,
+        minChildSize: 0.28,
+        expand: false,
+        builder: (context, scrollController) {
+          return SingleChildScrollView(
+            controller: scrollController,
+            child:  SelectPhotoOptionsScreen(
+              onTap: HomeCubit.get(context).getProfileImage,
+            ),
+          );
+        }),
+  );
 }
