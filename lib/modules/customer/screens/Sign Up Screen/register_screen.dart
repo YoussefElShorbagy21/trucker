@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/Sign%20Up%20Screen/verfiy_screen.dart';
 import 'package:login/shared/components/constants.dart';
 import 'package:login/shared/resources/app_localizations.dart';
+import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../shared/network/local/cache_helper.dart';
 import '../../../../shared/resources/color_manager.dart';
 import '../../../../shared/resources/font_manager.dart';
@@ -32,6 +33,7 @@ class RegisterScreenScreen extends StatelessWidget {
         listener: (context,state) {
           if(state is RegisterSuccessState)
           {
+
             if(state.model.status == "success")
             {
               CacheHelper.saveData(key: 'TokenId', value: state.model.token);
@@ -40,7 +42,7 @@ class RegisterScreenScreen extends StatelessWidget {
               CacheHelper.saveData(key: 'ID', value: state.model.userSignupModel.id);
               print('RegisterSuccessState $uid');
               Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyScreen(state.model.token)));
-
+              HomeCubit.get(context).getUserData();
             }
             else{
               print('error');

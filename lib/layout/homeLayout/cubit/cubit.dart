@@ -224,25 +224,7 @@ class HomeCubit extends Cubit<HomeStates>{
     });
   }
 
-  void updatePassword(
-      {
-        required String password ,
-      })
-  {
-    emit(LoadingUpdateUSERState());
-    DioHelper.putData(
-      url: 'users/updatePassword',
-      data: {
-        'password' : password ,
-      },
-    ).then((value)
-    {
-      emit(SuccessUpdateUSERState());
-    }).catchError((error){
-      print(error.toString());
-      emit(ErrorUpdateUSERState());
-    });
-  }
+
   //update Data User
 
 

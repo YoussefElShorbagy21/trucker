@@ -63,4 +63,30 @@ class RegisterCubit extends Cubit<RegisterState>
 
     emit(RegisterChangePasswordVisibilityState());
   }
+
+  void updatePassword(
+      {
+        required String oldPassword ,
+        required String newPassword ,
+        required String newPasswordConfirm ,
+        required BuildContext context ,
+      })
+  {
+    emit(LoadingUpdatePassword());
+    DioHelper.putData(
+      url: 'users/updatePassword',
+      data: {
+        'oldPassword' : oldPassword ,
+        'newPassword' : newPassword ,
+        'newPasswordConfirm' : newPasswordConfirm ,
+      },
+    ).then((value)
+    {
+      emit(SuccessUpdatePassword());
+      sinOut(context);
+    }).catchError((error){
+      print(error.toString());
+      emit(ErrorUpdatePassword());
+    });
+  }
 }
