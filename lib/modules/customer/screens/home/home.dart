@@ -156,6 +156,7 @@ class HomeScreen extends StatelessWidget {
    Widget listBuilderOrder(GetEquipment data , BuildContext context) => SizedBox(
      height: MediaQuery.of(context).size.height / 2,
      child: ListView.builder(
+       reverse: true,
        itemBuilder: (context,index) {
          int reverse = data.equipment.length - 1 - index;
          return GestureDetector(
