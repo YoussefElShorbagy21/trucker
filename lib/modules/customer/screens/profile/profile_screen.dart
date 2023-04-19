@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../layout/homeLayout/cubit/state.dart';
 import 'setting_widget/setting_page.dart';
+import 'setting_widget/setting_widget.dart';
 
 
 class ProfileScreen extends StatelessWidget {
@@ -45,10 +47,10 @@ class ProfileScreen extends StatelessWidget {
                    SizedBox(
                     height: screenHeight * 0.028,    //20
                   ),
-                   const Text(
-                    'My\nProfile',
+                    Text(
+                    'My\nProfile'.tr(context),
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 34,
                       fontFamily: 'NiseBuschGardens',
@@ -109,7 +111,7 @@ class ProfileScreen extends StatelessWidget {
                                         Column(
                                           children: [
                                             Text(
-                                              'Orders',
+                                              'Orders'.tr(context),
                                               style: TextStyle(
                                                 color: Colors.grey[700],
                                                 fontFamily: 'NiseBuschGardens',
@@ -145,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
                                         Column(
                                           children: [
                                             Text(
-                                              'Offer',
+                                              'Offers'.tr(context),
                                               style: TextStyle(
                                                 color: Colors.grey[700],
                                                 fontFamily: 'NiseBuschGardens',
@@ -217,9 +219,9 @@ class ProfileScreen extends StatelessWidget {
                            SizedBox(
                             height: screenHeight * 0.04, //20
                           ),
-                          const Text(
-                            'My Orders',
-                            style: TextStyle(
+                           Text(
+                            'Edit'.tr(context),
+                            style: const TextStyle(
                               color: Color.fromRGBO(39, 105, 171, 1),
                               fontSize: 27,
                               fontFamily: 'NiseBuschGardens',
@@ -232,22 +234,31 @@ class ProfileScreen extends StatelessWidget {
                             height: screenHeight * 0.04,//10
                           ),
                           Container(
-                            height: screenHeight * 0.15,
+                            height: screenHeight * 0.25,
                             decoration: BoxDecoration(
-                              color: Colors.grey,
+                              // color: Colors.grey,
                               borderRadius: BorderRadius.circular(30),
                             ),
+                             child: Column(
+                               children: [
+                                 buildMyOrder(context),
+                                 const SizedBox(height: 20),
+                                 buildPayment(context),
+                                 const SizedBox(height: 20),
+                                 buildJoinUs(context),
+                               ],
+                             ),
                           ),
-                           SizedBox(
-                            height: screenHeight * 0.04,//10
-                          ),
-                          Container(
-                            height: screenHeight * 0.15,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
+                          //  SizedBox(
+                          //   height: screenHeight * 0.04,//10
+                          // ),
+                          // Container(
+                          //   height: screenHeight * 0.15,
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.grey,
+                          //     borderRadius: BorderRadius.circular(30),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

@@ -160,6 +160,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   }
 
   Widget buildBoardingItem(BoardingModel model) =>  Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Expanded(
         child: Image(

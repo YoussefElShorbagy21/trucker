@@ -10,13 +10,13 @@ import '../../../../../shared/resources/font_manager.dart';
 import '../../Login Screen/loginScreen.dart';
 import '../../Sign Up Screen/cubit/register_cubit.dart';
 
-
 class UpdatePassword extends StatelessWidget {
-   UpdatePassword({Key? key}) : super(key: key);
-   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-   var oldPasswordController = TextEditingController();
-   var passwordController = TextEditingController();
-   var confirmPasswordController = TextEditingController();
+  UpdatePassword({Key? key}) : super(key: key);
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  var oldPasswordController = TextEditingController();
+  var passwordController = TextEditingController();
+  var confirmPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -30,8 +30,9 @@ class UpdatePassword extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Update Password',
-                    style:  TextStyle(
+                  Text(
+                    'Update Password'.tr(context),
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                       fontFamily: 'Montserrat',
@@ -42,28 +43,25 @@ class UpdatePassword extends StatelessWidget {
                     child: TextFormField(
                       obscureText: RegisterCubit.get(context).isPasswordShown,
                       decoration: InputDecoration(
-                          labelText: 'old password',
+                          labelText: 'old password'.tr(context),
                           prefixIcon: const Icon(Icons.lock_outline_sharp),
                           suffixIcon: IconButton(
-                            onPressed: (){
-                              RegisterCubit.get(context).changePasswordVisibility() ;
-                            } ,
+                            onPressed: () {
+                              RegisterCubit.get(context)
+                                  .changePasswordVisibility();
+                            },
                             icon: Icon(RegisterCubit.get(context).suffix),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(35.0),
-                          )
-                      ),
+                          )),
                       controller: oldPasswordController,
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.next,
                       validator: (value) {
-                        if(value!.isEmpty || value.isValidPassword())
-                        {
+                        if (value!.isEmpty || value.isValidPassword()) {
                           return "register_password_error".tr(context);
-                        }
-                        else if(value.length < 8)
-                        {
+                        } else if (value.length < 8) {
                           return "invalid_password".tr(context);
                         }
                         return null;
@@ -75,28 +73,25 @@ class UpdatePassword extends StatelessWidget {
                     child: TextFormField(
                       obscureText: RegisterCubit.get(context).isPasswordShown,
                       decoration: InputDecoration(
-                          labelText: 'New password',
+                          labelText: 'New password'.tr(context),
                           prefixIcon: const Icon(Icons.lock_outline_sharp),
                           suffixIcon: IconButton(
-                            onPressed: (){
-                              RegisterCubit.get(context).changePasswordVisibility() ;
-                            } ,
+                            onPressed: () {
+                              RegisterCubit.get(context)
+                                  .changePasswordVisibility();
+                            },
                             icon: Icon(RegisterCubit.get(context).suffix),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(35.0),
-                          )
-                      ),
+                          )),
                       controller: passwordController,
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.next,
                       validator: (value) {
-                        if(value!.isEmpty || value.isValidPassword())
-                        {
+                        if (value!.isEmpty || value.isValidPassword()) {
                           return "register_password_error".tr(context);
-                        }
-                        else if(value.length < 8)
-                        {
+                        } else if (value.length < 8) {
                           return "invalid_password".tr(context);
                         }
                         return null;
@@ -104,58 +99,64 @@ class UpdatePassword extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height/35,
+                    height: MediaQuery.of(context).size.height / 35,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextFormField(
                       obscureText: RegisterCubit.get(context).isPasswordShown,
                       decoration: InputDecoration(
-                          labelText: 'Confirm New Password',
+                          labelText: 'Confirm New Password'.tr(context),
                           prefixIcon: const Icon(Icons.lock_outline_sharp),
                           suffixIcon: IconButton(
-                            onPressed: (){
-                              RegisterCubit.get(context).changePasswordVisibility() ;
-                            } ,
+                            onPressed: () {
+                              RegisterCubit.get(context)
+                                  .changePasswordVisibility();
+                            },
                             icon: Icon(RegisterCubit.get(context).suffix),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(35.0),
-                          )
-                      ),
+                          )),
                       controller: confirmPasswordController,
                       textInputAction: TextInputAction.done,
                       keyboardType: TextInputType.visiblePassword,
                       validator: (value) {
-                        return value != passwordController.text || value!.isEmpty? 'register_conPassword_error'.tr(context) : null;
+                        return value != passwordController.text ||
+                                value!.isEmpty
+                            ? 'register_conPassword_error'.tr(context)
+                            : null;
                       },
                     ),
                   ),
                   Conditional.single(
-                      context: context ,
-                      conditionBuilder: (BuildContext  context) => state is! LoadingUpdatePassword,
-                      widgetBuilder: (context){
-                        return  Container(
+                      context: context,
+                      conditionBuilder: (BuildContext context) =>
+                          state is! LoadingUpdatePassword,
+                      widgetBuilder: (context) {
+                        return Container(
                           width: MediaQuery.of(context).size.width / 2,
                           padding: EdgeInsets.symmetric(
-                            horizontal: MediaQuery.of(context).size.width/35,
+                            horizontal: MediaQuery.of(context).size.width / 35,
                           ),
                           child: TextButton(
-                            onPressed:(){
-                              if(formKey.currentState!.validate()) {
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
                                 RegisterCubit.get(context).updatePassword(
                                     oldPassword: oldPasswordController.text,
                                     newPassword: passwordController.text,
-                                    newPasswordConfirm: confirmPasswordController.text,
+                                    newPasswordConfirm:
+                                        confirmPasswordController.text,
                                     context: context);
-                                }
-                              },
+                              }
+                            },
                             style: TextButton.styleFrom(
                               shape: const StadiumBorder(),
                               backgroundColor: ColorManager.black,
                               padding: const EdgeInsets.symmetric(vertical: 14),
                             ),
-                            child:  Text("Update",
+                            child: Text(
+                              "Update".tr(context),
                               style: TextStyle(
                                 color: ColorManager.white,
                                 fontFamily: FontConstants.fontFamily,
@@ -167,9 +168,8 @@ class UpdatePassword extends StatelessWidget {
                         );
                       },
                       fallbackBuilder: (context) {
-                        return const Center(child: CircularProgressIndicator()) ;
-                      }
-                  ),
+                        return const Center(child: CircularProgressIndicator());
+                      }),
                 ],
               ),
             ),

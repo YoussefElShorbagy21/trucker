@@ -14,6 +14,10 @@ class ColorManager {
   static Color accentColor = const Color(0xFFFEF9EB);
   static Color blueGrey = Colors.blueGrey;
   static Color tinyPink = const Color(0xFFFFEFEE);
+  static Color tinyGrey = const Color(0xFF53585A);
+  static Color blueChat = const Color(0xFF3B76F6);
+  static const textFaded = Color(0xFF9899A5);
+  static const textLigth = Color(0xFFF5F5F5);
 
 /*  //new color
   static Color darkPrimary = const Color(0xffd17d11);

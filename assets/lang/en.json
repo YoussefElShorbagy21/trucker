@@ -88,5 +88,72 @@
   "search-title": "Find you trucker",
   "trend-title": "Category",
   "home-title": "New Equipments",
-  "rent-title": "Rent New"
+  "rent-title": "Rent New",
+
+
+  "My\nProfile": "My\nProfile",
+  "Orders" : "Orders",
+  "Offers": "Offers",
+  "Edit": "Edit",
+
+  "old password": "Old Password",
+  "New password": "New password",
+  "Confirm New Password": "Confirm New Password",
+  "Update": "Update",
+
+  "Forgot Password": "Forgot Password",
+  "Email": "Email",
+  "Send": "Send",
+
+  "Create Post": "Create Post",
+  "Post": "Post",
+  "Please Enter Value": "Please Enter Value",
+  "title": "title",
+  "Title": "Title",
+  "Description": "Description",
+  "price": "price",
+  "category": "category",
+  "government": "government",
+  "Add photo": "Add photo",
+
+  "Edit Profile": "Edit Profile",
+  "Name": "Name",
+  "email": "email",
+
+  "Settings": "Settings",
+  "Account": "Account",
+  "FEEDBACK": "FEEDBACK",
+
+  "Account Setting": "Account Setting",
+  "Privacy, Security, Language":"Privacy, Security, Language",
+  "Account Settings": "Account Settings",
+  "Dark Mode": "Dark Mode",
+  "Logout": "Logout",
+  "Delete Account": "Delete Account",
+  "Languages": "Languages",
+  "English": "English",
+  "Arabic": "Arabic",
+  "Location": "Location",
+  "Cairo, Egypt": "Cairo, Egypt",
+  "Report A Bug": "Report A Bug",
+  "Send Feedback": "Send Feedback",
+  "Privacy": "Privacy",
+  "Security": "Security",
+  "Account Info": "Account Info",
+  "Update Password": "Update Password",
+  "Notifications": "Notifications",
+  "Newsletter, AppUpdates": "Newsletter, AppUpdates",
+  "News For You": "News For You",
+  "Account Activity": "Account Activity",
+  "News letter": "News letter",
+  "App Updates": "App Updates",
+  "Payment Method": "Payment Method",
+  "My Orders": "My Orders",
+  "Join Us": "Join Us",
+  "Become A Trucker be get your job": "Become A Trucker be get your job",
+
+  "Favourite Contacts": "Favourite Contacts",
+  "NEW": "NEW"
+
+
 }

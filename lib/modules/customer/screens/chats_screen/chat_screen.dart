@@ -95,31 +95,34 @@ class _ChatScreenState extends State<ChatScreen> {
               // right: 80.0,
             ),
       padding: const EdgeInsets.symmetric(
-        horizontal: 25.0,
+        horizontal: 10.0,
         vertical: 15.0,
       ),
-      width: MediaQuery.of(context).size.width / 4,
+      width: MediaQuery.of(context).size.width / 1.8,//new Change
       decoration: BoxDecoration(
         color: isMe
-             ? ColorManager.accentColor//Theme.of(context).colorScheme.secondary
-            : ColorManager.tinyPink,
+             ? ColorManager.blueChat
+            : ColorManager.tinyGrey,
         borderRadius: isMe
             ? const BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                bottomLeft: Radius.circular(15.0),
+                topLeft: Radius.circular(26),
+                topRight: Radius.circular(26),
+                bottomLeft: Radius.circular(26),
               )
             : const BorderRadius.only(
-                topRight: Radius.circular(15.0),
-                bottomRight: Radius.circular(15.0),
+                topRight: Radius.circular(26),
+                bottomRight: Radius.circular(26),
+                bottomLeft: Radius.circular(26),
               ),
       ),
       child: Column(
+        // mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             message.time,
             style: TextStyle(
-              color: ColorManager.blueGrey,
+              color: ColorManager.white,
               fontSize: 16.0,
               fontWeight: FontWeight.w600,
             ),
@@ -130,7 +133,7 @@ class _ChatScreenState extends State<ChatScreen> {
           Text(
             message.text,
             style: TextStyle(
-              color: ColorManager.blueGrey,
+              color: ColorManager.gery.withOpacity(0.1),
               fontSize: 16.0,
               fontWeight: FontWeight.w600,
             ),
@@ -138,6 +141,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
     );
+
     if (isMe) {
       return msg;
     }
@@ -178,7 +182,7 @@ class _ChatScreenState extends State<ChatScreen> {
               textCapitalization: TextCapitalization.sentences,
               onChanged: (value){},
               decoration: const InputDecoration(
-                hintText: 'Send a message...',
+                hintText: 'Type Something...',
               ),
             ),
           ),

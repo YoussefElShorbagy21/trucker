@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 
 import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../layout/homeLayout/cubit/state.dart';
@@ -10,18 +11,14 @@ import '../../../../../shared/components/components.dart';
 import '../../../../../shared/resources/color_manager.dart';
 import '../../../../../shared/resources/select_photo_options_screen.dart';
 
-
 class EditProfileScreen extends StatelessWidget {
-
-
   EditProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit,HomeStates>(
-      listener:(context,state) {},
-      builder: (context,state)
-      {
+    return BlocConsumer<HomeCubit, HomeStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
         var userModel = HomeCubit.get(context).userData;
 
         HomeCubit.get(context).fullNameController.text = userModel.name;
@@ -30,32 +27,32 @@ class EditProfileScreen extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Edit Profile'),
+            title: Text(
+              'Edit Profile'.tr(context),
+            ),
             leading: IconButton(
-              onPressed: ()
-              {
+              onPressed: () {
                 Navigator.pop(context);
               },
-              icon: const Icon(
-                 Icons.arrow_back
-              ),
+              icon: const Icon(Icons.arrow_back),
             ),
-            actions:
-            [
+            actions: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: OutlinedButton(
-                  onPressed: ()
-                  {
+                  onPressed: () {
                     HomeCubit.get(context).updateUserData(
-                        name: HomeCubit.get(context).fullNameController.text ,
-                        phone: HomeCubit.get(context).phoneController.text,
-                        email: HomeCubit.get(context).emailController.text,
-                        avatar: HomeCubit.get(context).profileImage,
+                      name: HomeCubit.get(context).fullNameController.text,
+                      phone: HomeCubit.get(context).phoneController.text,
+                      email: HomeCubit.get(context).emailController.text,
+                      avatar: HomeCubit.get(context).profileImage,
                     );
                     Navigator.pop(context);
                   },
-                  child: const Text('Update',style: TextStyle(color: Colors.blue),),
+                  child: Text(
+                    'Update'.tr(context),
+                    style: TextStyle(color: Colors.blue),
+                  ),
                 ),
               ),
             ],
@@ -64,53 +61,55 @@ class EditProfileScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
-                children:
-                [
-                  if(state is LoadingUpdateUSERState)
+                children: [
+                  if (state is LoadingUpdateUSERState)
                     const LinearProgressIndicator(),
-                  if(state is LoadingUpdateUSERState)
-                  const SizedBox(
-                    height: 8,
-                  ),
+                  if (state is LoadingUpdateUSERState)
+                    const SizedBox(
+                      height: 8,
+                    ),
                   SizedBox(
                     height: 190,
                     child: Stack(
                       alignment: AlignmentDirectional.bottomCenter,
-                      children:
-                      [
+                      children: [
                         Stack(
                           alignment: AlignmentDirectional.bottomEnd,
                           children: [
-                            if(HomeCubit.get(context).profileImage != null)
+                            if (HomeCubit.get(context).profileImage != null)
                               CircleAvatar(
-                              radius: 55,
-                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                              child: CircleAvatar(
-                                radius: 50,
-                                backgroundImage:FileImage(HomeCubit.get(context).profileImage!) ,
+                                radius: 55,
+                                backgroundColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: FileImage(
+                                      HomeCubit.get(context).profileImage!),
+                                ),
                               ),
-                            ),
-                            if(HomeCubit.get(context).profileImage == null)
+                            if (HomeCubit.get(context).profileImage == null)
                               CircleAvatar(
-                              radius: 55,
-                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                              child: CircleAvatar(
-                                radius: 50,
-                                backgroundImage:NetworkImage(userModel.avatar) ,
+                                radius: 55,
+                                backgroundColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage:
+                                      NetworkImage(userModel.avatar),
+                                ),
                               ),
-                            ),
                             IconButton(
-                              onPressed: ()
-                              {
+                              onPressed: () {
                                 _showSelectPhotoOptions(context);
                               },
                               icon: const CircleAvatar(
                                   radius: 20,
                                   backgroundColor: Colors.white,
-                                  child: Icon(Icons.camera_enhance_rounded,
+                                  child: Icon(
+                                    Icons.camera_enhance_rounded,
                                     size: 20,
-                                    color: Colors.blue,)
-                              ),
+                                    color: Colors.blue,
+                                  )),
                             ),
                           ],
                         ),
@@ -122,12 +121,14 @@ class EditProfileScreen extends StatelessWidget {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                        labelText: 'Name',
-                        prefixIcon: Icon(Icons.supervised_user_circle, color: ColorManager.gery,),
+                        labelText: 'Name'.tr(context),
+                        prefixIcon: Icon(
+                          Icons.supervised_user_circle,
+                          color: ColorManager.gery,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(35.0),
-                        )
-                    ),
+                        )),
                     controller: HomeCubit.get(context).fullNameController,
                     keyboardType: TextInputType.name,
                     textInputAction: TextInputAction.next,
@@ -137,12 +138,14 @@ class EditProfileScreen extends StatelessWidget {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                        labelText: 'email',
-                        prefixIcon: Icon(Icons.email_outlined, color: ColorManager.gery,),
+                        labelText: 'email'.tr(context),
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: ColorManager.gery,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(35.0),
-                        )
-                    ),
+                        )),
                     controller: HomeCubit.get(context).emailController,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
@@ -152,12 +155,14 @@ class EditProfileScreen extends StatelessWidget {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                        labelText: 'phone',
-                        prefixIcon: Icon(Icons.call, color: ColorManager.gery,),
+                        labelText: 'phone'.tr(context),
+                        prefixIcon: Icon(
+                          Icons.call,
+                          color: ColorManager.gery,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(35.0),
-                        )
-                    ),
+                        )),
                     controller: HomeCubit.get(context).phoneController,
                     keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.done,
@@ -189,7 +194,7 @@ void _showSelectPhotoOptions(BuildContext context) {
         builder: (context, scrollController) {
           return SingleChildScrollView(
             controller: scrollController,
-            child:  SelectPhotoOptionsScreen(
+            child: SelectPhotoOptionsScreen(
               onTap: HomeCubit.get(context).getProfileImage,
             ),
           );

@@ -67,6 +67,8 @@ dev_dependencies:
   flutter_settings_screens: ^0.3.3-null-safety+2
   flutter_otp_text_field: ^1.1.0+2
   image_cropper: ^3.0.2
+  #chat pub to get app image
+  cached_network_image: ^3.2.3
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
