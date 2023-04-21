@@ -1,7 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:login/modules/customer/screens/home/cubit/state.dart';
 
 import '../../../../../models/categeiromodel.dart';
@@ -99,5 +100,38 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     print('isClickedOffer : $isClickedOffer');
     print('isClickedOrder : $isClickedOrder');
     emit(ChangeClickOfferButton());
+  }
+
+//still error
+  Future<void> updatePostData(
+      {
+        required String title ,
+        required String description,
+        required File? photo,
+        required int price ,
+        required String category ,
+        required String government ,
+        required String id,
+      })
+  async {
+    emit(LoadingUpdatePostState());
+    FormData formData = FormData.fromMap({
+      'title' : title,
+      'description' : description,
+      'photo': await MultipartFile.fromFile(photo!.path),
+      'price' : price,
+      'category' : category,
+      'government' : government,
+    });
+    DioHelper.putData(
+      url: 'Equipments/$id',
+      data: formData,
+    ).then((value)
+    {
+      emit(SuccessUpdatePostState());
+    }).catchError((error){
+      print(error.toString());
+      emit(ErrorUpdatePostState());
+    });
   }
 }

@@ -26,3 +26,7 @@ class ChangeClickOrderButton extends HomeScreenState {}
 class ChangeClickOfferButton extends HomeScreenState {}
 
 class RefreshIndicatorHome extends HomeScreenState {}
+
+class LoadingUpdatePostState extends HomeScreenState {}
+class SuccessUpdatePostState extends HomeScreenState {}
+class ErrorUpdatePostState extends HomeScreenState {}

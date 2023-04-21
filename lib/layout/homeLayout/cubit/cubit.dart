@@ -232,11 +232,10 @@ class HomeCubit extends Cubit<HomeStates>{
   var textController = TextEditingController();
   var descriptionController = TextEditingController();
   var priceController = TextEditingController();
+  var categoryController = TextEditingController();
+  var governmentController = TextEditingController();
 
-  dynamic categoryController = '';
-  dynamic governmentController = '';
-
-  void setCategory(String selected) {
+/*  void setCategory(String selected) {
     categoryController = selected ;
     emit(HomeSetCategory());
   }
@@ -244,15 +243,15 @@ class HomeCubit extends Cubit<HomeStates>{
   void setGovernment(String selected) {
     governmentController = selected ;
     emit(HomeSetGovernment());
-  }
+  }*/
 
   void delayFunction(int time) {
     Future.delayed(Duration(seconds: time),(){
       print(time);
      textController.text = '';
       descriptionController.text = '';
-      categoryController = '';
-      governmentController = '';
+      categoryController.text = '';
+      governmentController.text = '';
       priceController.text = '';
       postImage = null;
     });

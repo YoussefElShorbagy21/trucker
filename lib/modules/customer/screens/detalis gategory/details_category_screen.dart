@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/home/cubit/cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/shared/network/remote/dio_helper.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 
 import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../shared/resources/color_manager.dart';
 import '../../../../shared/resources/font_manager.dart';
+import '../edit_post/editpsot.dart';
 import '../home/cubit/state.dart';
 class DetailsCategoryScreen extends StatelessWidget {
   String id ;
@@ -29,11 +31,27 @@ class DetailsCategoryScreen extends StatelessWidget {
           Navigator.pop(context);
         },
             icon:  Icon(Icons.arrow_back_sharp,size: 30,color: ColorManager.black,)) ,
-        actions:  [IconButton(
+        actions:  [
+          IconButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (_) =>  EditPost(id: id,)));
+              },
+              icon:  Icon(Icons.edit,size: 30,color: ColorManager.black,)) ,
+          IconButton(
+              onPressed: (){
+                DioHelper.deleteData(url: 'Equipments/$id');
+                HomeScreenCubit.get(context).onRefresh();
+                Future.delayed(const Duration(seconds: 5),(){
+                  Navigator.pop(context);
+                });
+              },
+              icon:  Icon(Icons.dangerous,size: 30,color: ColorManager.black,)) ,
+          IconButton(
             onPressed: (){
           Navigator.pop(context);
         },
-            icon:  Icon(Icons.share,size: 30,color: ColorManager.black,)) ,],
+            icon:  Icon(Icons.share,size: 30,color: ColorManager.black,)) ,
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
