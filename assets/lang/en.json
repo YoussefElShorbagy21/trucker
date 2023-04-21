@@ -113,6 +113,7 @@
   "Description": "Description",
   "price": "price",
   "category": "category",
+  "Category": "Category",
   "government": "government",
   "Add photo": "Add photo",
 
@@ -153,7 +154,14 @@
   "Become A Trucker be get your job": "Become A Trucker be get your job",
 
   "Favourite Contacts": "Favourite Contacts",
-  "NEW": "NEW"
+  "NEW": "NEW",
+
+  "Truck": "Truck",
+  "Loader": "Loader",
+  "Digger": "Digger",
+  "Crane": "Crane",
+  "Compactor": "Compactor"
+
 
 
 }

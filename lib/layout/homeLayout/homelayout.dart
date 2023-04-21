@@ -68,8 +68,8 @@ class HomeLayout extends StatelessWidget {
                 activeColor: ColorManager.black,
               ),
               BottomBarItem(
-                icon: const Icon(Icons.favorite),
-                title: Text('Favorite'.tr(context)),
+                icon: const Icon(Icons.category),
+                title: Text('Category'.tr(context)),
                 activeColor: ColorManager.black,
               ),
               BottomBarItem(

@@ -115,6 +115,7 @@
   "Description": "وصف",
   "price": "سعر",
   "category": "نوع المعدة",
+  "Category": "نوع المعدة",
   "government": "المحافظة",
   "Add photo": "اضافة صور",
 
@@ -155,5 +156,11 @@
   "Become A Trucker be get your job": "كن سائق شاحنة لاتحصل على وظيفتك",
 
   "Favourite Contacts": "جهات الاتصال المفضلة",
-  "NEW": "جديد"
+  "NEW": "جديد",
+
+  "Truck": "شاحنة",
+  "Loader": "اللودر",
+  "Digger": "حفار",
+  "Crane": "رافعة",
+  "Compactor": "ضاغط"
 }

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/models/UserData.dart';
 import 'package:login/models/categeiromodel.dart';
+import 'package:login/modules/category/category_screen.dart';
 import 'package:login/shared/network/remote/dio_helper.dart';
 
 
@@ -29,7 +30,7 @@ class HomeCubit extends Cubit<HomeStates>{
   int currentIndex = 0 ;
   List<Widget> screens =  [
     HomeScreen(),
-    const FavoriteScreen(),
+    const CategoryScreen(),
     const ChatHome(),
     const ProfileScreen(),
   ];

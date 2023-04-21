@@ -84,6 +84,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - assets/images/category_img/
 #    - assets/images/forklift_03.jpg
     - assets/images/chat_photo/
     - assets/images/on_boarding_images/

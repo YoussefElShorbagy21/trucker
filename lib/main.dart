@@ -42,17 +42,18 @@ void main() async {
       {
         if(choseUser != null)
           {
-            if(verify != null) {
-              if (uid != null) {
-                widget = const HomeLayout();
-              }
-              else {
-                widget = LoginScreen();
-              }
-            }
-            else {
-              widget = VerifyScreen('');
-            }
+            widget=HomeLayout();
+            // if(verify != null) {
+            //   if (uid != null) {
+            //     widget = const HomeLayout();
+            //   }
+            //   else {
+            //     widget = LoginScreen();
+            //   }
+            // }
+            // else {
+            //   widget = VerifyScreen('');
+            // }
           }
         else {
           widget = const ChoseApp();
