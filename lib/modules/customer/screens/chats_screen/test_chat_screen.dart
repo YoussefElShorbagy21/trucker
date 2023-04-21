@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login/models/chat_model/message_model.dart';
 import 'package:login/shared/resources/color_manager.dart';
-import '../../../../models/chat_model/test_chat_model.dart';
 import '../../../../models/chat_model/user_model.dart';
 import '../../../../shared/components/chat_style.dart';
 
@@ -61,8 +60,8 @@ class _TestChatScreenState extends State<TestChatScreen> {
           ),
         ],
       ),
-      body: const Column(
-        children: [
+      body:  Column(
+        children: const [
           Expanded(
             child: _DemoMessageList(),
           ),

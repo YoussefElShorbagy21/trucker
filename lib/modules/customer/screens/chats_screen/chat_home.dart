@@ -28,8 +28,8 @@ class _ChatHomeState extends State<ChatHome> {
                   topRight: Radius.circular(30.0),
                 ),
               ),
-              child: const Column(
-                children:  <Widget>[
+              child:  Column(
+                children:  const <Widget>[
                   FavouriteContacts(),
                   RecentChats(),
                 ],
