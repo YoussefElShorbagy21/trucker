@@ -71,7 +71,7 @@ class HomeLayout extends StatelessWidget {
                 icon: const Icon(Icons.category),
                 title: Text('Category'.tr(context)),
                 activeColor: ColorManager.black,
-              ),
+               ),
               BottomBarItem(
                 icon: const Icon(Icons.network_check_outlined),
                 title: Text('Communication'.tr(context)),
