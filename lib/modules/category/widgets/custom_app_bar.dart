@@ -17,7 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(
         title!,
-        style: TextStyle(color: ColorManager.cGold),
+        style: TextStyle(color: ColorManager.black),
       ),
       centerTitle: true,
       backgroundColor: ColorManager.cWhite,
