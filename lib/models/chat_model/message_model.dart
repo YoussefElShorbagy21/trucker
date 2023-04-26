@@ -1,3 +1,5 @@
+import 'package:login/shared/resources/asset_manager.dart';
+
 import 'user_model.dart';
 
 class Message {
@@ -19,100 +21,100 @@ class Message {
 final User currentUser = User(
   id: 0,
   name: 'Current User',
-  imageUrl: 'assets/images/chat_photo/greg.jpg',
+  imageUrl: ImageAssets.kShorbagy,
 );
 
-final User greg = User(
+final User Ahmed = User(
   id: 1,
-  name: 'Greg',
-  imageUrl: 'assets/images/chat_photo/greg.jpg',
+  name: 'Ahmed',
+  imageUrl: ImageAssets.kAhmed,
 );
 
-final User james = User(
+final User Shorbagy = User(
   id: 2,
-  name: 'James',
-  imageUrl: 'assets/images/chat_photo/james.jpg',
+  name: 'Shorbagy',
+  imageUrl: ImageAssets.kShorbagy,
 );
 
-final User john = User(
+final User Joe = User(
   id: 3,
-  name: 'John',
-  imageUrl: 'assets/images/chat_photo/john.jpg',
+  name: 'Joe',
+  imageUrl: ImageAssets.kGreg,
 );
 
-final User olivia = User(
+final User Abdulrahman = User(
   id: 4,
-  name: 'Olivia',
-  imageUrl: 'assets/images/chat_photo/olivia.jpg',
+  name: 'Abdulrahman',
+  imageUrl: ImageAssets.kAbdulrahman,
 );
 
-final User sam = User(
+final User AhmedMohamed = User(
   id: 5,
-  name: 'Sam',
-  imageUrl: 'assets/images/chat_photo/sam.jpg',
+  name: 'Ahmed',
+  imageUrl: ImageAssets.kAhmed,
 );
 
-final User sophia = User(
+final User Youssef = User(
   id: 1,
-  name: 'Sophia',
-  imageUrl: 'assets/images/chat_photo/sophia.jpg',
+  name: 'Youssef Alaa',
+  imageUrl: ImageAssets.kYoussef,
 );
 
-final User steven = User(
+final User Abdo = User(
   id: 1,
-  name: 'Steven',
-  imageUrl: 'assets/images/chat_photo/steven.jpg',
+  name: 'Abdulrahman',
+  imageUrl: ImageAssets.kAbdulrahman,
 );
 
 //Favorite Contacts
-List<User> favorites = [sam, steven, olivia, john, greg];
+List<User> favorites = [Shorbagy, Youssef, Ahmed, Abdo, Joe];
 
 //Example chats on Home Screen
 List<Message> chats = [
   Message(
-    sender: james,
+    sender: Shorbagy,
     time: '5:30 PM',
     text: 'Hey, how\'s it going?, where are you now?',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: olivia,
+    sender: Youssef,
     time: '4:30 PM',
     text: 'Hey, how\'s it going?',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: john,
+    sender: Ahmed,
     time: '3:30 PM',
     text: 'Hey, how\'re you?',
     isLiked: false,
     unread: false,
   ),
   Message(
-    sender: sophia,
+    sender: Abdo,
     time: '2:30 PM',
     text: 'Hey, how\'s it going?',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: steven,
+    sender: Joe,
     time: '1:30 PM',
     text: 'Hey, how\'s it going?',
     isLiked: false,
     unread: false,
   ),
   Message(
-    sender: sam,
+    sender: Ahmed,
     time: '12:30 PM',
     text: 'Hey, how\'s it going?',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: greg,
+    sender: Abdulrahman,
     time: '11:30 PM',
     text: 'Hey, how\'s it going?',
     isLiked: false,
@@ -121,7 +123,7 @@ List<Message> chats = [
 ];
 List<Message> messages = [
   Message(
-    sender: james,
+    sender: Shorbagy,
     time: '5:30 PM',
     text: 'Hey, how\'s it going?, where are you now?',
     isLiked: true,
@@ -135,14 +137,14 @@ List<Message> messages = [
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: Youssef,
     time: '3:45 PM',
     text: 'How\'s the dog?',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: Abdulrahman,
     time: '3:15 PM',
     text: 'All the food',
     isLiked: true,
@@ -156,7 +158,7 @@ List<Message> messages = [
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: Ahmed,
     time: '2:00 PM',
     text: 'I ate so much food today.',
     isLiked: false,

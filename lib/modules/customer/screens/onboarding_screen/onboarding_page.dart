@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/chose_app/chose_app.dart';
 import 'package:login/shared/resources/app_localizations.dart';
+import 'package:login/shared/resources/asset_manager.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../shared/network/local/cache_helper.dart';
@@ -33,17 +34,17 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   List<BoardingModel> boarding =
   [
     BoardingModel(
-      image: 'assets/images/on_boarding_images/onboarding1.png',
+      image: ImageAssets.kOnBoarding1,
       title: 'on_boarding_title1',
       body: 'on_boarding_desc1',
     ),
     BoardingModel(
-      image: 'assets/images/on_boarding_images/onboarding2.png',
+      image: ImageAssets.kOnBoarding2,
       title: 'on_boarding_title2',
       body: 'on_boarding_desc2',
     ),
     BoardingModel(
-      image: 'assets/images/on_boarding_images/onboarding3.png',
+      image: ImageAssets.kOnBoarding3,
       title: 'on_boarding_title3',
       body: 'on_boarding_desc3',
     ),

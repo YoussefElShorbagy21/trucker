@@ -1,3 +1,5 @@
+import '../shared/resources/asset_manager.dart';
+
 class CategoryModel {
   String? image;
   String? category;
@@ -16,3 +18,58 @@ class CategoryModel {
     return data;
   }
 }
+
+final categoryList = [
+  CategoryModel(
+    image: ImageAssets.kTruck,
+    category: "Truck",
+  ),
+  CategoryModel(
+    image: ImageAssets.kLoader,
+    category: "Loader",
+  ),
+  CategoryModel(
+    image: ImageAssets.kDigger,
+    category: "Digger",
+  ),
+  CategoryModel(
+    image: ImageAssets.kCrane,
+    category: "Crane",
+  ),
+  CategoryModel(
+    image: ImageAssets.kCompactor,
+    category: "Compactor",
+  ),
+  CategoryModel(
+    image: ImageAssets.kLoader,
+    category: "Loader",
+  ),
+  CategoryModel(
+    image: ImageAssets.kDigger,
+    category: "Digger",
+  ),
+  CategoryModel(
+    image: ImageAssets.kLoader,
+    category: "Loader",
+  ),
+  CategoryModel(
+    image: ImageAssets.kLoader,
+    category: "Loader",
+  ),
+  CategoryModel(
+    image: ImageAssets.kDigger,
+    category: "Digger",
+  ),
+  CategoryModel(
+    image: ImageAssets.kCrane,
+    category: "Crane",
+  ),
+  CategoryModel(
+    image: ImageAssets.kCrane,
+    category: "Crane",
+  ),
+  CategoryModel(
+    image: ImageAssets.kTruck,
+    category: "Truck",
+  ),
+];

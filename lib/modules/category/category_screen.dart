@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 
+import '../../models/category_model.dart';
 import '../../shared/resources/cateogry_contants.dart';
 import '../../shared/resources/color_manager.dart';
 import 'widgets/category_items.dart';
@@ -46,7 +47,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             radius: kLessPadding,
             width: MediaQuery.of(context).size.width,
             color: ColorManager.cWhite,
-            title: categoryList[index].category!.tr(context) ??'Truck',
+            title: categoryList[index].category!.tr(context),
             titleSize: 20,
             image: categoryList[index].image ?? 'assets/images/category_img/truck.jpg',
           );
