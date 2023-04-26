@@ -26,6 +26,11 @@ class ColorManager {
   static Color cDark = const Color(0xFF303030);
   static Color cLight = const Color(0xFF808080);
   static Color cTransparent = Colors.transparent;
+//=========================================================
+  //theme
+static Color kGray = const Color.fromRGBO(247, 247, 247,1);
+static Color kGold = const Color.fromRGBO(255, 188, 0,1);
+
 
 /*  //new color
   static Color darkPrimary = const Color(0xffd17d11);

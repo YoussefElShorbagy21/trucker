@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:login/modules/customer/screens/home/cubit/cubit.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 
-import '../../models/categeiromodel.dart';
-import '../../modules/customer/screens/search/search_screen.dart';
 import '../../shared/resources/color_manager.dart';
 import 'cubit/cubit.dart';
 import 'cubit/state.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class HomeLayout extends StatelessWidget {
@@ -38,7 +36,7 @@ class HomeLayout extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 22,
                 ),
-                 const Text('California, Us',
+                 const Text('Cairo, EG',
                   style:TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -68,13 +66,13 @@ class HomeLayout extends StatelessWidget {
                 activeColor: ColorManager.black,
               ),
               BottomBarItem(
-                icon: const Icon(Icons.category),
+                icon: const Icon(FontAwesomeIcons.truckMoving),
                 title: Text('Category'.tr(context)),
                 activeColor: ColorManager.black,
                ),
               BottomBarItem(
                 icon: const Icon(Icons.network_check_outlined),
-                title: Text('Communication'.tr(context)),
+                title: Text('Chat'.tr(context)),
                 activeColor: ColorManager.black,
               ),
               BottomBarItem(
