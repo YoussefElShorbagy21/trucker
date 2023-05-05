@@ -50,6 +50,7 @@
   "home": "الرئيسية",
   "Favorite": "المفضله",
   "Communication": "التواصل",
+  "Chat": "التواصل",
   "Profile": "الصفحه الشخصيه",
   "Lang": "الرجاء اختيار لغة التطبيق",
   "Hello_app":"تسجيل ك...",
@@ -162,7 +163,7 @@
   "Loader": "اللودر",
   "Digger": "حفار",
   "Crane": "رافعة",
-  "Compactor": "ضاغط",
+  "Compactor": "ضاغط"
 
 
   "Aerial Lifts": "مصاعد هوائية",
