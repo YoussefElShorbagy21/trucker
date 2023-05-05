@@ -26,7 +26,7 @@ class PostEquipment{
   factory PostEquipment.fromJson(Map<String,dynamic> json) =>
       PostEquipment(
           status: json['status'],
-        equipment : Equipment.fromJson(json['newEquipment']),
+          equipment : Equipment.fromJson(json['newEquipment']),
       );
 }
 

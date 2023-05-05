@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
-import 'package:login/modules/customer/screens/home/categoryScreen.dart';
+import 'package:login/layout/homeLayout/cubit/cubit.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import 'package:favorite_button/favorite_button.dart';
 import '../../../../shared/resources/color_manager.dart';
@@ -14,30 +14,10 @@ import '../search/search_screen.dart';
 import 'AllviewEquipmentsScreen.dart';
 import 'cubit/cubit.dart';
 import 'cubit/state.dart';
+import 'package:skeletons/skeletons.dart';
 
 class HomeScreen extends StatelessWidget {
    HomeScreen({Key? key}) : super(key: key);
-  List<String> title = [
-    "Aerial Lifts",
-    "Air Compressors",
-    "Cabin",
-    "Cranes",
-    "Dump truck",
-    "Earth Moving",
-    "Material Handling",
-    "Motors"
-  ];
-
-   List<String> image = [
-     "https://e7.pngegg.com/pngimages/746/473/png-clipart-aerial-work-platform-genie-elevator-architectural-engineering-business-business-blue-angle.png",
-     "https://www.pngfind.com/pngs/m/428-4280926_photo-compressor-png-air-compressor-png-transparent-png.png",
-     "https://www.clipartmax.com/png/middle/172-1723861_cabin-insurance-wooden-house-transparent-background.png",
-     "https://www.pngkey.com/png/full/72-726232_crawler-crane.png",
-     "https://p7.hiclipart.com/preview/923/331/796/dump-truck.jpg",
-     "https://www.pngkit.com/png/detail/150-1505520_bulldozer1-earth-moving-equipment.png",
-     "https://p7.hiclipart.com/preview/544/342/492/forklift-linde-material-handling-clip-art-forklift-truck.jpg",
-     "https://www.seekpng.com/png/detail/256-2566528_electric-motor-png-transparent-image-electric-motor-no.png"
-   ];
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +36,7 @@ class HomeScreen extends StatelessWidget {
               backgroundColor: ColorManager.white1,
               onRefresh: cubit.onRefresh,
               child: SingleChildScrollView(
+                physics: const ScrollPhysics(),
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: Column(
@@ -105,12 +86,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text('trend-title'.tr(context),
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),),
-                    listBuilderCategory(context),
                     Row(
                       children: [
                         Text('home-title'.tr(context),
@@ -136,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            floatingActionButton: FloatingActionButton(
+            floatingActionButton: HomeCubit.get(context).userData.role != "service_provider"  ? null : FloatingActionButton(
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => NewPostScreen()));
               },
@@ -144,7 +119,7 @@ class HomeScreen extends StatelessWidget {
               elevation: 5,
               backgroundColor: ColorManager.white,
               child:  Icon(Icons.add,size: 30,color: ColorManager.black,),
-            ),
+            )  ,
           ),
           fallbackBuilder: (context) => const Center(child: CircularProgressIndicator()) ,
         );
@@ -154,9 +129,9 @@ class HomeScreen extends StatelessWidget {
   }
 
    Widget listBuilderOrder(GetEquipment data , BuildContext context) => SizedBox(
-     width: double.infinity,
-     height: MediaQuery.of(context).size.height / 2,
+     height: MediaQuery.of(context).size.height / 1,
      child: ListView.builder(
+       physics: const NeverScrollableScrollPhysics(),
        itemBuilder: (context,index) {
          int reverse = data.equipment.length - 1 - index;
          return GestureDetector(
@@ -308,46 +283,4 @@ class HomeScreen extends StatelessWidget {
      ),
    );
 
-   Widget listBuilderCategory(BuildContext context) => SizedBox(
-     height: MediaQuery.of(context).size.height / 5,
-     width: double.infinity,
-     child: ListView.builder(
-       scrollDirection: Axis.horizontal,
-      itemBuilder: (context,index) {
-        return GestureDetector(
-          onTap: (){
-            print(title[index]);
-            Navigator.push(context, MaterialPageRoute(builder: (_) => CategoryScreen(title[index])));
-          },
-            child: buildCategory(context,title[index],image[index]));
-      },
-      itemCount: 8,
-  ),
-   ) ;
-
-   Widget buildCategory(BuildContext context,String text,String img) =>  Padding(
-     padding: const EdgeInsets.all(8.0),
-     child: Column(
-       children:  [
-         Container(
-           width: MediaQuery.of(context).size.width / 4,
-           height: MediaQuery.of(context).size.width / 4,
-           decoration: BoxDecoration(
-             borderRadius: BorderRadius.circular(15.0),
-             image:   DecorationImage(
-               image: NetworkImage(img),
-               fit: BoxFit.cover,
-             ),
-           ),
-
-         ),
-         Text(text,style: TextStyle(
-           fontWeight: FontWeight.bold,
-           color: ColorManager.gery,
-           fontSize: 15,
-         ),),
-       ],
-
-     ),
-   );
 }

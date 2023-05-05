@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:login/modules/customer/screens/chose_app/chose_app.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -73,7 +72,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
              onPressed: (){
                CacheHelper.saveData(key:'onBoarding', value: true,).then((value) {
                  Navigator.of(context).push(MaterialPageRoute(
-                     builder: (BuildContext context) =>  const ChoseApp()));
+                     builder: (BuildContext context) =>   LoginScreen()));
                });
 
              },
@@ -134,7 +133,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   if(isLast)
                   {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) =>  const ChoseApp()));
+                        builder: (BuildContext context) =>   LoginScreen()));
                     submit(context);
                   }
                   else {

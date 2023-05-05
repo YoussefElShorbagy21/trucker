@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../layout/homeLayout/cubit/state.dart';
+import '../../../../shared/resources/color_manager.dart';
 import 'setting_widget/setting_page.dart';
 import 'setting_widget/setting_widget.dart';
 
@@ -17,8 +18,8 @@ class ProfileScreen extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     return BlocConsumer<HomeCubit,HomeStates>(
         listener:(context,state) {},
-  builder: (context, state) {
-    return Stack(
+        builder: (context, state) {
+         return Stack(
       fit: StackFit.expand,
       children: [
         Container(
@@ -99,9 +100,10 @@ class ProfileScreen extends StatelessWidget {
                                     Text(
                                       HomeCubit.get(context).userData.email, //name of user
                                       style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
                                         color: Color.fromRGBO(39, 105, 171, 1),
                                         fontFamily: 'Nunito',
-                                        fontSize: 25,
+                                        fontSize: 20,
                                       ),
                                     ),
                                     Row(
@@ -192,8 +194,16 @@ class ProfileScreen extends StatelessWidget {
                               right: 0,
                               child: Center(
                                 child: CircleAvatar(
-                                  radius:80,
-                                  backgroundImage: NetworkImage(HomeCubit.get(context).userData.avatar),
+                                  radius: 80,
+                                  backgroundImage: HomeCubit.get(context).userData.avatar.isNotEmpty ? NetworkImage(HomeCubit.get(context).userData.avatar) :
+                                  const NetworkImage('https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',),
+                                  child: HomeCubit.get(context).userData.avatar.isNotEmpty ? null : Text(
+                                    HomeCubit.get(context).userData.name[0].toUpperCase(),
+                                    style: TextStyle(
+                                      fontSize: 80,
+                                      color: ColorManager.black,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

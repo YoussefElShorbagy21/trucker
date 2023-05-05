@@ -35,7 +35,7 @@ class DioHelper
     required String url,
      Map<String,dynamic>? query ,
     required dynamic data ,
-    String tokenVerify = '',//Map<String,dynamic>
+    String tokenVerify = ''
   }) async
   {
     dio.options.headers = {

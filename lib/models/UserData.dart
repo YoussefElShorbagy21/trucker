@@ -4,6 +4,7 @@ class UserData{
   String phone;
   bool verified;
   String avatar ;
+  String role;
 
   UserData({
     required this.name,
@@ -11,6 +12,7 @@ class UserData{
     required this.phone,
     required this.verified,
     required this.avatar,
+    required this.role
   });
 
   factory UserData.fromJson(Map<String,dynamic> json) =>
@@ -19,6 +21,7 @@ class UserData{
         email: json['user']['email'],
         phone:json['user']['phone'] ,
         verified: json['user']['verified'],
-        avatar: json['user']['avatar']
+          role: json['user']['role'],
+        avatar: json['user']['avatar'] ?? ''
       );
 }

@@ -52,7 +52,7 @@
   "Communication": "التواصل",
   "Profile": "الصفحه الشخصيه",
   "Lang": "الرجاء اختيار لغة التطبيق",
-  "Hello_app":"مرحبا بك في تطبيقنا الرجاء اختيار الاتي",
+  "Hello_app":"تسجيل ك...",
   "Customer":"عميل",
   "service_provider":"مقدم خدمه",
   "phone":"رقم الهاتف",
@@ -89,7 +89,7 @@
   "search-title": "تجد لك سائق الشاحنة",
   "trend-title": "فئة",
   "home-title": "معدات جديدة",
-  "rent-title": "إيجار جديد",
+  "rent-title": "أضف إلى السلة",
 
 
 
@@ -165,6 +165,15 @@
   "Compactor": "ضاغط",
 
 
+  "Aerial Lifts": "مصاعد هوائية",
+  "Air Compressors": "ضاغطات للهواء",
+  "Cabin": "الطائرة",
+  "Cranes": "رافعات",
+  "Dump truck": "شاحنة قلابة",
+  "Earth Moving": "تتحرك الأرض",
+  "Material Handling": "التعامل مع المواد",
+  "Motors": "المحركات",
 
+  "confirm": "تأكيد"
 
 }

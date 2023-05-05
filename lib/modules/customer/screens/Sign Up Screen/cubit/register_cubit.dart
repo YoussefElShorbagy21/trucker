@@ -22,6 +22,7 @@ class RegisterCubit extends Cubit<RegisterState>
     required String password,
     required String confirmPassword ,
     required String phone ,
+    required String role,
   })
   {
     emit(RegisterLoadingState());
@@ -34,6 +35,7 @@ class RegisterCubit extends Cubit<RegisterState>
         'password': password,
         'passwordConfirm' : confirmPassword,
         'phone' : phone,
+        'role' : role,
       },
     ).then((value)
     {
@@ -41,10 +43,10 @@ class RegisterCubit extends Cubit<RegisterState>
         print(value.data);
       }
       model = SignupModel.fromJson(value.data) ;
-      CacheHelper.saveData(key: 'TokenId', value: model!.token);
-      emit(RegisterSuccessState(model!));
-      print('userSignup $token');
-      print('RegisterSuccessState ${model!.token}');
+      CacheHelper.saveData(key: 'TokenId', value: model.token);
+      emit(RegisterSuccessState(model));
+      print('userSignup inside Cubit $token');
+      print('RegisterSuccessState inside Cubit ${model.token}');
     }).catchError((error)
     {
       if (kDebugMode) {
@@ -89,4 +91,22 @@ class RegisterCubit extends Cubit<RegisterState>
       emit(ErrorUpdatePassword());
     });
   }
+
+  void  verifyEmail(String otpCode,String  tokenVerify){
+    emit(LoadingVerifyEmail());
+    DioHelper.postData(url: 'users/verfiy',
+        tokenVerify: tokenVerify,
+        data: {
+          'otpCode':otpCode,
+        }).then((value) => {
+      print(value.data),
+      print(token),
+      print(tokenVerify),
+      emit(SuccessVerifyEmail())
+    }).catchError((onError){
+      print(onError.toString());
+      emit(ErrorVerifyEmail());
+    });
+  }
+
 }

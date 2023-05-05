@@ -3,6 +3,7 @@ import 'package:login/shared/resources/app_localizations.dart';
 
 import '../../shared/resources/cateogry_contants.dart';
 import '../../shared/resources/color_manager.dart';
+import '../customer/screens/home/categoryScreen.dart';
 import 'widgets/category_items.dart';
 import 'widgets/category_view.dart';
 import 'widgets/custom_app_bar.dart';
@@ -41,14 +42,20 @@ class _CategoryScreenState extends State<CategoryScreen> {
         ratio: isList ? 2.6 : 1.3,
         direction: Axis.vertical,
         itemBuilder: (context, index) {
-          return CategoryItems(
-            height: 150.0,
-            radius: kLessPadding,
-            width: MediaQuery.of(context).size.width,
-            color: ColorManager.cWhite,
-            title: categoryList[index].category!.tr(context) ??'Truck',
-            titleSize: 20,
-            image: categoryList[index].image ?? 'assets/images/category_img/truck.jpg',
+          return GestureDetector(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (_) =>  CategoryScreens(categoryList[index].category.toString())));
+              print(categoryList[index].category);
+            },
+            child: CategoryItems(
+              height: 150.0,
+              radius: kLessPadding,
+              width: MediaQuery.of(context).size.width,
+              color: ColorManager.cWhite,
+              title: categoryList[index].category!.tr(context),
+              titleSize: 20,
+              image: categoryList[index].image ?? 'assets/images/category_img/truck.jpg',
+            ),
           );
         },
       ),

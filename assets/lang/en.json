@@ -14,7 +14,7 @@
   "passwordError":"please enter your password",
   "TitleRegister":"Register to get started!",
   "subTitleRegister":"Create your new account",
-  "Hello_app":"Welcome to our application, please choose the following",
+  "Hello_app":"Register As....",
   "Customer":"Customer",
   "service_provider":"Service Provider",
   "phone":"Phone",
@@ -88,7 +88,7 @@
   "search-title": "Find you trucker",
   "trend-title": "Category",
   "home-title": "New Equipments",
-  "rent-title": "Rent New",
+  "rent-title": "Add to Cart",
 
 
   "My\nProfile": "My\nProfile",
@@ -160,8 +160,16 @@
   "Loader": "Loader",
   "Digger": "Digger",
   "Crane": "Crane",
-  "Compactor": "Compactor"
+  "Compactor": "Compactor",
 
+  "Aerial Lifts": "Aerial Lifts",
+  "Air Compressors": "Air Compressors",
+  "Cabin": "Cabin",
+  "Cranes": "Cranes",
+  "Dump truck": "Dump truck",
+  "Earth Moving": "Earth Moving",
+  "Material Handling": "Material Handling",
+  "Motors": "Motors",
 
-
+  "confirm": "Confirm"
 }

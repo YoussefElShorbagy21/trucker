@@ -3,12 +3,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/modules/customer/screens/home/cubit/state.dart';
 
 import '../../../../layout/homeLayout/cubit/cubit.dart';
+import '../../../../shared/components/input_field.dart';
 import '../../../../shared/resources/color_manager.dart';
-import '../../../../shared/resources/select_photo_options_screen.dart';
+import '../detalis gategory/changephoto.dart';
 import '../home/cubit/cubit.dart';
 class EditPost extends StatelessWidget {
   String id ;
    EditPost({required this.id, Key? key}) : super(key: key);
+  List<String> categoryList = [
+    'Aerial Lifts',
+    'Air Compressors',
+    'Cabin','Cranes','Dump truck',
+    'Earth Moving','Material Handling','Motors'];
+  List<String> governmentList = [
+    "الإسكندرية","الإسماعيلية",
+    "كفر الشيخ","أسوان",
+    "أسيوط", "الأقصر",
+    "الوادي الجديد","شمال سيناء",
+    "البحيرة","بني سويف","بورسعيد","البحر الأحمر",
+    "الجيزة","الدقهلية","جنوب سيناء","دمياط",
+    "سوهاج","السويس","الشرقية","الغربية",
+    "الفيوم","القاهرة","القليوبية",
+    "قنا","مطروح","المنوفية","المنيا"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +35,6 @@ class EditPost extends StatelessWidget {
       listener: (context, state) {},
       builder: (context,state)
       {
-        var cubit = HomeScreenCubit.get(context).getDetailsEquipment.equipment;
-        HomeCubit.get(context).textController.text = cubit.title;
-        HomeCubit.get(context).descriptionController.text = cubit.description;
-        HomeCubit.get(context).priceController.text = cubit.price.toString();
-        HomeCubit.get(context).categoryController.text = cubit.category;
-        HomeCubit.get(context).governmentController.text = cubit.government;
-        print(cubit.title);
-        print(HomeCubit.get(context).textController.text);
         return Scaffold(
           appBar: AppBar(
             backgroundColor: ColorManager.white,
@@ -37,13 +46,14 @@ class EditPost extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: OutlinedButton(
                   onPressed: () {
-                    HomeScreenCubit.get(context).updatePostData(title:  HomeCubit.get(context).textController.text,
-                        description: HomeCubit.get(context).descriptionController.text,
-                        photo: HomeCubit.get(context).postImage,
-                        price: int.parse(HomeCubit.get(context).priceController.text),
-                        category: HomeCubit.get(context).categoryController.text,
-                        government: HomeCubit.get(context).governmentController.text,
+                    HomeScreenCubit.get(context).updatePostData(
+                        title:  HomeScreenCubit.get(context).editTextController.text,
+                        description:  HomeScreenCubit.get(context).editDescriptionController.text,
+                        price: int.parse(HomeScreenCubit.get(context).editPriceController.text),
+                        category:  HomeScreenCubit.get(context).editCategoryController.text,
+                        government:HomeScreenCubit.get(context).editGovernmentController.text,
                         id: id);
+                    Navigator.pop(context);
                   },
                   child:  Text('Update',style: TextStyle(color: ColorManager.black),),
                 ),
@@ -66,31 +76,39 @@ class EditPost extends StatelessWidget {
               child: Column(
                 children:
                 [
-                  Row(
-                    children:
-                    [
-                      CircleAvatar(
-                        radius: 25,
-                        backgroundImage: NetworkImage(HomeCubit.get(context).userData.avatar),
-                      ),
-                      const SizedBox(
-                        width: 15.0,
-                      ),
-                      Expanded(
-                        child: Text(
-                          HomeCubit.get(context).userData.name,
-                          style: const TextStyle(
-                            height:1.4,
+                  Stack(
+                    alignment: AlignmentDirectional.bottomStart,
+                    children: [
+                      Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.0),
+                          image:  DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(HomeScreenCubit.get(context).getDetailsEquipment.equipment.photo),
                           ),
-                        ),
+                        )
+                      ),
+                      Row(
+                        children: [
+                          IconButton(onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (_) =>  ChangePhoto(id: id,)));
+                          }
+                            , icon:
+                            const CircleAvatar(
+                              radius: 25,
+                              backgroundColor: Colors.white,
+                              child: Icon(Icons.change_circle_outlined,
+                                size: 30,
+                                color: Color(0XFF408080),),),),
+                          const Text('Change Image',style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),),
+                        ],
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
+                  const SizedBox(height: 20.0,),
                   TextFormField(
-                    controller: HomeCubit.get(context).textController,
+                    controller: HomeScreenCubit.get(context).editTextController,
                     validator: (value){
                       if(value!.isEmpty)
                       {
@@ -98,12 +116,23 @@ class EditPost extends StatelessWidget {
                       }
                       return null;
                     },
-                    decoration:  const InputDecoration(
+                    decoration:   InputDecoration(
+                      hoverColor: const Color(0XFF408080),
+                      prefixIcon: const Icon(Icons.title),
+                      counterText: '${HomeScreenCubit.get(context).editTextController.text.length} / 40',
                       hintText: 'title',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15)
+                      ),
                       labelText: 'Title',
                     ),
                   ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
                   TextFormField(
+                    controller: HomeScreenCubit.get(context).editPriceController,
+                    keyboardType: TextInputType.number,
                     validator: (value){
                       if(value!.isEmpty)
                       {
@@ -111,172 +140,93 @@ class EditPost extends StatelessWidget {
                       }
                       return null;
                     },
-                    controller:  HomeCubit.get(context).descriptionController,
-                    decoration:  const InputDecoration(
+                    decoration:   InputDecoration(
+                      hoverColor: const Color(0XFF408080),
+                      prefixIcon: const Icon(Icons.price_change),
+                      hintText: 'Price',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15)
+                      ),
+                      labelText: 'Price',
+                    ),
+                  ),
+                  InputField(
+                    title: 'Category',
+                    note: HomeScreenCubit.get(context).editCategoryController.text ,
+                    widget: Row(
+                      children: [
+                        DropdownButton(
+                          dropdownColor: ColorManager.black,
+                          borderRadius: BorderRadius.circular(10),
+                          items: categoryList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                          iconSize: 32,
+                          elevation: 4,
+                          underline:  Container(height: 0,),
+                          onChanged: (String? value)
+                          {
+                            HomeCubit.get(context).setCategory(value!);
+                          },
+                        ),
+                        const SizedBox(width: 6,),
+                      ],
+                    ),onTap: () {},
+                  ),
+                  InputField(
+                    title: 'Government',
+                    note: HomeScreenCubit.get(context).editGovernmentController.text ,
+                    widget: Row(
+                      children: [
+                        DropdownButton(
+                          dropdownColor: ColorManager.black,
+                          borderRadius: BorderRadius.circular(10),
+                          items: governmentList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                          iconSize: 32,
+                          elevation: 4,
+                          underline:  Container(height: 0,),
+                          onChanged: (String? value)
+                          {
+                            HomeCubit.get(context).setGovernment(value!);
+                          },
+                        ),
+                        const SizedBox(width: 6,),
+                      ],
+                    ),onTap: () {},
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  TextFormField(
+                    maxLines: 3,
+                    validator: (value){
+                      if(value!.isEmpty)
+                      {
+                        return 'please enter value';
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.multiline,
+                    controller:  HomeScreenCubit.get(context).editDescriptionController,
+                    decoration:   InputDecoration(
+                      hoverColor: const Color(0XFF408080),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 45),
+                      hintStyle: const TextStyle(
+                        height: 3,
+                      ),
+                      prefixIcon: const Icon(Icons.description),
                       hintText: 'Description',
+                      counterText: '${HomeScreenCubit.get(context).editDescriptionController.text.length} / 140',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       labelText: 'Description',
                     ),
                   ),
-                  TextFormField(
-                    validator: (value){
-                      if(value!.isEmpty)
-                      {
-                        return 'please enter value';
-                      }
-                      return null;
-                    },
-                    controller:  HomeCubit.get(context).priceController,
-                    decoration:  const InputDecoration(
-                      hintText: 'price',
-                      labelText: 'price',
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  DropdownMenu(
-                   /*   onSelected: (selected){
-                        HomeCubit.get(context).setCategory(selected!);
-                      },*/
-                      label: const Text('category'),
-                      initialSelection: 'category',
-                      leadingIcon:const Icon(Icons.category),
-                      menuStyle: MenuStyle(
-                        surfaceTintColor: MaterialStateProperty.all(ColorManager.black),
-                        elevation: const MaterialStatePropertyAll(5),
-                        maximumSize: MaterialStateProperty.all(Size.fromHeight(MediaQuery.of(context).size.height/3)),
-                        backgroundColor: MaterialStatePropertyAll(ColorManager.white1),
-                        shape: MaterialStateProperty.all(const BeveledRectangleBorder()),
-                      ),
-                      dropdownMenuEntries:const [
-                        DropdownMenuEntry(value: 'Aerial Lifts', label: 'Aerial Lifts'),
-                        DropdownMenuEntry(value: 'Air Compressors', label: 'Air Compressors'),
-                        DropdownMenuEntry(value: 'Cabin', label: 'Cabin'),
-                        DropdownMenuEntry(value: 'Cranes', label: 'Cranes'),
-                        DropdownMenuEntry(value: 'Dump truck', label: 'Dump truck'),
-                        DropdownMenuEntry(value: 'Earth Moving', label: 'Earth Moving'),
-                        DropdownMenuEntry(value: 'Material Handling', label: 'Material Handling'),
-                        DropdownMenuEntry(value: 'Motors', label: 'Motors'),
-                      ]),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  DropdownMenu(
-                /*      onSelected: (selected){
-                        HomeCubit.get(context).setGovernment(selected!);
-                      },*/
-                      label: const Text('government', style:  TextStyle(fontSize: 10),),
-                      initialSelection: 'government',
-                      leadingIcon:const Icon(Icons.podcasts_sharp),
-                      menuStyle: MenuStyle(
-                        surfaceTintColor: MaterialStateProperty.all(ColorManager.black),
-                        elevation: const MaterialStatePropertyAll(5),
-                        maximumSize: MaterialStateProperty.all(Size.fromHeight(MediaQuery.of(context).size.height/5)),
-                        backgroundColor: MaterialStatePropertyAll(ColorManager.white1),
-                        shape: MaterialStateProperty.all(const BeveledRectangleBorder()),
-                      ),
-                      dropdownMenuEntries:const [
-                        DropdownMenuEntry(value: "الإسكندرية",
-                          label: "الإسكندرية",),
-                        DropdownMenuEntry(    value: "الإسماعيلية",
-                          label: "الإسماعيلية",),
-                        DropdownMenuEntry(    value: "كفر الشيخ",
-                          label: "كفر الشيخ",),
-                        DropdownMenuEntry(    value: "أسوان",
-                          label: "أسوان",),
-                        DropdownMenuEntry(    value: "أسيوط",
-                          label: "أسيوط",),
-                        DropdownMenuEntry(    value: "الأقصر",
-                          label: "الأقصر",),
-                        DropdownMenuEntry(value : "الوادي الجديد",
-                          label: "الوادي الجديد",),
-                        DropdownMenuEntry( value: "شمال سيناء",
-                          label: "شمال سيناء",),
-                        DropdownMenuEntry( value: "البحيرة",
-                          label: "البحيرة",),
-                        DropdownMenuEntry(value: "بني سويف",
-                          label: "بني سويف",),
-                        DropdownMenuEntry( value: "بورسعيد",
-                          label: "بورسعيد",),
-                        DropdownMenuEntry(   value: "البحر الأحمر",
-                          label: "البحر الأحمر",),
-                        DropdownMenuEntry(  value: "الجيزة",
-                          label: "الجيزة",),
-                        DropdownMenuEntry(      value: "الدقهلية",
-                          label: "الدقهلية",),
-                        DropdownMenuEntry( value: "جنوب سيناء",
-                          label: "جنوب سيناء",),
-                        DropdownMenuEntry(  value: "دمياط",
-                          label: "دمياط",),
-                        DropdownMenuEntry(     value: "سوهاج",
-                          label: "سوهاج",),
-                        DropdownMenuEntry( value: "السويس",
-                          label: "السويس",),
-                        DropdownMenuEntry( value: "الشرقية",
-                          label: "الشرقية",),
-                        DropdownMenuEntry( value: "الغربية",
-                          label: "الغربية",),
-                        DropdownMenuEntry(    value: "الفيوم",
-                          label: "الفيوم",),
-                        DropdownMenuEntry(  value: "القاهرة",
-                          label: "القاهرة",),
-                        DropdownMenuEntry(  value: "القليوبية",
-                          label: "القليوبية",),
-                        DropdownMenuEntry(    value: "قنا",
-                          label: "قنا",),
-                        DropdownMenuEntry(   value: "مطروح",
-                          label: "مطروح",),
-                        DropdownMenuEntry(     value: "المنيا",
-                          label: "المنيا",),
-                        DropdownMenuEntry(     value: "المنوفية",
-                          label: "المنوفية",),
-                      ]),
-
-                  if(HomeCubit.get(context).postImage != null)
-                    Stack(
-                      alignment: AlignmentDirectional.topEnd,
-                      children: [
-                        Container(
-                          height: 140,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4.0),
-                            image:  DecorationImage(
-                              fit: BoxFit.cover,
-                              image: FileImage(HomeCubit.get(context).postImage!),
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            HomeCubit.get(context).removePostImage() ;
-                          },
-                          icon: const CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Colors.white,
-                              child: Icon(Icons.close,
-                                size: 20,
-                                color: Colors.blue,)),
-                        ),
-                      ],
-                    ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 8,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      _showSelectPhotoOptions(context);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:
-                      [
-                        Icon(Icons.image,color: ColorManager.gery,),
-                        const SizedBox(width: 8,),
-                        Text('Add photo',style: TextStyle(color: ColorManager.gery),),
-                      ],
-                    ),
-                  ),
-
                 ],
               ),
             ),
@@ -288,27 +238,3 @@ class EditPost extends StatelessWidget {
   }
 }
 
-void _showSelectPhotoOptions(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(
-        top: Radius.circular(25.0),
-      ),
-    ),
-    builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.28,
-        maxChildSize: 0.4,
-        minChildSize: 0.28,
-        expand: false,
-        builder: (context, scrollController) {
-          return SingleChildScrollView(
-            controller: scrollController,
-            child:  SelectPhotoOptionsScreen(
-              onTap: HomeCubit.get(context).getPostImage,
-            ),
-          );
-        }),
-  );
-}

@@ -21,3 +21,10 @@ class RegisterChangePasswordVisibilityState extends RegisterState {}
 class LoadingUpdatePassword extends RegisterState {}
 class SuccessUpdatePassword extends RegisterState {}
 class ErrorUpdatePassword extends RegisterState {}
+
+class LoadingVerifyEmail extends RegisterState {}
+class SuccessVerifyEmail extends RegisterState {}
+class ErrorVerifyEmail extends RegisterState {}
+
+
+

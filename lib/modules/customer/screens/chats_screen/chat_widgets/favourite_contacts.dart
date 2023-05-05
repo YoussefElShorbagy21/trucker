@@ -41,7 +41,7 @@ class FavouriteContacts extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             height: heightScreen / 6,//120
             // color: Colors.blue,
             child: ListView.builder(

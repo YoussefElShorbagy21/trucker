@@ -13,54 +13,34 @@ const kAppBarHeight = 56.0;
 final categoryList = [
   CategoryModel(
     image: "assets/images/category_img/truck.jpg",
-    category: "Truck",
+    category: "Aerial Lifts",
   ),
   CategoryModel(
     image: "assets/images/category_img/loader.jpeg",
-    category: "Loader",
+    category: "Air Compressors",
   ),
   CategoryModel(
     image: "assets/images/category_img/digger.jpeg",
-    category: "Digger",
+    category: "Cabin",
   ),
   CategoryModel(
     image: "assets/images/category_img/Crane.jpg",
-    category: "Crane",
+    category: "Cranes",
   ),
   CategoryModel(
     image: "assets/images/category_img/Compactor.jpeg",
-    category: "Compactor",
+    category: "Dump truck",
   ),
   CategoryModel(
     image: "assets/images/category_img/loader.jpeg",
-    category: "Loader",
+    category: "Earth Moving",
   ),
   CategoryModel(
     image: "assets/images/category_img/digger.jpeg",
-    category: "Digger",
+    category: "Material Handling",
   ),
   CategoryModel(
     image: "assets/images/category_img/loader.jpeg",
-    category: "Loader",
-  ),
-  CategoryModel(
-    image: "assets/images/category_img/loader.jpeg",
-    category: "Loader",
-  ),
-  CategoryModel(
-    image: "assets/images/category_img/digger.jpeg",
-    category: "Digger",
-  ),
-  CategoryModel(
-    image: "assets/images/category_img/Crane.jpg",
-    category: "Crane",
-  ),
-  CategoryModel(
-    image: "assets/images/category_img/Crane.jpg",
-    category: "Crane",
-  ),
-  CategoryModel(
-    image: "assets/images/category_img/truck.jpg",
-    category: "Truck",
+    category: "Motors",
   ),
 ];

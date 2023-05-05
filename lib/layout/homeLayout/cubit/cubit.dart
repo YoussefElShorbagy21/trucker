@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/models/UserData.dart';
 import 'package:login/models/categeiromodel.dart';
@@ -12,7 +12,6 @@ import 'package:login/shared/network/remote/dio_helper.dart';
 
 
 import '../../../modules/customer/screens/chats_screen/chat_home.dart';
-import '../../../modules/customer/screens/favorite/favorite.dart';
 import '../../../modules/customer/screens/home/home.dart';
 import '../../../modules/customer/screens/profile/profile_screen.dart';
 import '../../../shared/components/constants.dart';
@@ -129,7 +128,7 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
 
-  UserData userData  = UserData(name: 'newName', email: '',verified: false, avatar: '', phone: '');
+  UserData userData  = UserData(name: 'newName', email: '',verified: false, avatar: '', phone: '', role: '');
 
    void getUserData(){
     emit(LoadingGetUserData());
@@ -150,20 +149,7 @@ class HomeCubit extends Cubit<HomeStates>{
     }
     );}
 
-  void  verifyEmail(String otpCode ,String  tokenVerify){
-    emit(LoadingVerifyEmail());
-    DioHelper.postData(url: 'users/verfiy',
-        tokenVerify: tokenVerify,
-        data: {
-      'otpCode':otpCode,
-    }).then((value) => {
-      print(value.data),
-      print(token),
-      emit(SuccessVerifyEmail())
-    }).catchError((onError){
-      print(onError.toString());
-    });
-   }
+
 
 
   //update Data User
@@ -226,33 +212,31 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
 
-  //update Data User
-
-
   // post data
   var textController = TextEditingController();
   var descriptionController = TextEditingController();
   var priceController = TextEditingController();
-  var categoryController = TextEditingController();
-  var governmentController = TextEditingController();
 
-/*  void setCategory(String selected) {
-    categoryController = selected ;
+
+  String categoryControllerT = 'Category';
+  String governmentControllerT  = 'Government';
+  void setCategory(String selected) {
+    categoryControllerT = selected ;
     emit(HomeSetCategory());
   }
 
   void setGovernment(String selected) {
-    governmentController = selected ;
+    governmentControllerT = selected ;
     emit(HomeSetGovernment());
-  }*/
+  }
 
   void delayFunction(int time) {
     Future.delayed(Duration(seconds: time),(){
       print(time);
-     textController.text = '';
+      textController.text = '';
       descriptionController.text = '';
-      categoryController.text = '';
-      governmentController.text = '';
+      categoryControllerT = '';
+      governmentControllerT = '';
       priceController.text = '';
       postImage = null;
     });

@@ -10,10 +10,10 @@ import '../detalis gategory/details_category_screen.dart';
 import 'cubit/cubit.dart';
 import 'cubit/state.dart';
 
-class CategoryScreen extends StatelessWidget {
+class CategoryScreens extends StatelessWidget {
   String title ;
 
-  CategoryScreen(this.title,{super.key});
+  CategoryScreens(this.title,{super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +25,10 @@ class CategoryScreen extends StatelessWidget {
             var cubit = HomeScreenCubit.get(context);
             return Conditional.single(
               context: context,
-              conditionBuilder: (context) => HomeScreenCubit.get(context).homeModel1.equipment.isNotEmpty ,
+              conditionBuilder: (context) => HomeScreenCubit.get(context).homeModel.equipment.isNotEmpty ,
               widgetBuilder: (context) => Scaffold(
                 appBar: AppBar(
-                  title: Text(cubit.homeModel1.equipment[0].category),
+                  title: Text(cubit.homeModel.equipment[0].category),
                 ),
                 body: RefreshIndicator(
                   onRefresh: cubit.onRefresh,
@@ -38,7 +38,7 @@ class CategoryScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(child: listBuilderOrder(cubit.homeModel1)),
+                          Expanded(child: listBuilderOrder(cubit.homeModel)),
                         ],
                       ),
                     ),

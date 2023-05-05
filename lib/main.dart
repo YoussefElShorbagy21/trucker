@@ -3,7 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:login/layout/homeLayout/cubit/cubit.dart';
 import 'package:login/layout/homeLayout/cubit/state.dart';
 import 'package:login/layout/homeLayout/homelayout.dart';
-import 'package:login/modules/customer/screens/Login%20Screen/cubit/login_cubit.dart';
 import 'package:login/modules/customer/screens/Login%20Screen/loginScreen.dart';
 import 'package:login/shared/bloc_observer.dart';
 import 'package:login/shared/components/constants.dart';
@@ -13,9 +12,8 @@ import 'package:login/shared/resources/app_localizations.dart';
 import 'package:login/shared/resources/color_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'modules/customer/screens/Sign Up Screen/cubit/register_cubit.dart';
 import 'modules/customer/screens/Sign Up Screen/verfiy_screen.dart';
-import 'modules/customer/screens/chose_app/chose_app.dart';
+import 'modules/customer/screens/home/cubit/cubit.dart';
 import 'modules/customer/screens/onboarding_screen/onboarding_page.dart';
 import 'modules/customer/screens/splash_screen/language.dart';
 import 'modules/customer/screens/splash_screen/splash_screen.dart';
@@ -40,24 +38,17 @@ void main() async {
     {
       if(onBoarding != null)
       {
-        if(choseUser != null)
-          {
-            widget=HomeLayout();
-            // if(verify != null) {
-            //   if (uid != null) {
-            //     widget = const HomeLayout();
-            //   }
-            //   else {
-            //     widget = LoginScreen();
-            //   }
-            // }
-            // else {
-            //   widget = VerifyScreen('');
-            // }
-          }
-        else {
-          widget = const ChoseApp();
-        }
+            if(verify != null) {
+              if (uid != null) {
+                widget = const HomeLayout();
+              }
+              else {
+                widget = LoginScreen();
+              }
+            }
+            else {
+              widget = VerifyScreen(token!);
+            }
       }
       else{
         widget = const OnBoardingPage();
@@ -81,6 +72,7 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
             BlocProvider<HomeCubit>(create: (context) => HomeCubit()..getUserData()..getSavedLanguage()),
+            BlocProvider<HomeScreenCubit>(create: (context) => HomeScreenCubit()),
       ],
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {},
