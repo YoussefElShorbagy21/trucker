@@ -74,12 +74,15 @@ class HomeLayout extends StatelessWidget {
                 activeColor: ColorManager.black,
               ),
               BottomBarItem(
-                icon: const Icon(FontAwesomeIcons.truckMoving),
+                icon: const Icon(
+                  Icons.front_loader,
+                  size: 30,
+                ),
                 title: Text('Category'.tr(context)),
                 activeColor: ColorManager.black,
                ),
               BottomBarItem(
-                icon: const Icon(Icons.network_check_outlined),
+                icon: const Icon(FontAwesomeIcons.solidComments),
                 title: Text('Chat'.tr(context)),
                 activeColor: ColorManager.black,
               ),

@@ -43,12 +43,14 @@ class _SettingsPageState extends State<SettingsPage> {
                           height: MediaQuery.of(context).size.height / 8,
                         ),
                         Text('Lang'.tr(context),
-                        style: const TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: ColorManager.gery,
+
                         ),),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height / 20,
+                          height: MediaQuery.of(context).size.height / 30,
                         ),
                         Container(
                           width: double.infinity,

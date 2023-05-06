@@ -23,14 +23,14 @@ class ProfileScreen extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Container(
-          decoration:  const BoxDecoration(
+          decoration:   BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color.fromRGBO(4, 9, 35, 1),
-                Color.fromRGBO(39, 105, 171, 1),
+                // Color.fromRGBO(4, 9, 35, 1),
+                // Color.fromRGBO(39, 105, 171, 1),
                //  ColorManager.black,
-               // const Color.fromRGBO(4, 9, 35, 1),
-               //  ColorManager.white,
+               const Color.fromRGBO(4, 9, 35, 1),
+                ColorManager.white,
               ],
               begin: FractionalOffset.bottomCenter,
               end: FractionalOffset.topCenter,
@@ -48,18 +48,18 @@ class ProfileScreen extends StatelessWidget {
                    SizedBox(
                     height: screenHeight * 0.028,    //20
                   ),
-                    Text(
-                    'My\nProfile'.tr(context),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 34,
-                      fontFamily: 'NiseBuschGardens',
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 22,
-                  ),
+                  //   Text(
+                  //   'My\nProfile'.tr(context),
+                  //   textAlign: TextAlign.center,
+                  //   style: const TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: 34,
+                  //     fontFamily: 'NiseBuschGardens',
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 22,
+                  // ),
                   SizedBox(
                     height: screenHeight * 0.43,
                     child: LayoutBuilder(
@@ -231,11 +231,17 @@ class ProfileScreen extends StatelessWidget {
                           ),
                            Text(
                             'Edit'.tr(context),
-                            style: const TextStyle(
-                              color: Color.fromRGBO(39, 105, 171, 1),
-                              fontSize: 27,
-                              fontFamily: 'NiseBuschGardens',
+                            style: TextStyle(
+                              color: ColorManager.blueGrey,
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.0,
                             ),
+                            // TextStyle(
+                            //   color: Color.fromRGBO(39, 105, 171, 1),
+                            //   fontSize: 27,
+                            //   fontFamily: 'NiseBuschGardens',
+                            // ),
                           ),
                           const Divider(
                             thickness: 2.5,
