@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/shared/resources/app_localizations.dart';
+import 'package:login/shared/resources/asset_manager.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../shared/network/local/cache_helper.dart';
@@ -32,17 +33,17 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   List<BoardingModel> boarding =
   [
     BoardingModel(
-      image: 'assets/images/on_boarding_images/onboarding1.png',
+      image: ImageAssets.kOnBoarding1,
       title: 'on_boarding_title1',
       body: 'on_boarding_desc1',
     ),
     BoardingModel(
-      image: 'assets/images/on_boarding_images/onboarding2.png',
+      image: ImageAssets.kOnBoarding2,
       title: 'on_boarding_title2',
       body: 'on_boarding_desc2',
     ),
     BoardingModel(
-      image: 'assets/images/on_boarding_images/onboarding3.png',
+      image: ImageAssets.kOnBoarding3,
       title: 'on_boarding_title3',
       body: 'on_boarding_desc3',
     ),
@@ -63,9 +64,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.black,
+      backgroundColor: ColorManager.white,
       appBar: AppBar(
-        backgroundColor: ColorManager.black,
+        backgroundColor: ColorManager.white,
         elevation: 0.0,
         actions: [
          TextButton(
@@ -79,7 +80,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
              child:   Text( 'skip'.tr(context),
                style: const TextStyle(
                  fontWeight: FontWeight.bold,
-                 color: Colors.white,
+                 color: Colors.black,
                ),
              ),
          ),
@@ -119,7 +120,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   controller: boardController,
                   effect: ExpandingDotsEffect(
                     dotColor: Colors.grey,
-                    activeDotColor: ColorManager.blue,
+                    activeDotColor: ColorManager.kGold,
                     dotHeight: 10,
                     expansionFactor: 4,
                     dotWidth: 10,
@@ -145,6 +146,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     );
                   }
                 },
+                  backgroundColor: ColorManager.kGray,
                   child: const Icon(
                     Icons.arrow_forward_ios,
                   ),
@@ -172,7 +174,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       Text(
         model.title.tr(context),
         style: TextStyle(
-          color: ColorManager.white,
+          color: ColorManager.black,
           fontWeight: FontWeight.bold,
           fontSize: 30.0,
         ),
@@ -183,7 +185,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       Text(
         model.body.tr(context),
         style:  TextStyle(
-          color: ColorManager.white,
+          color: ColorManager.black,
           fontSize: 14.0,
         ),
       ),
