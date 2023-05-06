@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-
+import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../../models/chat_model/message_model.dart';
 import '../../../../../shared/resources/color_manager.dart';
 import '../chat_screen.dart';
@@ -23,7 +22,7 @@ class FavouriteContacts extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Favourite Contacts',
+                  'Favourite Contacts'.tr(context),
                   style: TextStyle(
                     color: ColorManager.blueGrey,
                     fontSize: 18.0,
@@ -42,7 +41,7 @@ class FavouriteContacts extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             height: heightScreen / 6,//120
             // color: Colors.blue,
             child: ListView.builder(

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:login/modules/customer/screens/home/cubit/cubit.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 
-import '../../models/categeiromodel.dart';
-import '../../modules/customer/screens/search/search_screen.dart';
 import '../../shared/resources/color_manager.dart';
 import 'cubit/cubit.dart';
 import 'cubit/state.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class HomeLayout extends StatelessWidget {
@@ -38,7 +36,7 @@ class HomeLayout extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 22,
                 ),
-                 const Text('California, Us',
+                 const Text('Cairo, EG',
                   style:TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -47,12 +45,20 @@ class HomeLayout extends StatelessWidget {
               ],
             ),
 
-            actions: const [
+            actions:  [
                Padding(
-                 padding: EdgeInsets.all(10.0),
+                 padding: const EdgeInsets.all(10.0),
                  child: CircleAvatar(
                   radius: 28,
-                  backgroundImage: NetworkImage('https://images.ctfassets.net/hrltx12pl8hq/3j5RylRv1ZdswxcBaMi0y7/b84fa97296bd2350db6ea194c0dce7db/Music_Icon.jpg'),
+                  backgroundImage: HomeCubit.get(context).userData.avatar.isNotEmpty ? NetworkImage(HomeCubit.get(context).userData.avatar) :
+                  const NetworkImage('https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',),
+                  child: HomeCubit.get(context).userData.avatar.isNotEmpty ? null : Text(
+                      HomeCubit.get(context).userData.name[0].toUpperCase(),
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: ColorManager.black,
+                    ),
+                  ),
               ),
                ),
             ],
@@ -68,13 +74,16 @@ class HomeLayout extends StatelessWidget {
                 activeColor: ColorManager.black,
               ),
               BottomBarItem(
-                icon: const Icon(Icons.favorite),
-                title: Text('Favorite'.tr(context)),
+                icon: const Icon(
+                  Icons.front_loader,
+                  size: 30,
+                ),
+                title: Text('Category'.tr(context)),
                 activeColor: ColorManager.black,
-              ),
+               ),
               BottomBarItem(
-                icon: const Icon(Icons.network_check_outlined),
-                title: Text('Communication'.tr(context)),
+                icon: const Icon(FontAwesomeIcons.solidComments),
+                title: Text('Chat'.tr(context)),
                 activeColor: ColorManager.black,
               ),
               BottomBarItem(

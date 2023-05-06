@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/shared/network/remote/dio_helper.dart';
+import 'package:login/shared/resources/app_localizations.dart';
+import 'package:login/shared/resources/color_manager.dart';
 import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../layout/homeLayout/cubit/state.dart';
 import '../../../../../shared/components/constants.dart';
+import '../edit_profile/edit_profile.dart';
+import '../update_password/updatePassword.dart';
 
 class AccountPage extends StatelessWidget {
   static const keyLanguage = 'key-language';
@@ -16,42 +20,42 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SimpleSettingsTile(
-    title: 'Account Setting',
-    subtitle: 'Privacy, Security, Language',
-    subtitleTextStyle: const TextStyle(color: Colors.blueGrey, fontSize: 10),
-    leading: const IconWidget(
-      icon: Icons.person,
-      color: Colors.green,
-    ),
-    child: SettingsScreen(
-      title: 'Account Settings',
-      children: <Widget>[
-        buildLanguage(),
-        const SizedBox(
-          height: 15,
+        title: 'Account Setting'.tr(context),
+        subtitle: 'Privacy, Security, Language'.tr(context),
+        subtitleTextStyle:
+            const TextStyle(color: Colors.blueGrey, fontSize: 10),
+        leading: const IconWidget(
+          icon: Icons.person,
+          color: Colors.green,
         ),
-        buildLocation(),
-        const SizedBox(
-          height: 15,
+        child: SettingsScreen(
+          title: 'Account Settings'.tr(context),
+          children: <Widget>[
+            buildLanguage(),
+            const SizedBox(
+              height: 15,
+            ),
+            buildLocation(context),
+            const SizedBox(
+              height: 15,
+            ),
+            buildPassword(context),
+            const SizedBox(
+              height: 15,
+            ),
+            buildPrivacy(context),
+            const SizedBox(
+              height: 15,
+            ),
+            buildSecurity(context),
+            const SizedBox(
+              height: 15,
+            ),
+            buildAccountInfo(context),
+          ],
         ),
-        buildPassword(context),
-        const SizedBox(
-          height: 15,
-        ),
-        buildPrivacy(context),
-        const SizedBox(
-          height: 15,
-        ),
-        buildSecurity(context),
-        const SizedBox(
-          height: 15,
-        ),
-        buildAccountInfo(context),
-      ],
-    ),
-  );
+      );
 }
-
 
 class IconWidget extends StatelessWidget {
   final IconData icon;
@@ -77,20 +81,17 @@ class IconWidget extends StatelessWidget {
       );
 }
 
-
-Widget buildDarkMode() {
+Widget buildDarkMode(context) {
   Settings.init(cacheProvider: SharePreferenceCache());
   return SwitchSettingsTile(
-      settingKey: HeaderPage.keyDarkMode, //remember before status
-      leading: const IconWidget(
-        icon: Icons.dark_mode,
-        color: Color(0xFF642ef3),
-      ),
-      title: 'Dark Mode',
-      onChange: (isDarkMode) {
-
-      },
-    );
+    settingKey: HeaderPage.keyDarkMode, //remember before status
+    leading: const IconWidget(
+      icon: Icons.dark_mode,
+      color: Color(0xFF642ef3),
+    ),
+    title: 'Dark Mode'.tr(context),
+    onChange: (isDarkMode) {},
+  );
 }
 
 Widget buildLogout(BuildContext context) => SimpleSettingsTile(
@@ -98,7 +99,7 @@ Widget buildLogout(BuildContext context) => SimpleSettingsTile(
         icon: Icons.logout,
         color: Colors.blueAccent,
       ),
-      title: 'Logout',
+      title: 'Logout'.tr(context),
       onTap: () {
         sinOut(context);
       },
@@ -109,58 +110,55 @@ Widget buildDeleteAccount(BuildContext context) => SimpleSettingsTile(
         icon: Icons.delete,
         color: Colors.pinkAccent,
       ),
-      title: 'Delete Account',
+      title: 'Delete Account'.tr(context),
       onTap: () {
         DioHelper.deleteData(url: 'users/deleteMe');
         sinOut(context);
       },
     );
 
-Widget buildAccount() => SimpleSettingsTile(
+Widget buildAccount(context) => SimpleSettingsTile(
       leading: const IconWidget(
         icon: Icons.person,
         color: Colors.green,
       ),
-      title: 'Account Setting',
-      subtitle: 'Privacy, Security, Language',
+      title: 'Account Setting'.tr(context),
+      subtitle: 'Privacy, Security, Language'.tr(context),
       child: Container(),
       onTap: () {},
     );
 
 Widget buildLanguage() => BlocConsumer<HomeCubit, HomeStates>(
-  listener: (context, state) {
-  },
-  builder: (context, state) {
-    return DropDownSettingsTile(
-        settingKey: AccountPage.keyLanguage,
-        title: 'Languages',
-        selected: 1,
-        values: const <int, String>{
-          1: 'English',
-          2: 'Arabic',
-        },
-        onChange: (language) {
-          if(language == 1)
-            {
+      listener: (context, state) {},
+      builder: (context, state) {
+        return DropDownSettingsTile(
+          settingKey: AccountPage.keyLanguage,
+          title: 'Languages'.tr(context),
+          selected: 1,
+          values:  <int, String>{
+            1: 'English'.tr(context),
+            2: 'Arabic'.tr(context),
+          },
+          onChange: (language) {
+            if (language == 1) {
               context.read<HomeCubit>().cachedLanguageCode('en');
+            } else {
+              context.read<HomeCubit>().cachedLanguageCode('ar');
             }
-          else{
-            context.read<HomeCubit>().cachedLanguageCode('ar');
-          }
-        },
-      );
-  },
-);
+          },
+        );
+      },
+    );
 
-Widget buildLocation() => TextInputSettingsTile(
+Widget buildLocation(context) => TextInputSettingsTile(
       settingKey: AccountPage.keyLocation,
-      title: 'Location',
-      initialValue: 'Cairo, Egypt',
+      title: 'Location'.tr(context),
+      initialValue: 'Cairo, Egypt'.tr(context),
       onChange: (location) {},
     );
 
 Widget buildReportBug(BuildContext context) => SimpleSettingsTile(
-      title: 'Report A Bug',
+      title: 'Report A Bug'.tr(context),
       leading: const IconWidget(
         icon: Icons.bug_report,
         color: Colors.teal,
@@ -169,7 +167,7 @@ Widget buildReportBug(BuildContext context) => SimpleSettingsTile(
     );
 
 Widget buildSendFeedback(BuildContext context) => SimpleSettingsTile(
-      title: 'Send Feedback',
+      title: 'Send Feedback'.tr(context),
       leading: const IconWidget(
         icon: Icons.thumb_up,
         color: Colors.purpleAccent,
@@ -178,7 +176,7 @@ Widget buildSendFeedback(BuildContext context) => SimpleSettingsTile(
     );
 
 Widget buildPrivacy(BuildContext context) => SimpleSettingsTile(
-      title: 'Privacy',
+      title: 'Privacy'.tr(context),
       leading: const IconWidget(
         icon: Icons.lock,
         color: Colors.blue,
@@ -187,7 +185,7 @@ Widget buildPrivacy(BuildContext context) => SimpleSettingsTile(
     );
 
 Widget buildSecurity(BuildContext context) => SimpleSettingsTile(
-      title: 'Security',
+      title: 'Security'.tr(context),
       leading: const IconWidget(
         icon: Icons.security,
         color: Colors.red,
@@ -196,7 +194,7 @@ Widget buildSecurity(BuildContext context) => SimpleSettingsTile(
     );
 
 Widget buildAccountInfo(BuildContext context) => SimpleSettingsTile(
-      title: 'Account Info',
+      title: 'Account Info'.tr(context),
       leading: const IconWidget(
         icon: Icons.text_snippet,
         color: Colors.purple,
@@ -205,26 +203,29 @@ Widget buildAccountInfo(BuildContext context) => SimpleSettingsTile(
     );
 
 Widget buildImageChange(BuildContext context) => SimpleSettingsTile(
-      title: 'Profile',
-      leading: const CircleAvatar(
+      title: 'Profile'.tr(context),
+      leading: CircleAvatar(
         radius: 24,
-        backgroundImage: AssetImage('assets/images/chat_photo/greg.jpg'),
-        // child: Image.asset(
-        //   'assets/images/chat_photo/greg.jpg',
-        //   width: localWidth * 0.45,
-        //   fit: BoxFit.fitWidth,
-        // ),
+        backgroundImage: HomeCubit.get(context).userData.avatar.isNotEmpty ? NetworkImage(HomeCubit.get(context).userData.avatar) :
+        const NetworkImage('https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',),
+        child: HomeCubit.get(context).userData.avatar.isNotEmpty ? null : Text(
+          HomeCubit.get(context).userData.name[0].toUpperCase(),
+          style: TextStyle(
+            fontSize: 22,
+            color: ColorManager.black,
+          ),
+        ),
       ),
-      child: Container(),
+      child: EditProfileScreen(),
     );
 
-Widget buildPassword(BuildContext context) => TextInputSettingsTile(
-      settingKey: AccountPage.keyPassword,
-      title: 'Password',
-      obscureText: true,
-      validator: (password) => password != null && password.length >= 6
-          ? null
-          : 'Enter 6 characters',
+Widget buildPassword(BuildContext context) => SimpleSettingsTile(
+      title: 'Update Password'.tr(context),
+      leading: const IconWidget(
+        icon: Icons.password_rounded,
+        color: Colors.blue,
+      ),
+      child: UpdatePassword(),
     );
 
 //===================================================
@@ -238,7 +239,7 @@ class HeaderPage extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         children: [
           buildImageChange(context),
-          buildDarkMode(),
+          buildDarkMode(context),
         ],
       );
 }
@@ -255,72 +256,124 @@ class NotificationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SimpleSettingsTile(
-        title: 'Notifications',
-        subtitle: 'Newsletter, AppUpdates',
-    subtitleTextStyle: const TextStyle(color: Colors.blueGrey, fontSize: 10),
+        title: 'Notifications'.tr(context),
+        subtitle: 'Newsletter, AppUpdates'.tr(context),
+        subtitleTextStyle:
+            const TextStyle(color: Colors.blueGrey, fontSize: 10),
         leading: const IconWidget(
           icon: Icons.notifications,
           color: Colors.redAccent,
         ),
-    child: SettingsScreen(
-      title: 'Notifications',
-      children: <Widget>[
-        buildNews(),
-        const SizedBox(
-          height: 15,
+        child: SettingsScreen(
+          title: 'Notifications'.tr(context),
+          children: <Widget>[
+            buildNews(context),
+            const SizedBox(
+              height: 15,
+            ),
+            buildActivity(context),
+            const SizedBox(
+              height: 15,
+            ),
+            buildNewsletter(context),
+            const SizedBox(
+              height: 15,
+            ),
+            buildAppUpdates(context),
+          ],
         ),
-        buildActivity(),
-        const SizedBox(
-          height: 15,
-        ),
-        buildNewsletter(),
-        const SizedBox(
-          height: 15,
-        ),
-        buildAppUpdates(),
-      ],
-    ),
       );
 }
 
 //==============================================
 
-Widget buildNews() => SwitchSettingsTile(
-  settingKey: NotificationsPage.keyNews, //remember before status
-  leading: const IconWidget(
-    icon: Icons.newspaper,
-    color: Colors.blueAccent,
-  ),
-  title: 'News For You',
-  // onChange: (keyNews) {},
-);
+Widget buildNews(context) => SwitchSettingsTile(
+      settingKey: NotificationsPage.keyNews, //remember before status
+      leading: const IconWidget(
+        icon: Icons.newspaper,
+        color: Colors.blueAccent,
+      ),
+      title: 'News For You'.tr(context),
+      // onChange: (keyNews) {},
+    );
 
-Widget buildActivity() => SwitchSettingsTile(
-  settingKey: NotificationsPage.keyActivity, //remember before status
-  leading: const IconWidget(
-    icon: Icons.person,
-    color: Colors.orange,
-  ),
-  title: 'Account Activity',
-  // onChange: (keyNews) {},
-);
+Widget buildActivity(context) => SwitchSettingsTile(
+      settingKey: NotificationsPage.keyActivity, //remember before status
+      leading: const IconWidget(
+        icon: Icons.person,
+        color: Colors.orange,
+      ),
+      title: 'Account Activity'.tr(context),
+      // onChange: (keyNews) {},
+    );
 
-Widget buildNewsletter() => SwitchSettingsTile(
-  settingKey: NotificationsPage.keyNewsletter, //remember before status
-  leading: const IconWidget(
-    icon: Icons.text_snippet,
-    color: Colors.pinkAccent,
-  ),
-  title: 'News letter',
-  // onChange: (keyNews) {},
-);
+Widget buildNewsletter(context) => SwitchSettingsTile(
+      settingKey: NotificationsPage.keyNewsletter, //remember before status
+      leading: const IconWidget(
+        icon: Icons.text_snippet,
+        color: Colors.pinkAccent,
+      ),
+      title: 'News letter'.tr(context),
+      // onChange: (keyNews) {},
+    );
 
-Widget buildAppUpdates() => SwitchSettingsTile(
-  settingKey: NotificationsPage.keyAppUpdates, //remember before status
+Widget buildAppUpdates(context) => SwitchSettingsTile(
+      settingKey: NotificationsPage.keyAppUpdates, //remember before status
+      leading: const IconWidget(
+        icon: Icons.update,
+        color: Colors.greenAccent,
+      ),
+      title: 'App Updates'.tr(context),
+      // onChange: (keyNews) {},
+    );
+
+Widget buildPayment(context) => SimpleSettingsTile(
+      leading: const IconWidget(
+        icon: Icons.payment,
+        color: Colors.amberAccent,
+      ),
+      title: 'Payment Method'.tr(context),
+      child: const Scaffold(
+        body: Center(
+            child: Text(
+              'Chose you Method',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),),
+      ),
+      onTap: () {},
+    );
+
+Widget buildMyOrder(context) => SimpleSettingsTile(
+      leading: const IconWidget(
+        icon: Icons.add_task,
+        color: Colors.green,
+      ),
+      title: 'My Orders'.tr(context),
+      child: const Scaffold(
+        body: Center(
+            child: Text(
+          'There are no Order for now',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        )),
+      ),
+      onTap: () {},
+    );
+
+Widget buildJoinUs(context) => SimpleSettingsTile(
   leading: const IconWidget(
-    icon: Icons.update,
-    color: Colors.greenAccent,
+    icon: Icons.fire_truck,
+    color: Colors.indigoAccent,
   ),
-  title: 'App Updates',
-  // onChange: (keyNews) {},
+  title: 'Join Us'.tr(context),
+  subtitle: 'Become A Trucker be get your job'.tr(context),
+  subtitleTextStyle:
+  const TextStyle(color: Colors.blueGrey, fontSize: 10),
+  child: const Scaffold(
+    body: Center(
+        child: Text(
+          'Not finished yet!',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        )),
+  ),
+  onTap: () {},
 );

@@ -35,7 +35,7 @@ class DioHelper
     required String url,
      Map<String,dynamic>? query ,
     required dynamic data ,
-    String tokenVerify = '',//Map<String,dynamic>
+    String tokenVerify = ''
   }) async
   {
     dio.options.headers = {
@@ -51,13 +51,13 @@ class DioHelper
   static Future<Response> putData({
     required String url,
     Map<String,dynamic>? query ,
-    required Map<String,dynamic> data ,
+    required dynamic data ,
   }) async
   {
     dio.options.headers = {
       'Authorization':'Bearer $token',
     };
-    return dio.put(
+    return dio.patch(
       url ,
       queryParameters: query,
       data: data,

@@ -1,36 +1,35 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/models/UserData.dart';
 import 'package:login/models/categeiromodel.dart';
+import 'package:login/modules/category/category_screen.dart';
 import 'package:login/shared/network/remote/dio_helper.dart';
 
 
 import '../../../modules/customer/screens/chats_screen/chat_home.dart';
-import '../../../modules/customer/screens/favorite/favorite.dart';
 import '../../../modules/customer/screens/home/home.dart';
 import '../../../modules/customer/screens/profile/profile_screen.dart';
 import '../../../shared/components/constants.dart';
 import '../../../shared/network/local/cache_helper.dart';
 import 'state.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 
 class HomeCubit extends Cubit<HomeStates>{
 
   PostEquipment? postEquipment ;
-
   HomeCubit() : super(HomeInitialState());
   static HomeCubit get(context) => BlocProvider.of(context);
 
   int currentIndex = 0 ;
   List<Widget> screens =  [
     HomeScreen(),
-    const FavoriteScreen(),
+    const CategoryScreen(),
     const ChatHome(),
     const ProfileScreen(),
   ];
@@ -61,20 +60,12 @@ class HomeCubit extends Cubit<HomeStates>{
       data: formData,
     ).then((value)
     {
-      if (kDebugMode) {
         print("postData Equipments") ;
-      }
       postEquipment = PostEquipment.fromJson(value.data) ;
-      if (kDebugMode) {
-        print(kDebugMode);
-        print(postImage!.path);
-      }
       emit(HomePostEquipmentSuccessState());
     }).catchError((error)
     {
-      if (kDebugMode) {
         print(error.toString());
-      }
       emit(HomePostEquipmentErrorState());
     });
   }
@@ -90,10 +81,11 @@ class HomeCubit extends Cubit<HomeStates>{
   //Image
   File? postImage ;
   var picker = ImagePicker();
-  Future<void> getPostImage() async  {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> getPostImage(ImageSource imageSource) async  {
+    final pickedFile = await picker.pickImage(source: imageSource);
     if(pickedFile != null) {
       postImage = File(pickedFile.path) ;
+      postImage = await croppedImage(file: postImage);
       print(postImage.toString());
       emit(HomePostImagePickedSuccessState());
     }
@@ -136,7 +128,7 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
 
-  UserData userData  = UserData(name: 'newName', email: '',verified: false);
+  UserData userData  = UserData(name: 'newName', email: '',verified: false, avatar: '', phone: '', role: '');
 
    void getUserData(){
     emit(LoadingGetUserData());
@@ -157,18 +149,125 @@ class HomeCubit extends Cubit<HomeStates>{
     }
     );}
 
-  void  verifyEmail(String otpCode ,String  tokenVerify){
-    emit(LoadingVerifyEmail());
-    DioHelper.postData(url: 'users/verfiy',
-        tokenVerify: tokenVerify,
-        data: {
-      'otpCode':otpCode,
-    }).then((value) => {
-      print(value.data),
-      print(token),
-      emit(SuccessVerifyEmail())
-    }).catchError((onError){
-      print(onError.toString());
+
+
+
+  //update Data User
+  var fullNameController = TextEditingController();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var phoneController = TextEditingController();
+
+  File? profileImage ;
+  var profilePicker = ImagePicker();
+  Future<void> getProfileImage(ImageSource imageSource) async  {
+    final pickedFile = await profilePicker.pickImage(source: imageSource);
+    if(pickedFile != null) {
+      profileImage = File(pickedFile.path) ;
+      profileImage = await croppedImage(file: profileImage);
+      print(profileImage.toString());
+      emit(HomeProfileImagePickedSuccessState());
+    }
+    else {
+      print('No image selected');
+      emit(HomeProfileImagePickedErrorState());
+    }
+  }
+
+
+  Future<void> updateUserData(
+      {
+        required String name ,
+        required String email,
+        required String phone ,
+        required File? avatar,
+      })
+  async {
+    emit(LoadingUpdateUSERState());
+    FormData formData = FormData.fromMap({
+      'avatar': await MultipartFile.fromFile(avatar!.path),
+      'name' : name ,
+      'email' :email,
+      'phone' : phone ,
     });
-   }
+    DioHelper.putData(
+      url: 'users/updateMe',
+      data: formData,
+    ).then((value)
+    {
+      userData.name = value.data['updatedUser']['name'];
+      userData.avatar = value.data['updatedUser']['avatar'];
+      userData.email = value.data['updatedUser']['email'];
+      userData.phone = value.data['updatedUser']['phone'];
+      userData.verified = value.data['updatedUser']['verified'];
+      print(userData.avatar);
+      Future.delayed(const Duration(seconds: 10),(){
+        getUserData();
+      });
+      emit(SuccessUpdateUSERState());
+    }).catchError((error){
+      print(error.toString());
+      emit(ErrorUpdateUSERState());
+    });
+  }
+
+
+  // post data
+  var textController = TextEditingController();
+  var descriptionController = TextEditingController();
+  var priceController = TextEditingController();
+
+
+  String categoryControllerT = 'Category';
+  String governmentControllerT  = 'Government';
+  void setCategory(String selected) {
+    categoryControllerT = selected ;
+    emit(HomeSetCategory());
+  }
+
+  void setGovernment(String selected) {
+    governmentControllerT = selected ;
+    emit(HomeSetGovernment());
+  }
+
+  void delayFunction(int time) {
+    Future.delayed(Duration(seconds: time),(){
+      print(time);
+      textController.text = '';
+      descriptionController.text = '';
+      categoryControllerT = '';
+      governmentControllerT = '';
+      priceController.text = '';
+      postImage = null;
+    });
+    emit(DelayFunctionState());
+  }
+
+
+  Future<File?> croppedImage({required File? file}) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: file!.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+    if(croppedFile == null) return null ;
+    return File(croppedFile.path);
+  }
+
 }

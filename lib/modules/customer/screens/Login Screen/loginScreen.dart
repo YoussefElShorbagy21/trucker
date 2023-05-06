@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/Login%20Screen/forgot_password.dart';
 import 'package:login/shared/resources/app_localizations.dart';
+import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../layout/homeLayout/homelayout.dart';
 import '../../../../shared/components/constants.dart';
 import '../../../../shared/network/local/cache_helper.dart';
@@ -43,6 +44,7 @@ class LoginScreen extends StatelessWidget {
             ).then((value) =>
             {
               navigateFish(context, const HomeLayout()),
+              HomeCubit.get(context).getUserData(),
             }
             );
             final snackBar = SnackBar(
@@ -50,7 +52,7 @@ class LoginScreen extends StatelessWidget {
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
-                title: '   Hey    welcome to our app............',
+                title: 'Welcome Back To Our App ...',
                 message: '    ${state.model.message}',
                 contentType: ContentType.success,
               ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login/layout/homeLayout/cubit/cubit.dart';
-import 'package:login/layout/homeLayout/cubit/state.dart';
+import 'package:login/shared/components/constants.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,17 +9,21 @@ import '../../../../shared/resources/color_manager.dart';
 import '../../../../shared/resources/font_manager.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 
+import 'cubit/register_cubit.dart';
+import 'cubit/register_state.dart';
+
 
 
 class VerifyScreen extends StatelessWidget {
-   VerifyScreen(this.tokenVerify, {Key? key}) : super(key: key);
-   String tokenVerify;
   String verify = ' ' ;
+  String tokenVerify ='';
+  VerifyScreen(this.tokenVerify,{super.key});
   @override
   Widget build(BuildContext context) {
+    print('in verify $token');
     return BlocProvider(
-  create: (context) => HomeCubit(),
-  child: BlocConsumer<HomeCubit, HomeStates>(
+  create: (context) => RegisterCubit(),
+  child: BlocConsumer<RegisterCubit, RegisterState>(
   listener: (context, state) {
     if(state is SuccessVerifyEmail)
       {
@@ -89,7 +92,8 @@ class VerifyScreen extends StatelessWidget {
                       child: TextButton(
                         onPressed:(){
                           print(verify);
-                          HomeCubit.get(context).verifyEmail(verify,tokenVerify);
+                          print(token);
+                          RegisterCubit.get(context).verifyEmail(verify,tokenVerify);
                         } ,
                         style: TextButton.styleFrom(
                           shape: const StadiumBorder(),
@@ -110,6 +114,16 @@ class VerifyScreen extends StatelessWidget {
                   fallbackBuilder: (context) {
                     return const Center(child: CircularProgressIndicator()) ;
                   }
+              ),
+              Center(
+                child: TextButton(onPressed: () {
+                  RegisterCubit.get(context).sendOtpAgain(tokenVerify);
+                },
+                  child:  Text('sendOtpAgain',style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: ColorManager.black,
+                  ),),),
               ),
             ],
           ),

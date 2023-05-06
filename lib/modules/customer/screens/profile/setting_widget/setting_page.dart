@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 
 import 'setting_widget.dart';
 
@@ -17,12 +18,12 @@ class _SettingsChangeState extends State<SettingsChange> {
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 20),
         children: [
-          const Text(
-            "Settings",
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500),
+           Text(
+            "Settings".tr(context),
+            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.w500),
           ),
           SettingsGroup(
-            title: 'Account',
+            title: 'Account'.tr(context),
             children: <Widget>[
               const SizedBox(height: 15,),
               const HeaderPage(),
@@ -50,7 +51,7 @@ class _SettingsChangeState extends State<SettingsChange> {
           //   thickness: 2,
           // ),
           SettingsGroup(
-            title: 'FEEDBACK',
+            title: 'FEEDBACK'.tr(context),
             children: <Widget>[
               const SizedBox(
                 height: 10,

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../layout/homeLayout/cubit/cubit.dart';
+import '../../../../layout/homeLayout/cubit/state.dart';
+import '../../../../shared/resources/color_manager.dart';
 import 'setting_widget/setting_page.dart';
+import 'setting_widget/setting_widget.dart';
 
 
 class ProfileScreen extends StatelessWidget {
@@ -12,18 +16,21 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    return Stack(
+    return BlocConsumer<HomeCubit,HomeStates>(
+        listener:(context,state) {},
+        builder: (context, state) {
+         return Stack(
       fit: StackFit.expand,
       children: [
         Container(
-          decoration:  const BoxDecoration(
+          decoration:   BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color.fromRGBO(4, 9, 35, 1),
-                Color.fromRGBO(39, 105, 171, 1),
+                // Color.fromRGBO(4, 9, 35, 1),
+                // Color.fromRGBO(39, 105, 171, 1),
                //  ColorManager.black,
-               // const Color.fromRGBO(4, 9, 35, 1),
-               //  ColorManager.white,
+               const Color.fromRGBO(4, 9, 35, 1),
+                ColorManager.white,
               ],
               begin: FractionalOffset.bottomCenter,
               end: FractionalOffset.topCenter,
@@ -41,18 +48,18 @@ class ProfileScreen extends StatelessWidget {
                    SizedBox(
                     height: screenHeight * 0.028,    //20
                   ),
-                   const Text(
-                    'My\nProfile',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 34,
-                      fontFamily: 'NiseBuschGardens',
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 22,
-                  ),
+                  //   Text(
+                  //   'My\nProfile'.tr(context),
+                  //   textAlign: TextAlign.center,
+                  //   style: const TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: 34,
+                  //     fontFamily: 'NiseBuschGardens',
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 22,
+                  // ),
                   SizedBox(
                     height: screenHeight * 0.43,
                     child: LayoutBuilder(
@@ -84,7 +91,7 @@ class ProfileScreen extends StatelessWidget {
                                       style: const TextStyle(
                                         color: Color.fromRGBO(39, 105, 171, 1),
                                         fontFamily: 'Nunito',
-                                        fontSize: 37,
+                                        fontSize: 30,
                                       ),
                                     ),
                                      SizedBox(
@@ -93,6 +100,7 @@ class ProfileScreen extends StatelessWidget {
                                     Text(
                                       HomeCubit.get(context).userData.email, //name of user
                                       style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
                                         color: Color.fromRGBO(39, 105, 171, 1),
                                         fontFamily: 'Nunito',
                                         fontSize: 20,
@@ -105,7 +113,7 @@ class ProfileScreen extends StatelessWidget {
                                         Column(
                                           children: [
                                             Text(
-                                              'Orders',
+                                              'Orders'.tr(context),
                                               style: TextStyle(
                                                 color: Colors.grey[700],
                                                 fontFamily: 'NiseBuschGardens',
@@ -141,7 +149,7 @@ class ProfileScreen extends StatelessWidget {
                                         Column(
                                           children: [
                                             Text(
-                                              'Offer',
+                                              'Offers'.tr(context),
                                               style: TextStyle(
                                                 color: Colors.grey[700],
                                                 fontFamily: 'NiseBuschGardens',
@@ -185,15 +193,16 @@ class ProfileScreen extends StatelessWidget {
                               left: 0,
                               right: 0,
                               child: Center(
-                                child: Container(
-                                  child: const CircleAvatar(
-                                    radius:80,
-                                    backgroundImage: AssetImage('assets/images/chat_photo/greg.jpg'),
-                                    // child: Image.asset(
-                                    //   'assets/images/chat_photo/greg.jpg',
-                                    //   width: localWidth * 0.45,
-                                    //   fit: BoxFit.fitWidth,
-                                    // ),
+                                child: CircleAvatar(
+                                  radius: 80,
+                                  backgroundImage: HomeCubit.get(context).userData.avatar.isNotEmpty ? NetworkImage(HomeCubit.get(context).userData.avatar) :
+                                  const NetworkImage('https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',),
+                                  child: HomeCubit.get(context).userData.avatar.isNotEmpty ? null : Text(
+                                    HomeCubit.get(context).userData.name[0].toUpperCase(),
+                                    style: TextStyle(
+                                      fontSize: 80,
+                                      color: ColorManager.black,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -220,13 +229,19 @@ class ProfileScreen extends StatelessWidget {
                            SizedBox(
                             height: screenHeight * 0.04, //20
                           ),
-                          const Text(
-                            'My Orders',
+                           Text(
+                            'Edit'.tr(context),
                             style: TextStyle(
-                              color: Color.fromRGBO(39, 105, 171, 1),
-                              fontSize: 27,
-                              fontFamily: 'NiseBuschGardens',
+                              color: ColorManager.blueGrey,
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.0,
                             ),
+                            // TextStyle(
+                            //   color: Color.fromRGBO(39, 105, 171, 1),
+                            //   fontSize: 27,
+                            //   fontFamily: 'NiseBuschGardens',
+                            // ),
                           ),
                           const Divider(
                             thickness: 2.5,
@@ -235,22 +250,31 @@ class ProfileScreen extends StatelessWidget {
                             height: screenHeight * 0.04,//10
                           ),
                           Container(
-                            height: screenHeight * 0.15,
+                            height: screenHeight * 0.25,
                             decoration: BoxDecoration(
-                              color: Colors.grey,
+                              // color: Colors.grey,
                               borderRadius: BorderRadius.circular(30),
                             ),
+                             child: Column(
+                               children: [
+                                 buildMyOrder(context),
+                                 const SizedBox(height: 20),
+                                 buildPayment(context),
+                                 const SizedBox(height: 20),
+                                 buildJoinUs(context),
+                               ],
+                             ),
                           ),
-                           SizedBox(
-                            height: screenHeight * 0.04,//10
-                          ),
-                          Container(
-                            height: screenHeight * 0.15,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
+                          //  SizedBox(
+                          //   height: screenHeight * 0.04,//10
+                          // ),
+                          // Container(
+                          //   height: screenHeight * 0.15,
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.grey,
+                          //     borderRadius: BorderRadius.circular(30),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -262,5 +286,7 @@ class ProfileScreen extends StatelessWidget {
         )
       ],
     );
+  },
+);
   }
 }

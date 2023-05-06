@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:login/modules/customer/screens/chats_screen/test_chat_screen.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../../models/chat_model/message_model.dart';
 import '../../../../../shared/resources/color_manager.dart';
 import '../chat_screen.dart';
 
 class RecentChats extends StatelessWidget {
   const RecentChats({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     double widthScreen = MediaQuery.of(context).size.width;
@@ -31,11 +31,13 @@ class RecentChats extends StatelessWidget {
             itemCount: chats.length,
             itemBuilder: (BuildContext context, int index) {
               final Message chat = chats[index];
+
               return GestureDetector(
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ChatScreen(user: chat.sender),
+                    // builder: (_) => ChatScreen(user: chat.sender),
+                    builder: (_) => TestChatScreen(user: chat.sender,),
                   ),
                 ),
                 child: Container(
@@ -49,9 +51,9 @@ class RecentChats extends StatelessWidget {
                     vertical: 4.0,
                   ),
                   decoration: BoxDecoration(
-                    color: chat.unread
-                        ? ColorManager.tinyPink
-                        : ColorManager.white,
+                    // color: chat.unread
+                    //     ? ColorManager.gery.withOpacity(0.3)
+                    //     : ColorManager.white,
                     borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(20.0),
                       bottomRight: Radius.circular(20.0),
@@ -84,7 +86,7 @@ class RecentChats extends StatelessWidget {
                                 height: heightScreen / 90, //5.0
                               ),
                               Container(
-                                width: widthScreen / 9, //6 normal
+                                width: widthScreen / 2, //6 normal//new Change
                                 child: Text(
                                   chat.text,
                                   style: TextStyle(
@@ -114,7 +116,7 @@ class RecentChats extends StatelessWidget {
                           ),
                           chat.unread
                               ? Container(
-                                  width: widthScreen / 25,
+                                  width: widthScreen / 12,//25 //new Change
                                   //40.0
                                   height: heightScreen / 40,
                                   //20.0
@@ -126,7 +128,7 @@ class RecentChats extends StatelessWidget {
                                   ),
                                   alignment: Alignment.center,
                                   child: Text(
-                                    'NEW',
+                                    'NEW'.tr(context),
                                     style: TextStyle(
                                       color: ColorManager.white,
                                       fontSize: 12.0,
