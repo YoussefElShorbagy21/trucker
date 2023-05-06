@@ -174,7 +174,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       Text(
         model.title.tr(context),
         style: TextStyle(
-          color: ColorManager.black,
+          color: ColorManager.kGold,
           fontWeight: FontWeight.bold,
           fontSize: 30.0,
         ),
@@ -185,8 +185,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       Text(
         model.body.tr(context),
         style:  TextStyle(
-          color: ColorManager.black,
+          color: ColorManager.gery,
           fontSize: 14.0,
+          fontWeight: FontWeight.normal,
         ),
       ),
       const SizedBox(

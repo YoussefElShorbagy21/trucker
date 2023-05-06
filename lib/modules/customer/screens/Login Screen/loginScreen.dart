@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
-                title: '   Hey    welcome to our app............',
+                title: 'Welcome Back To Our App ...',
                 message: '    ${state.model.message}',
                 contentType: ContentType.success,
               ),
