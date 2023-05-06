@@ -116,6 +116,16 @@ class VerifyScreen extends StatelessWidget {
                     return const Center(child: CircularProgressIndicator()) ;
                   }
               ),
+              Center(
+                child: TextButton(onPressed: () {
+                  RegisterCubit.get(context).sendOtpAgain(tokenVerify);
+                },
+                  child:  Text('sendOtpAgain',style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: ColorManager.black,
+                  ),),),
+              ),
             ],
           ),
         ),

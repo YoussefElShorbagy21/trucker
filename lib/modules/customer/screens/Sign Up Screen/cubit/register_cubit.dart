@@ -109,4 +109,18 @@ class RegisterCubit extends Cubit<RegisterState>
     });
   }
 
+  void sendOtpAgain(String  tokenVerify){
+    emit(LoadingVerifyEmailAgain());
+    DioHelper.postData(url: 'users/sendOtpAgain',
+        tokenVerify: tokenVerify,
+        data: {}).then((value) => {
+      print(value.data),
+      print(token),
+      print(tokenVerify),
+      emit(SuccessVerifyEmailAgain())
+    }).catchError((onError){
+      print(onError.toString());
+      emit(ErrorVerifyEmailAgain());
+    });
+  }
 }
