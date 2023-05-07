@@ -87,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                                       height: localHeight * 0.25,
                                     ),
                                      Text(
-                                       HomeCubit.get(context).userData.name, //name of user
+                                       HomeCubit.get(context).oneUserData.userData.name, //name of user
                                       style: const TextStyle(
                                         color: Color.fromRGBO(39, 105, 171, 1),
                                         fontFamily: 'Nunito',
@@ -98,7 +98,7 @@ class ProfileScreen extends StatelessWidget {
                                       height: localHeight /100,
                                     ),
                                     Text(
-                                      HomeCubit.get(context).userData.email, //name of user
+                                      HomeCubit.get(context).oneUserData.userData.email, //name of user
                                       style: const TextStyle(
                                         overflow: TextOverflow.ellipsis,
                                         color: Color.fromRGBO(39, 105, 171, 1),
@@ -195,10 +195,10 @@ class ProfileScreen extends StatelessWidget {
                               child: Center(
                                 child: CircleAvatar(
                                   radius: 80,
-                                  backgroundImage: HomeCubit.get(context).userData.avatar.isNotEmpty ? NetworkImage(HomeCubit.get(context).userData.avatar) :
+                                  backgroundImage: HomeCubit.get(context).oneUserData.userData.avatar.isNotEmpty ? NetworkImage(HomeCubit.get(context).oneUserData.userData.avatar) :
                                   const NetworkImage('https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',),
-                                  child: HomeCubit.get(context).userData.avatar.isNotEmpty ? null : Text(
-                                    HomeCubit.get(context).userData.name[0].toUpperCase(),
+                                  child: HomeCubit.get(context).oneUserData.userData.avatar.isNotEmpty ? null : Text(
+                                    HomeCubit.get(context).oneUserData.userData.name[0].toUpperCase(),
                                     style: TextStyle(
                                       fontSize: 80,
                                       color: ColorManager.black,

@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-            BlocProvider<HomeCubit>(create: (context) => HomeCubit()..getUserData()..getSavedLanguage()),
+            BlocProvider<HomeCubit>(create: (context) => HomeCubit()..getUserData()..getSavedLanguage()..getAllUserData()),
             BlocProvider<HomeScreenCubit>(create: (context) => HomeScreenCubit()),
       ],
       child: BlocConsumer<HomeCubit, HomeStates>(

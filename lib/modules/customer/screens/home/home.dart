@@ -27,137 +27,129 @@ class HomeScreen extends StatelessWidget {
           listener: (context, state) {},
           builder: (context, state) {
             var cubit = HomeScreenCubit.get(context);
-            return Conditional.single(
-              context: context,
-              conditionBuilder: (context) =>
-                  HomeScreenCubit.get(context).homeModel.equipment.isNotEmpty,
-              widgetBuilder: (context) => Scaffold(
-                body: RefreshIndicator(
-                  color: ColorManager.black,
-                  backgroundColor: ColorManager.white1,
-                  onRefresh: cubit.onRefresh,
-                  child: SingleChildScrollView(
-                    physics: const ScrollPhysics(),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'title_home'.tr(context),
-                            style:  const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                            // const TextStyle(
-                            //   fontWeight: FontWeight.bold,
-                            //   fontSize: 20,
-                            //   fontFamily: 'Montserrat',
-                            // ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 60,
-                            child: Card(
-                              color: ColorManager.white,
-                              elevation: 0,
-                              shape: BeveledRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.search,
-                                      size: 25,
-                                      color: ColorManager.black,
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    SearchScreen()));
-                                      },
-                                      child: Text('search-title'.tr(context),
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: ColorManager.gery,
-                                          )),
-                                    ),
-                                    const Spacer(),
-                                    Icon(
-                                      Icons.filter_list_alt,
-                                      size: 25,
-                                      color: ColorManager.black,
-                                    ),
-                                  ],
-                                ),
+            return Scaffold(
+              body: Conditional.single(
+                context: context,
+                conditionBuilder: (context) =>
+                    HomeScreenCubit.get(context).homeModel.equipment.isNotEmpty,
+                widgetBuilder: (context) => RefreshIndicator(
+                    color: ColorManager.black,
+                    backgroundColor: ColorManager.white1,
+                    onRefresh: cubit.onRefresh,
+                    child: SingleChildScrollView(
+                      physics: const ScrollPhysics(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'title_home'.tr(context),
+                              style:  const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.normal,
                               ),
                             ),
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'home-title'.tr(context),
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 60,
+                              child: Card(
+                                color: ColorManager.white,
+                                elevation: 0,
+                                shape: BeveledRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
                                 ),
-                              ),
-                              const Spacer(),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) =>
-                                              const AllViewEquipments()));
-                                },
-                                child: Text(
-                                  'View All(${cubit.homeModel.results.toString()})',
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.search,
+                                        size: 25,
+                                        color: ColorManager.black,
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      SearchScreen()));
+                                        },
+                                        child: Text('search-title'.tr(context),
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: ColorManager.gery,
+                                            )),
+                                      ),
+                                      const Spacer(),
+                                      Icon(
+                                        Icons.filter_list_alt,
+                                        size: 25,
+                                        color: ColorManager.black,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                          listBuilderOrder(cubit.homeModel, context),
-                        ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'home-title'.tr(context),
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                const Spacer(),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const AllViewEquipments()));
+                                  },
+                                  child: Text(
+                                    'View All(${cubit.homeModel.results.toString()})',
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            listBuilderOrder(cubit.homeModel, context),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                floatingActionButton:
-                    HomeCubit.get(context).userData.role != "service_provider"
-                        ? null
-                        : FloatingActionButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NewPostScreen()));
-                            },
-                            materialTapTargetSize: MaterialTapTargetSize.padded,
-                            elevation: 5,
-                            backgroundColor: ColorManager.white,
-                            child: Icon(
-                              Icons.add,
-                              size: 30,
-                              color: ColorManager.black,
-                            ),
-                          ),
+                fallbackBuilder: (context) =>
+                    const Center(child: CircularProgressIndicator()),
               ),
-              fallbackBuilder: (context) =>
-                  const Center(child: CircularProgressIndicator()),
+              floatingActionButton: HomeCubit.get(context).oneUserData.userData.role != "service_provider" ? null : FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewPostScreen()));
+                },
+                materialTapTargetSize: MaterialTapTargetSize.padded,
+                elevation: 5,
+                backgroundColor: ColorManager.white,
+                child: Icon(
+                  Icons.add,
+                  size: 30,
+                  color: ColorManager.black,
+                ),
+              ),
             );
           },
         ));
@@ -280,7 +272,7 @@ class HomeScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Container(
-                            width: 120,
+                            width: MediaQuery.of(context).size.width / 3.5,
                             padding: EdgeInsets.symmetric(
                               horizontal:
                                   MediaQuery.of(context).size.width / 35,
@@ -300,15 +292,13 @@ class HomeScreen extends StatelessWidget {
                                 style: TextStyle(
                                   color: ColorManager.white,
                                   fontFamily: FontConstants.fontFamily,
-                                  fontSize: 15,
+                                  fontSize: 11,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 3,
-                          ),
+                          Spacer(),
                           FavoriteButton(
                             iconSize: 30,
                             isFavorite: true,

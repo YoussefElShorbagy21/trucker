@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:login/layout/homeLayout/cubit/state.dart';
 import 'package:login/shared/resources/app_localizations.dart';
+import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../models/chat_model/message_model.dart';
 import '../../../../../shared/resources/color_manager.dart';
 import '../chat_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavouriteContacts extends StatelessWidget {
   const FavouriteContacts({Key? key}) : super(key: key);
@@ -10,6 +13,11 @@ class FavouriteContacts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double heightScreen = MediaQuery.of(context).size.height;
+    return BlocConsumer<HomeCubit, HomeStates>(
+  listener: (context, state) {
+  },
+  builder: (context, state) {
+    var cubit = HomeCubit.get(context).allUserData.allUser ;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
@@ -49,7 +57,7 @@ class FavouriteContacts extends StatelessWidget {
                 left: 10.0,
               ),
               scrollDirection: Axis.horizontal,
-              itemCount: favorites.length,
+              itemCount: cubit.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () => Navigator.push(
@@ -64,13 +72,13 @@ class FavouriteContacts extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 35.0,
-                          backgroundImage: AssetImage(favorites[index].imageUrl),
+                          backgroundImage: NetworkImage(cubit[index].avatar),
                         ),
                         SizedBox(
                           height: heightScreen / 85, //6.0
                         ),
                         Text(
-                          favorites[index].name,
+                          cubit[index].name,
                           style: const TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w600,
@@ -86,5 +94,7 @@ class FavouriteContacts extends StatelessWidget {
         ],
       ),
     );
+  },
+);
   }
 }

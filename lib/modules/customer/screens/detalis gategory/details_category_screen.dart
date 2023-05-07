@@ -25,7 +25,7 @@ class DetailsCategoryScreen extends StatelessWidget {
         builder: (context, state) {
           var cubit =
               HomeScreenCubit.get(context).getDetailsEquipment.equipment;
-          var userCubit = HomeScreenCubit.get(context).userData;
+          var userCubit = HomeScreenCubit.get(context).oneUserData;
           return Scaffold(
             appBar: AppBar(
               backgroundColor: const Color(0xFFf7f7f7),
@@ -311,15 +311,15 @@ class DetailsCategoryScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(10.0),
                               child: CircleAvatar(
                                 radius: 20,
-                                backgroundImage: userCubit.avatar.isNotEmpty
-                                    ? NetworkImage(userCubit.avatar)
+                                backgroundImage: userCubit.userData.avatar.isNotEmpty
+                                    ? NetworkImage(userCubit.userData.avatar)
                                     : const NetworkImage(
                                         'https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',
                                       ),
-                                child: userCubit.avatar.isNotEmpty
+                                child: userCubit.userData.avatar.isNotEmpty
                                     ? null
                                     : Text(
-                                        userCubit.name[0].toUpperCase(),
+                                        userCubit.userData.name[0].toUpperCase(),
                                         style: TextStyle(
                                           fontSize: 30,
                                           color: ColorManager.black,
@@ -328,7 +328,7 @@ class DetailsCategoryScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              userCubit.name,
+                              userCubit.userData.name,
                               style: TextStyle(
                                   fontSize: 15, color: ColorManager.black),
                             ),

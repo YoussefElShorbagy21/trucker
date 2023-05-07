@@ -206,10 +206,10 @@ Widget buildImageChange(BuildContext context) => SimpleSettingsTile(
       title: 'Profile'.tr(context),
       leading: CircleAvatar(
         radius: 24,
-        backgroundImage: HomeCubit.get(context).userData.avatar.isNotEmpty ? NetworkImage(HomeCubit.get(context).userData.avatar) :
+        backgroundImage: HomeCubit.get(context).oneUserData.userData.avatar.isNotEmpty ? NetworkImage(HomeCubit.get(context).oneUserData.userData.avatar) :
         const NetworkImage('https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',),
-        child: HomeCubit.get(context).userData.avatar.isNotEmpty ? null : Text(
-          HomeCubit.get(context).userData.name[0].toUpperCase(),
+        child: HomeCubit.get(context).oneUserData.userData.avatar.isNotEmpty ? null : Text(
+          HomeCubit.get(context).oneUserData.userData.name[0].toUpperCase(),
           style: TextStyle(
             fontSize: 22,
             color: ColorManager.black,

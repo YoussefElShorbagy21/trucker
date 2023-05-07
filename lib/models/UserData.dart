@@ -1,3 +1,28 @@
+class AllUserData{
+  List<UserData> allUser ;
+
+  AllUserData({required this.allUser});
+
+  factory AllUserData.fromJson(Map<String,dynamic> json) =>
+      AllUserData(
+        allUser: List<UserData>.from(json["users"].map((e) => UserData.fromJson(e))),
+      );
+}
+
+class OneUserData{
+  UserData userData ;
+
+  OneUserData({
+    required this.userData,
+  });
+
+  factory OneUserData.fromJson(Map<String,dynamic> json) =>
+      OneUserData(
+        userData: UserData.fromJson(json["user"]),
+      );
+}
+
+
 class UserData{
   String name;
   String email;
@@ -17,11 +42,11 @@ class UserData{
 
   factory UserData.fromJson(Map<String,dynamic> json) =>
       UserData(
-        name: json['user']['name'],
-        email: json['user']['email'],
-        phone:json['user']['phone'] ,
-        verified: json['user']['verified'],
-          role: json['user']['role'],
-        avatar: json['user']['avatar'] ?? ''
+        name: json['name'],
+        email: json['email'],
+        phone:json['phone'] ,
+        verified: json['verified'],
+          role: json['role'],
+        avatar: json['avatar'] ?? ''
       );
 }

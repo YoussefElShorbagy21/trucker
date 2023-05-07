@@ -89,23 +89,6 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     });
   }
 
-
-  bool isClickedOrder = true ;
-  bool isClickedOffer = false ;
-  isClickOffer(){
-    isClickedOffer = true ;
-    isClickedOrder = false ;
-    print('isClickedOffer : $isClickedOffer');
-    print('isClickedOrder : $isClickedOrder');
-    emit(ChangeClickOrderButton());
-  }
-  isClickOrder(){
-    isClickedOffer = false ;
-    isClickedOrder = true ;
-    print('isClickedOffer : $isClickedOffer');
-    print('isClickedOrder : $isClickedOrder');
-    emit(ChangeClickOfferButton());
-  }
   var editTextController = TextEditingController();
   var editDescriptionController = TextEditingController();
   var editPriceController = TextEditingController();
@@ -209,13 +192,15 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     return File(croppedFile.path);
   }
 
-  UserData userData  = UserData(name: 'newName', email: '',verified: false, avatar: '', phone: '', role: '');
+  OneUserData oneUserData  = OneUserData(
+      userData: UserData(name: 'name', email: 'email', phone: 'phone',
+          verified: false, avatar: '', role: ''));
   void getUserDataForCategory(String userId){
     emit(LoadingGetUserData());
     DioHelper.getDate(url:'users/$userId').then((value){
         print(userId);
         print(value.data);
-      userData = UserData.fromJson(value.data);
+        oneUserData = OneUserData.fromJson(value.data);
       emit(SuccessGetUserData());
 
     }).catchError((onError){

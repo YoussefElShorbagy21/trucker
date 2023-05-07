@@ -18,6 +18,9 @@ class ChangeLocalState extends HomeStates{}
 class LoadingGetUserData extends HomeStates {}
 class SuccessGetUserData extends HomeStates {}
 
+class LoadingGetAllUserData extends HomeStates {}
+class SuccessGetAllUserData extends HomeStates {}
+
 
 class HomePostEquipmentLoadingState extends HomeStates {}
 class HomePostEquipmentSuccessState extends HomeStates {}

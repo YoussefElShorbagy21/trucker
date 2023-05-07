@@ -128,7 +128,9 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
 
-  UserData userData  = UserData(name: 'newName', email: '',verified: false, avatar: '', phone: '', role: '');
+  OneUserData oneUserData  = OneUserData(
+      userData: UserData(name: 'name', email: 'email', phone: 'phone',
+          verified: false, avatar: '', role: ''));
 
    void getUserData(){
     emit(LoadingGetUserData());
@@ -139,9 +141,8 @@ class HomeCubit extends Cubit<HomeStates>{
       if (kDebugMode) {
         print(uid);
       }
-      userData = UserData.fromJson(value.data);
+      oneUserData = OneUserData.fromJson(value.data);
       emit(SuccessGetUserData());
-
     }).catchError((onError){
       if (kDebugMode) {
         print(onError.toString());
@@ -149,8 +150,21 @@ class HomeCubit extends Cubit<HomeStates>{
     }
     );}
 
-
-
+ AllUserData allUserData = AllUserData(allUser: []);
+  void getAllUserData(){
+    emit(LoadingGetAllUserData());
+    DioHelper.getDate(url:'users').then((value){
+      if (kDebugMode) {
+        print(value.data);
+      }
+      allUserData = AllUserData.fromJson(value.data);
+      emit(SuccessGetAllUserData());
+    }).catchError((onError){
+      if (kDebugMode) {
+        print(onError.toString());
+      }
+    }
+    );}
 
   //update Data User
   var fullNameController = TextEditingController();
@@ -195,12 +209,12 @@ class HomeCubit extends Cubit<HomeStates>{
       data: formData,
     ).then((value)
     {
-      userData.name = value.data['updatedUser']['name'];
-      userData.avatar = value.data['updatedUser']['avatar'];
-      userData.email = value.data['updatedUser']['email'];
-      userData.phone = value.data['updatedUser']['phone'];
-      userData.verified = value.data['updatedUser']['verified'];
-      print(userData.avatar);
+      oneUserData.userData.name = value.data['updatedUser']['name'];
+      oneUserData.userData.avatar = value.data['updatedUser']['avatar'];
+      oneUserData.userData.email = value.data['updatedUser']['email'];
+      oneUserData.userData.phone = value.data['updatedUser']['phone'];
+      oneUserData.userData.verified = value.data['updatedUser']['verified'];
+      print(oneUserData.userData.avatar);
       Future.delayed(const Duration(seconds: 10),(){
         getUserData();
       });
