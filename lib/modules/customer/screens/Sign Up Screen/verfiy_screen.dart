@@ -3,6 +3,7 @@ import 'package:login/shared/components/constants.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../layout/homeLayout/homelayout.dart';
 import '../../../../shared/network/local/cache_helper.dart';
 import '../../../../shared/resources/color_manager.dart';
@@ -27,8 +28,10 @@ class VerifyScreen extends StatelessWidget {
   listener: (context, state) {
     if(state is SuccessVerifyEmail)
       {
-        CacheHelper.saveData(key:'VerifyScreen', value: true,).then((value) =>
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeLayout()))
+        CacheHelper.saveData(key:'VerifyScreen', value: true,).then((value) {
+          HomeCubit.get(context).changeBottomNavIndex(0);
+          return Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeLayout()));
+        }
         );
       }
   },

@@ -30,4 +30,10 @@ class LoadingVerifyEmailAgain extends RegisterState {}
 class SuccessVerifyEmailAgain extends RegisterState {}
 class ErrorVerifyEmailAgain extends RegisterState {}
 
+class PostImageOcrPickedSuccessState extends RegisterState {}
+class PostImageOcrPickedErrorState extends RegisterState {}
+
+class LoadingOCRPostState extends RegisterState {}
+class SuccessOCRPostState extends RegisterState {}
+class ErrorOCRPostState extends RegisterState {}
 

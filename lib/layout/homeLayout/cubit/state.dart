@@ -33,11 +33,39 @@ class ErrorUpdateUSERState extends HomeStates {}
 
 
 class HomeSetCategory extends HomeStates {}
-class HomeSetGovernment extends HomeStates {}
+class HomeSetSubCategory extends HomeStates {}
+class HomeSetBrand extends HomeStates {}
+class HomeSetLocationFrom extends HomeStates {}
+class HomeSetLocationTo extends HomeStates {}
 
 class DelayFunctionState extends HomeStates {}
 
 class HomeProfileImagePickedSuccessState extends HomeStates {}
 class HomeProfileImagePickedErrorState extends HomeStates {}
 
+class HomeLoadingGetCategory extends HomeStates {}
+class HomeSuccessGetCategory extends HomeStates {}
+class HomeErrorGetCategory extends HomeStates {}
 
+class HomeLoadingGetSubCategory extends HomeStates {}
+class HomeSuccessGetSubCategory extends HomeStates {}
+class HomeErrorGetSubCategory extends HomeStates {}
+
+
+class HomeLoadingGetBrand extends HomeStates {}
+class HomeSuccessGetBrand extends HomeStates {}
+class HomeErrorGetBrand extends HomeStates {}
+
+class LoadingAddFavorite extends HomeStates {}
+class SuccessAddFavorite extends HomeStates {}
+class ErrorAddFavorite extends HomeStates {}
+
+class LoadingDeleteFavorite extends HomeStates {}
+class SuccessDeleteFavorite extends HomeStates {}
+class ErrorDeleteFavorite extends HomeStates {}
+
+class DelayedFunction extends HomeStates {}
+
+class HomeLoadingGetFilterData extends HomeStates {}
+class HomeSuccessGetFilterData extends HomeStates {}
+class HomeErrorGetFilterData extends HomeStates {}

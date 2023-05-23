@@ -261,7 +261,7 @@ class ProfileScreen extends StatelessWidget {
                                  const SizedBox(height: 20),
                                  buildPayment(context),
                                  const SizedBox(height: 20),
-                                 buildJoinUs(context),
+                                 HomeCubit.get(context).oneUserData.userData.role == "service_provider" ?  Container(): buildFavorite(context),
                                ],
                              ),
                           ),

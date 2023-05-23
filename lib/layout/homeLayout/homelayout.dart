@@ -44,7 +44,6 @@ class HomeLayout extends StatelessWidget {
                   ),),
               ],
             ),
-
             actions:  [
                Padding(
                  padding: const EdgeInsets.all(10.0),

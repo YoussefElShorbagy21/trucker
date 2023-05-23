@@ -13,25 +13,14 @@ void sinOut(context)
         navigatefisnh(context,LoginScreen() ) ;
       }
   });
+  print('token : $token');
+  print('uid: $uid');
 }
-
-void printFullText( String? text)
-{
-  final pattern = RegExp('.{1,800}');
-  pattern.allMatches(text!).forEach((match) => print(match.group(0)));
-}
-
-void navigateTo(context , widget) =>  Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context)  => widget,
-  ),
-);
 
 void navigateFish(context , widget) =>  Navigator.pushAndRemoveUntil(
     context,
     MaterialPageRoute(
-      builder: (context) => widget,
+      builder: (_) => widget,
     ),
         (route) => false
 );

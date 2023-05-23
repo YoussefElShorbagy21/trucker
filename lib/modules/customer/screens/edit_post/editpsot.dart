@@ -3,18 +3,32 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/modules/customer/screens/home/cubit/state.dart';
 
 import '../../../../layout/homeLayout/cubit/cubit.dart';
+import '../../../../shared/components/constants.dart';
 import '../../../../shared/components/input_field.dart';
 import '../../../../shared/resources/color_manager.dart';
 import '../detalis gategory/changephoto.dart';
 import '../home/cubit/cubit.dart';
+
+
 class EditPost extends StatelessWidget {
-  String id ;
-   EditPost({required this.id, Key? key}) : super(key: key);
+  String id ; String cid; String scid; String bid;
+   EditPost({required this.id,required this.cid ,required this.scid ,required this.bid, Key? key}) : super(key: key);
   List<String> categoryList = [
-    'Aerial Lifts',
-    'Air Compressors',
-    'Cabin','Cranes','Dump truck',
-    'Earth Moving','Material Handling','Motors'];
+    'Truck',
+    'pick up',
+    'Heavy Equipment',
+    'Others',];
+  List<String> subCategoryList = [
+    'truck1',
+    'truck2',
+    'truck3',
+    'truck4',
+    'pick up1',];
+  List<String> brandList = [
+    'Scania',
+    'Iveco',
+    'Man',
+    'Volvo',];
   List<String> governmentList = [
     "الإسكندرية","الإسماعيلية",
     "كفر الشيخ","أسوان",
@@ -30,7 +44,8 @@ class EditPost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-  create: (context) => HomeScreenCubit()..getDetailsCategoryData(id),
+  create: (context) => HomeScreenCubit()..getDetailsCategoryData(id,cid,scid,bid)
+    ..idCategory(cid)..idSubCategory(scid)..idBrand(bid),
   child: BlocConsumer<HomeScreenCubit, HomeScreenState>(
       listener: (context, state) {},
       builder: (context,state)
@@ -47,12 +62,17 @@ class EditPost extends StatelessWidget {
                 child: OutlinedButton(
                   onPressed: () {
                     HomeScreenCubit.get(context).updatePostData(
-                        title:  HomeScreenCubit.get(context).editTextController.text,
+                        name:  HomeScreenCubit.get(context).editTextController.text,
                         description:  HomeScreenCubit.get(context).editDescriptionController.text,
                         price: int.parse(HomeScreenCubit.get(context).editPriceController.text),
-                        category:  HomeScreenCubit.get(context).editCategoryController.text,
-                        government:HomeScreenCubit.get(context).editGovernmentController.text,
-                        id: id);
+                        id: id,
+                        priceAfterDiscount: 400,
+                        category: HomeScreenCubit.get(context).editIdCategoryControllerT,
+                        subcategory: HomeScreenCubit.get(context).editIdSubCategoryControllerT,
+                        brand: HomeScreenCubit.get(context).editIdBrandControllerT,
+                        locationFrom: HomeScreenCubit.get(context).editLocationFromControllerT,
+                        locationTo: HomeScreenCubit.get(context).editLocationToControllerT,
+                        userId: uid,);
                     Navigator.pop(context);
                   },
                   child:  Text('Update',style: TextStyle(color: ColorManager.black),),
@@ -85,7 +105,7 @@ class EditPost extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4.0),
                           image:  DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(HomeScreenCubit.get(context).getDetailsEquipment.equipment.photo),
+                            image: NetworkImage(HomeScreenCubit.get(context).detailsEquipment.imageCover),
                           ),
                         )
                       ),
@@ -152,7 +172,7 @@ class EditPost extends StatelessWidget {
                   ),
                   InputField(
                     title: 'Category',
-                    note: HomeScreenCubit.get(context).editCategoryController.text ,
+                    note: HomeScreenCubit.get(context).editCategoryControllerT ,
                     widget: Row(
                       children: [
                         DropdownButton(
@@ -167,7 +187,7 @@ class EditPost extends StatelessWidget {
                           underline:  Container(height: 0,),
                           onChanged: (String? value)
                           {
-                            HomeCubit.get(context).setCategory(value!);
+                            HomeScreenCubit.get(context).updateCategory(value!);
                           },
                         ),
                         const SizedBox(width: 6,),
@@ -175,8 +195,56 @@ class EditPost extends StatelessWidget {
                     ),onTap: () {},
                   ),
                   InputField(
-                    title: 'Government',
-                    note: HomeScreenCubit.get(context).editGovernmentController.text ,
+                    title: 'SubCategory',
+                    note: HomeScreenCubit.get(context).editSubCategoryControllerT ,
+                    widget: Row(
+                      children: [
+                        DropdownButton(
+                          dropdownColor: ColorManager.black,
+                          borderRadius: BorderRadius.circular(10),
+                          items: subCategoryList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                          iconSize: 32,
+                          elevation: 4,
+                          underline:  Container(height: 0,),
+                          onChanged: (String? value)
+                          {
+                            HomeScreenCubit.get(context).updateSubCategory(value!);
+                          },
+                        ),
+                        const SizedBox(width: 6,),
+                      ],
+                    ),onTap: () {},
+                  ),
+                  InputField(
+                    title: 'Brand',
+                    note: HomeScreenCubit.get(context).editBrandControllerT ,
+                    widget: Row(
+                      children: [
+                        DropdownButton(
+                          dropdownColor: ColorManager.black,
+                          borderRadius: BorderRadius.circular(10),
+                          items: brandList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                          iconSize: 32,
+                          elevation: 4,
+                          underline:  Container(height: 0,),
+                          onChanged: (String? value)
+                          {
+                            HomeScreenCubit.get(context).updateBrand(value!);
+                          },
+                        ),
+                        const SizedBox(width: 6,),
+                      ],
+                    ),onTap: () {},
+                  ),
+                  InputField(
+                    title: 'locationFrom',
+                    note: HomeScreenCubit.get(context).editLocationFromControllerT ,
                     widget: Row(
                       children: [
                         DropdownButton(
@@ -191,7 +259,31 @@ class EditPost extends StatelessWidget {
                           underline:  Container(height: 0,),
                           onChanged: (String? value)
                           {
-                            HomeCubit.get(context).setGovernment(value!);
+                            HomeScreenCubit.get(context).updateLocationFrom(value!);
+                          },
+                        ),
+                        const SizedBox(width: 6,),
+                      ],
+                    ),onTap: () {},
+                  ),
+                  InputField(
+                    title: 'locationTo',
+                    note: HomeScreenCubit.get(context).editLocationToControllerT ,
+                    widget: Row(
+                      children: [
+                        DropdownButton(
+                          dropdownColor: ColorManager.black,
+                          borderRadius: BorderRadius.circular(10),
+                          items: governmentList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                          iconSize: 32,
+                          elevation: 4,
+                          underline:  Container(height: 0,),
+                          onChanged: (String? value)
+                          {
+                            HomeScreenCubit.get(context).updateLocationTo(value!);
                           },
                         ),
                         const SizedBox(width: 6,),

@@ -1,3 +1,6 @@
+import 'package:image_cropper/image_cropper.dart';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +10,7 @@ import 'package:login/shared/components/constants.dart';
 import '../../../../../shared/network/local/cache_helper.dart';
 import '../../../../../shared/network/remote/dio_helper.dart';
 import 'register_state.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterCubit extends Cubit<RegisterState>
 {
@@ -122,5 +126,82 @@ class RegisterCubit extends Cubit<RegisterState>
       print(onError.toString());
       emit(ErrorVerifyEmailAgain());
     });
+  }
+
+  var nationalIdController = TextEditingController();
+  var drivingLicenseController = TextEditingController();
+
+  void imageOCR({
+    required File photo,
+  }) async{
+      emit(LoadingOCRPostState());
+      FormData formData = FormData.fromMap({
+        "image" : await MultipartFile.fromFile(photo.path),
+      });
+      DioHelper.postOCR(
+        url: 'ocr',
+        data: formData,
+      ).then((value)
+      {
+        var indexData = value.data['ocrResult'].toString().split("\n") ;
+        print(indexData.length);
+        print(indexData);
+        for(var index = 0; index < indexData.length; index++)
+          {
+            if (indexData[index].length == 14 && indexData[index].contains(RegExp(r'[0-9]'))){
+              nationalIdController.text = indexData[index] ;
+            }
+          }
+        print(nationalIdController.text);
+        drivingLicenseController.text = indexData[10] ;
+        emit(SuccessOCRPostState());
+        postImageOCR = null ;
+      }).catchError((error){
+        print(error.toString());
+        emit(ErrorOCRPostState());
+      });
+  }
+
+  File? postImageOCR ;
+  var newPicker = ImagePicker();
+  Future<void> getPostImageOcr(ImageSource imageSource) async  {
+    final pickedFile = await newPicker.pickImage(source: imageSource);
+    if(pickedFile != null) {
+      postImageOCR = File(pickedFile.path) ;
+      postImageOCR = await croppedImage(file: postImageOCR);
+      print('New Post Image : ${postImageOCR.toString()}');
+      imageOCR(photo: postImageOCR!);
+      emit(PostImageOcrPickedSuccessState());
+    }
+    else {
+      print('No image selected');
+      emit(PostImageOcrPickedErrorState());
+    }
+  }
+
+  Future<File?> croppedImage({required File? file}) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: file!.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+    if(croppedFile == null) return null ;
+    return File(croppedFile.path);
   }
 }

@@ -22,7 +22,6 @@ class OneUserData{
       );
 }
 
-
 class UserData{
   String name;
   String email;
@@ -30,6 +29,9 @@ class UserData{
   bool verified;
   String avatar ;
   String role;
+  dynamic nationalId;
+  dynamic drivingLicense;
+  List<dynamic> favoriteList;
 
   UserData({
     required this.name,
@@ -37,7 +39,10 @@ class UserData{
     required this.phone,
     required this.verified,
     required this.avatar,
-    required this.role
+    required this.role,
+    required this.nationalId,
+    required this.drivingLicense,
+    required this.favoriteList,
   });
 
   factory UserData.fromJson(Map<String,dynamic> json) =>
@@ -47,6 +52,9 @@ class UserData{
         phone:json['phone'] ,
         verified: json['verified'],
           role: json['role'],
-        avatar: json['avatar'] ?? ''
+        avatar: json['avatar'] ?? '',
+        nationalId: json["nationalId"] ?? '',
+        drivingLicense: json["drivingLicense"] ?? ' ',
+        favoriteList: List<String>.from(json["favoriteList"].map((x) => x)),
       );
 }

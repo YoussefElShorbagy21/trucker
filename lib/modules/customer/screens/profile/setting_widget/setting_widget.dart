@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/modules/customer/screens/favorite/favorite.dart';
 import 'package:login/shared/network/remote/dio_helper.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import 'package:login/shared/resources/color_manager.dart';
@@ -112,7 +113,44 @@ Widget buildDeleteAccount(BuildContext context) => SimpleSettingsTile(
       ),
       title: 'Delete Account'.tr(context),
       onTap: () {
-        DioHelper.deleteData(url: 'users/deleteMe');
+        showDialog(context: context,
+            builder: (BuildContext context) {
+              return  AlertDialog(
+                content:
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    const Text.rich(
+                      TextSpan( text: 'Are you sure?? \n You want delete account !!'),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Row(
+                      children: [
+                        ElevatedButton(onPressed: (){
+                          Navigator.pop(context);
+                        }, child: const Text('Cancel')),
+                        const Spacer(),
+                        ElevatedButton(onPressed: (){
+                          DioHelper.deleteData(url: 'users/deleteMe');
+                        }, child: const Text('Apply')),
+                      ],
+                    ),
+                  ],
+                ),
+
+              );
+            }
+        );
         sinOut(context);
       },
     );
@@ -129,26 +167,26 @@ Widget buildAccount(context) => SimpleSettingsTile(
     );
 
 Widget buildLanguage() => BlocConsumer<HomeCubit, HomeStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        return DropDownSettingsTile(
-          settingKey: AccountPage.keyLanguage,
-          title: 'Languages'.tr(context),
-          selected: 1,
-          values:  <int, String>{
-            1: 'English'.tr(context),
-            2: 'Arabic'.tr(context),
-          },
-          onChange: (language) {
-            if (language == 1) {
-              context.read<HomeCubit>().cachedLanguageCode('en');
-            } else {
-              context.read<HomeCubit>().cachedLanguageCode('ar');
-            }
-          },
-        );
-      },
-    );
+    listener: (context, state) {},
+    builder: (context, state) {
+      return DropDownSettingsTile(
+        settingKey: AccountPage.keyLanguage,
+        title: 'Languages'.tr(context),
+        selected: 1,
+        values:  <int, String>{
+          1: 'English'.tr(context),
+          2: 'Arabic'.tr(context),
+        },
+        onChange: (language) {
+          if (language == 1) {
+            context.read<HomeCubit>().cachedLanguageCode('en');
+          } else {
+            context.read<HomeCubit>().cachedLanguageCode('ar');
+          }
+        },
+      );
+    },
+  );
 
 Widget buildLocation(context) => TextInputSettingsTile(
       settingKey: AccountPage.keyLocation,
@@ -304,7 +342,10 @@ Widget buildActivity(context) => SwitchSettingsTile(
         color: Colors.orange,
       ),
       title: 'Account Activity'.tr(context),
-      // onChange: (keyNews) {},
+      enabled: HomeCubit().oneUserData.userData.verified == true ? true : false  ,
+      onChange: (keyNews) {
+
+      },
     );
 
 Widget buildNewsletter(context) => SwitchSettingsTile(
@@ -359,21 +400,14 @@ Widget buildMyOrder(context) => SimpleSettingsTile(
       onTap: () {},
     );
 
-Widget buildJoinUs(context) => SimpleSettingsTile(
+Widget buildFavorite(context) => SimpleSettingsTile(
   leading: const IconWidget(
-    icon: Icons.fire_truck,
-    color: Colors.indigoAccent,
+    icon: Icons.favorite,
+    color: Colors.red,
   ),
-  title: 'Join Us'.tr(context),
-  subtitle: 'Become A Trucker be get your job'.tr(context),
+  title: 'My favorite',
+  subtitle: 'Here All Your favorite',
   subtitleTextStyle:
   const TextStyle(color: Colors.blueGrey, fontSize: 10),
-  child: const Scaffold(
-    body: Center(
-        child: Text(
-          'Not finished yet!',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-        )),
-  ),
-  onTap: () {},
+  child:  FavoriteScreen(),
 );

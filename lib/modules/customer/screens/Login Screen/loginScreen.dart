@@ -43,11 +43,12 @@ class LoginScreen extends StatelessWidget {
               value: state.model.id,
             ).then((value) =>
             {
+              HomeCubit.get(context).changeBottomNavIndex(0),
               navigateFish(context, const HomeLayout()),
-              HomeCubit.get(context).getUserData(),
+              HomeCubit.get(context).getUserData(userID: state.model.id),
             }
             );
-            final snackBar = SnackBar(
+      /*      final snackBar = SnackBar(
               elevation: 0,
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.transparent,
@@ -59,7 +60,7 @@ class LoginScreen extends StatelessWidget {
             );
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
-              ..showSnackBar(snackBar);
+              ..showSnackBar(snackBar);*/
           }
           else{
            final snackBar = SnackBar(
