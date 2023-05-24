@@ -4,6 +4,7 @@ import 'package:login/modules/customer/screens/edit_post/editpsot.dart';
 import 'package:login/modules/customer/screens/home/cubit/cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/shared/resources/app_localizations.dart';
+import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../layout/homeLayout/homelayout.dart';
 import '../../../../shared/components/constants.dart';
 import '../../../../shared/network/remote/dio_helper.dart';
@@ -544,7 +545,7 @@ class DetailsCategoryScreen extends StatelessWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 120,
                         ),
-                        Container(
+                        HomeCubit.get(context).oneUserData.userData.role != "service_provider" ? Container(
                           width: MediaQuery.of(context).size.width * 1,
                           height: MediaQuery.of(context).size.height / 20,
                           padding: EdgeInsets.symmetric(
@@ -569,7 +570,7 @@ class DetailsCategoryScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
+                        ) : Container(),
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 150,
                         ),
