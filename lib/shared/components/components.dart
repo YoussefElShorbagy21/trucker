@@ -171,6 +171,33 @@ child: Row(
                       ),
                     ),
                   ),*/
+                  Row(
+                    children: [
+                      Text('${equipment.ratingCount.toDouble().toString()} / 5'
+                        ,style: const TextStyle(
+                          fontSize: 15,
+                        ),),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      RatingBar.builder(
+                        initialRating: equipment.ratingCount.toDouble(),
+                        minRating: 1,
+                        maxRating: 5,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemSize: 10,
+                        ignoreGestures: true,
+                        itemBuilder: (context, _) => const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ), onRatingUpdate: (double value) {  },
+                      ),
+
+                    ],
+                  ),
+                 const Spacer(),
                   FavoriteButton(
                     iconSize: 30,
                     isFavorite: HomeCubit.get(context).favorites[equipment.id] == 'find' ? true  : false,
@@ -186,33 +213,6 @@ child: Row(
                         HomeCubit.get(context).favorites[equipment.id] = '';
                       }
                     },
-                  ),
-                 const Spacer(),
-                  Row(
-                    children: [
-                      Text('${equipment.ratingCount.toDouble().toString()} / 5'
-                      ,style: const TextStyle(
-                          fontSize: 15,
-                        ),),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    RatingBar.builder(
-                        initialRating: equipment.ratingCount.toDouble(),
-                        minRating: 1,
-                        maxRating: 5,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemSize: 10,
-                        ignoreGestures: true,
-                        itemBuilder: (context, _) => const Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ), onRatingUpdate: (double value) {  },
-                     ),
-
-                    ],
                   ),
 
                 ],
