@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:login/layout/homeLayout/cubit/cubit.dart';
+import 'package:login/layout/homeLayout/cubit/state.dart';
 import 'package:login/modules/customer/screens/chats_screen/test_chat_screen.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../../models/chat_model/message_model.dart';
 import '../../../../../shared/resources/color_manager.dart';
-import '../chat_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RecentChats extends StatelessWidget {
   const RecentChats({Key? key}) : super(key: key);
@@ -11,7 +13,11 @@ class RecentChats extends StatelessWidget {
   Widget build(BuildContext context) {
     double widthScreen = MediaQuery.of(context).size.width;
     double heightScreen = MediaQuery.of(context).size.height;
-
+    return BlocConsumer<HomeCubit, HomeStates>(
+  listener: (context, state) {
+  },
+  builder: (context, state) {
+    var cubit = HomeCubit.get(context).allUserData.allUser ;
     return Expanded(
       child: Container(
         // height: heightScreen/3,
@@ -28,7 +34,7 @@ class RecentChats extends StatelessWidget {
             topRight: Radius.circular(30.0),
           ),
           child: ListView.builder(
-            itemCount: chats.length,
+            itemCount: cubit.length,
             itemBuilder: (BuildContext context, int index) {
               final Message chat = chats[index];
 
@@ -50,11 +56,11 @@ class RecentChats extends StatelessWidget {
                     horizontal: 4.0,
                     vertical: 4.0,
                   ),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     // color: chat.unread
                     //     ? ColorManager.gery.withOpacity(0.3)
                     //     : ColorManager.white,
-                    borderRadius: const BorderRadius.only(
+                    borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20.0),
                       bottomRight: Radius.circular(20.0),
                     ),
@@ -66,7 +72,7 @@ class RecentChats extends StatelessWidget {
                         children: <Widget>[
                           CircleAvatar(
                             radius: 35.0,
-                            backgroundImage: AssetImage(chat.sender.imageUrl),
+                            backgroundImage: NetworkImage(cubit[index].avatar),
                           ),
                           SizedBox(
                             width: widthScreen / 40, //10.0
@@ -75,7 +81,7 @@ class RecentChats extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                chat.sender.name,
+                                cubit[index].name,
                                 style: TextStyle(
                                   color: ColorManager.gery,
                                   fontSize: 15.0,
@@ -148,5 +154,7 @@ class RecentChats extends StatelessWidget {
         ),
       ),
     );
+  },
+);
   }
 }

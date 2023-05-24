@@ -4,6 +4,7 @@ import 'package:login/layout/homeLayout/cubit/cubit.dart';
 import 'package:login/layout/homeLayout/cubit/state.dart';
 import 'package:login/layout/homeLayout/homelayout.dart';
 import 'package:login/modules/customer/screens/Login%20Screen/loginScreen.dart';
+import 'package:login/modules/customer/screens/Sign%20Up%20Screen/cubit/register_cubit.dart';
 import 'package:login/shared/bloc_observer.dart';
 import 'package:login/shared/components/constants.dart';
 import 'package:login/shared/network/local/cache_helper.dart';
@@ -27,12 +28,12 @@ void main() async {
   await CacheHelper.init();
   Widget widget;
 
-  print(token);
-  print(uid);
-  print(choseUser);
-  print(onBoarding);
-  print(language);
-  print(verify);
+  print('token : $token');
+  print('uid: $uid');
+  print("choseUser: $choseUser");
+  print("onBoarding: $onBoarding");
+  print("language: $language");
+  print("verify: $verify");
 
   if(language != null)
     {
@@ -71,8 +72,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-            BlocProvider<HomeCubit>(create: (context) => HomeCubit()..getUserData()..getSavedLanguage()),
-            BlocProvider<HomeScreenCubit>(create: (context) => HomeScreenCubit()),
+            BlocProvider<HomeCubit>(create: (context) => HomeCubit()..getUserData()..getSavedLanguage()..getAllUserData()
+               ..getCategory()..getSubCategory()..getBrand() ),
+            BlocProvider<HomeScreenCubit>(create: (context) => HomeScreenCubit()..getHomeData()),
+            BlocProvider<RegisterCubit>(create: (context) => RegisterCubit()),
       ],
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {},
@@ -81,7 +84,7 @@ class MyApp extends StatelessWidget {
               locale: HomeCubit.get(context).locale,
               theme: ThemeData(
                 useMaterial3: true,
-                colorSchemeSeed: ColorManager.white,
+                  colorScheme: ColorScheme.fromSeed(seedColor: ColorManager.cWhite),
               ),
               supportedLocales: const [
                 Locale('ar'),

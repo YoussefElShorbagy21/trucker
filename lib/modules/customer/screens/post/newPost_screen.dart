@@ -1,31 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-  import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-
-  import '../../../../layout/homeLayout/cubit/cubit.dart';
-  import '../../../../layout/homeLayout/cubit/state.dart';
-  import '../../../../shared/components/constants.dart';
+import '../../../../layout/homeLayout/cubit/cubit.dart';
+import '../../../../layout/homeLayout/cubit/state.dart';
+import '../../../../shared/components/constants.dart';
 import '../../../../shared/components/input_field.dart';
 import '../../../../shared/resources/color_manager.dart';
 import '../../../../shared/resources/select_photo_options_screen.dart';
 
-  class NewPostScreen extends StatelessWidget {
+class NewPostScreen extends StatelessWidget {
     List<String> categoryList = [
-      'Aerial Lifts',
-      'Air Compressors',
-      'Cabin','Cranes','Dump truck',
-      'Earth Moving','Material Handling','Motors'];
+      'Truck',
+      'pick up',
+      'Heavy Equipment',
+      'Others',];
+    List<String> subCategoryList = [
+      'truck1',
+      'truck2',
+      'truck3',
+      'truck4',
+      'pick up1',];
+    List<String> brandList = [
+      'Scania',
+      'Iveco',
+      'Man',
+      'Volvo',];
     List<String> governmentList = [
-       "الإسكندرية","الإسماعيلية",
-        "كفر الشيخ","أسوان",
-         "أسيوط", "الأقصر",
-    "الوادي الجديد","شمال سيناء",
-   "البحيرة","بني سويف","بورسعيد","البحر الأحمر",
-    "الجيزة","الدقهلية","جنوب سيناء","دمياط",
- "سوهاج","السويس","الشرقية","الغربية",
- "الفيوم","القاهرة","القليوبية",
- "قنا","مطروح","المنوفية","المنيا"
+      "الإسكندرية","الإسماعيلية",
+      "كفر الشيخ","أسوان",
+      "أسيوط", "الأقصر",
+      "الوادي الجديد","شمال سيناء",
+      "البحيرة","بني سويف","بورسعيد","البحر الأحمر",
+      "الجيزة","الدقهلية","جنوب سيناء","دمياط",
+      "سوهاج","السويس","الشرقية","الغربية",
+      "الفيوم","القاهرة","القليوبية",
+      "قنا","مطروح","المنوفية","المنيا"
     ];
 
     NewPostScreen({super.key});
@@ -35,33 +45,29 @@ import '../../../../shared/resources/select_photo_options_screen.dart';
         listener: (context, state) {},
         builder: (context,state)
       {
-        print(HomeCubit.get(context).textController.text);
-        print(HomeCubit.get(context).descriptionController.text);
-        print(HomeCubit.get(context).priceController.text);
-        print(HomeCubit.get(context).governmentControllerT);
-        print(HomeCubit.get(context).categoryControllerT);
-        print(HomeCubit.get(context).postImage);
-        print(uid);
         return Scaffold(
           appBar: AppBar(
             backgroundColor: ColorManager.white,
             elevation: 0,
             title:  Text('Create Post',style: TextStyle(color: ColorManager.gery),),
-            actions:
-            [
+            actions: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: OutlinedButton(
                   onPressed: () {
                       HomeCubit.get(context).postNewEquipment(
-                          title: HomeCubit.get(context).textController.text,
+                          name: HomeCubit.get(context).textController.text,
                           description: HomeCubit.get(context).descriptionController.text,
-                          photo: HomeCubit.get(context).postImage,
+                          imageCover: HomeCubit.get(context).postImage,
                           price: int.parse(HomeCubit.get(context).priceController.text),
-                          category: HomeCubit.get(context).categoryControllerT,
-                          government: HomeCubit.get(context).governmentControllerT,
-                          userId: uid);
-                      HomeCubit.get(context).delayFunction(5);
+                          category: HomeCubit.get(context).idCategoryControllerT,
+                          locationFrom: HomeCubit.get(context).locationFromControllerT,
+                          userId: uid,
+                          subcategory: HomeCubit.get(context).idSubCategoryControllerT,
+                          brand: HomeCubit.get(context).idBrandControllerT,
+                          locationTo: HomeCubit.get(context).locationToControllerT,
+                          priceAfterDiscount: 800,);
+                      HomeCubit.get(context).delayFunction(10);
                       Navigator.pop(context);
                   },
                 child:  Text('Post',style: TextStyle(color: ColorManager.black),),
@@ -208,8 +214,56 @@ import '../../../../shared/resources/select_photo_options_screen.dart';
                     ),onTap: () {},
                   ),
                   InputField(
-                    title: 'Government',
-                    note: HomeCubit.get(context).governmentControllerT ,
+                    title: 'SubCategory',
+                    note: HomeCubit.get(context).subCategoryControllerT ,
+                    widget: Row(
+                      children: [
+                        DropdownButton(
+                          dropdownColor: ColorManager.black,
+                          borderRadius: BorderRadius.circular(10),
+                          items: subCategoryList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                          iconSize: 32,
+                          elevation: 4,
+                          underline:  Container(height: 0,),
+                          onChanged: (String? value)
+                          {
+                            HomeCubit.get(context).setSubCategory(value!);
+                          },
+                        ),
+                        const SizedBox(width: 6,),
+                      ],
+                    ),onTap: () {},
+                  ),
+                  InputField(
+                    title: 'Brand',
+                    note: HomeCubit.get(context).brandControllerT ,
+                    widget: Row(
+                      children: [
+                        DropdownButton(
+                          dropdownColor: ColorManager.black,
+                          borderRadius: BorderRadius.circular(10),
+                          items: brandList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                          iconSize: 32,
+                          elevation: 4,
+                          underline:  Container(height: 0,),
+                          onChanged: (String? value)
+                          {
+                            HomeCubit.get(context).setBrand(value!);
+                          },
+                        ),
+                        const SizedBox(width: 6,),
+                      ],
+                    ),onTap: () {},
+                  ),
+                  InputField(
+                    title: 'locationFrom',
+                    note: HomeCubit.get(context).locationFromControllerT ,
                     widget: Row(
                       children: [
                         DropdownButton(
@@ -224,7 +278,31 @@ import '../../../../shared/resources/select_photo_options_screen.dart';
                           underline:  Container(height: 0,),
                           onChanged: (String? value)
                           {
-                            HomeCubit.get(context).setGovernment(value!);
+                            HomeCubit.get(context).setLocationFrom(value!);
+                          },
+                        ),
+                        const SizedBox(width: 6,),
+                      ],
+                    ),onTap: () {},
+                  ),
+                  InputField(
+                    title: 'locationTo',
+                    note: HomeCubit.get(context).locationToControllerT ,
+                    widget: Row(
+                      children: [
+                        DropdownButton(
+                          dropdownColor: ColorManager.black,
+                          borderRadius: BorderRadius.circular(10),
+                          items: governmentList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                          iconSize: 32,
+                          elevation: 4,
+                          underline:  Container(height: 0,),
+                          onChanged: (String? value)
+                          {
+                            HomeCubit.get(context).setLocationTo(value!);
                           },
                         ),
                         const SizedBox(width: 6,),
@@ -397,7 +475,6 @@ import '../../../../shared/resources/select_photo_options_screen.dart';
                       ],
                     ),
                   ),*/
-
                 ],
               ),
             ),

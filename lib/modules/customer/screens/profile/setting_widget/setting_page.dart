@@ -50,7 +50,7 @@ class _SettingsChangeState extends State<SettingsChange> {
           //   height: 15,
           //   thickness: 2,
           // ),
-          SettingsGroup(
+        /*  SettingsGroup(
             title: 'FEEDBACK'.tr(context),
             children: <Widget>[
               const SizedBox(
@@ -62,7 +62,7 @@ class _SettingsChangeState extends State<SettingsChange> {
               ),
               buildSendFeedback(context),
             ],
-          ),
+          ),*/
         ],
       ),
     );

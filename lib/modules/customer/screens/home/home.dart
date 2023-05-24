@@ -4,20 +4,34 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 import 'package:login/layout/homeLayout/cubit/cubit.dart';
 import 'package:login/shared/resources/app_localizations.dart';
-import 'package:favorite_button/favorite_button.dart';
+import '../../../../shared/components/components.dart';
+import '../../../../shared/components/input_field.dart';
 import '../../../../shared/resources/color_manager.dart';
-import '../../../../shared/resources/font_manager.dart';
-import '../../../../models/categeiromodel.dart';
-import '../detalis gategory/details_category_screen.dart';
 import '../post/newPost_screen.dart';
 import '../search/search_screen.dart';
 import 'AllviewEquipmentsScreen.dart';
 import 'cubit/cubit.dart';
 import 'cubit/state.dart';
-import 'package:skeletons/skeletons.dart';
+import 'filter_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
+  List<String> categoryList = [
+    'Truck',
+    'pick up',
+    'Heavy Equipment',
+    'Others',];
+  List<String> subCategoryList = [
+    'truck1',
+    'truck2',
+    'truck3',
+    'truck4',
+    'pick up1',];
+  List<String> brandList = [
+    'Scania',
+    'Iveco',
+    'Man',
+    'Volvo',];
 
   @override
   Widget build(BuildContext context) {
@@ -27,301 +41,242 @@ class HomeScreen extends StatelessWidget {
           listener: (context, state) {},
           builder: (context, state) {
             var cubit = HomeScreenCubit.get(context);
-            return Conditional.single(
-              context: context,
-              conditionBuilder: (context) =>
-                  HomeScreenCubit.get(context).homeModel.equipment.isNotEmpty,
-              widgetBuilder: (context) => Scaffold(
-                body: RefreshIndicator(
-                  color: ColorManager.black,
-                  backgroundColor: ColorManager.white1,
-                  onRefresh: cubit.onRefresh,
-                  child: SingleChildScrollView(
-                    physics: const ScrollPhysics(),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'title_home'.tr(context),
-                            style:  const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                            // const TextStyle(
-                            //   fontWeight: FontWeight.bold,
-                            //   fontSize: 20,
-                            //   fontFamily: 'Montserrat',
-                            // ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 60,
-                            child: Card(
-                              color: ColorManager.white,
-                              elevation: 0,
-                              shape: BeveledRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.search,
-                                      size: 25,
-                                      color: ColorManager.black,
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    SearchScreen()));
-                                      },
-                                      child: Text('search-title'.tr(context),
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: ColorManager.gery,
-                                          )),
-                                    ),
-                                    const Spacer(),
-                                    Icon(
-                                      Icons.filter_list_alt,
-                                      size: 25,
-                                      color: ColorManager.black,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'home-title'.tr(context),
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              const Spacer(),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) =>
-                                              const AllViewEquipments()));
-                                },
-                                child: Text(
-                                  'View All(${cubit.homeModel.results.toString()})',
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          listBuilderOrder(cubit.homeModel, context),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                floatingActionButton:
-                    HomeCubit.get(context).userData.role != "service_provider"
-                        ? null
-                        : FloatingActionButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NewPostScreen()));
-                            },
-                            materialTapTargetSize: MaterialTapTargetSize.padded,
-                            elevation: 5,
-                            backgroundColor: ColorManager.white,
-                            child: Icon(
-                              Icons.add,
-                              size: 30,
-                              color: ColorManager.black,
-                            ),
-                          ),
-              ),
-              fallbackBuilder: (context) =>
-                  const Center(child: CircularProgressIndicator()),
-            );
-          },
-        ));
-  }
-
-  Widget listBuilderOrder(GetEquipment data, BuildContext context) => SizedBox(
-        height: MediaQuery.of(context).size.height / 1,
-        child: ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            int reverse = data.equipment.length - 1 - index;
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) =>
-                            DetailsCategoryScreen(data.equipment[reverse].id)));
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                    color: ColorManager.white,
-                    elevation: 2,
-                    child: buildItem(context, data.equipment[reverse])),
-              ),
-            );
-          },
-          itemCount: data.equipment.length,
-        ),
-      );
-
-  Widget buildItem(BuildContext context, Equipment equipment) => Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Row(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width / 3,
-              height: MediaQuery.of(context).size.height / 5,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.0),
-                image: DecorationImage(
-                  image: NetworkImage(equipment.photo.toString()),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: SizedBox(
-                height: 130,
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        equipment.title,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                            color: ColorManager.black),
-                        maxLines: 1,
-                      ),
-                    ),
-                    Row(
+            return Scaffold(
+              body: RefreshIndicator(
+                color: ColorManager.black,
+                backgroundColor: ColorManager.white1,
+                onRefresh: cubit.onRefresh,
+                child: SingleChildScrollView(
+                  physics: const ScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.location_on_outlined,
-                          color: ColorManager.gery,
-                          size: 25,
+                        Text(
+                          'title_home'.tr(context),
+                          style:  const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                         const SizedBox(
-                          width: 5,
+                          height: 10,
                         ),
-                        Flexible(
-                          child: Text(
-                            equipment.government,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: ColorManager.black, fontSize: 20),
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.attach_money_outlined,
-                                color: ColorManager.gery,
-                                size: 25,
-                              ),
-                              Flexible(
-                                child: Text(
-                                  equipment.price.toString(),
-                                  style: TextStyle(
-                                      color: ColorManager.black, fontSize: 18),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 120,
-                            padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width / 35,
+                        SizedBox(
+                          width: double.infinity,
+                          height: 60,
+                          child: Card(
+                            color: ColorManager.white,
+                            elevation: 0,
+                            shape: BeveledRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
                             ),
-                            child: TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                backgroundColor: ColorManager.black,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.search,
+                                    size: 25,
+                                    color: ColorManager.black,
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  SearchScreen()));
+                                    },
+                                    child: Text('search-title'.tr(context),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: ColorManager.gery,
+                                        )),
+                                  ),
+                                  const Spacer(),
+                                  IconButton(onPressed: (){
+                                    showDialog(context: context,
+                                        builder: (BuildContext context) {
+                                      return  AlertDialog(
+                                        actions: [
+                                          InputField(
+                                            title: 'Category',
+                                            note: HomeCubit.get(context).categoryControllerF ,
+                                            widget: Row(
+                                              children: [
+                                                DropdownButton(
+                                                  dropdownColor: ColorManager.black,
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  items: categoryList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                                                      value: e,
+                                                      child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                                                  icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                                                  iconSize: 32,
+                                                  elevation: 4,
+                                                  underline:  Container(height: 0,),
+                                                  onChanged: (String? value)
+                                                  {
+                                                    HomeCubit.get(context).setCategoryF(value!);
+                                                  },
+                                                ),
+                                                const SizedBox(width: 6,),
+                                              ],
+                                            ),onTap: () {},
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          InputField(
+                                            title: 'SubCategory',
+                                            note: HomeCubit.get(context).subCategoryControllerF ,
+                                            widget: Row(
+                                              children: [
+                                                DropdownButton(
+                                                  dropdownColor: ColorManager.black,
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  items: subCategoryList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                                                      value: e,
+                                                      child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                                                  icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                                                  iconSize: 32,
+                                                  elevation: 4,
+                                                  underline:  Container(height: 0,),
+                                                  onChanged: (String? value)
+                                                  {
+                                                    HomeCubit.get(context).setSubCategoryF(value!);
+                                                  },
+                                                ),
+                                                const SizedBox(width: 6,),
+                                              ],
+                                            ),onTap: () {},
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          InputField(
+                                            title: 'Brand',
+                                            note: HomeCubit.get(context).brandControllerF ,
+                                            widget: Row(
+                                              children: [
+                                                DropdownButton(
+                                                  dropdownColor: ColorManager.black,
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  items: brandList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                                                      value: e,
+                                                      child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                                                  icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                                                  iconSize: 32,
+                                                  elevation: 4,
+                                                  underline:  Container(height: 0,),
+                                                  onChanged: (String? value)
+                                                  {
+                                                    HomeCubit.get(context).setBrandF(value!);
+                                                  },
+                                                ),
+                                                const SizedBox(width: 6,),
+                                              ],
+                                            ),onTap: () {},
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              ElevatedButton(onPressed: (){
+                                                Navigator.pop(context);
+                                              }, child: const Text('Cancel')),
+                                              const Spacer(),
+                                              ElevatedButton(onPressed: (){
+                                                HomeCubit.get(context).getFilterData(
+                                                    HomeCubit.get(context).idCategoryControllerF,
+                                                    HomeCubit.get(context).idSubCategoryControllerF,
+                                                    HomeCubit.get(context).idBrandControllerF);
+                                                Navigator.pop(context);
+                                                Navigator.push(context, MaterialPageRoute(builder: (_) => const FilterEquipments()));
+
+                                              }, child: const Text('Apply')),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                        }
+                                    );
+                                  },
+                                      icon:   Icon(
+                                    Icons.filter_list_alt,
+                                    size: 25,
+                                    color: ColorManager.black,
+                                  )),
+                                ],
                               ),
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'home-title'.tr(context),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                            const Spacer(),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                        const AllViewEquipments()));
+                              },
                               child: Text(
-                                "rent-title".tr(context),
-                                style: TextStyle(
-                                  color: ColorManager.white,
-                                  fontFamily: FontConstants.fontFamily,
+                                'View All(${cubit.homeModel.equipment.length.toString()})',
+                                style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 3,
-                          ),
-                          FavoriteButton(
-                            iconSize: 30,
-                            isFavorite: true,
-                            valueChanged: (isFavorite) {},
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                        Conditional.single(
+                          context: context,
+                          conditionBuilder: (context) =>HomeScreenCubit.get(context).homeModel.equipment.isNotEmpty,
+                          widgetBuilder: (context) => SizedBox(
+                              height:  cubit.homeModel.equipment.length <= 5 ? MediaQuery.of(context).size.height * 1 : MediaQuery.of(context).size.height * 1.4,
+                              child: listBuilderOrder(cubit.homeModel, context , const NeverScrollableScrollPhysics())),
+                          fallbackBuilder: (context) =>   const Center(child: CircularProgressIndicator()),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      );
+              floatingActionButton: HomeCubit.get(context).oneUserData.userData.role != "service_provider" ? null : FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewPostScreen()));
+                },
+                materialTapTargetSize: MaterialTapTargetSize.padded,
+                elevation: 5,
+                backgroundColor: ColorManager.white,
+                child: Icon(
+                  Icons.add,
+                  size: 30,
+                  color: ColorManager.black,
+                ),
+              ),
+            );
+          },
+        ));
+  }
+
+
+
 }

@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
-import 'package:login/shared/resources/app_localizations.dart';
-import 'package:favorite_button/favorite_button.dart';
-import '../../../../models/categeiromodel.dart';
-import '../../../../shared/resources/color_manager.dart';
-import '../../../../shared/resources/font_manager.dart';
-import '../detalis gategory/details_category_screen.dart';
+import '../../../../shared/components/components.dart';
 import 'cubit/cubit.dart';
 import 'cubit/state.dart';
 
 class CategoryScreens extends StatelessWidget {
   String title ;
-
-  CategoryScreens(this.title,{super.key});
+  String name ;
+  CategoryScreens(this.title, this.name , {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +23,7 @@ class CategoryScreens extends StatelessWidget {
               conditionBuilder: (context) => HomeScreenCubit.get(context).homeModel.equipment.isNotEmpty ,
               widgetBuilder: (context) => Scaffold(
                 appBar: AppBar(
-                  title: Text(cubit.homeModel.equipment[0].category),
+                  title: Text(name),
                 ),
                 body: RefreshIndicator(
                   onRefresh: cubit.onRefresh,
@@ -38,7 +33,7 @@ class CategoryScreens extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(child: listBuilderOrder(cubit.homeModel)),
+                          Expanded(child: listBuilderOrder(cubit.homeModel,context,const ScrollPhysics())),
                         ],
                       ),
                     ),
@@ -80,154 +75,3 @@ class CategoryScreens extends StatelessWidget {
     );
   }
 }
-
-Widget listBuilderOrder(GetEquipment data) => ListView.builder(
-  itemBuilder: (context,index) {
-    int reverse = data.equipment.length - 1 - index;
-    return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsCategoryScreen(data.equipment[reverse].id)));
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
-            color: ColorManager.white,
-            elevation: 2,
-            child: buildItem(context,data.equipment[reverse])
-        ),
-      ),
-    );
-  },
-  itemCount: data.equipment.length,
-) ;
-
-Widget buildItem(BuildContext context,Equipment equipment) =>  Padding(
-  padding: const EdgeInsets.all(20.0),
-  child: Row(
-    children: [
-      Container(
-        width: MediaQuery.of(context).size.width / 3 ,
-        height: MediaQuery.of(context).size.height/ 5,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.0),
-          image:  DecorationImage(
-            image: NetworkImage(equipment.photo.toString()),
-            fit: BoxFit.cover,
-          ),
-
-        ),
-
-      ),
-      const SizedBox(
-        width: 10,
-      ),
-      Expanded(
-        child: SizedBox(
-          height: 130,
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                child: Text(
-                  equipment.title,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                      color: ColorManager.black
-                  ),
-                  maxLines: 1,
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Icon(Icons.attach_money_outlined, color: ColorManager.gery,size: 25,),
-                        Flexible(
-                          child: Text(
-                            equipment.price.toString(),
-                            style: TextStyle(
-                                color: ColorManager.black,
-                                fontSize: 18
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                ],
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Icon(Icons.location_on_outlined, color: ColorManager.gery,size: 25,),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Flexible(
-                    child: Text(
-                      equipment.government,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: ColorManager.black,
-                          fontSize: 20
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Expanded(
-                child: Row(
-                  children: [
-                    Container(
-                      width: 120,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width/35,
-                      ),
-                      child: TextButton(
-                        onPressed:(){} ,
-                        style: TextButton.styleFrom(
-                          shape: BeveledRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          backgroundColor: ColorManager.black,
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                        ),
-                        child:  Text("rent-title".tr(context),
-                          style: TextStyle(
-                            color: ColorManager.white,
-                            fontFamily: FontConstants.fontFamily,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 3,),
-                    FavoriteButton(
-                      iconSize: 30,
-                      isFavorite: true,
-                      valueChanged: (isFavorite){
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ],
-  ),
-);

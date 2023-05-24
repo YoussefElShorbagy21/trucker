@@ -57,7 +57,7 @@ dev_dependencies:
   awesome_snackbar_content: ^0.1.0
   favorite_button: ^0.0.4
   dio: ^4.0.6
-  shared_preferences: ^2.0.17
+  shared_preferences: ^2.1.1
   flutter_conditional_rendering: ^2.0.0
   pull_to_refresh: ^2.0.0
 

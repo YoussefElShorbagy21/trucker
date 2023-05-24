@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:login/layout/homeLayout/cubit/cubit.dart';
 import 'package:login/modules/customer/screens/home/cubit/state.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../models/UserData.dart';
@@ -18,13 +17,13 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   HomeScreenCubit() : super(HomeScreenInitialState());
 
 
-  GetEquipment homeModel = GetEquipment(equipment: [], results: 0);
+  GetEquipment homeModel = GetEquipment(equipment: []);
   static HomeScreenCubit get(context) => BlocProvider.of(context);
 
   Future<void> getHomeData() async{
     emit(LoadingHomeDataState());
     await DioHelper.getDate(
-      url: 'Equipments',
+      url: 'truck',
     ).then((value)
     {
       homeModel =  GetEquipment.fromJson(value.data);
@@ -40,31 +39,35 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     emit(RefreshIndicatorHome());
   }
 
-  GetDetailsEquipment getDetailsEquipment = GetDetailsEquipment(equipment: Equipment(id: '',
-      description: '',
-      photo: '',
-      price: null,
-      title: '',
-      category: '',
-      government: '',
-      userId: ''
-  )) ;
+  DetailsEquipment detailsEquipment = DetailsEquipment(
+      images: [],
+      ratingCount: 0, id: '0', name: 'name',
+      description: 'description', locationFrom: 'locationFrom',
+      locationTo: 'locationTo', price: 0, priceAfterDiscount: 0,
+      brand: 'brand', subcategory: 'subcategory', category: 'category', createdAt: DateTime(DateTime.april),
+      updatedAt: DateTime(DateTime.april), imageCover: 'imageCover', truckId: '0', reviews: [], userId: '');
 
-  Future<void> getDetailsCategoryData(String id) async{
+
+
+
+  Future<void> getDetailsCategoryData(String id,String cid,String scid,String bid) async{
     emit(LoadingDetailsCategoryDataState());
     await DioHelper.getDate(
-      url: 'Equipments/$id',
+      url: 'truck/$id',
     ).then((value)
     {
       print(id);
       print(value.data);
-      getDetailsEquipment = GetDetailsEquipment.fromJson(value.data);
-      editTextController.text = getDetailsEquipment.equipment.title ;
-      editDescriptionController.text = getDetailsEquipment.equipment.description ;
-      editPriceController.text = getDetailsEquipment.equipment.price.toString() ;
-      editCategoryController.text = getDetailsEquipment.equipment.category ;
-      editGovernmentController.text = getDetailsEquipment.equipment.government ;
-      getUserDataForCategory(getDetailsEquipment.equipment.userId);
+      detailsEquipment = DetailsEquipment.fromJson(value.data);
+      getCategory(cid);
+      getSubCategory(scid);
+      getBrand(bid);
+      editTextController.text = detailsEquipment.name ;
+      editDescriptionController.text = detailsEquipment.description ;
+      editPriceController.text = detailsEquipment.price.toString() ;
+      editLocationFromControllerT = detailsEquipment.locationFrom ;
+      editLocationToControllerT = detailsEquipment.locationTo ;
+      getUserDataForCategory(detailsEquipment.userId);
       emit(SuccessDetailsCategoryDataState());}
     ).catchError((error){
 
@@ -76,7 +79,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   Future<void> getCategoryData(String title) async{
     emit(LoadingCategoryDataState());
     await DioHelper.getDate(
-      url: 'Equipments/?category=$title',
+      url: 'truck/?category=$title',
     ).then((value)
     {
       print(title);
@@ -90,51 +93,235 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   }
 
 
-  bool isClickedOrder = true ;
-  bool isClickedOffer = false ;
-  isClickOffer(){
-    isClickedOffer = true ;
-    isClickedOrder = false ;
-    print('isClickedOffer : $isClickedOffer');
-    print('isClickedOrder : $isClickedOrder');
-    emit(ChangeClickOrderButton());
-  }
-  isClickOrder(){
-    isClickedOffer = false ;
-    isClickedOrder = true ;
-    print('isClickedOffer : $isClickedOffer');
-    print('isClickedOrder : $isClickedOrder');
-    emit(ChangeClickOfferButton());
-  }
   var editTextController = TextEditingController();
   var editDescriptionController = TextEditingController();
   var editPriceController = TextEditingController();
-  var editCategoryController = TextEditingController();
-  var editGovernmentController = TextEditingController();
+  String editIdCategoryControllerT = '' ;
+  String editIdSubCategoryControllerT = '' ;
+  String editIdBrandControllerT = '' ;
+  String editCategoryControllerT = 'Category';
+  String editSubCategoryControllerT = 'subCategory';
+  String editBrandControllerT = 'brand';
+  String editLocationFromControllerT  = 'locationFrom';
+  String editLocationToControllerT  = 'locationTo';
+  void updateCategory(String selected) {
+    editCategoryControllerT = selected ;
+    switch(editCategoryControllerT) {
+      case 'Truck': {
+        editIdCategoryControllerT = "64498aa6db60baf726212fb9";
+      }
+      break;
+
+      case 'pick up': {
+        editIdCategoryControllerT = "64498ac2db60baf726212fbb";
+      }
+      break;
+      case 'Heavy Equipment': {
+        editIdCategoryControllerT = "64498b04db60baf726212fbd";
+      }
+      break;
+      case 'Others': {
+        editIdCategoryControllerT = "64498e8edb60baf726212fc0";
+      }
+      break;
+      default: {
+      }
+      break;
+    }
+    emit(HomeUpdateCategory());
+  }
+
+  void updateSubCategory(String selected) {
+    editSubCategoryControllerT = selected ;
+
+    switch(editSubCategoryControllerT) {
+      case 'truck1': {
+        editIdSubCategoryControllerT = "6449906292768740d4790d12";
+      }
+      break;
+
+      case 'truck2': {
+        editIdSubCategoryControllerT = "6449907b92768740d4790d14";
+      }
+      break;
+      case 'truck3': {
+        editIdSubCategoryControllerT = "6449908092768740d4790d16";
+      }
+      break;
+      case 'truck4': {
+        editIdSubCategoryControllerT = "6449908592768740d4790d18";
+      }
+      break;
+
+      case 'pick up1': {
+        editIdSubCategoryControllerT = "644990f192768740d4790d1c";
+      }
+      break;
+      default: {
+      }
+      break;
+    }
+    emit(HomeUpdateSubCategory());
+  }
+
+  void updateBrand(String selected) {
+    editBrandControllerT = selected ;
+    switch(editBrandControllerT) {
+      case 'Scania': {
+        editIdBrandControllerT = "6449dd29bbae94188f228f01";
+      }
+      break;
+
+      case 'Iveco': {
+        editIdBrandControllerT = "6449dd36bbae94188f228f03";
+      }
+      break;
+      case 'Man': {
+        editIdBrandControllerT = "6449dd44bbae94188f228f07";
+      }
+      break;
+      case 'Volvo': {
+        editIdBrandControllerT = "6449fba2c1ded773b2a7d1fa";
+      }
+      break;
+      default: {
+      }
+      break;
+    }
+    emit(HomeUpdateBrand());
+  }
+
+  void updateLocationFrom(String selected) {
+    editLocationFromControllerT = selected ;
+    emit(HomeUpdateLocationFrom());
+  }
+
+  void updateLocationTo(String selected) {
+    editLocationToControllerT = selected ;
+    emit(HomeUpdateLocationTo());
+  }
+
+  void idCategory(String cid) {
+    editIdCategoryControllerT = cid ;
+    switch(editIdCategoryControllerT) {
+      case '64498aa6db60baf726212fb9': {
+        editCategoryControllerT = "Truck";
+      }
+      break;
+
+      case '64498ac2db60baf726212fbb': {
+        editCategoryControllerT = "pick up";
+      }
+      break;
+      case '64498b04db60baf726212fbd': {
+        editCategoryControllerT = "Heavy Equipment";
+      }
+      break;
+      case '64498e8edb60baf726212fc0': {
+        editCategoryControllerT = "Others";
+      }
+      break;
+      default: {
+      }
+      break;
+    }
+    print(editIdCategoryControllerT);
+    print(editCategoryControllerT);
+    emit(HomeIdCategory());
+  }
+
+  void idSubCategory(String scid) {
+    editIdSubCategoryControllerT = scid ;
+
+    switch(editIdSubCategoryControllerT) {
+      case '6449906292768740d4790d12': {
+        editSubCategoryControllerT = "truck1";
+      }
+      break;
+
+      case '6449907b92768740d4790d14': {
+        editSubCategoryControllerT = "truck2";
+      }
+      break;
+      case '6449908092768740d4790d16': {
+        editSubCategoryControllerT = "truck3";
+      }
+      break;
+      case '6449908592768740d4790d18': {
+        editSubCategoryControllerT = "truck4";
+      }
+      break;
+
+      case '644990f192768740d4790d1c': {
+        editSubCategoryControllerT = "pick up1";
+      }
+      break;
+      default: {
+      }
+      break;
+    }
+    emit(HomeIdSubCategory());
+  }
+
+  void idBrand(String bid) {
+    editIdBrandControllerT = bid ;
+    switch(editIdBrandControllerT) {
+      case '6449dd29bbae94188f228f01': {
+        editBrandControllerT = "Scania";
+      }
+      break;
+
+      case '6449dd36bbae94188f228f03': {
+        editBrandControllerT = "Iveco";
+      }
+      break;
+      case '6449dd44bbae94188f228f07': {
+        editBrandControllerT = "Man";
+      }
+      break;
+      case '6449fba2c1ded773b2a7d1fa': {
+        editBrandControllerT = "Volvo";
+      }
+      break;
+      default: {
+      }
+      break;
+    }
+    emit(HomeIdBrand());
+  }
 
   Future<void> updatePostData(
       {
-        required String title ,
+        required String name ,
         required String description,
         required int price ,
+        required int priceAfterDiscount ,
         required String category ,
-        required String government ,
-        required String id,
+        required String subcategory ,
+        required String brand ,
+        required String locationFrom ,
+        required String locationTo ,
+        required String? userId ,
+        required String id ,
       })
   async {
     emit(LoadingUpdatePostState());
     DioHelper.putData(
-      url: 'Equipments/$id',
+      url: 'truck/$id',
       data: {
-        "title" : title,
-        "description" : description,
-        "price" : price,
-        "category" : category,
-        "government" : government,
+        'name' : name,
+        'description' : description,
+        'price' : price,
+        'priceAfterDiscount' : priceAfterDiscount,
+        'category' : category,
+        'subcategory' : subcategory,
+        'brand' : brand,
+        'locationFrom' : locationFrom,
+        'locationTo' : locationTo,
+        'userId' : userId,
       },
     ).then((value)
     {
-      print('editTextController : ${editTextController.text}');
       print(value.data);
       emit(SuccessUpdatePostState());
     }).catchError((error){
@@ -151,10 +338,10 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   async {
     emit(LoadingUpdatePostState());
     FormData formData = FormData.fromMap({
-      "photo" : await MultipartFile.fromFile(photo!.path),
+      "imageCover" : await MultipartFile.fromFile(photo!.path),
     });
     DioHelper.putData(
-      url: 'Equipments/$id',
+      url: 'truck/$id',
       data: formData,
     ).then((value)
     {
@@ -209,13 +396,15 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     return File(croppedFile.path);
   }
 
-  UserData userData  = UserData(name: 'newName', email: '',verified: false, avatar: '', phone: '', role: '');
+  OneUserData oneUserData  = OneUserData(
+      userData: UserData(name: 'name', email: 'email', phone: 'phone',
+          verified: false, avatar: '', role: '', nationalId: null, drivingLicense: null, favoriteList: []));
   void getUserDataForCategory(String userId){
     emit(LoadingGetUserData());
     DioHelper.getDate(url:'users/$userId').then((value){
         print(userId);
         print(value.data);
-      userData = UserData.fromJson(value.data);
+        oneUserData = OneUserData.fromJson(value.data);
       emit(SuccessGetUserData());
 
     }).catchError((onError){
@@ -223,4 +412,99 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     }
     );}
 
+  CategoryModel categoryModel = CategoryModel(id: 'id', name: 'name');
+  SubCategory subCategory =SubCategory(id: 'id', name: 'name');
+  Brand brand =Brand(id: 'id', name: 'name');
+
+  Future<void> getCategory(String cid) async{
+    emit(HomeLoadingGetCategory());
+    await DioHelper.getDate(
+      url: 'category/$cid',
+    ).then((value)
+    {
+      categoryModel =  CategoryModel.fromJson(value.data);
+      emit(HomeSuccessGetCategory());}
+    ).catchError((error){
+      print(error.toString());
+      emit(HomeErrorGetCategory());
+    });
+  }
+
+  Future<void> getSubCategory(String scid) async {
+    emit(HomeLoadingGetSubCategory());
+    await DioHelper.getDate(
+      url: 'subcategory/$scid',
+    ).then((value)
+    {
+      subCategory =  SubCategory.fromJson(value.data);
+      emit(HomeSuccessGetSubCategory());}
+    ).catchError((error){
+      print(error.toString());
+      emit(HomeErrorGetSubCategory());
+    });
+  }
+
+  Future<void> getBrand(bid) async {
+    emit(HomeLoadingGetBrand());
+    await DioHelper.getDate(
+      url: 'brand/$bid',
+    ).then((value)
+    {
+      brand =  Brand.fromJson(value.data);
+      emit(HomeSuccessGetBrand());}
+    ).catchError((error){
+      print(error.toString());
+      emit(HomeErrorGetBrand());
+    });
+  }
+
+  DetailsEquipment favEquipment = DetailsEquipment(
+      images: [],
+      ratingCount: 0, id: '0', name: 'name',
+      description: 'description', locationFrom: 'locationFrom',
+      locationTo: 'locationTo', price: 0, priceAfterDiscount: 0,
+      brand: 'brand', subcategory: 'subcategory', category: 'category', createdAt: DateTime(DateTime.april),
+      updatedAt: DateTime(DateTime.april), imageCover: 'imageCover', truckId: '0', reviews: [], userId: '');
+
+  List<dynamic> favList = [] ;
+
+  List<DetailsEquipment> favData = [];
+
+  Future<void> getFavoriteList() async {
+    emit(HomeLoadingGetFavorite());
+    await DioHelper.getDate(
+      url: 'favoriteList',
+    ).then((value)
+    {
+      print(value.data);
+      favList = value.data ;
+      for(var i = 0 ; i <=  favList.length -1; i++)
+        {
+          getFavCategoryData(favList[i]);
+        }
+      emit(HomeSuccessGetFavorite());
+      print(favData);
+    }
+    ).catchError((error){
+      print(error.toString());
+      emit(HomeErrorGetFavorite());
+    });
+  }
+
+  Future<void> getFavCategoryData(String id) async{
+    emit(LoadingFavCategoryDataState());
+    await DioHelper.getDate(
+      url: 'truck/$id',
+    ).then((value)
+    {
+      favEquipment = DetailsEquipment.fromJson(value.data);
+      favData.add(favEquipment);
+      emit(SuccessFavCategoryDataState());
+    }
+    ).catchError((error){
+
+      print(error.toString());
+      emit(ErrorFavCategoryDataState());
+    });
+  }
 }
