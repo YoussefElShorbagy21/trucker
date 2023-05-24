@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:login/layout/homeLayout/cubit/state.dart';
-import 'package:login/shared/resources/app_localizations.dart';
 import '../../layout/homeLayout/cubit/cubit.dart';
 import '../../models/categeiromodel.dart';
 import '../../modules/customer/screens/detalis gategory/details_category_screen.dart';
 import 'package:skeletons/skeletons.dart';
 import '../resources/color_manager.dart';
-import '../resources/font_manager.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 void navigatefisnh(context , widget) =>  Navigator.pushAndRemoveUntil(
     context,
@@ -145,7 +144,7 @@ child: Row(
             HomeCubit.get(context).oneUserData.userData.role != "service_provider" ? Expanded(
               child: Row(
                 children: [
-                  Container(
+                  /*Container(
                     width: MediaQuery.of(context).size.width / 3.5,
                     padding: EdgeInsets.symmetric(
                       horizontal:
@@ -171,8 +170,7 @@ child: Row(
                         ),
                       ),
                     ),
-                  ),
-                  const Spacer(),
+                  ),*/
                   FavoriteButton(
                     iconSize: 30,
                     isFavorite: HomeCubit.get(context).favorites[equipment.id] == 'find' ? true  : false,
@@ -189,10 +187,37 @@ child: Row(
                       }
                     },
                   ),
+                 const Spacer(),
+                  Row(
+                    children: [
+                      Text('${equipment.ratingCount.toDouble().toString()} / 5'
+                      ,style: const TextStyle(
+                          fontSize: 15,
+                        ),),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    RatingBar.builder(
+                        initialRating: equipment.ratingCount.toDouble(),
+                        minRating: 1,
+                        maxRating: 5,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemSize: 10,
+                        ignoreGestures: true,
+                        itemBuilder: (context, _) => const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ), onRatingUpdate: (double value) {  },
+                     ),
+
+                    ],
+                  ),
+
                 ],
               ),
-            ) :
-            Container(),
+            ) : Container(),
           ],
         ),
       ),

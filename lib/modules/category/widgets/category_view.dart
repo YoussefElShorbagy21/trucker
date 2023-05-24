@@ -6,7 +6,9 @@ import '../../../shared/resources/cateogry_contants.dart';
 
 class CategoryView extends StatelessWidget {
   const CategoryView({
-    this.height,  this.width , super.key, required this.colum, required this.items, required this.color, required this.ratio, this.direction, this.itemBuilder,
+    this.height,
+    this.width ,
+    super.key, required this.colum, required this.items, required this.color, required this.ratio, this.direction, this.itemBuilder,
   });
 
   final int colum,items;
@@ -23,7 +25,6 @@ class CategoryView extends StatelessWidget {
       width: width,
       color: color,
       child: GridView.builder(
-        shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.all(kLess),//4.0
         scrollDirection: direction,

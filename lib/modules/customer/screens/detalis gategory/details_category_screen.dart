@@ -11,6 +11,7 @@ import '../../../../shared/resources/color_manager.dart';
 import '../../../../shared/resources/font_manager.dart';
 import '../home/cubit/state.dart';
 import 'package:readmore/readmore.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DetailsCategoryScreen extends StatelessWidget {
   String id; String cid; String scid; String bid;
@@ -158,10 +159,22 @@ class DetailsCategoryScreen extends StatelessWidget {
                         ),
                         Row(
                           children:  [
-                            const Icon(
-                              Icons.star,
-                              size: 25,
-                              color: Colors.amberAccent,
+                            RatingBar.builder(
+                              initialRating: cubit.ratingCount.toDouble(),
+                              minRating: 1,
+                              maxRating: 5,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemSize: 11,
+                              ignoreGestures: true,
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ), onRatingUpdate: (double value) {  },
+                            ),
+                            const SizedBox(
+                              width: 4,
                             ),
                             Text(cubit.ratingCount.toDouble().toString()),
                             const SizedBox(

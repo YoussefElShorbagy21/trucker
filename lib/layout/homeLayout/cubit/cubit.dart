@@ -748,4 +748,74 @@ class HomeCubit extends Cubit<HomeStates>{
       });
     }
   }
+
+  GetEquipment homeModel = GetEquipment(equipment: []);
+  Future<void> getCategoryData(String title) async{
+    emit(LoadingCategoryDataState());
+    await DioHelper.getDate(
+      url: 'truck/?category=$title',
+    ).then((value)
+    {
+      print(value.realUri);
+      print(title);
+      print(value.data);
+      homeModel = GetEquipment.fromJson(value.data);
+      emit(SuccessCategoryDataState());}
+    ).catchError((error){
+      print(error.toString());
+      emit(ErrorCategoryDataState());
+    });
+  }
+
+  Future<void> getFilterDataCategory(String category,String subcategory,String brand) async{
+    emit(HomeLoadingGetFilterDataCategory());
+    if(idSubCategoryControllerF.isNotEmpty && idBrandControllerF.isEmpty) {
+      await DioHelper.getDate(
+        url: 'truck/?category=$category&subcategory=$subcategory',
+      ).then((value) {
+        print(value.realUri);
+        print(value.data);
+        homeModel = GetEquipment.fromJson(value.data);
+        emit(HomeSuccessGetFilterData());
+        subCategoryControllerF = 'Category';
+        idSubCategoryControllerF = '';
+      }).catchError((error){
+        print(error.toString());
+        emit(HomeErrorGetFilterData());
+      });
+    }
+    else if(idSubCategoryControllerF.isEmpty && idBrandControllerF.isNotEmpty) {
+      await DioHelper.getDate(
+        url: 'truck/?category=$category&brand=$brand',
+      ).then((value) {
+        print(value.realUri);
+        print(value.data);
+        homeModel = GetEquipment.fromJson(value.data);
+        emit(HomeSuccessGetFilterData());
+        brandControllerF = 'brand';
+        idBrandControllerF = '' ;
+      }).catchError((error){
+        print(error.toString());
+        emit(HomeErrorGetFilterData());
+      });
+    }
+    else if(idSubCategoryControllerF.isNotEmpty && idBrandControllerF.isNotEmpty) {
+      await DioHelper.getDate(
+        url: 'truck/?category=$category&subcategory=$subcategory&brand=$brand',
+      ).then((value) {
+        print(value.realUri);
+        print(value.data);
+        homeModel = GetEquipment.fromJson(value.data);
+        emit(HomeSuccessGetFilterData());
+        subCategoryControllerF = 'subCategory';
+        brandControllerF = 'brand';
+        idSubCategoryControllerF = '';
+        idBrandControllerF = '';
+      }).catchError((error){
+        print(error.toString());
+        emit(HomeErrorGetFilterData());
+      });
+    }
+
+  }
 }

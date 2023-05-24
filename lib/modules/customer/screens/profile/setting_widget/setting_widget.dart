@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/modules/customer/screens/favorite/favorite.dart';
+import 'package:login/modules/customer/screens/home/cubit/cubit.dart';
 import 'package:login/shared/network/remote/dio_helper.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import 'package:login/shared/resources/color_manager.dart';
@@ -400,7 +401,9 @@ Widget buildMyOrder(context) => SimpleSettingsTile(
       onTap: () {},
     );
 
-Widget buildFavorite(context) => SimpleSettingsTile(
+Widget buildFavorite(context) => BlocProvider(
+  create: (context) => HomeScreenCubit(),
+  child: SimpleSettingsTile(
   leading: const IconWidget(
     icon: Icons.favorite,
     color: Colors.red,
@@ -410,4 +413,8 @@ Widget buildFavorite(context) => SimpleSettingsTile(
   subtitleTextStyle:
   const TextStyle(color: Colors.blueGrey, fontSize: 10),
   child:  FavoriteScreen(),
+  onTap: (){
+    HomeScreenCubit.get(context).getFavoriteList();
+  },
+),
 );

@@ -204,8 +204,7 @@ class HomeScreen extends StatelessWidget {
                                       );
                                         }
                                     );
-                                  },
-                                      icon:   Icon(
+                                  }, icon:   Icon(
                                     Icons.filter_list_alt,
                                     size: 25,
                                     color: ColorManager.black,

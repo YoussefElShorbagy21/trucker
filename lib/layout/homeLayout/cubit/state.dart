@@ -69,3 +69,11 @@ class DelayedFunction extends HomeStates {}
 class HomeLoadingGetFilterData extends HomeStates {}
 class HomeSuccessGetFilterData extends HomeStates {}
 class HomeErrorGetFilterData extends HomeStates {}
+
+class  LoadingCategoryDataState extends HomeStates {}
+class  SuccessCategoryDataState extends HomeStates {}
+class  ErrorCategoryDataState extends HomeStates {}
+
+class HomeLoadingGetFilterDataCategory extends HomeStates {}
+class HomeSuccessGetFilterDataCategory extends HomeStates {}
+class HomeErrorGetFilterDataCategory extends HomeStates {}

@@ -48,8 +48,6 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       updatedAt: DateTime(DateTime.april), imageCover: 'imageCover', truckId: '0', reviews: [], userId: '');
 
 
-
-
   Future<void> getDetailsCategoryData(String id,String cid,String scid,String bid) async{
     emit(LoadingDetailsCategoryDataState());
     await DioHelper.getDate(
@@ -75,23 +73,6 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       emit(ErrorDetailsCategoryDataState());
     });
   }
-
-  Future<void> getCategoryData(String title) async{
-    emit(LoadingCategoryDataState());
-    await DioHelper.getDate(
-      url: 'truck/?category=$title',
-    ).then((value)
-    {
-      print(title);
-      print(value.data);
-      homeModel = GetEquipment.fromJson(value.data);
-      emit(SuccessCategoryDataState());}
-    ).catchError((error){
-        print(error.toString());
-      emit(ErrorCategoryDataState());
-    });
-  }
-
 
   var editTextController = TextEditingController();
   var editDescriptionController = TextEditingController();
@@ -497,6 +478,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       url: 'truck/$id',
     ).then((value)
     {
+      print(value.data);
       favEquipment = DetailsEquipment.fromJson(value.data);
       favData.add(favEquipment);
       emit(SuccessFavCategoryDataState());
@@ -507,4 +489,6 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       emit(ErrorFavCategoryDataState());
     });
   }
+
+
 }

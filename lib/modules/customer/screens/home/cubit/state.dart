@@ -17,9 +17,7 @@ class  SuccessDetailsCategoryDataState extends HomeScreenState {}
 class  ErrorDetailsCategoryDataState extends HomeScreenState {}
 
 
-class  LoadingCategoryDataState extends HomeScreenState {}
-class  SuccessCategoryDataState extends HomeScreenState {}
-class  ErrorCategoryDataState extends HomeScreenState {}
+
 
 class ChangeClickOrderButton extends HomeScreenState {}
 
@@ -68,3 +66,4 @@ class HomeErrorGetFavorite extends HomeScreenState {}
 class  LoadingFavCategoryDataState extends HomeScreenState {}
 class  SuccessFavCategoryDataState extends HomeScreenState {}
 class  ErrorFavCategoryDataState extends HomeScreenState {}
+
