@@ -4,7 +4,7 @@ import 'package:login/shared/resources/app_localizations.dart';
 import '../../layout/homeLayout/cubit/cubit.dart';
 import '../../models/categeiromodel.dart';
 import '../../modules/customer/screens/detalis gategory/details_category_screen.dart';
-import '../../modules/customer/screens/home/cubit/cubit.dart';
+import 'package:skeletons/skeletons.dart';
 import '../resources/color_manager.dart';
 import '../resources/font_manager.dart';
 import 'package:favorite_button/favorite_button.dart';
@@ -202,3 +202,54 @@ child: Row(
 );
 },
 );
+
+Widget cardView(context) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Card(
+      color: Colors.white,
+      elevation: 2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              //circle
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: SkeletonAvatar(
+                  style: SkeletonAvatarStyle(
+                    shape: BoxShape.rectangle,
+                    width: MediaQuery.of(context).size.width / 3,
+                    height: MediaQuery.of(context).size.height / 5,
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: SkeletonParagraph(
+                  style: SkeletonParagraphStyle(
+                      lines: 3,
+                      spacing: 6,
+                      lineStyle: SkeletonLineStyle(
+                        randomLength: true,
+                        height: 40,
+                        borderRadius: BorderRadius.circular(8),
+                        minLength: MediaQuery.of(context).size.width / 4,
+                        maxLength: MediaQuery.of(context).size.width / 2,
+                      )),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+        ],
+      ),
+    ),
+  );
+}

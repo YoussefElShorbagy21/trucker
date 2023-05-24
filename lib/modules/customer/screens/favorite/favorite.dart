@@ -45,32 +45,13 @@ class FavoriteScreen extends StatelessWidget {
             fallbackBuilder: (context) => Scaffold(
               appBar: AppBar(),
               body: Column(
-                children:  [
-                  Container(
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height/ 2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      image:  const DecorationImage(
-                        image: AssetImage('assets/images/forklift_03.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-
-                    ),
-
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  const Text('You no Have Favorite',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),)
+                children: [
+                  cardView(context),
+                  cardView(context),
+                  cardView(context),
                 ],
               ),
-            ) ,
+            ),
           );
         },
       ),

@@ -83,6 +83,7 @@ class DioHelper
     };
     return dio.delete(
       url ,
+      data: data,
     );
   }
 
