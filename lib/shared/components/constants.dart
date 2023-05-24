@@ -11,8 +11,16 @@ void sinOut(context)
         CacheHelper.clearData(key: 'TokenId');
       if(value == true) {
         navigatefisnh(context,LoginScreen() ) ;
+        print("token : $token uid : $uid");
       }
   });
+
+  if(token!=null&&uid!=null){
+
+    token=null;
+    uid=null;
+    print("token : $token uid : $uid");
+  }
   print('token : $token');
   print('uid: $uid');
 }

@@ -13,6 +13,7 @@ import 'AllviewEquipmentsScreen.dart';
 import 'cubit/cubit.dart';
 import 'cubit/state.dart';
 import 'filter_screen.dart';
+import 'package:skeletons/skeletons.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -249,7 +250,13 @@ class HomeScreen extends StatelessWidget {
                           widgetBuilder: (context) => SizedBox(
                               height:  cubit.homeModel.equipment.length <= 5 ? MediaQuery.of(context).size.height * 1 : MediaQuery.of(context).size.height * 1.4,
                               child: listBuilderOrder(cubit.homeModel, context , const NeverScrollableScrollPhysics())),
-                          fallbackBuilder: (context) =>   const Center(child: CircularProgressIndicator()),
+                          fallbackBuilder: (context) =>    Column(
+                            children: [
+                              _cardView(context),
+                              _cardView(context),
+                              _cardView(context),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -279,4 +286,55 @@ class HomeScreen extends StatelessWidget {
 
 
 
+}
+
+Widget _cardView(context) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Card(
+      color: Colors.white,
+      elevation: 2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              //circle
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: SkeletonAvatar(
+                  style: SkeletonAvatarStyle(
+                    shape: BoxShape.rectangle,
+                    width: MediaQuery.of(context).size.width / 3,
+                    height: MediaQuery.of(context).size.height / 5,
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: SkeletonParagraph(
+                  style: SkeletonParagraphStyle(
+                      lines: 3,
+                      spacing: 6,
+                      lineStyle: SkeletonLineStyle(
+                        randomLength: true,
+                        height: 40,
+                        borderRadius: BorderRadius.circular(8),
+                        minLength: MediaQuery.of(context).size.width / 4,
+                        maxLength: MediaQuery.of(context).size.width / 2,
+                      )),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+        ],
+      ),
+    ),
+  );
 }
