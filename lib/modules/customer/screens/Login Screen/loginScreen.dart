@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/Login%20Screen/forgot_password.dart';
+import 'package:login/modules/customer/screens/Sign%20Up%20Screen/verfiy_screen.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../layout/homeLayout/homelayout.dart';
@@ -11,7 +12,6 @@ import '../Sign Up Screen/OrDivider.dart';
 import '../Sign Up Screen/Social_Icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import '../Sign Up Screen/register_screen.dart';
 import 'cubit/login_cubit.dart';
 import 'cubit/login_state.dart';
@@ -34,49 +34,50 @@ class LoginScreen extends StatelessWidget {
       listener: (context,state) {
         if(state is LoginSuccessState) {
           if (state.model.id.isNotEmpty) {
-            CacheHelper.saveData(
-              key: 'TokenId',
-              value: state.model.token,
-            );
-            CacheHelper.saveData(
-              key: 'ID',
-              value: state.model.id,
-            ).then((value) =>
-            {
-              HomeCubit.get(context).changeBottomNavIndex(0),
-              navigateFish(context, const HomeLayout()),
-              HomeCubit.get(context).getUserData(userID: state.model.id),
-            }
-            );
-      /*      final snackBar = SnackBar(
-              elevation: 0,
+            final snackBar = SnackBar(
+              margin: const EdgeInsets.all(50),
+              duration: const Duration(seconds: 5),
+              shape: const StadiumBorder(),
+              elevation: 5,
               behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.transparent,
-              content: AwesomeSnackbarContent(
-                title: 'Welcome Back To Our App ...',
-                message: '    ${state.model.message}',
-                contentType: ContentType.success,
-              ),
+              backgroundColor: Colors.green,
+              content: Text(state.model.message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),),
             );
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(snackBar);*/
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            HomeCubit.get(context).changeBottomNavIndex(0);
+         if(state.model.verified)
+        {
+          CacheHelper.saveData(key: 'TokenId', value: state.model.token);
+          CacheHelper.saveData(key: 'ID', value: state.model.id);
+          navigateFish(context, const HomeLayout());
+        }
+        else{
+        navigateFish(context, VerifyScreen(state.model.token,idR: state.model.id,));
+        }
+        HomeCubit.get(context).getUserData(userID: state.model.id);
           }
-          else{
-           final snackBar = SnackBar(
-              elevation: 0,
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.transparent,
-              content: AwesomeSnackbarContent(
-                title: '     Error!',
-                message: '    ${state.model.message}',
-                contentType: ContentType.failure,
-              ),
-            );
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(snackBar);
-          }
+        }
+        else if(state is LoginErrorState){
+          final snackBar = SnackBar(
+            margin: const EdgeInsets.all(50),
+            duration: const Duration(seconds: 5),
+            shape: const StadiumBorder(),
+            elevation: 5,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+            content: Text(state.errorModel.toString(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
       builder: (context,state) {

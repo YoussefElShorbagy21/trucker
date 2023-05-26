@@ -30,26 +30,19 @@ void main() async {
 
   print('token : $token');
   print('uid: $uid');
-  print("choseUser: $choseUser");
   print("onBoarding: $onBoarding");
   print("language: $language");
-  print("verify: $verify");
 
   if(language != null)
     {
       if(onBoarding != null)
       {
-            if(verify != null) {
               if (uid != null) {
                 widget = const HomeLayout();
               }
               else {
                 widget = LoginScreen();
               }
-            }
-            else {
-              widget = VerifyScreen(token!);
-            }
       }
       else{
         widget = const OnBoardingPage();
@@ -73,8 +66,8 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
             BlocProvider<HomeCubit>(create: (context) => HomeCubit()..getUserData()..getSavedLanguage()..getAllUserData()
-               ..getCategory()..getSubCategory()..getBrand() ),
-            BlocProvider<HomeScreenCubit>(create: (context) => HomeScreenCubit()..getHomeData()),
+               ..getCategory()..getSubCategory()..getBrand()),
+            BlocProvider<HomeScreenCubit>(create: (context) => HomeScreenCubit()..getHomeData()..getFavoriteList()),
             BlocProvider<RegisterCubit>(create: (context) => RegisterCubit()),
       ],
       child: BlocConsumer<HomeCubit, HomeStates>(

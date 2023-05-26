@@ -11,7 +11,6 @@ import '../../../../../shared/network/local/cache_helper.dart';
 import '../../../../../shared/network/remote/dio_helper.dart';
 import 'register_state.dart';
 import 'package:image_picker/image_picker.dart';
-
 class RegisterCubit extends Cubit<RegisterState>
 {
   RegisterCubit() : super(RegisterInitialState()) ;
@@ -53,10 +52,13 @@ class RegisterCubit extends Cubit<RegisterState>
       print('RegisterSuccessState inside Cubit ${model.token}');
     }).catchError((error)
     {
-      if (kDebugMode) {
-        print(error.toString());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(RegisterErrorState(error.response!.data['message']));
       }
-      emit(RegisterErrorState(error.toString()));
     });
   }
 
@@ -95,7 +97,7 @@ class RegisterCubit extends Cubit<RegisterState>
       emit(ErrorUpdatePassword());
     });
   }
-
+ bool clearText = false ;
   void  verifyEmail(String otpCode,String  tokenVerify){
     emit(LoadingVerifyEmail());
     DioHelper.postData(url: 'users/verfiy',
@@ -106,15 +108,18 @@ class RegisterCubit extends Cubit<RegisterState>
       print(value.data),
       print(token),
       print(tokenVerify),
+      clearText = true ,
       emit(SuccessVerifyEmail())
     }).catchError((onError){
       print(onError.toString());
+      clearText = true ;
       emit(ErrorVerifyEmail());
     });
   }
 
   void sendOtpAgain(String  tokenVerify){
     emit(LoadingVerifyEmailAgain());
+    clearText = false ;
     DioHelper.postData(url: 'users/sendOtpAgain',
         tokenVerify: tokenVerify,
         data: {}).then((value) => {

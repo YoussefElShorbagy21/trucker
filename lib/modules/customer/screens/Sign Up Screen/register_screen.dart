@@ -10,7 +10,6 @@ import '../../../../shared/resources/select_photo_options_screen.dart';
 import '../Login Screen/loginScreen.dart';
 import 'OrDivider.dart';
 import 'Social_Icons.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 import 'cubit/register_cubit.dart';
@@ -36,35 +35,47 @@ class RegisterScreenScreen extends StatelessWidget {
       listener: (context,state) {
         if(state is RegisterSuccessState)
         {
-
+          final snackBar = SnackBar(
+            margin: const EdgeInsets.all(50),
+            duration: const Duration(seconds: 5),
+            shape: const StadiumBorder(),
+            elevation: 5,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.green,
+            content: Text(state.model.status,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
           if(state.model.status == "success")
           {
-            CacheHelper.saveData(key: 'TokenId', value: state.model.token);
-            print('RegisterSuccessState outside Cubit token $token');
-            print('success outside Cubit');
-            CacheHelper.saveData(key: 'ID', value: state.model.userSignupModel.id);
-            print('RegisterSuccessState outside Cubit uid $uid');
             print(role);
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyScreen(state.model.token)));
-            HomeCubit.get(context).getUserData(userID: state.model.userSignupModel.id);
-          }
-          else{
-            print('error');
-          /*  final snackBar = SnackBar(
-              elevation: 0,
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.transparent,
-              content: AwesomeSnackbarContent(
-                title: '     Error!',
-                message: '    ${state.model.status}',
-                contentType: ContentType.failure,
-              ),
-            );
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(snackBar);*/
+            navigateFish(context,VerifyScreen(state.model.token,
+              idR: state.model.userSignupModel.id,
+            ));
           }
         }
+        else if(state is RegisterErrorState)
+          {
+            final snackBar = SnackBar(
+              margin: const EdgeInsets.all(50),
+              duration: const Duration(seconds: 5),
+              shape: const StadiumBorder(),
+              elevation: 5,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+              content: Text(state.error.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
       },
       builder: (context,state)
       {

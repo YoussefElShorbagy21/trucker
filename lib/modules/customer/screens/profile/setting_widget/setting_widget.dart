@@ -143,6 +143,7 @@ Widget buildDeleteAccount(BuildContext context) => SimpleSettingsTile(
                         const Spacer(),
                         ElevatedButton(onPressed: (){
                           DioHelper.deleteData(url: 'users/deleteMe');
+                          sinOut(context);
                         }, child: const Text('Apply')),
                       ],
                     ),
@@ -152,7 +153,6 @@ Widget buildDeleteAccount(BuildContext context) => SimpleSettingsTile(
               );
             }
         );
-        sinOut(context);
       },
     );
 

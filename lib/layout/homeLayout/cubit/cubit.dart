@@ -269,15 +269,15 @@ class HomeCubit extends Cubit<HomeStates>{
   String idCategoryControllerT = '' ;
   String idSubCategoryControllerT = '' ;
   String idBrandControllerT = '' ;
-  String categoryControllerT = 'Category';
-  String subCategoryControllerT = 'subCategory';
-  String brandControllerT = 'brand';
-  String locationFromControllerT  = 'locationFrom';
-  String locationToControllerT  = 'locationTo';
+  var categoryControllerT = TextEditingController(text: 'Category');
+  var subCategoryControllerT = TextEditingController(text: 'subCategory');
+  var brandControllerT = TextEditingController(text: 'brand');
+  var locationFromControllerT  =TextEditingController(text: 'locationFrom');
+  var locationToControllerT  = TextEditingController(text: 'locationTo');
 
   void setCategory(String selected) {
-    categoryControllerT = selected ;
-    switch(categoryControllerT) {
+    categoryControllerT.text = selected ;
+    switch(categoryControllerT.text) {
       case 'Truck': {
         idCategoryControllerT = "64498aa6db60baf726212fb9";
       }
@@ -304,9 +304,9 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
   void setSubCategory(String selected) {
-    subCategoryControllerT = selected ;
+    subCategoryControllerT.text = selected ;
 
-    switch(subCategoryControllerT) {
+    switch(subCategoryControllerT.text) {
       case 'truck1': {
         idSubCategoryControllerT = "6449906292768740d4790d12";
       }
@@ -338,8 +338,8 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
   void setBrand(String selected) {
-    brandControllerT = selected ;
-    switch(brandControllerT) {
+    brandControllerT.text = selected ;
+    switch(brandControllerT.text) {
       case 'Scania': {
         idBrandControllerT = "6449dd29bbae94188f228f01";
       }
@@ -366,12 +366,12 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
   void setLocationFrom(String selected) {
-    locationFromControllerT = selected ;
+    locationFromControllerT.text = selected ;
     emit(HomeSetLocationFrom());
   }
 
   void setLocationTo(String selected) {
-    locationToControllerT = selected ;
+    locationToControllerT.text = selected ;
     emit(HomeSetLocationTo());
   }
 
@@ -384,11 +384,11 @@ class HomeCubit extends Cubit<HomeStates>{
        idCategoryControllerT = '' ;
        idSubCategoryControllerT = '' ;
        idBrandControllerT = '' ;
-       categoryControllerT = 'Category';
-       subCategoryControllerT = 'subCategory';
-       brandControllerT = 'brand';
-       locationFromControllerT  = 'locationFrom';
-       locationToControllerT  = 'locationTo';
+        categoryControllerT.text = 'Category';
+       subCategoryControllerT.text = 'subCategory';
+       brandControllerT.text = 'brand';
+       locationFromControllerT.text  = 'locationFrom';
+       locationToControllerT.text  = 'locationTo';
       postImage = null;
     });
     emit(DelayFunctionState());

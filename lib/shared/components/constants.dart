@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../modules/customer/screens/Login Screen/loginScreen.dart';
+import '../../modules/customer/screens/home/cubit/cubit.dart';
 import '../network/local/cache_helper.dart';
 import 'components.dart';
 
@@ -36,6 +37,4 @@ void navigateFish(context , widget) =>  Navigator.pushAndRemoveUntil(
 String? token = CacheHelper.getData(key: 'TokenId');
 String? uid = CacheHelper.getData(key: 'ID');
 bool? onBoarding = CacheHelper.getData(key: 'onBoarding') ;
-bool? choseUser = CacheHelper.getData(key: 'ChoseUser');
 bool? language = CacheHelper.getData(key: 'SettingsPage') ;
-bool? verify = CacheHelper.getData(key: 'VerifyScreen') ;
