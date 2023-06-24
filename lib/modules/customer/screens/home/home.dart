@@ -53,16 +53,6 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'title_home'.tr(context),
-                          style:  const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         SizedBox(
                           width: double.infinity,
                           height: 60,
@@ -77,11 +67,6 @@ class HomeScreen extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Icon(
-                                    Icons.search,
-                                    size: 25,
-                                    color: ColorManager.black,
-                                  ),
                                   TextButton(
                                     onPressed: () {
                                       Navigator.push(
@@ -90,11 +75,20 @@ class HomeScreen extends StatelessWidget {
                                               builder: (_) =>
                                                   SearchScreen()));
                                     },
-                                    child: Text('search-title'.tr(context),
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: ColorManager.gery,
-                                        )),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.search,
+                                          size: 25,
+                                          color: ColorManager.black,
+                                        ),
+                                        Text('search-title'.tr(context),
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: ColorManager.gery,
+                                            )),
+                                      ],
+                                    ),
                                   ),
                                   const Spacer(),
                                   IconButton(onPressed: (){

@@ -63,17 +63,25 @@ dev_dependencies:
   flutter_vector_icons: ^2.0.0
   smooth_page_indicator: ^1.0.1
   animated_splash_screen: ^1.3.0
-  flutter_settings_screens: ^0.3.3-null-safety+2
   flutter_otp_text_field: ^1.1.0+2
   image_cropper: ^3.0.2
   skeletons: ^0.0.3
   readmore: ^2.2.0
   contained_tab_bar_view: ^0.8.0
   flutter_rating_bar: ^4.0.1
-
+  flutter_native_splash: ^2.2.16
+  connectivity_plus: ^4.0.1
+  intl: ^0.18.0
+  flutter_dotenv: ^5.1.0
+  mapbox_gl: ^0.16.0
+  location: ^4.4.0
   #chat pub to get app image
   cached_network_image: ^3.2.3
   font_awesome_flutter: ^10.4.0
+
+flutter_native_splash:
+  color: "#ffffff"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -89,7 +97,9 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - assets/config/
     - assets/images/category_img/
+    - assets/images/png-transparent-marker-map-interesting-places-the-location-on-the-map-the-location-of-the-thumbnail.png
 #    - assets/images/forklift_03.jpg
     - assets/images/chat_photo/
     - assets/images/on_boarding_images/

@@ -1,7 +1,8 @@
-
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:login/modules/customer/screens/home/cubit/state.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../models/UserData.dart';
 import '../../../../../models/categeiromodel.dart';
+import '../../../../../shared/components/constants.dart';
 import '../../../../../shared/network/remote/dio_helper.dart';
 import 'package:image_cropper/image_cropper.dart';
 
@@ -28,8 +30,15 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     {
       homeModel =  GetEquipment.fromJson(value.data);
       emit(SuccessHomeDataState(homeModel));}
-    ).catchError((error){
-        print(error.toString());
+    ).catchError((onError){
+
+      if(onError is DioError) {
+        print(onError.message);
+        print(onError.response);
+          print(onError.response!.data);
+        emit(ErrorHomeDataState());
+        }
+      print(onError);
       emit(ErrorHomeDataState());
     });
   }
@@ -41,11 +50,11 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
 
   DetailsEquipment detailsEquipment = DetailsEquipment(
       images: [],
-      ratingCount: 0, id: '0', name: 'name',
-      description: 'description', locationFrom: 'locationFrom',
-      locationTo: 'locationTo', price: 0, priceAfterDiscount: 0,
+      name: 'name',
+      description: 'description',
       brand: 'brand', subcategory: 'subcategory', category: 'category', createdAt: DateTime(DateTime.april),
-      updatedAt: DateTime(DateTime.april), imageCover: 'imageCover', truckId: '0', reviews: [], userId: '');
+      updatedAt: DateTime(DateTime.april), imageCover: 'imageCover', truckId: '0', reviews: [], userId: '',
+      currentLocation: '');
 
 
   Future<void> getDetailsCategoryData(String id,String cid,String scid,String bid) async{
@@ -57,14 +66,13 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       print(id);
       print(value.data);
       detailsEquipment = DetailsEquipment.fromJson(value.data);
+      print(detailsEquipment.userId);
       getCategory(cid);
       getSubCategory(scid);
       getBrand(bid);
       editTextController.text = detailsEquipment.name ;
       editDescriptionController.text = detailsEquipment.description ;
-      editPriceController.text = detailsEquipment.price.toString() ;
-      editLocationFromControllerT = detailsEquipment.locationFrom ;
-      editLocationToControllerT = detailsEquipment.locationTo ;
+      print(detailsEquipment.userId);
       getUserDataForCategory(detailsEquipment.userId);
       emit(SuccessDetailsCategoryDataState());}
     ).catchError((error){
@@ -379,7 +387,11 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
 
   OneUserData oneUserData  = OneUserData(
       userData: UserData(name: 'name', email: 'email', phone: 'phone',
-          verified: false, avatar: '', role: '', nationalId: null, drivingLicense: null, favoriteList: []));
+          verified: false, avatar: '', role: '',
+          nationalId: null, favoriteList: [],
+          doneTransactions: [], currentTransactions: [],
+          acceptedTransactions: [])
+  );
   void getUserDataForCategory(String userId){
     emit(LoadingGetUserData());
     DioHelper.getDate(url:'users/$userId').then((value){
@@ -439,32 +451,25 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     });
   }
 
-  DetailsEquipment favEquipment = DetailsEquipment(
-      images: [],
-      ratingCount: 0, id: '0', name: 'name',
-      description: 'description', locationFrom: 'locationFrom',
-      locationTo: 'locationTo', price: 0, priceAfterDiscount: 0,
-      brand: 'brand', subcategory: 'subcategory', category: 'category', createdAt: DateTime(DateTime.april),
-      updatedAt: DateTime(DateTime.april), imageCover: 'imageCover', truckId: '0', reviews: [], userId: '');
+  //favorite
 
   List<dynamic> favList = [] ;
-
-  List<DetailsEquipment> favData = [];
 
   Future<void> getFavoriteList() async {
     emit(HomeLoadingGetFavorite());
     await DioHelper.getDate(
       url: 'favoriteList',
     ).then((value)
-    {
-      print(value.data);
+    async {
       favList = value.data ;
+      print(favList);
       for(var i = 0 ; i <=  favList.length -1; i++)
         {
-          getFavCategoryData(favList[i]);
+          await getFavCategoryData(favList[i]);
         }
       emit(HomeSuccessGetFavorite());
-      print(favData);
+      print('favList: $favList');
+      print('favData: $favData');
     }
     ).catchError((error){
       print(error.toString());
@@ -472,15 +477,15 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     });
   }
 
+  List<DetailsEquipment> favData = [];
   Future<void> getFavCategoryData(String id) async{
     emit(LoadingFavCategoryDataState());
     await DioHelper.getDate(
       url: 'truck/$id',
     ).then((value)
     {
-      print(value.data);
-      favEquipment = DetailsEquipment.fromJson(value.data);
-      favData.add(favEquipment);
+      favData.add( DetailsEquipment.fromJson(value.data));
+      print('in function : getFavCategoryData : ${favData.length}');
       emit(SuccessFavCategoryDataState());
     }
     ).catchError((error){
@@ -491,4 +496,113 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   }
 
 
+  //for map
+  Future<List> getParsedResponseForQuery(dynamic value) async {
+    List parsedResponses = [];
+    // Else search and then send response
+    var response = await DioHelper().getSearchResultsFromQueryUsingMapbox(value);
+
+    List features = response['features'];
+    for (var feature in features) {
+      Map response = {
+        'name': feature['text'],
+        'address': feature['place_name'].split('${feature['text']}, ')[0],
+        'place': feature['place_name'],
+        'location': LatLng(feature['center'][1], feature['center'][0])
+      };
+      parsedResponses.add(response);
+    }
+    print('==============================================');
+    print(parsedResponses);
+    print(parsedResponses[0]['location']);
+    print('==============================================');
+    latLng = parsedResponses[0]['location'];
+    print(latLng);
+
+    return parsedResponses;
+  }
+  List<double> startLocation = [] ;
+  List<double> deliveryLocation = [] ;
+  Future<dynamic> getAddressFromLatLng(double latitude, double longitude,int i) async {
+    final url = 'lat=$latitude&lon=$longitude';
+    try {
+      final response = await DioHelper.getPlace(url: url,);
+      if (response.statusCode == 200) {
+        final name = response.data['display_name'];
+        if(i == 0) {
+          startLocationControllerMap.text =  name ;
+          startLocation = [double.parse( response.data['lat']), double.parse( response.data['lon']),];
+        }
+        if(i == 1) {
+          deliveryLocationControllerMap.text = name ;
+          deliveryLocation = [double.parse( response.data['lat']), double.parse( response.data['lon']),];
+        }
+        return name;
+      } else {
+        throw Exception('Failed to get address from latitude and longitude');
+      }
+    } catch (error) {
+      print(error);
+      throw Exception('Geocoding failed: $error');
+    }
+  }
+
+  var priceControllerMap = TextEditingController();
+  var descriptionControllerMap = TextEditingController();
+  var startLocationControllerMap = TextEditingController();
+  var deliveryLocationControllerMap = TextEditingController();
+
+
+  Future<void> bookTruck({
+    required String description,
+    required String price ,
+    required String? userId ,
+    required String? truckId ,
+    required List<double> startLocation,
+    required List<double> deliveryLocation,
+  }) async {
+
+    emit(LoadingBookTruckState());
+    DioHelper.postData(
+      url: 'booking/book_truck?service_providerId=$userId&truckId=$truckId',
+      data: {
+        'description': description,
+        'price': price,
+        'startLocation': startLocation,
+        'deliveryLocation': deliveryLocation,
+      }
+    ).then((value)
+    {
+      print("booking Equipments") ;
+      print(value.data);
+      emit(SuccessBookTruckState());
+    }).catchError((error)
+    {
+
+      if(error is DioError)
+        {
+          print(error.error);
+          print(error.response!.data['message']);
+          print(error.message);
+        }
+      print(error.toString());
+      emit(ErrorBookTruckState());
+    });
+  }
+
+  List<dynamic> search = [];
+
+  void getSearch(String value) {
+    emit(NewsGetSearchLoadingState());
+    DioHelper.getDate(
+      url: 'truck?keyword=$value',
+    ).then((value) {
+      print(value.data);
+      search = value.data['trucks'] ;
+      emit(NewsGetSearchSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(NewsGetSearchErrorState(error.toString()));
+    });
+  }
 }

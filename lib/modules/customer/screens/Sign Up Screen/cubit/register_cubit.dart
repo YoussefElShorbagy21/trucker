@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/models/signupmodel.dart';
 import 'package:login/shared/components/constants.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../shared/network/local/cache_helper.dart';
 import '../../../../../shared/network/remote/dio_helper.dart';
@@ -135,36 +136,125 @@ class RegisterCubit extends Cubit<RegisterState>
 
   var nationalIdController = TextEditingController();
   var drivingLicenseController = TextEditingController();
-
-  void imageOCR({
-    required File photo,
-  }) async{
+  DateTime date = DateTime.now();
+  void imageOCR({required File photo,}) async{
       emit(LoadingOCRPostState());
       FormData formData = FormData.fromMap({
         "image" : await MultipartFile.fromFile(photo.path),
       });
-      DioHelper.postOCR(
-        url: 'ocr',
+      DioHelper.postData(
         data: formData,
+        url: 'users/ocr',
       ).then((value)
       {
-        var indexData = value.data['ocrResult'].toString().split("\n") ;
-        print(indexData.length);
-        print(indexData);
-        for(var index = 0; index < indexData.length; index++)
-          {
-            if (indexData[index].length == 14 && indexData[index].contains(RegExp(r'[0-9]'))){
-              nationalIdController.text = indexData[index] ;
+        print(value.data);
+        var data = value.data['ocrResult'].toString().split("\n") ;
+        print(data);
+        final natid = ['', ''];
+        for (var index = 0; index < data.length; index++) {
+          if (data[index].length == 14 && int.tryParse(data[index]) != null) {
+            natid[0] = data[index];
+            print(natid);
+            nationalIdController.text = natid[0];
+          }
+        }
+        print(nationalIdController.text);
+        print('go inside driver license');
+        ////////////////////////////////////////////////////
+        for (var index = 0; index < data.length; index++) {
+          if (data[index].contains('نهاية الترخيص') || data[index].contains('الترخيص')) {
+            if (data[index].length > 22 && data[index].contains('/') && data[index].contains(':')) {
+              print(data[index].substring(15));
+              final datas = data[index].substring(15).split('/');
+              print('object2');
+              for (var index = 0; index < datas.length; index++) {
+                print('inside for');
+                datas[index] = conv2EnNum(datas[index]).toString();
+                print(conv2EnNum(datas[index]).toString());
+                print(datas);
+              }
+
+              final finalDate = datas[0] + '/' + datas[1] + '/' + datas[2];
+              final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              if (date.year < givenDate.year) {
+                print('finalDate: $finalDate');
+                natid[1] = finalDate;
+              }
+            } else if (data[index].length > 20 && data[index].contains('-') && data[index].contains(':')) {
+              print(data[index].substring(16));
+              final datas = data[index].substring(16).split('-');
+              for (var index = 0; index < datas.length; index++) {
+                datas[index] = conv2EnNum(datas[index]).toString();
+              }
+
+              final finalDate = datas[2] + '/' + datas[1] + '/' + datas[0];
+              final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              if (date.year < givenDate.year) {
+                print('finalDate:$finalDate');
+                natid[1] = finalDate;
+              }
+            } else if (data[index].length > 22 && data[index].contains('/') && !data[index].contains(':')) {
+              print(data[index].substring(14));
+              final datas = data[index].substring(14).split('/');
+              for (var index = 0; index < datas.length; index++) {
+                datas[index] = conv2EnNum(datas[index]).toString();
+              }
+
+              final finalDate = datas[0] + '/' + datas[1] + '/' + datas[2];
+              final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              if (date.year < givenDate.year) {
+                print('finalDate:$finalDate');
+                natid[1] = finalDate;
+              }
+            } else if (data[index].length > 20 &&
+                data[index].contains('-') &&
+                !data[index].contains(':')) {
+              print(data[index].substring(14));
+              final datas = data[index].substring(14).split('-');
+              for (var index = 0; index < datas.length; index++) {
+                datas[index] = conv2EnNum(datas[index]).toString();
+              }
+              final finalDate = datas[2] + '/' + datas[1] + '/' + datas[0];
+              final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              if (date.year < givenDate.year) {
+                print('finalDate:$finalDate');
+                natid[1] = finalDate;
+              }
             }
           }
-        print(nationalIdController.text);
-        drivingLicenseController.text = indexData[10] ;
+        }
+        final givenDate = DateFormat('dd/MM/yyyy').parse(natid[1]);
+        if (givenDate is DateTime && givenDate.year > date.year && int.tryParse(natid[0]) != null) {
+          nationalIdController.text = natid[0];
+          drivingLicenseController.text = natid[1];
+        } else {
+          print('error');
+        }
         emit(SuccessOCRPostState());
         postImageOCR = null ;
       }).catchError((error){
+        if(error is DioError){
+          print(error.response!.data);
+          emit(ErrorOCRPostState());
+        }
+        print('here is error');
         print(error.toString());
         emit(ErrorOCRPostState());
       });
+
+  }
+
+  conv2EnNum(String str) {
+    return double.parse(
+        str.replaceAllMapped(
+          RegExp(r'[٠١٢٣٤٥٦٧٨٩]'),
+              (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) - 1632),
+        ) // Convert Arabic numbers
+            .replaceAllMapped(
+          RegExp(r'[۰۱۲۳۴۵۶۷۸۹]'),
+              (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) - 1776),
+        ) // Convert Persian numbers
+    );
   }
 
   File? postImageOCR ;
@@ -209,4 +299,5 @@ class RegisterCubit extends Cubit<RegisterState>
     if(croppedFile == null) return null ;
     return File(croppedFile.path);
   }
+
 }

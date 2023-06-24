@@ -1,4 +1,3 @@
-import '../../../models/UserData.dart';
 
 abstract class HomeStates {}
 

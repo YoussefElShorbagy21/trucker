@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 
 import '../../components/constants.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import '../local/cache_helper.dart';
 
 class DioHelper
 {
   static late Dio dio ;
-  static late Dio dio2 ;
+  static late Dio dio1 ;
   static inti()
   {
     dio = Dio(
@@ -15,10 +17,10 @@ class DioHelper
         receiveDataWhenStatusError: true,
       ),
     );
-    dio2 = Dio(
+
+    dio1 = Dio(
       BaseOptions(
-        baseUrl: 'https://excited-bee-buckle.cyclic.app/',
-        receiveDataWhenStatusError: true,
+        baseUrl: 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&',
       ),
     );
   }
@@ -88,14 +90,32 @@ class DioHelper
   }
 
 
-  static Future<Response> postOCR({
+
+  static Future<Response> getPlace({
     required String url,
-    required dynamic data ,
   }) async
   {
-    return dio2.post(
+    return await dio1.get(
       url ,
-      data: data,
     );
+  }
+
+  //for map
+
+  String baseUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
+  String accessToken = dotenv.env['MAPBOX_ACCESS_TOKEN']!;
+  String searchResultsLimit = '10';
+  String proximity =
+      '${CacheHelper.getData(key: 'longitude')}%2C${CacheHelper.getData(key: 'latitude')}';
+  String country = 'eg';
+
+  Future getSearchResultsFromQueryUsingMapbox(String query) async {
+    String url =
+        '$baseUrl/$query.json?country=$country&language=ar%2Cen&limit=$searchResultsLimit&proximity=$proximity&autocomplete=true&access_token=$accessToken';
+    url = Uri.parse(url).toString();
+    print(url);
+    dio.options.contentType = Headers.jsonContentType;
+    final responseData = await dio.get(url);
+    return responseData.data;
   }
 }

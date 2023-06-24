@@ -67,3 +67,15 @@ class  LoadingFavCategoryDataState extends HomeScreenState {}
 class  SuccessFavCategoryDataState extends HomeScreenState {}
 class  ErrorFavCategoryDataState extends HomeScreenState {}
 
+class  LoadingBookTruckState extends HomeScreenState {}
+class  SuccessBookTruckState extends HomeScreenState {}
+class  ErrorBookTruckState extends HomeScreenState {}
+
+class NewsGetSearchLoadingState extends HomeScreenState {}
+
+class NewsGetSearchSuccessState extends HomeScreenState {}
+
+class NewsGetSearchErrorState extends HomeScreenState  {
+  final String error ;
+  NewsGetSearchErrorState(this.error);
+}

@@ -40,12 +40,10 @@ class HomeCubit extends Cubit<HomeStates>{
     required String description,
     required File? imageCover,
     required int price ,
-    required int priceAfterDiscount ,
     required String category ,
     required String subcategory ,
     required String brand ,
-    required String locationFrom ,
-    required String locationTo ,
+    required String currentLocation ,
     required String? userId ,
   }) async {
 
@@ -55,12 +53,10 @@ class HomeCubit extends Cubit<HomeStates>{
       'description' : description,
       'imageCover': await MultipartFile.fromFile(imageCover!.path),
       'price' : price,
-      'priceAfterDiscount' : priceAfterDiscount,
       'category' : category,
       'subcategory' : subcategory,
       'brand' : brand,
-      'locationFrom' : locationFrom,
-      'locationTo' : locationTo,
+      'currentLocation' : currentLocation,
       'userId' : userId,
     });
     DioHelper.postData(
@@ -138,23 +134,24 @@ class HomeCubit extends Cubit<HomeStates>{
 
   OneUserData oneUserData  = OneUserData(
       userData: UserData(name: 'name', email: 'email', phone: 'phone',
-          verified: false, avatar: '', role: '', nationalId: null, drivingLicense: null, favoriteList: []));
+          verified: false, avatar: '', role: '', nationalId: null,
+          favoriteList: [], doneTransactions: [],
+          currentTransactions: [], acceptedTransactions: []));
 
  Map<String , String > favorites = {};
-  void getUserData({String? userID}) {
+  Future<void> getUserData({String? userID}) async {
     emit(LoadingGetUserData());
     if (uid == null) {
       print('uid is null');
-      DioHelper.getDate(url: 'users/$userID').then((value) {
+     await DioHelper.getDate(url: 'users/$userID').then((value) {
         if (kDebugMode) {
-          print(value.data);
+          print('userID: $userID because uid null');
         }
-        if (kDebugMode) {
-          print(uid);
-        }
+        uid = userID ;
         oneUserData = OneUserData.fromJson(value.data);
+        print('start search in favoriteList');
         for (var element in oneUserData.userData.favoriteList) {
-          favorites.addAll({element: 'find'});
+           favorites.addAll({element: 'find'});
         }
         print(favorites);
         emit(SuccessGetUserData());
@@ -165,14 +162,10 @@ class HomeCubit extends Cubit<HomeStates>{
       });
     }else{
       print('uid is not null');
-      DioHelper.getDate(url: 'users/$uid').then((value) {
-        if (kDebugMode) {
-          print(value.data);
-        }
-        if (kDebugMode) {
-          print(uid);
-        }
+      print('uid in function getUserData: $uid');
+     await DioHelper.getDate(url: 'users/$uid').then((value) {
         oneUserData = OneUserData.fromJson(value.data);
+        print('start search in favoriteList');
         for (var element in oneUserData.userData.favoriteList) {
           favorites.addAll({element: 'find'});
         }
@@ -190,9 +183,6 @@ class HomeCubit extends Cubit<HomeStates>{
   void getAllUserData(){
     emit(LoadingGetAllUserData());
     DioHelper.getDate(url:'users').then((value){
-      if (kDebugMode) {
-        print(value.data);
-      }
       allUserData = AllUserData.fromJson(value.data);
       emit(SuccessGetAllUserData());
     }).catchError((onError){
@@ -272,8 +262,7 @@ class HomeCubit extends Cubit<HomeStates>{
   var categoryControllerT = TextEditingController(text: 'Category');
   var subCategoryControllerT = TextEditingController(text: 'subCategory');
   var brandControllerT = TextEditingController(text: 'brand');
-  var locationFromControllerT  =TextEditingController(text: 'locationFrom');
-  var locationToControllerT  = TextEditingController(text: 'locationTo');
+  var currentLocation  =TextEditingController(text: 'currentLocation');
 
   void setCategory(String selected) {
     categoryControllerT.text = selected ;
@@ -365,15 +354,11 @@ class HomeCubit extends Cubit<HomeStates>{
     emit(HomeSetBrand());
   }
 
-  void setLocationFrom(String selected) {
-    locationFromControllerT.text = selected ;
+  void setcurrentLocation(String selected) {
+    currentLocation.text = selected ;
     emit(HomeSetLocationFrom());
   }
 
-  void setLocationTo(String selected) {
-    locationToControllerT.text = selected ;
-    emit(HomeSetLocationTo());
-  }
 
   void delayFunction(int time) {
     Future.delayed(Duration(seconds: time),(){
@@ -387,8 +372,7 @@ class HomeCubit extends Cubit<HomeStates>{
         categoryControllerT.text = 'Category';
        subCategoryControllerT.text = 'subCategory';
        brandControllerT.text = 'brand';
-       locationFromControllerT.text  = 'locationFrom';
-       locationToControllerT.text  = 'locationTo';
+      currentLocation.text  = 'locationFrom';
       postImage = null;
     });
     emit(DelayFunctionState());
@@ -431,13 +415,11 @@ class HomeCubit extends Cubit<HomeStates>{
       url: 'category',
     ).then((value)
     {
-      print(value.data);
       var re = value.data;
       for(var data in re)
         {
           listCate.add(CategoryModel(id: data['_id'], name: data['name']));
         }
-      print(listCate[0].name);
       emit(HomeSuccessGetCategory());}
     ).catchError((error){
       print(error.toString());
@@ -456,7 +438,6 @@ class HomeCubit extends Cubit<HomeStates>{
       {
         listSubCategory.add(SubCategory(id: data['_id'], name: data['name']));
       }
-      print(listSubCategory[0].name);
       emit(HomeSuccessGetSubCategory());}
     ).catchError((error){
       print(error.toString());
@@ -475,7 +456,6 @@ class HomeCubit extends Cubit<HomeStates>{
       {
         listBrand.add(Brand(id: data['_id'], name: data['name']));
       }
-      print(listBrand[0].name);
       emit(HomeSuccessGetBrand());}
     ).catchError((error){
       print(error.toString());
@@ -523,10 +503,10 @@ class HomeCubit extends Cubit<HomeStates>{
     });
   }
 
-  void delayTime(int time) {
+  Future<void> delayTime(int time) async {
     print('Time $time');
-    Future.delayed( Duration(seconds: time) , (){
-      HomeCubit().getUserData();
+    Future.delayed( Duration(seconds: time) , () async {
+      await HomeCubit().getUserData();
     });
     print('Time after delayed $time');
     emit(DelayedFunction());
@@ -818,4 +798,7 @@ class HomeCubit extends Cubit<HomeStates>{
     }
 
   }
+
+
+
 }

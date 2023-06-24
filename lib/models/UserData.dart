@@ -30,8 +30,10 @@ class UserData{
   String avatar ;
   String role;
   dynamic nationalId;
-  dynamic drivingLicense;
   List<dynamic> favoriteList;
+  List<dynamic> doneTransactions;
+  List<dynamic> currentTransactions;
+  List<dynamic> acceptedTransactions;
 
   UserData({
     required this.name,
@@ -41,8 +43,10 @@ class UserData{
     required this.avatar,
     required this.role,
     required this.nationalId,
-    required this.drivingLicense,
     required this.favoriteList,
+    required this.doneTransactions,
+    required this.currentTransactions,
+    required this.acceptedTransactions,
   });
 
   factory UserData.fromJson(Map<String,dynamic> json) =>
@@ -54,7 +58,14 @@ class UserData{
           role: json['role'],
         avatar: json['avatar'] ?? '',
         nationalId: json["nationalId"] ?? '',
-        drivingLicense: json["drivingLicense"] ?? ' ',
         favoriteList: List<String>.from(json["favoriteList"].map((x) => x)),
+        doneTransactions: List<String>.from(json["doneTransactions"].map((x) => x)),
+        currentTransactions: List<String>.from(json["currentTransactions"].map((x) => x)),
+        acceptedTransactions: List<String>.from(json["acceptedTransactions"].map((x) => x)),
       );
 }
+
+
+/*
+confirmTicket proivder
+ */

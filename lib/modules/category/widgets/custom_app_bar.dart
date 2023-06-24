@@ -24,7 +24,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0.0,
       automaticallyImplyLeading: false,
       iconTheme: IconThemeData(color: ColorManager.cGold),
-      leading: child,
       actions: action,
     );
   }

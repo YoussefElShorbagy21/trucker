@@ -31,7 +31,7 @@ Widget listBuilderOrder(GetEquipment data, BuildContext context , ScrollPhysics 
             MaterialPageRoute(
               builder: (_) =>
                   DetailsCategoryScreen(
-                    id:data.equipment[reverse].truckId,
+                    id:data.equipment[reverse].id,
                     cid:data.equipment[reverse].category ,
                     scid: data.equipment[reverse].subcategory,
                     bid: data.equipment[reverse].brand,
@@ -105,7 +105,7 @@ child: Row(
                 ),
                 Flexible(
                   child: Text(
-                    equipment.locationFrom,
+                    equipment.currentLocation,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: ColorManager.black, fontSize: 20),
@@ -126,13 +126,13 @@ child: Row(
                         color: ColorManager.gery,
                         size: 25,
                       ),
-                      Flexible(
-                        child: Text(
-                          equipment.price.toString(),
-                          style: TextStyle(
-                              color: ColorManager.black, fontSize: 18),
-                        ),
-                      ),
+                      // Flexible(
+                      //   child: Text(
+                      //     equipment.price.toString(),
+                      //     style: TextStyle(
+                      //         color: ColorManager.black, fontSize: 18),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -171,7 +171,7 @@ child: Row(
                       ),
                     ),
                   ),*/
-                  Row(
+               /*   Row(
                     children: [
                       Text('${equipment.ratingCount.toDouble().toString()} / 5'
                         ,style: const TextStyle(
@@ -196,7 +196,7 @@ child: Row(
                       ),
 
                     ],
-                  ),
+                  ),*/
                  const Spacer(),
                   FavoriteButton(
                     iconSize: 30,
@@ -278,3 +278,108 @@ Widget cardView(context) {
     ),
   );
 }
+
+Widget builderArticleItem(articles, context) =>  Padding(
+
+  padding: const EdgeInsets.all(20.0),
+
+  child: Row(
+
+    children:
+
+    [
+
+      Container(
+
+        width: 120,
+
+        height: 120,
+
+        decoration: BoxDecoration(
+
+          borderRadius: BorderRadius.circular(10.0),
+
+          image: DecorationImage(
+
+            image: NetworkImage('${articles['imageCover']}'),
+
+            fit: BoxFit.cover,
+
+          ),
+
+        ),
+
+      ),
+
+      const SizedBox(
+
+        width: 20,
+
+      ),
+
+      Expanded(
+
+        child: SizedBox(
+
+          height: 120,
+
+          child: Column(
+
+            crossAxisAlignment: CrossAxisAlignment.start,
+
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            mainAxisSize: MainAxisSize.min,
+
+            children:
+
+            [
+
+              Text(
+
+                '${articles['name']}' ,
+
+                style: Theme.of(context).textTheme.bodyLarge,
+
+                maxLines: 3,
+
+                overflow: TextOverflow.ellipsis,
+
+              ),
+
+              Text(
+
+                '${articles['description']}',
+
+                style: const TextStyle(
+
+                  color: Colors.grey,
+
+                ),
+
+              ),
+
+            ],
+
+          ),
+
+        ),
+
+      ),
+
+    ],
+
+  ),
+
+);
+
+Widget articleBuilder(list,int len ,context , {isSearch = false} ) => list.length > 0 ?  ListView.separated(
+  physics: const BouncingScrollPhysics(),
+  itemBuilder: (context,index) => builderArticleItem(list[index],context),
+  separatorBuilder: (context , index) => Container(
+    width: double.infinity,
+    height: 1,
+    color: Colors.grey[300],
+  ),
+  itemCount: len,
+) : isSearch ? Container(): const Center(child: CircularProgressIndicator());

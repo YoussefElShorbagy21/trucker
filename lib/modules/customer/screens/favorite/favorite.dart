@@ -19,11 +19,11 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeScreenCubit,HomeScreenState>(
+    return BlocProvider(
+  create: (context) => HomeScreenCubit()..getFavoriteList(),
+  child: BlocConsumer<HomeScreenCubit,HomeScreenState>(
               listener: (context,state) {},
               builder: (context,state) {
-                print(HomeScreenCubit.get(context).favList.length);
-                print(HomeScreenCubit.get(context).favData.length);
                 var cubit = HomeScreenCubit.get(context);
                 return Conditional.single(
                   context: context,
@@ -54,7 +54,8 @@ class FavoriteScreen extends StatelessWidget {
                   ),
                 );
               },
-            );
+            ),
+);
   }
 }
 
@@ -140,14 +141,14 @@ Widget buildItemFav(BuildContext context, DetailsEquipment equipment) => Padding
                   const SizedBox(
                     width: 5,
                   ),
-                  Flexible(
+              /*    Flexible(
                     child: Text(
                       equipment.locationFrom,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: ColorManager.black, fontSize: 20),
                     ),
-                  )
+                  )*/
                 ],
               ),
               const SizedBox(
@@ -163,13 +164,13 @@ Widget buildItemFav(BuildContext context, DetailsEquipment equipment) => Padding
                           color: ColorManager.gery,
                           size: 25,
                         ),
-                        Flexible(
+                      /*  Flexible(
                           child: Text(
                             equipment.price.toString(),
                             style: TextStyle(
                                 color: ColorManager.black, fontSize: 18),
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                   ),
@@ -211,18 +212,18 @@ Widget buildItemFav(BuildContext context, DetailsEquipment equipment) => Padding
                     const Spacer(),
                     FavoriteButton(
                       iconSize: 30,
-                      isFavorite: HomeCubit.get(context).favorites[equipment.id] == 'find' ? true  : false,
+                      isFavorite: HomeCubit.get(context).favorites[equipment.truckId] == 'find' ? true  : false,
                       valueChanged: (isFavorite) {
                         if(isFavorite == true) {
-                          HomeCubit.get(context).addFavorite(truck: equipment.id);
+                          HomeCubit.get(context).addFavorite(truck: equipment.truckId);
                           HomeCubit.get(context).delayTime(5);
-                          HomeCubit.get(context).favorites[equipment.id] = 'find' ;
+                          HomeCubit.get(context).favorites[equipment.truckId] = 'find' ;
                         }
                         else {
-                          HomeCubit.get(context).deleteFavorite(truck: equipment.id);
+                          HomeCubit.get(context).deleteFavorite(truck: equipment.truckId);
                           HomeCubit.get(context).delayTime(5);
-                          HomeCubit.get(context).favorites[equipment.id] = '';
-                          HomeScreenCubit.get(context).favData.removeWhere((element) => element.id == equipment.id);
+                          HomeCubit.get(context).favorites[equipment.truckId] = '';
+                          HomeScreenCubit.get(context).favData.removeWhere((element) => element.truckId == equipment.truckId);
                         }
                       },
                     ),

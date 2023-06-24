@@ -63,12 +63,10 @@ class NewPostScreen extends StatelessWidget {
                           imageCover: HomeCubit.get(context).postImage,
                           price: int.parse(HomeCubit.get(context).priceController.text),
                           category: HomeCubit.get(context).idCategoryControllerT,
-                          locationFrom: HomeCubit.get(context).locationFromControllerT.text,
+                          currentLocation: HomeCubit.get(context).currentLocation.text,
                           userId: uid,
                           subcategory: HomeCubit.get(context).idSubCategoryControllerT,
-                          brand: HomeCubit.get(context).idBrandControllerT,
-                          locationTo: HomeCubit.get(context).locationToControllerT.text,
-                          priceAfterDiscount: 800,);
+                          brand: HomeCubit.get(context).idBrandControllerT,);
                         HomeCubit.get(context).delayFunction(10);
                         Navigator.pop(context);
                       }
@@ -271,11 +269,11 @@ class NewPostScreen extends StatelessWidget {
                       ),onTap: () {},
                     ),
                     InputField(
-                      title: 'locationFrom',
-                      controller: HomeCubit.get(context).locationFromControllerT,
-                      note: HomeCubit.get(context).locationFromControllerT.text ,
+                      title: 'currentLocation',
+                      controller: HomeCubit.get(context).currentLocation,
+                      note: HomeCubit.get(context).currentLocation.text ,
                       validator: (value){
-                        if(value == 'locationFrom')
+                        if(value == 'currentLocation')
                         {
                           return 'please enter value';
                         }
@@ -295,39 +293,7 @@ class NewPostScreen extends StatelessWidget {
                             underline:  Container(height: 0,),
                             onChanged: (String? value)
                             {
-                              HomeCubit.get(context).setLocationFrom(value!);
-                            },
-                          ),
-                          const SizedBox(width: 6,),
-                        ],
-                      ),onTap: () {},
-                    ),
-                    InputField(
-                      title: 'locationTo',
-                      controller: HomeCubit.get(context).locationToControllerT,
-                      note: HomeCubit.get(context).locationToControllerT.text ,
-                      validator: (value){
-                        if(value == 'locationTo')
-                        {
-                          return 'please enter value';
-                        }
-                        return null;
-                      },
-                      widget: Row(
-                        children: [
-                          DropdownButton(
-                            dropdownColor: ColorManager.black,
-                            borderRadius: BorderRadius.circular(10),
-                            items: governmentList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
-                                value: e,
-                                child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
-                            icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
-                            iconSize: 32,
-                            elevation: 4,
-                            underline:  Container(height: 0,),
-                            onChanged: (String? value)
-                            {
-                              HomeCubit.get(context).setLocationTo(value!);
+                              HomeCubit.get(context).setcurrentLocation(value!);
                             },
                           ),
                           const SizedBox(width: 6,),
@@ -375,7 +341,7 @@ class NewPostScreen extends StatelessWidget {
 }
 
 
-  void _showSelectPhotoOptions(BuildContext context) {
+void _showSelectPhotoOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

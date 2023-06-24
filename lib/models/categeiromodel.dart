@@ -62,77 +62,54 @@ class Brand{
 }
 
 class Equipment{
-  List<dynamic> images;
-  int ratingCount;
   String id;
   String name;
   String description;
-  String locationFrom;
-  String locationTo;
-  dynamic price;
-  dynamic priceAfterDiscount;
+  String currentLocation;
   String brand;
   String subcategory;
   String category;
   DateTime createdAt;
   DateTime updatedAt;
   String imageCover;
-  String truckId;
   String userId ;
 
   Equipment({
-    required this.images,
-    required this.ratingCount,
     required this.id,
     required this.name,
     required this.description,
-    required this.locationFrom,
-    required this.locationTo,
-    required this.price,
-    required this.priceAfterDiscount,
+    required this.currentLocation,
     required this.brand,
     required this.subcategory,
     required this.category,
     required this.createdAt,
     required this.updatedAt,
     required this.imageCover,
-    required this.truckId,
     required this.userId
   });
 
   factory Equipment.fromJson(Map<String,dynamic> json) =>
       Equipment(
-        images: List<dynamic>.from(json["images"].map((x) => x)),
-        ratingCount: json["ratingCount"],
-        id: json["_id"],
+        id: json["id"],
         name: json["name"],
         description: json["description"],
-        locationFrom: json["locationFrom"],
-        locationTo: json["locationTo"],
-        price: json["price"],
-        priceAfterDiscount: json["priceAfterDiscount"],
+        currentLocation: json["currentLocation"],
         brand: json["brand"],
         subcategory: json["subcategory"],
         category: json["category"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         imageCover: json["imageCover"],
-        truckId: json["id"],
-        userId: json["userId"] ?? "",
+        userId: json["service_providerId"],
       );
 
 }
 
 class DetailsEquipment{
   List<dynamic> images;
-  int ratingCount;
-  String id;
   String name;
   String description;
-  String locationFrom;
-  String locationTo;
-  int price;
-  double priceAfterDiscount;
+  String currentLocation ;
   String brand;
   String subcategory;
   String category;
@@ -145,14 +122,8 @@ class DetailsEquipment{
 
   DetailsEquipment({
     required this.images,
-    required this.ratingCount,
-    required this.id,
     required this.name,
     required this.description,
-    required this.locationFrom,
-    required this.locationTo,
-    required this.price,
-    required this.priceAfterDiscount,
     required this.brand,
     required this.subcategory,
     required this.category,
@@ -161,20 +132,16 @@ class DetailsEquipment{
     required this.imageCover,
     required this.truckId,
     required this.reviews,
-    required this.userId
+    required this.userId,
+    required this.currentLocation
   });
 
   factory DetailsEquipment.fromJson(Map<String,dynamic> json) =>
       DetailsEquipment(
         images: List<dynamic>.from(json["images"].map((x) => x)),
-        ratingCount: json["ratingCount"],
-        id: json["_id"],
         name: json["name"],
         description: json["description"],
-        locationFrom: json["locationFrom"],
-        locationTo: json["locationTo"],
-        price: json["price"],
-        priceAfterDiscount: json["priceAfterDiscount"]?.toDouble(),
+        currentLocation: json["currentLocation"],
         brand: json["brand"],
         subcategory: json["subcategory"],
         category: json["category"],
@@ -182,7 +149,7 @@ class DetailsEquipment{
         updatedAt: DateTime.parse(json["updatedAt"]),
         imageCover: json["imageCover"],
         truckId: json["id"],
-        userId: json["userId"] ?? "",
+        userId: json["service_providerId"] ?? "",
         reviews: List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
       );
 }
@@ -211,10 +178,8 @@ class Review {
 class PostEquipment{
   String name;
   String description;
-  String locationFrom;
-  String locationTo;
+  String currentLocation;
   dynamic price;
-  dynamic priceAfterDiscount;
   String brand;
   String subcategory;
   String category;
@@ -224,10 +189,8 @@ class PostEquipment{
   PostEquipment({
     required this.name,
     required this.description,
-    required this.locationFrom,
-    required this.locationTo,
+    required this.currentLocation,
     required this.price,
-    required this.priceAfterDiscount,
     required this.brand,
     required this.subcategory,
     required this.category,
@@ -239,15 +202,13 @@ class PostEquipment{
       PostEquipment(
         name: json["name"],
         description: json["description"],
-        locationFrom: json["locationFrom"],
-        locationTo: json["locationTo"],
+        currentLocation: json["currentLocation"],
         price: json["price"],
-        priceAfterDiscount: json["priceAfterDiscount"],
         brand: json["brand"],
         subcategory: json["subcategory"],
         category: json["category"],
         imageCover: json["imageCover"],
-        userId: json["userId"],
+        userId: json["service_providerId"],
       );
 
 }

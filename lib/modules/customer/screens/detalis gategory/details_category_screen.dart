@@ -7,12 +7,28 @@ import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../layout/homeLayout/homelayout.dart';
 import '../../../../shared/components/constants.dart';
+import '../../../../shared/components/input_field.dart';
 import '../../../../shared/network/remote/dio_helper.dart';
 import '../../../../shared/resources/color_manager.dart';
 import '../../../../shared/resources/font_manager.dart';
+import '../../map/map.dart';
 import '../home/cubit/state.dart';
 import 'package:readmore/readmore.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+
+List<String> governmentList = [
+  "الإسكندرية","الإسماعيلية",
+  "كفر الشيخ","أسوان",
+  "أسيوط", "الأقصر",
+  "الوادي الجديد","شمال سيناء",
+  "البحيرة","بني سويف","بورسعيد","البحر الأحمر",
+  "الجيزة","الدقهلية","جنوب سيناء","دمياط",
+  "سوهاج","السويس","الشرقية","الغربية",
+  "الفيوم","القاهرة","القليوبية",
+  "قنا","مطروح","المنوفية","المنيا"
+];
+final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 class DetailsCategoryScreen extends StatelessWidget {
   String id; String cid; String scid; String bid;
@@ -160,7 +176,7 @@ class DetailsCategoryScreen extends StatelessWidget {
                         ),
                         Row(
                           children:  [
-                            RatingBar.builder(
+                          /*  RatingBar.builder(
                               initialRating: cubit.ratingCount.toDouble(),
                               minRating: 1,
                               maxRating: 5,
@@ -177,7 +193,7 @@ class DetailsCategoryScreen extends StatelessWidget {
                             const SizedBox(
                               width: 4,
                             ),
-                            Text(cubit.ratingCount.toDouble().toString()),
+                            Text(cubit.ratingCount.toDouble().toString()),*/
                             const SizedBox(
                               width: 5,
                             ),
@@ -194,14 +210,14 @@ class DetailsCategoryScreen extends StatelessWidget {
                                     "Date created: ${cubit.createdAt.toIso8601String().split('T').first.toString()}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 15,
+                                        fontSize: 10,
                                         color: ColorManager.gery),
                                   ),
                                   Text(
                                     "Date updated: ${cubit.updatedAt.toIso8601String().split('T').first.toString()}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 15,
+                                        fontSize: 10,
                                         color: ColorManager.gery),
                                   ),
                                 ],
@@ -267,7 +283,6 @@ class DetailsCategoryScreen extends StatelessWidget {
                           height: MediaQuery.of(context).size.height / 35,
                         ),
                         Column(
-
                           children: [
                             Row(
                               children: [
@@ -301,74 +316,7 @@ class DetailsCategoryScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        width: MediaQuery.of(context).size.width / 8,
-                                        height:
-                                        MediaQuery.of(context).size.height / 16,
-                                        decoration: BoxDecoration(
-                                          color: ColorManager.white1,
-                                          borderRadius: BorderRadius.circular(10.0),
-                                        ),
-                                        child: const Icon(
-                                          Icons.subway,
-                                          size: 25,
-                                        ),
-                                      ),
-                                      Text(
-                                        cubit.subcategory == HomeScreenCubit.get(context).subCategory.id ? HomeScreenCubit.get(context).subCategory.name : '' ,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: ColorManager.black,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        width: MediaQuery.of(context).size.width / 8,
-                                        height:
-                                        MediaQuery.of(context).size.height / 16,
-                                        decoration: BoxDecoration(
-                                          color: ColorManager.white1,
-                                          borderRadius: BorderRadius.circular(10.0),
-                                        ),
-                                        child: const Icon(
-                                          Icons.brightness_auto_rounded,
-                                          size: 25,
-                                        ),
-                                      ),
-                                      Text(
-                                        cubit.brand == HomeScreenCubit.get(context).brand.id ? HomeScreenCubit.get(context).brand.name : '' ,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: ColorManager.black,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
+                               /* Expanded(
                                   child: Column(
                                     children: [
                                       Container(
@@ -397,7 +345,7 @@ class DetailsCategoryScreen extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                ),
+                                ),*/
                                 Expanded(
                                   child: Column(
                                     children: [
@@ -444,37 +392,7 @@ class DetailsCategoryScreen extends StatelessWidget {
                                         ),
                                       ),
                                       Text(
-                                        cubit.locationFrom,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: ColorManager.black,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        width:
-                                        MediaQuery.of(context).size.width / 8,
-                                        height:
-                                        MediaQuery.of(context).size.height / 16,
-                                        decoration: BoxDecoration(
-                                          color: ColorManager.white1,
-                                          borderRadius: BorderRadius.circular(10.0),
-                                        ),
-                                        child: const Icon(
-                                          Icons.edit_location_sharp,
-                                          size: 25,
-                                        ),
-                                      ),
-                                      Text(
-                                        cubit.locationTo,
+                                        cubit.currentLocation,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -552,7 +470,164 @@ class DetailsCategoryScreen extends StatelessWidget {
                             horizontal: MediaQuery.of(context).size.width / 15,
                           ),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(context: context,
+                                  builder: (BuildContext context) {
+                                    return  SingleChildScrollView(
+                                      child: AlertDialog(
+                                        actions: [
+                                          Form(
+                                            key: formKey,
+                                            child: Column(
+                                                children: [
+                                                  InputField(
+                                                    controller: HomeScreenCubit.get(context).priceControllerMap,
+                                                    title: 'price',
+                                                    keyboardType: TextInputType.number,
+                                                    note: 'price',
+                                                    onTap: () {} ,
+                                                    validator: (value){
+                                                      if(value!.isEmpty)
+                                                      {
+                                                        return 'please enter value';
+                                                      }
+                                                      return null;
+                                                    },
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  InputField(
+                                                    controller: HomeScreenCubit.get(context).descriptionControllerMap,
+                                                    title: 'description',
+                                                    keyboardType: TextInputType.text,
+                                                    note: 'description' ,
+                                                    onTap: () {},
+                                                    validator:(value){
+                                                      if(value!.isEmpty)
+                                                      {
+                                                        return 'please enter value';
+                                                      }
+                                                      return null;
+                                                    },
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  InputField(
+                                                    controller: HomeScreenCubit.get(context).startLocationControllerMap,
+                                                    title: 'startLocation',
+                                                    note: HomeScreenCubit.get(context).startLocationControllerMap.text,
+                                                    onTap: () {},
+                                                    validator:(value){
+                                                      if(value!.isEmpty)
+                                                      {
+                                                        return 'please enter value';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    widget: Row(
+                                                      children: [
+                                                        DropdownButton(
+                                                          dropdownColor: ColorManager.black,
+                                                          borderRadius: BorderRadius.circular(10),
+                                                          items: governmentList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                                                              value: e,
+                                                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                                                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                                                          iconSize: 32,
+                                                          elevation: 4,
+                                                          underline:  Container(height: 0,),
+                                                          onChanged: (String? value)
+                                                          {
+                                                           HomeScreenCubit.get(context).getParsedResponseForQuery(value);
+                                                           Future.delayed(const Duration(seconds: 1),(){
+                                                             print('dealy');
+                                                             Navigator.push(context, MaterialPageRoute(builder: (_) =>  Mapid(i: 0,)));
+                                                           });
+                                                          },
+                                                        ),
+                                                        const SizedBox(width: 6,),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  InputField(
+                                                    controller: HomeScreenCubit.get(context).deliveryLocationControllerMap,
+                                                    title: 'deliveryLocation',
+                                                    note: HomeScreenCubit.get(context).deliveryLocationControllerMap.text,
+                                                    onTap: () {},
+                                                    validator:(value){
+                                                      if(value!.isEmpty)
+                                                      {
+                                                        return 'please enter value';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    widget: Row(
+                                                      children: [
+                                                        DropdownButton(
+                                                          dropdownColor: ColorManager.black,
+                                                          borderRadius: BorderRadius.circular(10),
+                                                          items: governmentList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                                                              value: e,
+                                                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                                                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                                                          iconSize: 32,
+                                                          elevation: 4,
+                                                          underline:  Container(height: 0,),
+                                                          onChanged: (String? value)
+                                                          {
+                                                            HomeScreenCubit.get(context).getParsedResponseForQuery(value);
+                                                            Future.delayed(const Duration(seconds: 1),(){
+                                                              print('dealy');
+                                                              Navigator.push(context, MaterialPageRoute(builder: (_) =>  Mapid(i: 1,)));
+                                                            });
+                                                          },
+                                                        ),
+                                                        const SizedBox(width: 6,),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              ElevatedButton(onPressed: (){
+                                                Navigator.pop(context);
+                                              }, child: const Text('Cancel')),
+                                              const Spacer(),
+                                              ElevatedButton(onPressed: (){
+                                                if(formKey.currentState!.validate())
+                                                  {
+                                                    HomeScreenCubit.get(context).bookTruck(
+                                                        description: HomeScreenCubit.get(context).descriptionControllerMap.text,
+                                                        price:HomeScreenCubit.get(context).priceControllerMap.text,
+                                                        userId: cubit.userId,
+                                                        truckId: id,
+                                                        startLocation:HomeScreenCubit.get(context).startLocation,
+                                                        deliveryLocation: HomeScreenCubit.get(context).deliveryLocation,
+                                                    );
+                                                    Navigator.pop(context);
+                                                  }
+                                                print(HomeScreenCubit.get(context).descriptionControllerMap.text);
+                                                print(HomeScreenCubit.get(context).priceControllerMap.text);
+                                                print(HomeScreenCubit.get(context).startLocation);
+                                                print(HomeScreenCubit.get(context).deliveryLocation);
+                                                print(uid);
+                                                print(id);
+                                              }, child: const Text('Apply')),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                              );
+                            },
                             style: TextButton.styleFrom(
                               shape: BeveledRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
