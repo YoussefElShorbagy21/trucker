@@ -7,7 +7,6 @@ import 'package:login/shared/resources/app_localizations.dart';
 
 import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../layout/homeLayout/cubit/state.dart';
-import '../../../../../shared/components/components.dart';
 import '../../../../../shared/resources/color_manager.dart';
 import '../../../../../shared/resources/select_photo_options_screen.dart';
 

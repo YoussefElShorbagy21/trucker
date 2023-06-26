@@ -12,8 +12,7 @@ import '../../../../../shared/network/local/cache_helper.dart';
 import '../../../../../shared/network/remote/dio_helper.dart';
 import 'register_state.dart';
 import 'package:image_picker/image_picker.dart';
-class RegisterCubit extends Cubit<RegisterState>
-{
+class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(RegisterInitialState()) ;
 
   SignupModel model = SignupModel(status: '', token: '', userSignupModel: UserSignupModel(id: ''));
@@ -150,7 +149,7 @@ class RegisterCubit extends Cubit<RegisterState>
         print(value.data);
         var data = value.data['ocrResult'].toString().split("\n") ;
         print(data);
-        final natid = ['', ''];
+        List<String> natid = ['', ''];
         for (var index = 0; index < data.length; index++) {
           if (data[index].length == 14 && int.tryParse(data[index]) != null) {
             natid[0] = data[index];
@@ -174,7 +173,7 @@ class RegisterCubit extends Cubit<RegisterState>
                 print(datas);
               }
 
-              final finalDate = datas[0] + '/' + datas[1] + '/' + datas[2];
+              final finalDate = '${datas[0]}/${datas[1]}/${datas[2]}';
               final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
               if (date.year < givenDate.year) {
                 print('finalDate: $finalDate');
@@ -187,7 +186,7 @@ class RegisterCubit extends Cubit<RegisterState>
                 datas[index] = conv2EnNum(datas[index]).toString();
               }
 
-              final finalDate = datas[2] + '/' + datas[1] + '/' + datas[0];
+              final finalDate = '${datas[2]}/${datas[1]}/${datas[0]}';
               final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
               if (date.year < givenDate.year) {
                 print('finalDate:$finalDate');
@@ -200,7 +199,7 @@ class RegisterCubit extends Cubit<RegisterState>
                 datas[index] = conv2EnNum(datas[index]).toString();
               }
 
-              final finalDate = datas[0] + '/' + datas[1] + '/' + datas[2];
+              final finalDate = '${datas[0]}/${datas[1]}/${datas[2]}';
               final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
               if (date.year < givenDate.year) {
                 print('finalDate:$finalDate');
@@ -214,7 +213,7 @@ class RegisterCubit extends Cubit<RegisterState>
               for (var index = 0; index < datas.length; index++) {
                 datas[index] = conv2EnNum(datas[index]).toString();
               }
-              final finalDate = datas[2] + '/' + datas[1] + '/' + datas[0];
+              final finalDate = '${datas[2]}/${datas[1]}/${datas[0]}';
               final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
               if (date.year < givenDate.year) {
                 print('finalDate:$finalDate');
@@ -224,7 +223,7 @@ class RegisterCubit extends Cubit<RegisterState>
           }
         }
         final givenDate = DateFormat('dd/MM/yyyy').parse(natid[1]);
-        if (givenDate is DateTime && givenDate.year > date.year && int.tryParse(natid[0]) != null) {
+        if (givenDate.year > date.year && int.tryParse(natid[0]) != null) {
           nationalIdController.text = natid[0];
           drivingLicenseController.text = natid[1];
         } else {
@@ -244,17 +243,31 @@ class RegisterCubit extends Cubit<RegisterState>
 
   }
 
-  conv2EnNum(String str) {
-    return double.parse(
-        str.replaceAllMapped(
-          RegExp(r'[٠١٢٣٤٥٦٧٨٩]'),
-              (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) - 1632),
-        ) // Convert Arabic numbers
-            .replaceAllMapped(
-          RegExp(r'[۰۱۲۳۴۵۶۷۸۹]'),
-              (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) - 1776),
-        ) // Convert Persian numbers
-    );
+  String conv2EnNum(String arabicDate) {
+    String normalizedDate = arabicDate
+        .replaceAll('٠', '0')
+        .replaceAll('١', '1')
+        .replaceAll('٢', '2')
+        .replaceAll('٣', '3')
+        .replaceAll('٤', '4')
+        .replaceAll('٥', '5')
+        .replaceAll('٦', '6')
+        .replaceAll('٧', '7')
+        .replaceAll('٨', '8')
+        .replaceAll('٩', '9');
+
+    DateFormat arabicDateFormat = DateFormat('dd-MM-yyyy');
+    DateTime date;
+    try {
+      date = arabicDateFormat.parse(normalizedDate);
+    } catch (e) {
+      return '';
+    }
+
+    DateFormat englishDateFormat = DateFormat('yyyy-MM-dd');
+    String englishDate = englishDateFormat.format(date);
+
+    return englishDate;
   }
 
   File? postImageOCR ;

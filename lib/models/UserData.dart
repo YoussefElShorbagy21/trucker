@@ -64,8 +64,3 @@ class UserData{
         acceptedTransactions: List<String>.from(json["acceptedTransactions"].map((x) => x)),
       );
 }
-
-
-/*
-confirmTicket proivder
- */
