@@ -4,12 +4,11 @@ import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart
 import 'package:login/layout/homeLayout/cubit/cubit.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import 'package:favorite_button/favorite_button.dart';
-import '../../../../layout/homeLayout/cubit/state.dart';
 import '../../../../models/categeiromodel.dart';
 import '../../../../shared/components/components.dart';
 import '../../../../shared/resources/color_manager.dart';
 import '../../../../shared/resources/font_manager.dart';
-import '../detalis gategory/details_category_screen.dart';
+import '../detalis gategory/detalisNew.dart';
 import '../home/cubit/cubit.dart';
 import '../home/cubit/state.dart';
 
@@ -71,7 +70,7 @@ Widget listBuilderOrderFav(List<DetailsEquipment> data, BuildContext context , S
             context,
             MaterialPageRoute(
               builder: (_) =>
-                  DetailsCategoryScreen(
+                  DetailScreen(
                     id:data[reverse].truckId,
                     cid:data[reverse].category ,
                     scid: data[reverse].subcategory,

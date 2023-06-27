@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
                   locale: HomeCubit.get(context).locale,
                   theme: ThemeData(
                     useMaterial3: true,
-                      colorScheme: ColorScheme.fromSeed(seedColor: ColorManager.cWhite),
+                      colorScheme: ColorScheme.fromSeed(seedColor: ColorManager.accentColor),
                   ),
                   supportedLocales: const [
                     Locale('ar'),
