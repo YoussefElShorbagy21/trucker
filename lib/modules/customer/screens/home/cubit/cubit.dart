@@ -314,8 +314,13 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       print(value.data);
       emit(SuccessUpdatePostState());
     }).catchError((error){
-      print(error.toString());
-      emit(ErrorUpdatePostState());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(ErrorUpdatePostState(error.response!.data['message']));
+      }
     });
   }
 
@@ -338,8 +343,13 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       emit(SuccessUpdatePostState());
       newPostImage = null ;
     }).catchError((error){
-      print(error.toString());
-      emit(ErrorUpdatePostState());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(ErrorUpdatePostState(error.response!.data['message']));
+      }
     });
   }
 
@@ -578,15 +588,12 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       emit(SuccessBookTruckState());
     }).catchError((error)
     {
-
       if(error is DioError)
         {
-          print(error.error);
+          print(error.response);
           print(error.response!.data['message']);
-          print(error.message);
+          emit(ErrorBookTruckState(error.response!.data['message']));
         }
-      print(error.toString());
-      emit(ErrorBookTruckState());
     });
   }
 
@@ -601,8 +608,13 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       search = value.data['trucks'] ;
       emit(NewsGetSearchSuccessState());
     }).catchError((error) {
-      print(error.toString());
-      emit(NewsGetSearchErrorState(error.toString()));
+      if(error is DioError)
+      {
+        print(error.error);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(NewsGetSearchErrorState(error.response!.data['message']));
+      }
     });
   }
 }

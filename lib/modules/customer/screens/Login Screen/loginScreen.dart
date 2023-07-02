@@ -26,9 +26,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
-  GlobalKey<ScaffoldMessengerState>();
-
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   var emailController = TextEditingController();
 
   var passwordController = TextEditingController();
@@ -70,7 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocConsumer<LoginCubit,LoginState>(
       listener: (context,state) {
         if(state is LoginSuccessState) {
-          if (state.model.id.isNotEmpty) {
             final snackBar = SnackBar(
               margin: const EdgeInsets.all(50),
               duration: const Duration(seconds: 5),
@@ -78,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
               elevation: 5,
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.green,
-              content: Text(state.model.message,
+              content: Text(state.model.message.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 15,
@@ -97,7 +94,6 @@ class _LoginScreenState extends State<LoginScreen> {
         navigateFish(context, VerifyScreen(state.model.token,idR: state.model.id,));
         }
         HomeCubit.get(context).getUserData(userID: state.model.id);
-          }
         }
         else if(state is LoginErrorState){
           final snackBar = SnackBar(

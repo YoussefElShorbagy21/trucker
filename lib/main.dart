@@ -15,6 +15,7 @@ import 'package:login/shared/resources/color_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'modules/customer/screens/home/cubit/cubit.dart';
 import 'modules/customer/screens/onboarding_screen/onboarding_page.dart';
+import 'modules/customer/screens/ordercustomer/currentTransactions/order_detalis_current_new.dart';
 import 'modules/customer/screens/splash_screen/language.dart';
 import 'modules/customer/screens/splash_screen/splash_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -39,7 +40,7 @@ void main() async {
       if(onBoarding != null)
       {
               if (uid != null) {
-                widget = const HomeLayout();
+                widget = const HomeLayout(); //HomeLayout
               }
               else {
                 widget = LoginScreen();
@@ -70,7 +71,8 @@ class MyApp extends StatelessWidget {
                ..getCategory()..getSubCategory()..getBrand()),
             BlocProvider<HomeScreenCubit>(create: (context) => HomeScreenCubit()..getHomeData()..getFavoriteList()),
             BlocProvider<RegisterCubit>(create: (context) => RegisterCubit()),
-            BlocProvider<OrderCubit>(create: (context) => OrderCubit()..getUserDataCurrentTransactions()..getUserDataAcceptedTransactions()),
+            BlocProvider<OrderCubit>(create: (context) => OrderCubit()..getUserDataCurrentTransactions()
+              ..getUserDataAcceptedTransactions()..getUserDataDoneTransactions()),
       ],
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {

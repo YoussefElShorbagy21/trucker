@@ -93,8 +93,13 @@ class RegisterCubit extends Cubit<RegisterState> {
       emit(SuccessUpdatePassword());
       sinOut(context);
     }).catchError((error){
-      print(error.toString());
-      emit(ErrorUpdatePassword());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(ErrorUpdatePassword(error.response!.data['message']));
+      }
     });
   }
  bool clearText = false ;
@@ -111,9 +116,14 @@ class RegisterCubit extends Cubit<RegisterState> {
       clearText = true ,
       emit(SuccessVerifyEmail())
     }).catchError((onError){
-      print(onError.toString());
+      if(onError is DioError)
+      {
+        print(onError.response);
+        print(onError.response!.data['message']);
+        print(onError.message);
+        emit(ErrorVerifyEmail(onError.response!.data['message']));
+      }
       clearText = true ;
-      emit(ErrorVerifyEmail());
     });
   }
 
@@ -128,8 +138,13 @@ class RegisterCubit extends Cubit<RegisterState> {
       print(tokenVerify),
       emit(SuccessVerifyEmailAgain())
     }).catchError((onError){
-      print(onError.toString());
-      emit(ErrorVerifyEmailAgain());
+      if(onError is DioError)
+      {
+        print(onError.response);
+        print(onError.response!.data['message']);
+        print(onError.message);
+        emit(ErrorVerifyEmailAgain(onError.response!.data['message']));
+      }
     });
   }
 
@@ -234,11 +249,8 @@ class RegisterCubit extends Cubit<RegisterState> {
       }).catchError((error){
         if(error is DioError){
           print(error.response!.data);
-          emit(ErrorOCRPostState());
+          emit(ErrorOCRPostState(error.response!.data['message']));
         }
-        print('here is error');
-        print(error.toString());
-        emit(ErrorOCRPostState());
       });
 
   }

@@ -4,7 +4,7 @@ import 'package:login/modules/customer/screens/ordercustomer/cubit/order_cubit.d
 import 'package:login/modules/customer/screens/ordercustomer/cubit/order_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../shared/resources/color_manager.dart';
-import 'order_detalis_current.dart';
+import 'order_detalis_current_new.dart';
 
 class OrderProductCurrent extends StatelessWidget {
   const OrderProductCurrent({super.key});
@@ -28,7 +28,7 @@ Widget listBuilderOrderUser(List<OneUserData> data, BuildContext context) => Lis
   itemBuilder: (BuildContext context, int index) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (_) =>  OrderDetailsCurrent(
+        Navigator.push(context, MaterialPageRoute(builder: (_) =>  OrderDetailsCurrentNew(
            price: OrderCubit.get(context).bookingCurrentTransactions[index].price,
           description: OrderCubit.get(context).bookingCurrentTransactions[index].description,
           id: OrderCubit.get(context).bookingCurrentTransactions[index].id,

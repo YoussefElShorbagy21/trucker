@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/ordercustomer/acceptedTransactions/order_product_accpet.dart';
-import 'package:login/modules/customer/screens/ordercustomer/cubit/order_cubit.dart';
 import 'package:login/modules/customer/screens/ordercustomer/currentTransactions/order_product_current.dart';
+
+import 'doneTransaction/order_product_done.dart';
 
 class IconWidget extends StatelessWidget {
   final IconData icon;
@@ -71,6 +72,7 @@ Widget buildAcceptedTransactions(context , int length) => ListTile(
 
 Widget buildDoneTransactions(context , int length) => ListTile(
   onTap: () {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderProductDone()));
   },
   leading: const IconWidget(
     icon: Icons.bookmark_added_rounded,

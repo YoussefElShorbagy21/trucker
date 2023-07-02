@@ -4,10 +4,10 @@ import 'package:login/modules/customer/screens/ordercustomer/cubit/order_cubit.d
 import 'package:login/modules/customer/screens/ordercustomer/cubit/order_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../shared/resources/color_manager.dart';
-import 'order_detalis_accept_new.dart';
+import 'order_detalis_done_new.dart';
 
-class OrderProductAccept extends StatelessWidget {
-  const OrderProductAccept({super.key});
+class OrderProductDone extends StatelessWidget {
+  const OrderProductDone({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class OrderProductAccept extends StatelessWidget {
           listener: (context, state) {},
           builder: (context, state) {
             var cubit = OrderCubit.get(context);
-            return listBuilderOrderUser(cubit.companyAcceptedTransactions,context);
+            return listBuilderOrderUser(cubit.companyDoneTransactions,context);
           },
 ),
     );
@@ -28,14 +28,11 @@ Widget listBuilderOrderUser(List<OneUserData> data, BuildContext context) => Lis
   itemBuilder: (BuildContext context, int index) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (_) =>  OrderDetailsAcceptNew(
-           price: OrderCubit.get(context).bookingAcceptedTransactions[index].price,
-          description: OrderCubit.get(context).bookingAcceptedTransactions[index].description,
-          id: OrderCubit.get(context).bookingAcceptedTransactions[index].id,
-          sourceLatLa: OrderCubit.get(context).bookingAcceptedTransactions[index].startLocationLa,
-          sourceLatLo: OrderCubit.get(context).bookingAcceptedTransactions[index].startLocationLo,
-          destinationLa: OrderCubit.get(context).bookingAcceptedTransactions[index].deliveryLocationLa,
-          destinationLo: OrderCubit.get(context).bookingAcceptedTransactions[index].deliveryLocationLo,
+        Navigator.push(context, MaterialPageRoute(builder: (_) =>  OrderDetailsDoneNew(
+           price: OrderCubit.get(context).bookingDoneTransactions[index].price,
+          description: OrderCubit.get(context).bookingDoneTransactions[index].description,
+          id: OrderCubit.get(context).bookingDoneTransactions[index].id,
+            service_providerId:OrderCubit.get(context).bookingDoneTransactions[index].serviceProviderId,
         )
         ));
       },

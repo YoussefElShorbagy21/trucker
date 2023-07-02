@@ -69,8 +69,13 @@ class HomeCubit extends Cubit<HomeStates>{
       emit(HomePostEquipmentSuccessState());
     }).catchError((error)
     {
-        print(error.toString());
-      emit(HomePostEquipmentErrorState());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(HomePostEquipmentErrorState(error.response!.data['message']));
+      }
     });
   }
 
@@ -246,8 +251,13 @@ class HomeCubit extends Cubit<HomeStates>{
       });
       emit(SuccessUpdateUSERState());
     }).catchError((error){
-      print(error.toString());
-      emit(ErrorUpdateUSERState());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(ErrorUpdateUSERState(error.response!.data['message']));
+      }
     });
   }
 
@@ -478,8 +488,13 @@ class HomeCubit extends Cubit<HomeStates>{
       print(value.data);
       emit(SuccessAddFavorite());}
     ).catchError((error){
-      print(error.toString());
-      emit(ErrorAddFavorite());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(ErrorAddFavorite(error.response!.data['message']));
+      }
     });
   }
 
@@ -498,8 +513,13 @@ class HomeCubit extends Cubit<HomeStates>{
       emit(SuccessDeleteFavorite());
     }
     ).catchError((error){
-      print(error.toString());
-      emit(ErrorDeleteFavorite());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(ErrorDeleteFavorite(error.response!.data['message']));
+      }
     });
   }
 
@@ -756,12 +776,17 @@ class HomeCubit extends Cubit<HomeStates>{
         print(value.realUri);
         print(value.data);
         homeModel = GetEquipment.fromJson(value.data);
-        emit(HomeSuccessGetFilterData());
+        emit(HomeSuccessGetFilterDataCategory());
         subCategoryControllerF = 'Category';
         idSubCategoryControllerF = '';
       }).catchError((error){
-        print(error.toString());
-        emit(HomeErrorGetFilterData());
+        if(error is DioError)
+        {
+          print(error.response);
+          print(error.response!.data['message']);
+          print(error.message);
+          emit(HomeErrorGetFilterDataCategory(error.response!.data['message']));
+        }
       });
     }
     else if(idSubCategoryControllerF.isEmpty && idBrandControllerF.isNotEmpty) {

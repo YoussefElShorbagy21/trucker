@@ -18,22 +18,27 @@ class OrderCustomer extends StatelessWidget {
             return ListView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  Card(
-                      color: Colors.white,
-                      elevation: 2,
-                      child: buildCurrentTransactions(context,cubit.currentTransactions.length)),
-                  SizedBox(
-                    height:  MediaQuery.of(context).size.height / 10,
+                  const Padding(
+                    padding: EdgeInsets.only(left: 10.0),
+                    child: Text('Follow your Order',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30
+                      ),),
                   ),
-                  Card(
-                    color: Colors.white, elevation: 2, child: buildAcceptedTransactions(context,cubit.acceptedTransactions.length),),
                   SizedBox(
-                    height:  MediaQuery.of(context).size.height / 10,
+                    height:  MediaQuery.of(context).size.height / 20,
                   ),
-                  Card(
-                      color: Colors.white,
-                      elevation: 2,
-                      child: buildDoneTransactions(context,cubit.doneTransactions.length)),
+                  buildCurrentTransactions(context,cubit.currentTransactions.length),
+                  SizedBox(
+                    height:  MediaQuery.of(context).size.height / 15,
+                  ),
+                  buildAcceptedTransactions(context,cubit.acceptedTransactions.length),
+                  SizedBox(
+                    height:  MediaQuery.of(context).size.height / 15,
+                  ),
+                  buildDoneTransactions(context,cubit.doneTransactions.length),
                 ],
               );
           },

@@ -28,27 +28,30 @@ class _MapTrackingState extends State<MapTracking> {
 
   // Directions API response related
   late Map geometry;
-  late LocationData  _locationData;
+  late LocationData _locationData;
 
   @override
   void initState() {
-    print('sourceLatLowidget:${widget.sourceLatLo}  sourceLatLa:${widget.sourceLatLa}'
+    print(
+        'sourceLatLowidget:${widget.sourceLatLo}  sourceLatLa:${widget.sourceLatLa}'
         'destinationLo:${widget.destinationLo} destinationLa:${widget.destinationLa}');
     // initialise distance
     _initialiseDirectionsResponse();
 
     // initialise initialCameraPosition, address and trip end points
     _initialCameraPosition = CameraPosition(
-        target: OrderCubit.get(context).getCenterCoordinatesForPolyline(geometry), zoom: 50);
+        target:
+            OrderCubit.get(context).getCenterCoordinatesForPolyline(geometry),
+        zoom: 50);
 
     for (String type in ['source', 'destination']) {
-      _kTripEndPoints.add(CameraPosition(target:OrderCubit.get(context).getTripLatLngFromSharedPrefs(type,
-          widget.sourceLatLo,
-          widget.sourceLatLa,
-          widget.destinationLo,
-          widget.destinationLa)
-      )
-      );
+      _kTripEndPoints.add(CameraPosition(
+          target: OrderCubit.get(context).getTripLatLngFromSharedPrefs(
+              type,
+              widget.sourceLatLo,
+              widget.sourceLatLa,
+              widget.destinationLo,
+              widget.destinationLa)));
     }
     super.initState();
   }
@@ -57,7 +60,6 @@ class _MapTrackingState extends State<MapTracking> {
     print('in _initialiseDirectionsResponse');
     geometry = OrderCubit.get(context).modifiedResponse['geometry'];
     print(geometry);
-
   }
 
   _onMapCreated(MapboxMapController controller) async {
@@ -70,7 +72,8 @@ class _MapTrackingState extends State<MapTracking> {
         SymbolOptions(
           geometry: _kTripEndPoints[i].target,
           iconSize: 0.1,
-          iconImage: "assets/images/png-transparent-marker-map-interesting-places-the-location-on-the-map-the-location-of-the-thumbnail.png",
+          iconImage:
+              "assets/images/png-transparent-marker-map-interesting-places-the-location-on-the-map-the-location-of-the-thumbnail.png",
         ),
       );
     }
@@ -125,6 +128,7 @@ class _MapTrackingState extends State<MapTracking> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

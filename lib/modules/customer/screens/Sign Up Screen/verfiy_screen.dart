@@ -35,6 +35,42 @@ class VerifyScreen extends StatelessWidget {
                 navigateFish(context, const HomeLayout());
               HomeCubit.get(context).getUserData(userID: idR);
             }
+          else if(state is ErrorVerifyEmail)
+          {
+            final snackBar = SnackBar(
+              margin: const EdgeInsets.all(50),
+              duration: const Duration(seconds: 5),
+              shape: const StadiumBorder(),
+              elevation: 5,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+              content: Text(state.error.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),),
+            );
+            scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
+          }
+          else if(state is ErrorVerifyEmailAgain)
+          {
+            final snackBar = SnackBar(
+              margin: const EdgeInsets.all(50),
+              duration: const Duration(seconds: 5),
+              shape: const StadiumBorder(),
+              elevation: 5,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+              content: Text(state.error.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),),
+            );
+            scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
+          }
         },
         builder: (context, state) {
           return Scaffold(

@@ -19,7 +19,10 @@ class ErrorCurrentTransactionsDetailsCategoryDataOrderState extends OrderStates 
 
 class LoadingConfirmTicketOrderState extends OrderStates {}
 class SuccessConfirmTicketOrderState extends OrderStates {}
-class ErrorConfirmTicketOrderState extends OrderStates {}
+class ErrorConfirmTicketOrderState extends OrderStates {
+  final String error ;
+  ErrorConfirmTicketOrderState(this.error);
+}
 
 
 
@@ -39,4 +42,26 @@ class ErrorAcceptedTransactionsDetailsCategoryDataOrderState extends OrderStates
 
 class LoadingConfirmProcess extends OrderStates {}
 class SuccessConfirmProcess extends OrderStates {}
-class ErrorConfirmProcess extends OrderStates {}
+class ErrorConfirmProcess extends OrderStates {
+  final String error ;
+  ErrorConfirmProcess(this.error);
+}
+
+
+class LoadingGetUserDataDoneTransactions extends OrderStates {}
+class SuccessGetUserDataDoneTransactions extends  OrderStates {}
+
+class LoadingGetDoneTransactionsData extends OrderStates {}
+class SuccessGetDoneTransactionsData extends  OrderStates {}
+class ErrorGetDoneTransactionsData extends  OrderStates {}
+
+class LoadingGetUserCompanyIdDoneTransactions extends OrderStates {}
+class SuccessGetUserCompanyIdDoneTransactions extends  OrderStates {}
+
+class LoadingDoneTransactionsDetailsCategoryDataOrderState extends OrderStates {}
+class SuccessDoneTransactionsDetailsCategoryDataOrderState extends OrderStates {}
+class ErrorDoneTransactionsDetailsCategoryDataOrderState extends OrderStates {}
+
+class LoadingCreateReview extends OrderStates {}
+class SuccessCreateReview extends OrderStates {}
+class ErrorCreateReview extends OrderStates {}

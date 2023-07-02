@@ -4,6 +4,8 @@ import '../../../../shared/components/input_field.dart';
 import '../../../../shared/resources/color_manager.dart';
 import '../../map/map.dart';
 import '../home/cubit/cubit.dart';
+import '../home/cubit/state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookingScreen extends StatelessWidget {
   String id ;
@@ -41,6 +43,32 @@ class BookingScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<HomeScreenCubit, HomeScreenState>(
+  listener: (context, state) {
+    if(state is ErrorBookTruckState)
+    {
+      final snackBar = SnackBar(
+        margin: const EdgeInsets.all(50),
+        duration: const Duration(seconds: 5),
+        shape: const StadiumBorder(),
+        elevation: 5,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.red,
+        content: Text(state.error.toString(),
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+    else if (state is SuccessBookTruckState)
+      {
+        Navigator.pop(context);
+      }
+  },
+  builder: (context, state) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -308,8 +336,6 @@ class BookingScreen extends StatelessWidget {
                                     context)
                                     .deliveryLocation,
                               );
-                              Navigator.pop(
-                                  context);
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -334,5 +360,7 @@ class BookingScreen extends StatelessWidget {
         ),
       ),
     );
+  },
+);
   }
 }

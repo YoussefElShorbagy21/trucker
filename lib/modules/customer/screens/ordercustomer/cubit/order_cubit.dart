@@ -26,11 +26,9 @@ class OrderCubit extends Cubit<OrderStates> {
   Future<void> getUserDataCurrentTransactions({String? userID}) async {
     emit(LoadingGetUserDataCurrentTransactions());
     if (uid == null) {
-      print('uid is null');
      await DioHelper.getDate(url: 'users/$userID').then((value) async {
        oneUserDataCurrentTransactions = OneUserData.fromJson(value.data);
         currentTransactions = oneUserDataCurrentTransactions.userData.currentTransactions ;
-        print(currentTransactions.length);
         for(var d = 0 ; d <=  (currentTransactions.length)-1 ; d++)
         {
           await getTransactionsDataCurrentTransactions(currentTransactions[d], d);
@@ -40,12 +38,9 @@ class OrderCubit extends Cubit<OrderStates> {
           print(onError.toString());
       });
     }else {
-      print('uid is not null');
-      print('uid in function getUserData: $uid');
      await DioHelper.getDate(url: 'users/$uid').then((value) async {
        oneUserDataCurrentTransactions = OneUserData.fromJson(value.data);
         currentTransactions = oneUserDataCurrentTransactions.userData.currentTransactions ;
-        print(currentTransactions.length);
         for(var d = 0 ; d <=  (currentTransactions.length)-1 ; d++)
         {
           await getTransactionsDataCurrentTransactions(currentTransactions[d], d);
@@ -67,15 +62,11 @@ class OrderCubit extends Cubit<OrderStates> {
       url: 'booking/$id',
     ).then((value)
     async {
-      print(Booking.fromJson(value.data['ticket']));
       bookingCurrentTransactions.add(Booking.fromJson(value.data['ticket']));
-        print('booking.length : ${bookingCurrentTransactions.length} , $i');
         await getCompanyDataCurrentTransactions(bookingCurrentTransactions[i].companyId);
         await getDetailsCategoryDataCurrentTransactions(bookingCurrentTransactions[i].truckId);
       startLocationCurrent  = await getAddressFromLatLngTransactions(bookingCurrentTransactions[i].startLocationLa, bookingCurrentTransactions[i].startLocationLo);
       deliveryLocationCurrent  = await getAddressFromLatLngTransactions(bookingCurrentTransactions[i].deliveryLocationLa, bookingCurrentTransactions[i].deliveryLocationLo);
-
-      print(bookingCurrentTransactions[i].companyId);
       emit(SuccessGetCurrentTransactionsData());
     }
     ).catchError((error){
@@ -87,10 +78,8 @@ class OrderCubit extends Cubit<OrderStates> {
   List<OneUserData> companyCurrentTransactions  = [];
   Future<void> getCompanyDataCurrentTransactions(String companyId) async{
     emit(LoadingGetUserCompanyIdCurrentTransactions());
-    print(companyId);
      await DioHelper.getDate(url: 'users/$companyId').then((value) {
        companyCurrentTransactions.add(OneUserData.fromJson(value.data));
-          print('company.length ${companyCurrentTransactions.length}');
         emit(SuccessGetUserCompanyIdCurrentTransactions());
       }).catchError((onError) {
         print(onError.toString());
@@ -111,9 +100,7 @@ class OrderCubit extends Cubit<OrderStates> {
       url: 'truck/$id',
     ).then((value)
     {
-      print(value.data);
       detailsEquipmentCurrentTransactions = DetailsEquipment.fromJson(value.data);
-      print(detailsEquipmentCurrentTransactions.name);
       emit(SuccessCurrentTransactionsDetailsCategoryDataOrderState());}
     ).catchError((error){
 
@@ -130,11 +117,14 @@ class OrderCubit extends Cubit<OrderStates> {
           "booked": confirm
         }).
     then((value) async {
-      print(value.data);
       emit(SuccessConfirmTicketOrderState());
     }).catchError((onError) {
-      print(onError.toString());
-      emit(ErrorConfirmTicketOrderState());
+      if(onError is DioError)
+      {
+        print(onError.response!.data['message']);
+        print(onError.message);
+        emit(ErrorConfirmTicketOrderState(onError.response!.data['message']));
+      }
     });
 
   }
@@ -151,11 +141,9 @@ class OrderCubit extends Cubit<OrderStates> {
   Future<void> getUserDataAcceptedTransactions({String? userID}) async {
     emit(LoadingGetUserDataAcceptedTransactions());
     if (uid == null) {
-      print('uid is null');
       await DioHelper.getDate(url: 'users/$userID').then((value) async {
         oneUserDataAcceptedTransactions = OneUserData.fromJson(value.data);
         acceptedTransactions = oneUserDataAcceptedTransactions.userData.currentTransactions ;
-        print(acceptedTransactions.length);
         for(var d = 0 ; d <=  (acceptedTransactions.length)-1 ; d++)
         {
           await getTransactionsDataAcceptedTransactions(acceptedTransactions[d], d);
@@ -165,12 +153,9 @@ class OrderCubit extends Cubit<OrderStates> {
         print(onError.toString());
       });
     }else {
-      print('uid is not null');
-      print('uid in function getUserData: $uid');
       await DioHelper.getDate(url: 'users/$uid').then((value) async {
         oneUserDataAcceptedTransactions = OneUserData.fromJson(value.data);
         acceptedTransactions = oneUserDataAcceptedTransactions.userData.acceptedTransactions ;
-        print(acceptedTransactions.length);
         for(var d = 0 ; d <=  (acceptedTransactions.length)-1 ; d++)
         {
           await getTransactionsDataAcceptedTransactions(acceptedTransactions[d], d);
@@ -192,7 +177,6 @@ class OrderCubit extends Cubit<OrderStates> {
       url: 'booking/$id',
     ).then((value)
     async {
-      print(Booking.fromJson(value.data['ticket']));
       bookingAcceptedTransactions.add(Booking.fromJson(value.data['ticket']));
       await getCompanyDataAcceptedTransactions(bookingAcceptedTransactions[i].companyId);
       await getDetailsCategoryDataAcceptedTransactions(bookingAcceptedTransactions[i].truckId);
@@ -215,10 +199,8 @@ class OrderCubit extends Cubit<OrderStates> {
   List<OneUserData> companyAcceptedTransactions  = [];
   Future<void> getCompanyDataAcceptedTransactions(String companyId) async{
     emit(LoadingGetUserCompanyIdAcceptedTransactions());
-    print(companyId);
     await DioHelper.getDate(url: 'users/$companyId').then((value) {
       companyAcceptedTransactions.add(OneUserData.fromJson(value.data));
-      print('company.length ${companyAcceptedTransactions.length}');
       emit(SuccessGetUserCompanyIdAcceptedTransactions());
     }).catchError((onError) {
       print(onError.toString());
@@ -239,9 +221,7 @@ class OrderCubit extends Cubit<OrderStates> {
       url: 'truck/$id',
     ).then((value)
     {
-      print(value.data);
       detailsEquipmentAcceptedTransactions = DetailsEquipment.fromJson(value.data);
-      print(detailsEquipmentAcceptedTransactions.name);
       emit(SuccessAcceptedTransactionsDetailsCategoryDataOrderState());}
     ).catchError((error){
 
@@ -252,6 +232,113 @@ class OrderCubit extends Cubit<OrderStates> {
 
   //acceptedTransactions
 
+  //DoneTransactions
+  List<dynamic> doneTransactions = [] ;
+
+  OneUserData oneUserDataDoneTransactions  = OneUserData(
+      userData: UserData(name: 'name', email: 'email', phone: 'phone',
+          verified: false, avatar: '', role: '', nationalId: null,
+          favoriteList: [], doneTransactions: [],
+          currentTransactions: [], acceptedTransactions: []));
+  Future<void> getUserDataDoneTransactions({String? userID}) async {
+    emit(LoadingGetUserDataDoneTransactions());
+    if (uid == null) {
+      print('uid is null');
+      await DioHelper.getDate(url: 'users/$userID').then((value) async {
+        oneUserDataDoneTransactions = OneUserData.fromJson(value.data);
+        doneTransactions = oneUserDataDoneTransactions.userData.doneTransactions ;
+        print(doneTransactions.length);
+        for(var d = 0 ; d <=  (doneTransactions.length)-1 ; d++)
+        {
+          await getTransactionsDataDoneTransactions(doneTransactions[d], d);
+        }
+        emit(SuccessGetUserDataDoneTransactions());
+      }).catchError((onError) {
+        print(onError.toString());
+      });
+    }else {
+      print('uid is not null');
+      print('uid in function getUserData: $uid');
+      await DioHelper.getDate(url: 'users/$uid').then((value) async {
+        oneUserDataDoneTransactions = OneUserData.fromJson(value.data);
+        doneTransactions = oneUserDataDoneTransactions.userData.doneTransactions ;
+        print(doneTransactions.length);
+        for(var d = 0 ; d <=  (doneTransactions.length)-1 ; d++)
+        {
+          await getTransactionsDataDoneTransactions(doneTransactions[d], d);
+        }
+        emit(SuccessGetUserDataDoneTransactions());
+      }).catchError((onError) {
+        print(onError.toString());
+      });
+    }
+
+  }
+
+  List<Booking> bookingDoneTransactions = [];
+  String startLocationDone = '' ;
+  String deliveryLocationDone = '' ;
+  Future<void> getTransactionsDataDoneTransactions(String id , int i) async{
+    emit(LoadingGetDoneTransactionsData());
+    await DioHelper.getDate(
+      url: 'booking/$id',
+    ).then((value)
+    async {
+      print(Booking.fromJson(value.data['ticket']));
+      bookingDoneTransactions.add(Booking.fromJson(value.data['ticket']));
+      print('booking.length : ${bookingDoneTransactions.length} , $i');
+      await getCompanyDataDoneTransactions(bookingDoneTransactions[i].companyId);
+      await getDetailsCategoryDataDoneTransactions(bookingDoneTransactions[i].truckId);
+      startLocationDone  = await getAddressFromLatLngTransactions(bookingDoneTransactions[i].startLocationLa, bookingDoneTransactions[i].startLocationLo);
+      deliveryLocationDone  = await getAddressFromLatLngTransactions(bookingDoneTransactions[i].deliveryLocationLa, bookingDoneTransactions[i].deliveryLocationLo);
+
+      print(bookingDoneTransactions[i].companyId);
+      emit(SuccessGetDoneTransactionsData());
+    }
+    ).catchError((error){
+      print(error.toString());
+      emit(ErrorGetDoneTransactionsData());
+    });
+  }
+
+  List<OneUserData> companyDoneTransactions  = [];
+  Future<void> getCompanyDataDoneTransactions(String companyId) async{
+    emit(LoadingGetUserCompanyIdDoneTransactions());
+    print(companyId);
+    await DioHelper.getDate(url: 'users/$companyId').then((value) {
+      companyDoneTransactions.add(OneUserData.fromJson(value.data));
+      print('company.length ${companyDoneTransactions.length}');
+      emit(SuccessGetUserCompanyIdDoneTransactions());
+    }).catchError((onError) {
+      print(onError.toString());
+    });
+  }
+
+  DetailsEquipment detailsEquipmentDoneTransactions = DetailsEquipment(
+      images: [],
+      name: 'name',
+      description: 'description',
+      brand: 'brand', subcategory: 'subcategory', category: 'category', createdAt: DateTime(DateTime.april),
+      updatedAt: DateTime(DateTime.april), imageCover: 'imageCover', truckId: '0', reviews: [], userId: '',
+      currentLocation: '');
+
+  Future<void> getDetailsCategoryDataDoneTransactions(String id) async{
+    emit(LoadingDoneTransactionsDetailsCategoryDataOrderState());
+    await DioHelper.getDate(
+      url: 'truck/$id',
+    ).then((value)
+    {
+      print(value.data);
+      detailsEquipmentDoneTransactions = DetailsEquipment.fromJson(value.data);
+      print(detailsEquipmentDoneTransactions.name);
+      emit(SuccessDoneTransactionsDetailsCategoryDataOrderState());}
+    ).catchError((error){
+
+      print(error.toString());
+      emit(ErrorDoneTransactionsDetailsCategoryDataOrderState());
+    });
+  }
+  //DoneTransactions
 
   Future<dynamic> getAddressFromLatLngTransactions(double latitude, double longitude) async {
     final url = 'lat=$latitude&lon=$longitude';
@@ -286,7 +373,8 @@ class OrderCubit extends Cubit<OrderStates> {
       double destinationLa,
       ) async {
     String url =
-        '$baseUrl/$navType/$sourceLatLo,$sourceLatLa;$destinationLo,$destinationLa?alternatives=true&continue_straight=true&geometries=geojson&language=en&overview=full&steps=true&access_token=$accessToken';
+        '$baseUrl/$navType/$sourceLatLo,$sourceLatLa;$destinationLo,'
+        '$destinationLa?alternatives=true&continue_straight=true&geometries=geojson&language=en&overview=full&steps=true&access_token=$accessToken';
     url = Uri.parse(url).toString();
     print(url);
 
@@ -317,8 +405,8 @@ class OrderCubit extends Cubit<OrderStates> {
   LatLng getCenterCoordinatesForPolyline(Map geometry) {
     List coordinates = geometry['coordinates'];
     int pos = (coordinates.length / 2).round();
-    print(coordinates[pos][1]);
-    print(coordinates[pos][0]);
+    // print(coordinates[pos][1]);
+    // print(coordinates[pos][0]);
     return LatLng(coordinates[pos][1], coordinates[pos][0]);
   }
 
@@ -344,13 +432,46 @@ class OrderCubit extends Cubit<OrderStates> {
         data: {
           'code':code,
         }).then((value) => {
-      print(value.data),
       clearText = true ,
       emit(SuccessConfirmProcess())
     }).catchError((onError){
-      print(onError.toString());
+      if(onError is DioError)
+      {
+        print(onError.response!.data['message']);
+        print(onError.message);
+        emit(ErrorConfirmProcess(onError.response!.data['message']));
+      }
       clearText = true ;
-      emit(ErrorConfirmProcess());
     });
   }
+
+
+
+  //Review
+  void  createReview({
+    required String service_providerId,
+    required String truck,
+    required String title,
+    required double ratingAverage,
+  }){
+    emit(LoadingCreateReview());
+    DioHelper.postData(url: 'review?service_providerId=$service_providerId',
+        data: {
+          "title":title,
+          "truck":truck,
+          "ratingAverage":ratingAverage
+        }).then((value) => {
+          print(value.data),
+      emit(SuccessCreateReview())
+    }).catchError((onError){
+      if(onError is DioError)
+      {
+        print(onError.response!.data['message']);
+        print(onError.message);
+        emit(ErrorCreateReview());
+      }
+    });
+  }
+
+  bool hideReview = true ;
 }

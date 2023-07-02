@@ -20,20 +20,32 @@ class RegisterChangePasswordVisibilityState extends RegisterState {}
 
 class LoadingUpdatePassword extends RegisterState {}
 class SuccessUpdatePassword extends RegisterState {}
-class ErrorUpdatePassword extends RegisterState {}
+class ErrorUpdatePassword extends RegisterState {
+  final String error ;
+  ErrorUpdatePassword(this.error) ;
+}
 
 class LoadingVerifyEmail extends RegisterState {}
 class SuccessVerifyEmail extends RegisterState {}
-class ErrorVerifyEmail extends RegisterState {}
+class ErrorVerifyEmail extends RegisterState {
+  final String error ;
+  ErrorVerifyEmail(this.error) ;
+}
 
 class LoadingVerifyEmailAgain extends RegisterState {}
 class SuccessVerifyEmailAgain extends RegisterState {}
-class ErrorVerifyEmailAgain extends RegisterState {}
+class ErrorVerifyEmailAgain extends RegisterState {
+  final String error ;
+  ErrorVerifyEmailAgain(this.error) ;
+}
 
 class PostImageOcrPickedSuccessState extends RegisterState {}
 class PostImageOcrPickedErrorState extends RegisterState {}
 
 class LoadingOCRPostState extends RegisterState {}
 class SuccessOCRPostState extends RegisterState {}
-class ErrorOCRPostState extends RegisterState {}
+class ErrorOCRPostState extends RegisterState {
+  final String error ;
+  ErrorOCRPostState(this.error) ;
+}
 

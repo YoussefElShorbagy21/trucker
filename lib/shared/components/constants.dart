@@ -17,7 +17,7 @@ void sinOut(context)
       }
   });
 
-  if(token!=null&&uid!=null){
+  if(token!=null || uid!=null){
 
     token=null;
     uid=null;

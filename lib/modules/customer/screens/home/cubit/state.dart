@@ -16,18 +16,14 @@ class  LoadingDetailsCategoryDataState extends HomeScreenState {}
 class  SuccessDetailsCategoryDataState extends HomeScreenState {}
 class  ErrorDetailsCategoryDataState extends HomeScreenState {}
 
-
-
-
-class ChangeClickOrderButton extends HomeScreenState {}
-
-class ChangeClickOfferButton extends HomeScreenState {}
-
 class RefreshIndicatorHome extends HomeScreenState {}
 
 class LoadingUpdatePostState extends HomeScreenState {}
 class SuccessUpdatePostState extends HomeScreenState {}
-class ErrorUpdatePostState extends HomeScreenState {}
+class ErrorUpdatePostState extends HomeScreenState {
+  final String error ;
+  ErrorUpdatePostState(this.error) ;
+}
 
 class NewPostImagePickedSuccessState extends HomeScreenState {}
 class NewPostImagePickedErrorState extends HomeScreenState {}
@@ -69,7 +65,10 @@ class  ErrorFavCategoryDataState extends HomeScreenState {}
 
 class  LoadingBookTruckState extends HomeScreenState {}
 class  SuccessBookTruckState extends HomeScreenState {}
-class  ErrorBookTruckState extends HomeScreenState {}
+class  ErrorBookTruckState extends HomeScreenState {
+  final String error ;
+  ErrorBookTruckState(this.error) ;
+}
 
 class NewsGetSearchLoadingState extends HomeScreenState {}
 
