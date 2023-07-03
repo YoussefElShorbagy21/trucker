@@ -22,7 +22,7 @@ class OrderCubit extends Cubit<OrderStates> {
       userData: UserData(name: 'name', email: 'email', phone: 'phone',
           verified: false, avatar: '', role: '', nationalId: null,
           favoriteList: [], doneTransactions: [],
-          currentTransactions: [], acceptedTransactions: []));
+          currentTransactions: [], acceptedTransactions: [], id: '', reviews: []));
   Future<void> getUserDataCurrentTransactions({String? userID}) async {
     emit(LoadingGetUserDataCurrentTransactions());
     if (uid == null) {
@@ -137,7 +137,7 @@ class OrderCubit extends Cubit<OrderStates> {
       userData: UserData(name: 'name', email: 'email', phone: 'phone',
           verified: false, avatar: '', role: '', nationalId: null,
           favoriteList: [], doneTransactions: [],
-          currentTransactions: [], acceptedTransactions: []));
+          currentTransactions: [], acceptedTransactions: [], id: '', reviews: []));
   Future<void> getUserDataAcceptedTransactions({String? userID}) async {
     emit(LoadingGetUserDataAcceptedTransactions());
     if (uid == null) {
@@ -234,16 +234,14 @@ class OrderCubit extends Cubit<OrderStates> {
 
   //DoneTransactions
   List<dynamic> doneTransactions = [] ;
-
   OneUserData oneUserDataDoneTransactions  = OneUserData(
       userData: UserData(name: 'name', email: 'email', phone: 'phone',
           verified: false, avatar: '', role: '', nationalId: null,
           favoriteList: [], doneTransactions: [],
-          currentTransactions: [], acceptedTransactions: []));
+          currentTransactions: [], acceptedTransactions: [], id: '', reviews: []));
   Future<void> getUserDataDoneTransactions({String? userID}) async {
     emit(LoadingGetUserDataDoneTransactions());
     if (uid == null) {
-      print('uid is null');
       await DioHelper.getDate(url: 'users/$userID').then((value) async {
         oneUserDataDoneTransactions = OneUserData.fromJson(value.data);
         doneTransactions = oneUserDataDoneTransactions.userData.doneTransactions ;
@@ -257,8 +255,6 @@ class OrderCubit extends Cubit<OrderStates> {
         print(onError.toString());
       });
     }else {
-      print('uid is not null');
-      print('uid in function getUserData: $uid');
       await DioHelper.getDate(url: 'users/$uid').then((value) async {
         oneUserDataDoneTransactions = OneUserData.fromJson(value.data);
         doneTransactions = oneUserDataDoneTransactions.userData.doneTransactions ;
@@ -286,7 +282,6 @@ class OrderCubit extends Cubit<OrderStates> {
     async {
       print(Booking.fromJson(value.data['ticket']));
       bookingDoneTransactions.add(Booking.fromJson(value.data['ticket']));
-      print('booking.length : ${bookingDoneTransactions.length} , $i');
       await getCompanyDataDoneTransactions(bookingDoneTransactions[i].companyId);
       await getDetailsCategoryDataDoneTransactions(bookingDoneTransactions[i].truckId);
       startLocationDone  = await getAddressFromLatLngTransactions(bookingDoneTransactions[i].startLocationLa, bookingDoneTransactions[i].startLocationLo);
@@ -304,10 +299,8 @@ class OrderCubit extends Cubit<OrderStates> {
   List<OneUserData> companyDoneTransactions  = [];
   Future<void> getCompanyDataDoneTransactions(String companyId) async{
     emit(LoadingGetUserCompanyIdDoneTransactions());
-    print(companyId);
     await DioHelper.getDate(url: 'users/$companyId').then((value) {
       companyDoneTransactions.add(OneUserData.fromJson(value.data));
-      print('company.length ${companyDoneTransactions.length}');
       emit(SuccessGetUserCompanyIdDoneTransactions());
     }).catchError((onError) {
       print(onError.toString());
@@ -328,7 +321,6 @@ class OrderCubit extends Cubit<OrderStates> {
       url: 'truck/$id',
     ).then((value)
     {
-      print(value.data);
       detailsEquipmentDoneTransactions = DetailsEquipment.fromJson(value.data);
       print(detailsEquipmentDoneTransactions.name);
       emit(SuccessDoneTransactionsDetailsCategoryDataOrderState());}
@@ -468,10 +460,9 @@ class OrderCubit extends Cubit<OrderStates> {
       {
         print(onError.response!.data['message']);
         print(onError.message);
-        emit(ErrorCreateReview());
+        emit(ErrorCreateReview(onError.response!.data['message']));
       }
     });
   }
 
-  bool hideReview = true ;
 }

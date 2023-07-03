@@ -124,13 +124,13 @@ class _HomeLayoutState extends State<HomeLayout> {
                       activeColor: ColorManager.black,
                      ),
                     BottomBarItem(
-                      icon: const Icon(FontAwesomeIcons.solidComments),
-                      title: Text('Chat'.tr(context)),
+                      icon: const Icon(Icons.person),
+                      title: Text('Profile'.tr(context)),
                       activeColor: ColorManager.black,
                     ),
                     BottomBarItem(
-                      icon: const Icon(Icons.person),
-                      title: Text('Profile'.tr(context)),
+                      icon: const Icon(Icons.settings),
+                      title: Text('Settings'.tr(context)),
                       activeColor: ColorManager.black,
                     ),
                   ],

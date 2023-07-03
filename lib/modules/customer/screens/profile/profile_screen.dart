@@ -83,13 +83,6 @@ class ProfileScreen extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       Card(
-                          color: Colors.white,
-                          elevation: 2,
-                          child: buildSettings(context)),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Card(
                           color: Colors.white, elevation: 2, child: buildMyOrder(context),),
                       const SizedBox(
                         height: 5,
@@ -102,6 +95,13 @@ class ProfileScreen extends StatelessWidget {
                           color: Colors.white,
                           elevation: 2,
                           child: buildPaymentMethod()),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Card(
+                          color: Colors.white,
+                          elevation: 2,
+                          child: buildSupport(context)),
                     ],
                   ),
                 ),

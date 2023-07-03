@@ -14,6 +14,8 @@ import 'package:login/shared/network/remote/dio_helper.dart';
 import '../../../modules/customer/screens/chats_screen/chat_home.dart';
 import '../../../modules/customer/screens/home/home.dart';
 import '../../../modules/customer/screens/profile/profile_screen.dart';
+import '../../../modules/customer/screens/profile/setting_widget/setting_page.dart';
+import '../../../modules/customer/screens/profile/setting_widget/settings_widget.dart';
 import '../../../shared/components/constants.dart';
 import '../../../shared/network/local/cache_helper.dart';
 import 'state.dart';
@@ -30,8 +32,8 @@ class HomeCubit extends Cubit<HomeStates>{
   List<Widget> screens =  [
     HomeScreen(),
     const CategoryScreen(),
-    const ChatHome(),
     const ProfileScreen(),
+    const SettingsPage(),
   ];
 
   PostEquipment? postEquipment ;
@@ -141,7 +143,7 @@ class HomeCubit extends Cubit<HomeStates>{
       userData: UserData(name: 'name', email: 'email', phone: 'phone',
           verified: false, avatar: '', role: '', nationalId: null,
           favoriteList: [], doneTransactions: [],
-          currentTransactions: [], acceptedTransactions: []));
+          currentTransactions: [], acceptedTransactions: [], id: '', reviews: []));
 
  Map<String , String > favorites = {};
   Future<void> getUserData({String? userID}) async {

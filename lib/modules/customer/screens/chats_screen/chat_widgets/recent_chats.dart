@@ -20,7 +20,6 @@ class RecentChats extends StatelessWidget {
     var cubit = HomeCubit.get(context).allUserData.allUser ;
     return Expanded(
       child: Container(
-        // height: heightScreen/3,
         decoration: BoxDecoration(
           color: ColorManager.white,
           borderRadius: const BorderRadius.only(
@@ -37,16 +36,16 @@ class RecentChats extends StatelessWidget {
             itemCount: cubit.length,
             itemBuilder: (BuildContext context, int index) {
               final Message chat = chats[index];
-
               return GestureDetector(
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
                     // builder: (_) => ChatScreen(user: chat.sender),
-                    builder: (_) => TestChatScreen(user: chat.sender,),
+                    builder: (_) => TestChatScreen(),
                   ),
                 ),
-                child: Container(
+                child:cubit[index].id != HomeCubit.get(context).oneUserData.userData.id ?
+                Container(
                   margin: const EdgeInsets.only(
                     top: 5.0,
                     bottom: 5.0,
@@ -71,8 +70,16 @@ class RecentChats extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           CircleAvatar(
-                            radius: 35.0,
-                            backgroundImage: NetworkImage(cubit[index].avatar),
+                            radius: 32.0,
+                            backgroundImage: cubit[index].avatar.isNotEmpty ? NetworkImage(cubit[index].avatar) :
+                            const NetworkImage('https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',),
+                            child: cubit[index].avatar.isNotEmpty ? null : Text(
+                              cubit[index].name[0].toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 40,
+                                color: ColorManager.black,
+                              ),
+                            ),
                           ),
                           SizedBox(
                             width: widthScreen / 40, //10.0
@@ -91,8 +98,8 @@ class RecentChats extends StatelessWidget {
                               SizedBox(
                                 height: heightScreen / 90, //5.0
                               ),
-                              Container(
-                                width: widthScreen / 2, //6 normal//new Change
+                              SizedBox(
+                                width: widthScreen / 2,
                                 child: Text(
                                   chat.text,
                                   style: TextStyle(
@@ -120,7 +127,7 @@ class RecentChats extends StatelessWidget {
                           SizedBox(
                             height: heightScreen / 90, //5.0
                           ),
-                          chat.unread
+                      /*    chat.unread
                               ? Container(
                                   width: widthScreen / 12,//25 //new Change
                                   //40.0
@@ -142,12 +149,12 @@ class RecentChats extends StatelessWidget {
                                     ),
                                   ),
                                 )
-                              : const SizedBox.shrink(),
+                              : const SizedBox.shrink(),*/
                         ],
                       ),
                     ],
                   ),
-                ),
+                ) : Container(),
               );
             },
           ),

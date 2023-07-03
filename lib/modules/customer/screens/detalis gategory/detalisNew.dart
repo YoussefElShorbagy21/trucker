@@ -386,16 +386,21 @@ class _DetailScreenState extends State<DetailScreen> {
                         fontSize: 15, color: ColorManager.black),
                   ),
                   const Spacer(),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 7,
-                    height: MediaQuery.of(context).size.height / 18,
-                    decoration: BoxDecoration(
-                      color: ColorManager.white1,
-                      borderRadius: BorderRadius.circular(19.0),
-                    ),
-                    child: const Icon(
-                      Icons.chat_rounded,
-                      size: 20,
+                  InkWell(
+                    onTap: (){
+
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 7,
+                      height: MediaQuery.of(context).size.height / 18,
+                      decoration: BoxDecoration(
+                        color: ColorManager.white1,
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: const Icon(
+                        Icons.reviews,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ],
@@ -451,4 +456,72 @@ class _DetailScreenState extends State<DetailScreen> {
 ),
 );
   }
+}
+_showBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(30),
+      ),
+    ),
+    builder: (context) => DraggableScrollableSheet(
+      expand: false,
+      initialChildSize: 0.4,
+      maxChildSize: 0.9,
+      minChildSize: 0.32,
+      builder: (context, scrollController) => SingleChildScrollView(
+        controller: scrollController,
+        child: Stack(
+          alignment: Alignment.topCenter,
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              top: -15,
+              child: Container(
+                width: 60,
+                height: 7,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Rating the mission',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  Text(
+                    'Review & Rating the mission',
+                    style: TextStyle(
+                      fontSize: 20,
+                      // fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

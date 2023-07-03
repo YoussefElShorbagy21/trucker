@@ -64,4 +64,7 @@ class ErrorDoneTransactionsDetailsCategoryDataOrderState extends OrderStates {}
 
 class LoadingCreateReview extends OrderStates {}
 class SuccessCreateReview extends OrderStates {}
-class ErrorCreateReview extends OrderStates {}
+class ErrorCreateReview extends OrderStates {
+  final String error ;
+  ErrorCreateReview(this.error);
+}

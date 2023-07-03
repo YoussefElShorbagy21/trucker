@@ -29,11 +29,13 @@ class UserData{
   bool verified;
   String avatar ;
   String role;
+  String id;
   dynamic nationalId;
   List<dynamic> favoriteList;
   List<dynamic> doneTransactions;
   List<dynamic> currentTransactions;
   List<dynamic> acceptedTransactions;
+  List<dynamic> reviews;
 
   UserData({
     required this.name,
@@ -47,6 +49,8 @@ class UserData{
     required this.doneTransactions,
     required this.currentTransactions,
     required this.acceptedTransactions,
+    required this.reviews,
+    required this.id
   });
 
   factory UserData.fromJson(Map<String,dynamic> json) =>
@@ -62,5 +66,7 @@ class UserData{
         doneTransactions: List<String>.from(json["doneTransactions"].map((x) => x)),
         currentTransactions: List<String>.from(json["currentTransactions"].map((x) => x)),
         acceptedTransactions: List<String>.from(json["acceptedTransactions"].map((x) => x)),
+        reviews: List<String>.from(json["reviews"].map((x) => x)),
+        id: json['_id'],
       );
 }

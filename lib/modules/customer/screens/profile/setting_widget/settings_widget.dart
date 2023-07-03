@@ -8,6 +8,7 @@ import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../shared/components/constants.dart';
 import '../../../../../shared/network/remote/dio_helper.dart';
 import '../../../../../shared/resources/color_manager.dart';
+import '../../chats_screen/test_chat_screen.dart';
 import '../../favorite/favorite.dart';
 import '../../home/cubit/cubit.dart';
 import '../../ordercustomer/order_customer.dart';
@@ -189,17 +190,17 @@ Widget buildAccountSetting(BuildContext context) => ListTile(
       ),
     );
 
-Widget buildSettings(context) => ListTile(
+Widget buildSupport(context) => ListTile(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => const SettingsPage()));
+            builder: (BuildContext context) => TestChatScreen()));
       },
       leading: const IconWidget(
-        icon: Icons.settings,
+        icon: Icons.support_agent_outlined,
         color: Colors.blue,
       ),
       title: const Text(
-        'Settings',
+        'Support',
         style: TextStyle(
           fontSize: 16,
         ),

@@ -400,7 +400,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
           verified: false, avatar: '', role: '',
           nationalId: null, favoriteList: [],
           doneTransactions: [], currentTransactions: [],
-          acceptedTransactions: [])
+          acceptedTransactions: [], id: '', reviews: [])
   );
   void getUserDataForCategory(String userId){
     emit(LoadingGetUserData());

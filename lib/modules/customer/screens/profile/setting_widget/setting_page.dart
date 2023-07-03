@@ -13,9 +13,8 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
           const Text(
             'Settings',
