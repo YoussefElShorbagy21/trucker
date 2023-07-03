@@ -39,92 +39,30 @@ class _CategoryScreenState extends State<CategoryScreen> {
           }, ),
         ],
       ),
-      body:  SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 3,
-              child: CategoryView(
-                color: ColorManager.cWhite,
-                colum: isList ? 1 : 2,
-                items: HomeCubit.get(context).listCate.length,
-                ratio: isList ? 2.6 : 1.3,
-                direction: Axis.vertical,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_) =>  CategoryScreens(HomeCubit.get(context).listCate[index].id.toString(),
-                          HomeCubit.get(context).listCate[index].name)));
-                    },
-                    child: CategoryItems(
-                      height: 150.0,
-                      radius: kLessPadding,
-                      width: MediaQuery.of(context).size.width,
-                      color: ColorManager.cWhite,
-                      title:HomeCubit.get(context).listCate[index].name ,
-                      titleSize: 20,
-                      image: categoryList[index].image ?? 'assets/images/category_img/truck.jpg',
-                    ),
-                  );
-                },
-              ),
+      body:  CategoryView(
+        color: ColorManager.cWhite,
+        colum: isList ? 1 : 2,
+        items: HomeCubit.get(context).listCate.length,
+        ratio: isList ? 2.6 : 1.3,
+        direction: Axis.vertical,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: (){
+              HomeCubit.get(context).getCategoryData(HomeCubit.get(context).listCate[index].id);
+              Navigator.push(context, MaterialPageRoute(builder: (_) =>  CategoryScreens(HomeCubit.get(context).listCate[index].id.toString(),
+                  HomeCubit.get(context).listCate[index].name)));
+            },
+            child: CategoryItems(
+              height: 150.0,
+              radius: kLessPadding,
+              width: MediaQuery.of(context).size.width,
+              color: ColorManager.cWhite,
+              title:HomeCubit.get(context).listCate[index].name ,
+              titleSize: 20,
+              image: categoryList[index].image ?? 'assets/images/category_img/truck.jpg',
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 2,
-              child: CategoryView(
-                color: ColorManager.cWhite,
-                colum: isList ? 1 : 2,
-                items: HomeCubit.get(context).listSubCategory.length,
-                ratio: isList ? 2.6 : 1.3,
-                direction: Axis.vertical,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_) =>  CategoryScreens(HomeCubit.get(context).listSubCategory[index].id.toString(),
-                          HomeCubit.get(context).listSubCategory[index].name)));
-                    },
-                    child: CategoryItems(
-                      height: 150.0,
-                      radius: kLessPadding,
-                      width: MediaQuery.of(context).size.width,
-                      color: ColorManager.cWhite,
-                      title:HomeCubit.get(context).listSubCategory[index].name ,
-                      titleSize: 20,
-                      image: categoryList[index].image ?? 'assets/images/category_img/truck.jpg',
-                    ),
-                  );
-                },
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 2,
-              child: CategoryView(
-                color: ColorManager.cWhite,
-                colum: isList ? 1 : 2,
-                items: HomeCubit.get(context).listBrand.length,
-                ratio: isList ? 2.6 : 1.3,
-                direction: Axis.vertical,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_) =>  CategoryScreens(HomeCubit.get(context).listBrand[index].id.toString(),
-                          HomeCubit.get(context).listBrand[index].name)));
-                    },
-                    child: CategoryItems(
-                      height: 150.0,
-                      radius: kLessPadding,
-                      width: MediaQuery.of(context).size.width,
-                      color: ColorManager.cWhite,
-                      title:HomeCubit.get(context).listBrand[index].name ,
-                      titleSize: 20,
-                      image: categoryList[index].image ?? 'assets/images/category_img/truck.jpg',
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   },

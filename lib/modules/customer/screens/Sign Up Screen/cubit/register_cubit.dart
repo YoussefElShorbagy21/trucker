@@ -6,14 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/models/signupmodel.dart';
 import 'package:login/shared/components/constants.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../shared/network/local/cache_helper.dart';
 import '../../../../../shared/network/remote/dio_helper.dart';
 import 'register_state.dart';
 import 'package:image_picker/image_picker.dart';
-
-class RegisterCubit extends Cubit<RegisterState>
-{
+class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(RegisterInitialState()) ;
 
   SignupModel model = SignupModel(status: '', token: '', userSignupModel: UserSignupModel(id: ''));
@@ -53,10 +52,13 @@ class RegisterCubit extends Cubit<RegisterState>
       print('RegisterSuccessState inside Cubit ${model.token}');
     }).catchError((error)
     {
-      if (kDebugMode) {
-        print(error.toString());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(RegisterErrorState(error.response!.data['message']));
       }
-      emit(RegisterErrorState(error.toString()));
     });
   }
 
@@ -91,11 +93,16 @@ class RegisterCubit extends Cubit<RegisterState>
       emit(SuccessUpdatePassword());
       sinOut(context);
     }).catchError((error){
-      print(error.toString());
-      emit(ErrorUpdatePassword());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(ErrorUpdatePassword(error.response!.data['message']));
+      }
     });
   }
-
+ bool clearText = false ;
   void  verifyEmail(String otpCode,String  tokenVerify){
     emit(LoadingVerifyEmail());
     DioHelper.postData(url: 'users/verfiy',
@@ -106,15 +113,23 @@ class RegisterCubit extends Cubit<RegisterState>
       print(value.data),
       print(token),
       print(tokenVerify),
+      clearText = true ,
       emit(SuccessVerifyEmail())
     }).catchError((onError){
-      print(onError.toString());
-      emit(ErrorVerifyEmail());
+      if(onError is DioError)
+      {
+        print(onError.response);
+        print(onError.response!.data['message']);
+        print(onError.message);
+        emit(ErrorVerifyEmail(onError.response!.data['message']));
+      }
+      clearText = true ;
     });
   }
 
   void sendOtpAgain(String  tokenVerify){
     emit(LoadingVerifyEmailAgain());
+    clearText = false ;
     DioHelper.postData(url: 'users/sendOtpAgain',
         tokenVerify: tokenVerify,
         data: {}).then((value) => {
@@ -123,43 +138,148 @@ class RegisterCubit extends Cubit<RegisterState>
       print(tokenVerify),
       emit(SuccessVerifyEmailAgain())
     }).catchError((onError){
-      print(onError.toString());
-      emit(ErrorVerifyEmailAgain());
+      if(onError is DioError)
+      {
+        print(onError.response);
+        print(onError.response!.data['message']);
+        print(onError.message);
+        emit(ErrorVerifyEmailAgain(onError.response!.data['message']));
+      }
     });
   }
 
   var nationalIdController = TextEditingController();
   var drivingLicenseController = TextEditingController();
-
-  void imageOCR({
-    required File photo,
-  }) async{
+  DateTime date = DateTime.now();
+  void imageOCR({required File photo,}) async{
       emit(LoadingOCRPostState());
       FormData formData = FormData.fromMap({
         "image" : await MultipartFile.fromFile(photo.path),
       });
-      DioHelper.postOCR(
-        url: 'ocr',
+      DioHelper.postData(
         data: formData,
+        url: 'users/ocr',
       ).then((value)
       {
-        var indexData = value.data['ocrResult'].toString().split("\n") ;
-        print(indexData.length);
-        print(indexData);
-        for(var index = 0; index < indexData.length; index++)
-          {
-            if (indexData[index].length == 14 && indexData[index].contains(RegExp(r'[0-9]'))){
-              nationalIdController.text = indexData[index] ;
+        print(value.data);
+        var data = value.data['ocrResult'].toString().split("\n") ;
+        print(data);
+        List<String> natid = ['', ''];
+        for (var index = 0; index < data.length; index++) {
+          if (data[index].length == 14 && int.tryParse(data[index]) != null) {
+            natid[0] = data[index];
+            print(natid);
+            nationalIdController.text = natid[0];
+          }
+        }
+        print(nationalIdController.text);
+        print('go inside driver license');
+        ////////////////////////////////////////////////////
+        for (var index = 0; index < data.length; index++) {
+          if (data[index].contains('نهاية الترخيص') || data[index].contains('الترخيص')) {
+            if (data[index].length > 22 && data[index].contains('/') && data[index].contains(':')) {
+              print(data[index].substring(15));
+              final datas = data[index].substring(15).split('/');
+              print('object2');
+              for (var index = 0; index < datas.length; index++) {
+                print('inside for');
+                datas[index] = conv2EnNum(datas[index]).toString();
+                print(conv2EnNum(datas[index]).toString());
+                print(datas);
+              }
+
+              final finalDate = '${datas[0]}/${datas[1]}/${datas[2]}';
+              final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              if (date.year < givenDate.year) {
+                print('finalDate: $finalDate');
+                natid[1] = finalDate;
+              }
+            } else if (data[index].length > 20 && data[index].contains('-') && data[index].contains(':')) {
+              print(data[index].substring(16));
+              final datas = data[index].substring(16).split('-');
+              for (var index = 0; index < datas.length; index++) {
+                datas[index] = conv2EnNum(datas[index]).toString();
+              }
+
+              final finalDate = '${datas[2]}/${datas[1]}/${datas[0]}';
+              final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              if (date.year < givenDate.year) {
+                print('finalDate:$finalDate');
+                natid[1] = finalDate;
+              }
+            } else if (data[index].length > 22 && data[index].contains('/') && !data[index].contains(':')) {
+              print(data[index].substring(14));
+              final datas = data[index].substring(14).split('/');
+              for (var index = 0; index < datas.length; index++) {
+                datas[index] = conv2EnNum(datas[index]).toString();
+              }
+
+              final finalDate = '${datas[0]}/${datas[1]}/${datas[2]}';
+              final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              if (date.year < givenDate.year) {
+                print('finalDate:$finalDate');
+                natid[1] = finalDate;
+              }
+            } else if (data[index].length > 20 &&
+                data[index].contains('-') &&
+                !data[index].contains(':')) {
+              print(data[index].substring(14));
+              final datas = data[index].substring(14).split('-');
+              for (var index = 0; index < datas.length; index++) {
+                datas[index] = conv2EnNum(datas[index]).toString();
+              }
+              final finalDate = '${datas[2]}/${datas[1]}/${datas[0]}';
+              final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              if (date.year < givenDate.year) {
+                print('finalDate:$finalDate');
+                natid[1] = finalDate;
+              }
             }
           }
-        print(nationalIdController.text);
-        drivingLicenseController.text = indexData[10] ;
+        }
+        final givenDate = DateFormat('dd/MM/yyyy').parse(natid[1]);
+        if (givenDate.year > date.year && int.tryParse(natid[0]) != null) {
+          nationalIdController.text = natid[0];
+          drivingLicenseController.text = natid[1];
+        } else {
+          print('error');
+        }
         emit(SuccessOCRPostState());
         postImageOCR = null ;
       }).catchError((error){
-        print(error.toString());
-        emit(ErrorOCRPostState());
+        if(error is DioError){
+          print(error.response!.data);
+          emit(ErrorOCRPostState(error.response!.data['message']));
+        }
       });
+
+  }
+
+  String conv2EnNum(String arabicDate) {
+    String normalizedDate = arabicDate
+        .replaceAll('٠', '0')
+        .replaceAll('١', '1')
+        .replaceAll('٢', '2')
+        .replaceAll('٣', '3')
+        .replaceAll('٤', '4')
+        .replaceAll('٥', '5')
+        .replaceAll('٦', '6')
+        .replaceAll('٧', '7')
+        .replaceAll('٨', '8')
+        .replaceAll('٩', '9');
+
+    DateFormat arabicDateFormat = DateFormat('dd-MM-yyyy');
+    DateTime date;
+    try {
+      date = arabicDateFormat.parse(normalizedDate);
+    } catch (e) {
+      return '';
+    }
+
+    DateFormat englishDateFormat = DateFormat('yyyy-MM-dd');
+    String englishDate = englishDateFormat.format(date);
+
+    return englishDate;
   }
 
   File? postImageOCR ;
@@ -204,4 +324,5 @@ class RegisterCubit extends Cubit<RegisterState>
     if(croppedFile == null) return null ;
     return File(croppedFile.path);
   }
+
 }

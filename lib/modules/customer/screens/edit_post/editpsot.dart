@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/modules/customer/screens/home/cubit/state.dart';
 
-import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../shared/components/constants.dart';
 import '../../../../shared/components/input_field.dart';
 import '../../../../shared/resources/color_manager.dart';
@@ -47,7 +46,26 @@ class EditPost extends StatelessWidget {
   create: (context) => HomeScreenCubit()..getDetailsCategoryData(id,cid,scid,bid)
     ..idCategory(cid)..idSubCategory(scid)..idBrand(bid),
   child: BlocConsumer<HomeScreenCubit, HomeScreenState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is ErrorUpdatePostState)
+        {
+          final snackBar = SnackBar(
+            margin: const EdgeInsets.all(50),
+            duration: const Duration(seconds: 5),
+            shape: const StadiumBorder(),
+            elevation: 5,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+            content: Text(state.error.toString(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      },
       builder: (context,state)
       {
         return Scaffold(

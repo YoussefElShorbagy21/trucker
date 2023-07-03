@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/shared/network/remote/dio_helper.dart';
 import '../../../../../models/loginmodel.dart';
 import 'login_state.dart';
+import 'package:dio/dio.dart';
 
 
 class LoginCubit extends Cubit<LoginState>
@@ -38,10 +39,12 @@ class LoginCubit extends Cubit<LoginState>
       model = LoginModel.fromJson(value.data) ;
       emit(LoginSuccessState(model));
     }).catchError((onError){
-      if (kDebugMode) {
-        print(onError.toString());
-      }
-      emit(LoginErrorState(onError));
+      if(onError is DioError)
+        {
+          print(onError.response!.data['message']);
+          print(onError.message);
+          emit(LoginErrorState(onError.response!.data['message']));
+        }
     });
   }
 

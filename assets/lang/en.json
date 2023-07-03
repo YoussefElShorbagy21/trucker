@@ -89,7 +89,7 @@
   "search-title": "Find you trucker",
   "trend-title": "Category",
   "home-title": "New Equipments",
-  "rent-title": "Add to Cart",
+  "rent-title": "Book",
 
 
   "My\nProfile": "My\nProfile",
@@ -163,5 +163,7 @@
   "Crane": "Crane",
   "Compactor": "Compactor",
 
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+
+  "Settings" : "Settings"
 }

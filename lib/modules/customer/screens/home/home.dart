@@ -20,18 +20,21 @@ class HomeScreen extends StatelessWidget {
     'Truck',
     'pick up',
     'Heavy Equipment',
-    'Others',];
+    'Others',
+  ];
   List<String> subCategoryList = [
     'truck1',
     'truck2',
     'truck3',
     'truck4',
-    'pick up1',];
+    'pick up1',
+  ];
   List<String> brandList = [
     'Scania',
     'Iveco',
     'Man',
-    'Volvo',];
+    'Volvo',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -53,17 +56,282 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'title_home'.tr(context),
-                          style:  const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
+                        Container(
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 10,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 3),
+                            child: Row(
+                              children: [
+                                 Icon(
+                                  CupertinoIcons.search,
+                                  color: ColorManager.cGold,
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.06,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.45,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
+                                    child: TextFormField(
+                                      enabled: true,
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    SearchScreen()));
+                                      },
+                                      decoration: const InputDecoration(
+                                        hintText: 'What would you like? ',
+                                        border: InputBorder.none,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              actions: [
+                                                InputField(
+                                                  title: 'Category',
+                                                  note: HomeCubit.get(context)
+                                                      .categoryControllerF,
+                                                  widget: Row(
+                                                    children: [
+                                                      DropdownButton(
+                                                        dropdownColor:
+                                                            ColorManager.black,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        items: categoryList
+                                                            .map<
+                                                                DropdownMenuItem<
+                                                                    String>>(
+                                                              (String e) =>
+                                                                  DropdownMenuItem<
+                                                                          String>(
+                                                                      value: e,
+                                                                      child:
+                                                                          Text(
+                                                                        e,
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                      )),
+                                                            )
+                                                            .toList(),
+                                                        icon: const Icon(
+                                                          Icons
+                                                              .keyboard_arrow_down_sharp,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        iconSize: 32,
+                                                        elevation: 4,
+                                                        underline: Container(
+                                                          height: 0,
+                                                        ),
+                                                        onChanged:
+                                                            (String? value) {
+                                                          HomeCubit.get(context)
+                                                              .setCategoryF(
+                                                                  value!);
+                                                        },
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 6,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  onTap: () {},
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                InputField(
+                                                  title: 'SubCategory',
+                                                  note: HomeCubit.get(context)
+                                                      .subCategoryControllerF,
+                                                  widget: Row(
+                                                    children: [
+                                                      DropdownButton(
+                                                        dropdownColor:
+                                                            ColorManager.black,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        items: subCategoryList
+                                                            .map<
+                                                                DropdownMenuItem<
+                                                                    String>>(
+                                                              (String e) =>
+                                                                  DropdownMenuItem<
+                                                                          String>(
+                                                                      value: e,
+                                                                      child:
+                                                                          Text(
+                                                                        e,
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                      )),
+                                                            )
+                                                            .toList(),
+                                                        icon: const Icon(
+                                                          Icons
+                                                              .keyboard_arrow_down_sharp,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        iconSize: 32,
+                                                        elevation: 4,
+                                                        underline: Container(
+                                                          height: 0,
+                                                        ),
+                                                        onChanged:
+                                                            (String? value) {
+                                                          HomeCubit.get(context)
+                                                              .setSubCategoryF(
+                                                                  value!);
+                                                        },
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 6,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  onTap: () {},
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                InputField(
+                                                  title: 'Brand',
+                                                  note: HomeCubit.get(context)
+                                                      .brandControllerF,
+                                                  widget: Row(
+                                                    children: [
+                                                      DropdownButton(
+                                                        dropdownColor:
+                                                            ColorManager.black,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        items: brandList
+                                                            .map<
+                                                                DropdownMenuItem<
+                                                                    String>>(
+                                                              (String e) =>
+                                                                  DropdownMenuItem<
+                                                                          String>(
+                                                                      value: e,
+                                                                      child:
+                                                                          Text(
+                                                                        e,
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                      )),
+                                                            )
+                                                            .toList(),
+                                                        icon: const Icon(
+                                                          Icons
+                                                              .keyboard_arrow_down_sharp,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        iconSize: 32,
+                                                        elevation: 4,
+                                                        underline: Container(
+                                                          height: 0,
+                                                        ),
+                                                        onChanged:
+                                                            (String? value) {
+                                                          HomeCubit.get(context)
+                                                              .setBrandF(
+                                                                  value!);
+                                                        },
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 6,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  onTap: () {},
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: const Text(
+                                                            'Cancel')),
+                                                    const Spacer(),
+                                                    ElevatedButton(
+                                                        onPressed: () {
+                                                          HomeCubit.get(context).getFilterData(
+                                                              HomeCubit.get(
+                                                                      context)
+                                                                  .idCategoryControllerF,
+                                                              HomeCubit.get(
+                                                                      context)
+                                                                  .idSubCategoryControllerF,
+                                                              HomeCubit.get(
+                                                                      context)
+                                                                  .idBrandControllerF);
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (_) =>
+                                                                      const FilterEquipments()));
+                                                        },
+                                                        child: const Text(
+                                                            'Apply')),
+                                                  ],
+                                                ),
+                                              ],
+                                            );
+                                          });
+                                    },
+                                    icon: Icon(
+                                      Icons.filter_list,
+                                      size: 25,
+                                      color: ColorManager.black,
+                                    )),
+                              ],
+                            ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
+                        /*    SizedBox(
                           width: double.infinity,
                           height: 60,
                           child: Card(
@@ -77,11 +345,6 @@ class HomeScreen extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Icon(
-                                    Icons.search,
-                                    size: 25,
-                                    color: ColorManager.black,
-                                  ),
                                   TextButton(
                                     onPressed: () {
                                       Navigator.push(
@@ -90,11 +353,20 @@ class HomeScreen extends StatelessWidget {
                                               builder: (_) =>
                                                   SearchScreen()));
                                     },
-                                    child: Text('search-title'.tr(context),
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: ColorManager.gery,
-                                        )),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.search,
+                                          size: 25,
+                                          color: ColorManager.black,
+                                        ),
+                                        Text('search-title'.tr(context),
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: ColorManager.gery,
+                                            )),
+                                      ],
+                                    ),
                                   ),
                                   const Spacer(),
                                   IconButton(onPressed: (){
@@ -204,8 +476,7 @@ class HomeScreen extends StatelessWidget {
                                       );
                                         }
                                     );
-                                  },
-                                      icon:   Icon(
+                                  }, icon:   Icon(
                                     Icons.filter_list_alt,
                                     size: 25,
                                     color: ColorManager.black,
@@ -214,13 +485,13 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
+                        ),*/
                         Row(
                           children: [
                             Text(
                               'home-title'.tr(context),
                               style: const TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
@@ -231,7 +502,7 @@ class HomeScreen extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) =>
-                                        const AllViewEquipments()));
+                                            const AllViewEquipments()));
                               },
                               child: Text(
                                 'View All(${cubit.homeModel.equipment.length.toString()})',
@@ -245,38 +516,52 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Conditional.single(
                           context: context,
-                          conditionBuilder: (context) =>HomeScreenCubit.get(context).homeModel.equipment.isNotEmpty,
+                          conditionBuilder: (context) =>
+                              HomeScreenCubit.get(context)
+                                  .homeModel
+                                  .equipment
+                                  .isNotEmpty,
                           widgetBuilder: (context) => SizedBox(
-                              height:  cubit.homeModel.equipment.length <= 5 ? MediaQuery.of(context).size.height * 1 : MediaQuery.of(context).size.height * 1.4,
-                              child: listBuilderOrder(cubit.homeModel, context , const NeverScrollableScrollPhysics())),
-                          fallbackBuilder: (context) =>   const Center(child: CircularProgressIndicator()),
+                              height: cubit.homeModel.equipment.length <= 5
+                                  ? MediaQuery.of(context).size.height * 1
+                                  : MediaQuery.of(context).size.height * 1.4,
+                              child: listBuilderOrder(cubit.homeModel, context,
+                                  const NeverScrollableScrollPhysics())),
+                          fallbackBuilder: (context) => Column(
+                            children: [
+                              cardView(context),
+                              cardView(context),
+                              cardView(context),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
               ),
-              floatingActionButton: HomeCubit.get(context).oneUserData.userData.role != "service_provider" ? null : FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NewPostScreen()));
-                },
-                materialTapTargetSize: MaterialTapTargetSize.padded,
-                elevation: 5,
-                backgroundColor: ColorManager.white,
-                child: Icon(
-                  Icons.add,
-                  size: 30,
-                  color: ColorManager.black,
-                ),
-              ),
+              floatingActionButton:
+                  HomeCubit.get(context).oneUserData.userData.role !=
+                          "service_provider"
+                      ? null
+                      : FloatingActionButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NewPostScreen()));
+                          },
+                          materialTapTargetSize: MaterialTapTargetSize.padded,
+                          elevation: 5,
+                          backgroundColor: ColorManager.white,
+                          child: Icon(
+                            Icons.add,
+                            size: 30,
+                            color: ColorManager.black,
+                          ),
+                        ),
             );
           },
         ));
   }
-
-
-
 }

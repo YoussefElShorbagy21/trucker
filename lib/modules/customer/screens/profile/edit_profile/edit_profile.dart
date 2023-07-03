@@ -7,7 +7,6 @@ import 'package:login/shared/resources/app_localizations.dart';
 
 import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../layout/homeLayout/cubit/state.dart';
-import '../../../../../shared/components/components.dart';
 import '../../../../../shared/resources/color_manager.dart';
 import '../../../../../shared/resources/select_photo_options_screen.dart';
 
@@ -17,7 +16,26 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is ErrorUpdateUSERState)
+        {
+          final snackBar = SnackBar(
+            margin: const EdgeInsets.all(50),
+            duration: const Duration(seconds: 5),
+            shape: const StadiumBorder(),
+            elevation: 5,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+            content: Text(state.error.toString(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      },
       builder: (context, state) {
         var userModel = HomeCubit.get(context).oneUserData.userData;
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:login/layout/homeLayout/cubit/state.dart';
+import 'package:login/modules/customer/screens/chats_screen/test_chat_screen.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../models/chat_model/message_model.dart';
 import '../../../../../shared/resources/color_manager.dart';
-import '../chat_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavouriteContacts extends StatelessWidget {
@@ -38,20 +38,19 @@ class FavouriteContacts extends StatelessWidget {
                     letterSpacing: 1.0,
                   ),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.more_horiz,
-                  ),
-                  iconSize: 30.0,
-                  color: ColorManager.blueGrey,
-                ),
+                // IconButton(
+                //   onPressed: () {},
+                //   icon: const Icon(
+                //     Icons.more_horiz,
+                //   ),
+                //   iconSize: 30.0,
+                //   color: ColorManager.blueGrey,
+                // ),
               ],
             ),
           ),
           SizedBox(
-            height: heightScreen / 6,//120
-            // color: Colors.blue,
+            height: heightScreen / 6,
             child: ListView.builder(
               padding: const EdgeInsets.only(
                 left: 10.0,
@@ -63,16 +62,25 @@ class FavouriteContacts extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => ChatScreen(user: favorites[index],),
+                      builder: (_) => TestChatScreen(),
                     ),
                   ),
-                  child: Padding(
+                  child: cubit[index].id != HomeCubit.get(context).oneUserData.userData.id ?
+                  Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
                       children: [
                         CircleAvatar(
                           radius: 35.0,
-                          backgroundImage: NetworkImage(cubit[index].avatar),
+                          backgroundImage: cubit[index].avatar.isNotEmpty ? NetworkImage(cubit[index].avatar) :
+                          const NetworkImage('https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',),
+                          child: cubit[index].avatar.isNotEmpty ? null : Text(
+                            cubit[index].name[0].toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 40,
+                              color: ColorManager.black,
+                            ),
+                          ),
                         ),
                         SizedBox(
                           height: heightScreen / 85, //6.0
@@ -86,7 +94,7 @@ class FavouriteContacts extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
+                  ) : Container(),
                 );
               },
             ),

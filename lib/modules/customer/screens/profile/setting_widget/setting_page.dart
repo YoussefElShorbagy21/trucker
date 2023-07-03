@@ -1,68 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'package:login/shared/resources/app_localizations.dart';
+import 'package:login/modules/customer/screens/profile/setting_widget/settings_widget.dart';
 
-import 'setting_widget.dart';
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
 
-class SettingsChange extends StatefulWidget {
-  const SettingsChange({Key? key}) : super(key: key);
   @override
-  State<SettingsChange> createState() => _SettingsChangeState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _SettingsChangeState extends State<SettingsChange> {
+class _SettingsPageState extends State<SettingsPage> {
+  bool isDark = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
-           Text(
-            "Settings".tr(context),
-            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.w500),
-          ),
-          SettingsGroup(
-            title: 'Account'.tr(context),
-            children: <Widget>[
-              const SizedBox(height: 15,),
-              const HeaderPage(),
-              const SizedBox(
-                height: 8,
-              ),
-              const AccountPage(),
-              const SizedBox(
-                height: 10,
-              ),
-              const NotificationsPage(),
-              const SizedBox(height: 10,),
-              buildLogout(context),
-              const SizedBox(
-                height: 10,
-              ),
-              buildDeleteAccount(context),
-            ],
+          const Text(
+            'Settings',
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
-            height: 70,
+            height: 8,
           ),
-          // const Divider(
-          //   height: 15,
-          //   thickness: 2,
-          // ),
-        /*  SettingsGroup(
-            title: 'FEEDBACK'.tr(context),
-            children: <Widget>[
-              const SizedBox(
-                height: 10,
-              ),
-              buildReportBug(context),
-              const SizedBox(
-                height: 10,
-              ),
-              buildSendFeedback(context),
-            ],
-          ),*/
+          buildImageChange(context),
+          const SizedBox(
+            height: 8,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: buildDarkMode(context, isDark),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          buildAccountSetting(context),
+          const SizedBox(
+            height: 8,
+          ),
+          buildNotification(),
+          const SizedBox(height: 8,),
+          buildJoinUS(context),
+          const SizedBox(
+            height: 80,
+          ),
+          // const Divider(),
+
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Text('Account'),
+          ),
+          const SizedBox(height: 8),
+          buildLogout(context),
+          const SizedBox(height: 8),
+          buildDeleteAccount(context),
         ],
       ),
     );

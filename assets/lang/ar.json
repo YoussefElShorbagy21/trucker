@@ -90,7 +90,7 @@
   "search-title": "تجد لك سائق الشاحنة",
   "trend-title": "فئة",
   "home-title": "معدات جديدة",
-  "rent-title": "أضف إلى السلة",
+  "rent-title": "أحجز الان",
 
 
 
@@ -165,6 +165,7 @@
   "Crane": "رافعة",
   "Compactor": "ضاغط",
 
-  "confirm": "تأكيد"
+  "confirm": "تأكيد",
+  "Settings" : "الاعدادت"
 
 }

@@ -2,26 +2,45 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login/models/chat_model/message_model.dart';
 import 'package:login/shared/resources/color_manager.dart';
-import '../../../../models/chat_model/user_model.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../../../shared/components/chat_style.dart';
 
 class TestChatScreen extends StatefulWidget {
-  // static Route route(MessageData data) => MaterialPageRoute(
-  //       builder: (context) => TestChatScreen(
-  //         messageData: data,
-  //       ),
-  //     );
 
-  const TestChatScreen({Key? key, required this.user,}) : super(key: key);
-
-  // final MessageData messageData;
-  final User user;
-
+   TestChatScreen({Key? key,}) : super(key: key);
   @override
   State<TestChatScreen> createState() => _TestChatScreenState();
 }
-
+TextEditingController controller = TextEditingController();
 class _TestChatScreenState extends State<TestChatScreen> {
+  late IO.Socket socket ;
+  List<String> messages = [];
+
+  @override
+  void initState() {
+    connect(socket);
+    socket.on('message', (data) {
+      setState(() {
+        messages.add(data['text']);
+      });
+    });
+    socket.on('disconnect', (_) => print('Disconnected'));
+    super.initState();
+  }
+  @override
+  void dispose() {
+    socket.disconnect();
+    super.dispose();
+  }
+
+  sendMessage(String message) {
+    socket.emit('client message', {
+      'sender': "649885d71f045d12677c3fbc",
+      'receiver': "64955dac39fd991f877f27a0",
+      'msg': message,
+    });
+    controller.clear();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,8 +59,8 @@ class _TestChatScreenState extends State<TestChatScreen> {
             },
           ),
         ),
-        title: Text(widget.user.name),
-        actions: [
+        title: const Text('Support Team'),
+       /* actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Center(
@@ -58,20 +77,21 @@ class _TestChatScreenState extends State<TestChatScreen> {
               onTap: () {},
             )),
           ),
-        ],
+        ],*/
       ),
-      body:  Column(
-        children: const [
-          Expanded(
+      body:   Column(
+        children: [
+          const Expanded(
             child: _DemoMessageList(),
           ),
-          _ActionBar(),
+          _ActionBar(onPressed: sendMessage(controller.text),),
         ],
       ),
     );
   }
 }
 
+//all message
 class _DemoMessageList extends StatelessWidget {
   const _DemoMessageList({Key? key}) : super(key: key);
 
@@ -81,32 +101,18 @@ class _DemoMessageList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: ListView(
         children:  [
-          _DateLabel(label: 'Yesterday'),
-          _MessageTile(
-            // message: 'Hi, How\'s your day going?',
-            // messageDate: '12:01 pm',
-          ),
-          _MessageOwnTile(
-            // message: 'it\'s fine',
-            // messageDate: '12:05 pm',
-          ),
-          _MessageTile(
-            // message: 'Do you want to rent my truck',
-            // messageDate: '12:10 pm',
-          ),
-          // _MessageOwnTile(
-          //   message: 'yes, I want for sure',
-          //   messageDate: '12:12 pm',
-          // ),
-          _MessageOwnTile(),
+          _MessageUserTile(),
+          _MessageSupportTile(),
         ],
       ),
     );
   }
 }
 
+//Send message
 class _ActionBar extends StatelessWidget {
-  const _ActionBar({Key? key}) : super(key: key);
+  void Function()? onPressed ;
+  _ActionBar({Key? key,required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +121,7 @@ class _ActionBar extends StatelessWidget {
       top: false,
       child: Row(
         children: [
-          Container(
+        /*  Container(
             decoration: BoxDecoration(
               border: Border(
                 right: BorderSide(
@@ -130,15 +136,16 @@ class _ActionBar extends StatelessWidget {
                 CupertinoIcons.camera_fill,
               ),
             ),
-          ),
-          const Expanded(
+          ),*/
+          Expanded(
             child: Padding(
-              padding: EdgeInsets.only(left: 16.0),
+              padding: const EdgeInsets.only(left: 16.0),
               child: TextField(
-                style: TextStyle(
+                controller: controller,
+                style: const TextStyle(
                   fontSize: 14.0,
                 ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Type Something',
                   border: InputBorder.none,
                 ),
@@ -151,7 +158,7 @@ class _ActionBar extends StatelessWidget {
               right: 24.0,
             ),
             child: IconButton(
-              onPressed: () {},
+              onPressed: onPressed,
               icon: const Icon(
                 Icons.send,
               ),
@@ -165,11 +172,9 @@ class _ActionBar extends StatelessWidget {
   }
 }
 
-class _MessageOwnTile extends StatelessWidget {
+//support team
+class _MessageSupportTile extends StatelessWidget {
 
-
-  // final String message;
-  // final String messageDate;
    Message? message;
 
   static const _borderRadius = 26.0;
@@ -185,9 +190,9 @@ class _MessageOwnTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Container(
-              decoration: const BoxDecoration(
-                color: Color(0xFF3B76F6),
-                borderRadius: BorderRadius.only(
+              decoration:  BoxDecoration(
+                color: ColorManager.gery.withOpacity(0.1),
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(_borderRadius),
                   bottomRight: Radius.circular(_borderRadius),
                   bottomLeft: Radius.circular(_borderRadius),
@@ -198,9 +203,6 @@ class _MessageOwnTile extends StatelessWidget {
                     horizontal: 12.0, vertical: 20.0),
                 child: Text(
                   message?.text??'are you trucker',
-                  style: const TextStyle(
-                    color: ColorManager.textLigth,
-                  ),
                 ),
               ),
             ),
@@ -222,11 +224,8 @@ class _MessageOwnTile extends StatelessWidget {
   }
 }
 
-class _MessageTile extends StatelessWidget {
-
-
-  // final String message;
-  // final String messageDate;
+//message user
+class _MessageUserTile extends StatelessWidget {
    Message? message;
 
   static const _borderRadius = 26.0;
@@ -242,10 +241,9 @@ class _MessageTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              decoration: BoxDecoration(
-                color: ColorManager.gery.withOpacity(0.1),
-                // color: Theme.of(context).cardColor,
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                color: Color(0xFF3B76F6),
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(_borderRadius),
                   topRight: Radius.circular(_borderRadius),
                   bottomRight: Radius.circular(_borderRadius),
@@ -254,7 +252,11 @@ class _MessageTile extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 12.0, vertical: 20.0),
-                child: Text(message?.text ?? 'hello customer'),
+                child: Text(message?.text ?? 'hello customer',
+                  style: const TextStyle(
+                    color: ColorManager.textLigth,
+                  ),
+                ),
               ),
             ),
             Text(
@@ -264,6 +266,7 @@ class _MessageTile extends StatelessWidget {
                 fontSize: 10.0,
                 fontWeight: FontWeight.bold,
               ),
+
             ),
           ],
         ),
@@ -272,6 +275,7 @@ class _MessageTile extends StatelessWidget {
   }
 }
 
+//Time send
 class _DateLabel extends StatelessWidget {
   const _DateLabel({Key? key, required this.label}) : super(key: key);
 
@@ -305,46 +309,11 @@ class _DateLabel extends StatelessWidget {
   }
 }
 
-// class _AppBarTitle extends StatelessWidget {
-//   const _AppBarTitle({Key? key, required this.messageData}) : super(key: key);
-//
-//   final MessageData messageData;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       children: [
-//         Avatar.small(
-//           url: messageData.profilePicture,
-//         ),
-//         const SizedBox(
-//           width: 16.0,
-//         ),
-//         Expanded(
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Text(
-//                 messageData.senderName,
-//                 overflow: TextOverflow.ellipsis,
-//                 style: const TextStyle(fontSize: 14.0),
-//               ),
-//               const SizedBox(
-//                 height: 2,
-//               ),
-//               const Text(
-//                 'Online now',
-//                 style: TextStyle(
-//                   fontSize: 10.0,
-//                   fontWeight: FontWeight.bold,
-//                   color: Colors.green,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
+void connect(socket){
+  socket = IO.io('client message', <String, dynamic>{
+    'transports': ['websocket'],
+    'autoConnect': false,
+  });
+  socket.connect();
+
+}

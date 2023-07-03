@@ -14,6 +14,8 @@ import 'package:login/shared/network/remote/dio_helper.dart';
 import '../../../modules/customer/screens/chats_screen/chat_home.dart';
 import '../../../modules/customer/screens/home/home.dart';
 import '../../../modules/customer/screens/profile/profile_screen.dart';
+import '../../../modules/customer/screens/profile/setting_widget/setting_page.dart';
+import '../../../modules/customer/screens/profile/setting_widget/settings_widget.dart';
 import '../../../shared/components/constants.dart';
 import '../../../shared/network/local/cache_helper.dart';
 import 'state.dart';
@@ -30,8 +32,8 @@ class HomeCubit extends Cubit<HomeStates>{
   List<Widget> screens =  [
     HomeScreen(),
     const CategoryScreen(),
-    const ChatHome(),
     const ProfileScreen(),
+    const SettingsPage(),
   ];
 
   PostEquipment? postEquipment ;
@@ -40,12 +42,10 @@ class HomeCubit extends Cubit<HomeStates>{
     required String description,
     required File? imageCover,
     required int price ,
-    required int priceAfterDiscount ,
     required String category ,
     required String subcategory ,
     required String brand ,
-    required String locationFrom ,
-    required String locationTo ,
+    required String currentLocation ,
     required String? userId ,
   }) async {
 
@@ -55,12 +55,10 @@ class HomeCubit extends Cubit<HomeStates>{
       'description' : description,
       'imageCover': await MultipartFile.fromFile(imageCover!.path),
       'price' : price,
-      'priceAfterDiscount' : priceAfterDiscount,
       'category' : category,
       'subcategory' : subcategory,
       'brand' : brand,
-      'locationFrom' : locationFrom,
-      'locationTo' : locationTo,
+      'currentLocation' : currentLocation,
       'userId' : userId,
     });
     DioHelper.postData(
@@ -73,8 +71,13 @@ class HomeCubit extends Cubit<HomeStates>{
       emit(HomePostEquipmentSuccessState());
     }).catchError((error)
     {
-        print(error.toString());
-      emit(HomePostEquipmentErrorState());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(HomePostEquipmentErrorState(error.response!.data['message']));
+      }
     });
   }
 
@@ -138,23 +141,24 @@ class HomeCubit extends Cubit<HomeStates>{
 
   OneUserData oneUserData  = OneUserData(
       userData: UserData(name: 'name', email: 'email', phone: 'phone',
-          verified: false, avatar: '', role: '', nationalId: null, drivingLicense: null, favoriteList: []));
+          verified: false, avatar: '', role: '', nationalId: null,
+          favoriteList: [], doneTransactions: [],
+          currentTransactions: [], acceptedTransactions: [], id: '', reviews: []));
 
  Map<String , String > favorites = {};
-  void getUserData({String? userID}) {
+  Future<void> getUserData({String? userID}) async {
     emit(LoadingGetUserData());
     if (uid == null) {
       print('uid is null');
-      DioHelper.getDate(url: 'users/$userID').then((value) {
+     await DioHelper.getDate(url: 'users/$userID').then((value) {
         if (kDebugMode) {
-          print(value.data);
+          print('userID: $userID because uid null');
         }
-        if (kDebugMode) {
-          print(uid);
-        }
+        uid = userID ;
         oneUserData = OneUserData.fromJson(value.data);
+        print('start search in favoriteList');
         for (var element in oneUserData.userData.favoriteList) {
-          favorites.addAll({element: 'find'});
+           favorites.addAll({element: 'find'});
         }
         print(favorites);
         emit(SuccessGetUserData());
@@ -165,14 +169,10 @@ class HomeCubit extends Cubit<HomeStates>{
       });
     }else{
       print('uid is not null');
-      DioHelper.getDate(url: 'users/$uid').then((value) {
-        if (kDebugMode) {
-          print(value.data);
-        }
-        if (kDebugMode) {
-          print(uid);
-        }
+      print('uid in function getUserData: $uid');
+     await DioHelper.getDate(url: 'users/$uid').then((value) {
         oneUserData = OneUserData.fromJson(value.data);
+        print('start search in favoriteList');
         for (var element in oneUserData.userData.favoriteList) {
           favorites.addAll({element: 'find'});
         }
@@ -190,9 +190,6 @@ class HomeCubit extends Cubit<HomeStates>{
   void getAllUserData(){
     emit(LoadingGetAllUserData());
     DioHelper.getDate(url:'users').then((value){
-      if (kDebugMode) {
-        print(value.data);
-      }
       allUserData = AllUserData.fromJson(value.data);
       emit(SuccessGetAllUserData());
     }).catchError((onError){
@@ -256,8 +253,13 @@ class HomeCubit extends Cubit<HomeStates>{
       });
       emit(SuccessUpdateUSERState());
     }).catchError((error){
-      print(error.toString());
-      emit(ErrorUpdateUSERState());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(ErrorUpdateUSERState(error.response!.data['message']));
+      }
     });
   }
 
@@ -269,15 +271,14 @@ class HomeCubit extends Cubit<HomeStates>{
   String idCategoryControllerT = '' ;
   String idSubCategoryControllerT = '' ;
   String idBrandControllerT = '' ;
-  String categoryControllerT = 'Category';
-  String subCategoryControllerT = 'subCategory';
-  String brandControllerT = 'brand';
-  String locationFromControllerT  = 'locationFrom';
-  String locationToControllerT  = 'locationTo';
+  var categoryControllerT = TextEditingController(text: 'Category');
+  var subCategoryControllerT = TextEditingController(text: 'subCategory');
+  var brandControllerT = TextEditingController(text: 'brand');
+  var currentLocation  =TextEditingController(text: 'currentLocation');
 
   void setCategory(String selected) {
-    categoryControllerT = selected ;
-    switch(categoryControllerT) {
+    categoryControllerT.text = selected ;
+    switch(categoryControllerT.text) {
       case 'Truck': {
         idCategoryControllerT = "64498aa6db60baf726212fb9";
       }
@@ -304,9 +305,9 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
   void setSubCategory(String selected) {
-    subCategoryControllerT = selected ;
+    subCategoryControllerT.text = selected ;
 
-    switch(subCategoryControllerT) {
+    switch(subCategoryControllerT.text) {
       case 'truck1': {
         idSubCategoryControllerT = "6449906292768740d4790d12";
       }
@@ -338,8 +339,8 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
   void setBrand(String selected) {
-    brandControllerT = selected ;
-    switch(brandControllerT) {
+    brandControllerT.text = selected ;
+    switch(brandControllerT.text) {
       case 'Scania': {
         idBrandControllerT = "6449dd29bbae94188f228f01";
       }
@@ -365,15 +366,11 @@ class HomeCubit extends Cubit<HomeStates>{
     emit(HomeSetBrand());
   }
 
-  void setLocationFrom(String selected) {
-    locationFromControllerT = selected ;
+  void setcurrentLocation(String selected) {
+    currentLocation.text = selected ;
     emit(HomeSetLocationFrom());
   }
 
-  void setLocationTo(String selected) {
-    locationToControllerT = selected ;
-    emit(HomeSetLocationTo());
-  }
 
   void delayFunction(int time) {
     Future.delayed(Duration(seconds: time),(){
@@ -384,11 +381,10 @@ class HomeCubit extends Cubit<HomeStates>{
        idCategoryControllerT = '' ;
        idSubCategoryControllerT = '' ;
        idBrandControllerT = '' ;
-       categoryControllerT = 'Category';
-       subCategoryControllerT = 'subCategory';
-       brandControllerT = 'brand';
-       locationFromControllerT  = 'locationFrom';
-       locationToControllerT  = 'locationTo';
+        categoryControllerT.text = 'Category';
+       subCategoryControllerT.text = 'subCategory';
+       brandControllerT.text = 'brand';
+      currentLocation.text  = 'locationFrom';
       postImage = null;
     });
     emit(DelayFunctionState());
@@ -431,13 +427,11 @@ class HomeCubit extends Cubit<HomeStates>{
       url: 'category',
     ).then((value)
     {
-      print(value.data);
       var re = value.data;
       for(var data in re)
         {
           listCate.add(CategoryModel(id: data['_id'], name: data['name']));
         }
-      print(listCate[0].name);
       emit(HomeSuccessGetCategory());}
     ).catchError((error){
       print(error.toString());
@@ -456,7 +450,6 @@ class HomeCubit extends Cubit<HomeStates>{
       {
         listSubCategory.add(SubCategory(id: data['_id'], name: data['name']));
       }
-      print(listSubCategory[0].name);
       emit(HomeSuccessGetSubCategory());}
     ).catchError((error){
       print(error.toString());
@@ -475,7 +468,6 @@ class HomeCubit extends Cubit<HomeStates>{
       {
         listBrand.add(Brand(id: data['_id'], name: data['name']));
       }
-      print(listBrand[0].name);
       emit(HomeSuccessGetBrand());}
     ).catchError((error){
       print(error.toString());
@@ -498,8 +490,13 @@ class HomeCubit extends Cubit<HomeStates>{
       print(value.data);
       emit(SuccessAddFavorite());}
     ).catchError((error){
-      print(error.toString());
-      emit(ErrorAddFavorite());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(ErrorAddFavorite(error.response!.data['message']));
+      }
     });
   }
 
@@ -518,15 +515,20 @@ class HomeCubit extends Cubit<HomeStates>{
       emit(SuccessDeleteFavorite());
     }
     ).catchError((error){
-      print(error.toString());
-      emit(ErrorDeleteFavorite());
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        print(error.message);
+        emit(ErrorDeleteFavorite(error.response!.data['message']));
+      }
     });
   }
 
-  void delayTime(int time) {
+  Future<void> delayTime(int time) async {
     print('Time $time');
-    Future.delayed( Duration(seconds: time) , (){
-      HomeCubit().getUserData();
+    Future.delayed( Duration(seconds: time) , () async {
+      await HomeCubit().getUserData();
     });
     print('Time after delayed $time');
     emit(DelayedFunction());
@@ -748,4 +750,82 @@ class HomeCubit extends Cubit<HomeStates>{
       });
     }
   }
+
+  GetEquipment homeModel = GetEquipment(equipment: []);
+  Future<void> getCategoryData(String title) async{
+    emit(LoadingCategoryDataState());
+    await DioHelper.getDate(
+      url: 'truck/?category=$title',
+    ).then((value)
+    {
+      print(value.realUri);
+      print(title);
+      print(value.data);
+      homeModel = GetEquipment.fromJson(value.data);
+      emit(SuccessCategoryDataState());}
+    ).catchError((error){
+      print(error.toString());
+      emit(ErrorCategoryDataState());
+    });
+  }
+
+  Future<void> getFilterDataCategory(String category,String subcategory,String brand) async{
+    emit(HomeLoadingGetFilterDataCategory());
+    if(idSubCategoryControllerF.isNotEmpty && idBrandControllerF.isEmpty) {
+      await DioHelper.getDate(
+        url: 'truck/?category=$category&subcategory=$subcategory',
+      ).then((value) {
+        print(value.realUri);
+        print(value.data);
+        homeModel = GetEquipment.fromJson(value.data);
+        emit(HomeSuccessGetFilterDataCategory());
+        subCategoryControllerF = 'Category';
+        idSubCategoryControllerF = '';
+      }).catchError((error){
+        if(error is DioError)
+        {
+          print(error.response);
+          print(error.response!.data['message']);
+          print(error.message);
+          emit(HomeErrorGetFilterDataCategory(error.response!.data['message']));
+        }
+      });
+    }
+    else if(idSubCategoryControllerF.isEmpty && idBrandControllerF.isNotEmpty) {
+      await DioHelper.getDate(
+        url: 'truck/?category=$category&brand=$brand',
+      ).then((value) {
+        print(value.realUri);
+        print(value.data);
+        homeModel = GetEquipment.fromJson(value.data);
+        emit(HomeSuccessGetFilterData());
+        brandControllerF = 'brand';
+        idBrandControllerF = '' ;
+      }).catchError((error){
+        print(error.toString());
+        emit(HomeErrorGetFilterData());
+      });
+    }
+    else if(idSubCategoryControllerF.isNotEmpty && idBrandControllerF.isNotEmpty) {
+      await DioHelper.getDate(
+        url: 'truck/?category=$category&subcategory=$subcategory&brand=$brand',
+      ).then((value) {
+        print(value.realUri);
+        print(value.data);
+        homeModel = GetEquipment.fromJson(value.data);
+        emit(HomeSuccessGetFilterData());
+        subCategoryControllerF = 'subCategory';
+        brandControllerF = 'brand';
+        idSubCategoryControllerF = '';
+        idBrandControllerF = '';
+      }).catchError((error){
+        print(error.toString());
+        emit(HomeErrorGetFilterData());
+      });
+    }
+
+  }
+
+
+
 }

@@ -37,12 +37,31 @@ class NewPostScreen extends StatelessWidget {
       "الفيوم","القاهرة","القليوبية",
       "قنا","مطروح","المنوفية","المنيا"
     ];
-
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     NewPostScreen({super.key});
     @override
     Widget build(BuildContext context) {
       return BlocConsumer<HomeCubit, HomeStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is HomePostEquipmentErrorState)
+          {
+            final snackBar = SnackBar(
+              margin: const EdgeInsets.all(50),
+              duration: const Duration(seconds: 5),
+              shape: const StadiumBorder(),
+              elevation: 5,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+              content: Text(state.error.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        },
         builder: (context,state)
       {
         return Scaffold(
@@ -55,20 +74,21 @@ class NewPostScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: OutlinedButton(
                   onPressed: () {
-                      HomeCubit.get(context).postNewEquipment(
+                    if(formKey.currentState!.validate())
+                      {
+                        HomeCubit.get(context).postNewEquipment(
                           name: HomeCubit.get(context).textController.text,
                           description: HomeCubit.get(context).descriptionController.text,
                           imageCover: HomeCubit.get(context).postImage,
                           price: int.parse(HomeCubit.get(context).priceController.text),
                           category: HomeCubit.get(context).idCategoryControllerT,
-                          locationFrom: HomeCubit.get(context).locationFromControllerT,
+                          currentLocation: HomeCubit.get(context).currentLocation.text,
                           userId: uid,
                           subcategory: HomeCubit.get(context).idSubCategoryControllerT,
-                          brand: HomeCubit.get(context).idBrandControllerT,
-                          locationTo: HomeCubit.get(context).locationToControllerT,
-                          priceAfterDiscount: 800,);
-                      HomeCubit.get(context).delayFunction(10);
-                      Navigator.pop(context);
+                          brand: HomeCubit.get(context).idBrandControllerT,);
+                        HomeCubit.get(context).delayFunction(10);
+                        Navigator.pop(context);
+                      }
                   },
                 child:  Text('Post',style: TextStyle(color: ColorManager.black),),
                 ),
@@ -88,394 +108,248 @@ class NewPostScreen extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.all(15.0),
             child: SingleChildScrollView(
-              child: Column(
-                children:
-                [
-                  Stack(
-                    alignment: AlignmentDirectional.bottomStart,
-                    children: [
-                      Container(
-                        height: 200,
-                        decoration: HomeCubit.get(context).postImage != null ?  BoxDecoration(
-                          borderRadius: BorderRadius.circular(4.0),
-                          image:  DecorationImage(
-                            fit: BoxFit.cover,
-                            image: FileImage(HomeCubit.get(context).postImage!),
-                          ),
-                        ) :
-                        BoxDecoration(
-                          color: const Color(0XFF408080),
-                          borderRadius: BorderRadius.circular(15.0),
-                        ) ,
-                      ),
-                      Row(
-                        children: [
-                          IconButton(onPressed: (){
-                            _showSelectPhotoOptions(context);
-                          }
-                              , icon:
-                            const CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Colors.white,
-                              child: Icon(Icons.add,
-                                size: 30,
-                                color: Color(0XFF408080),),),),
-                          const Text('Add Image',style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),),
-                        ],
-                      ),
-                    ],
-                  ),
-                 /* Row(
-                    children:
-                     [
-                       CircleAvatar(
-                        radius: 25,
-                        backgroundImage: NetworkImage(HomeCubit.get(context).userData.avatar),
-                      ),
-                      const SizedBox(
-                        width: 15.0,
-                      ),
-                      Expanded(
-                        child: Text(
-                          HomeCubit.get(context).userData.name,
-                          style: const TextStyle(
-                            height:1.4,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),*/
-                  const SizedBox(height: 20.0,),
-                  TextFormField(
-                    controller: HomeCubit.get(context).textController,
-                    validator: (value){
-                      if(value!.isEmpty)
-                      {
-                        return 'please enter value';
-                      }
-                      return null;
-                    },
-                    decoration:   InputDecoration(
-                      hoverColor: const Color(0XFF408080),
-                      prefixIcon: const Icon(Icons.title),
-                      counterText: '${HomeCubit.get(context).textController.text.length} / 40',
-                      hintText: 'title',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15)
-                      ),
-                      labelText: 'Title',
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  TextFormField(
-                    controller: HomeCubit.get(context).priceController,
-                    keyboardType: TextInputType.number,
-                    validator: (value){
-                      if(value!.isEmpty)
-                      {
-                        return 'please enter value';
-                      }
-                      return null;
-                    },
-                    decoration:   InputDecoration(
-                      hoverColor: const Color(0XFF408080),
-                      prefixIcon: const Icon(Icons.price_change),
-                      hintText: 'Price',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)
-                      ),
-                      labelText: 'Price',
-                    ),
-                  ),
-                  InputField(
-                    title: 'Category',
-                    note: HomeCubit.get(context).categoryControllerT ,
-                    widget: Row(
-                      children: [
-                        DropdownButton(
-                          dropdownColor: ColorManager.black,
-                          borderRadius: BorderRadius.circular(10),
-                          items: categoryList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
-                              value: e,
-                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
-                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
-                          iconSize: 32,
-                          elevation: 4,
-                          underline:  Container(height: 0,),
-                          onChanged: (String? value)
-                          {
-                            HomeCubit.get(context).setCategory(value!);
-                          },
-                        ),
-                        const SizedBox(width: 6,),
-                      ],
-                    ),onTap: () {},
-                  ),
-                  InputField(
-                    title: 'SubCategory',
-                    note: HomeCubit.get(context).subCategoryControllerT ,
-                    widget: Row(
-                      children: [
-                        DropdownButton(
-                          dropdownColor: ColorManager.black,
-                          borderRadius: BorderRadius.circular(10),
-                          items: subCategoryList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
-                              value: e,
-                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
-                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
-                          iconSize: 32,
-                          elevation: 4,
-                          underline:  Container(height: 0,),
-                          onChanged: (String? value)
-                          {
-                            HomeCubit.get(context).setSubCategory(value!);
-                          },
-                        ),
-                        const SizedBox(width: 6,),
-                      ],
-                    ),onTap: () {},
-                  ),
-                  InputField(
-                    title: 'Brand',
-                    note: HomeCubit.get(context).brandControllerT ,
-                    widget: Row(
-                      children: [
-                        DropdownButton(
-                          dropdownColor: ColorManager.black,
-                          borderRadius: BorderRadius.circular(10),
-                          items: brandList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
-                              value: e,
-                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
-                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
-                          iconSize: 32,
-                          elevation: 4,
-                          underline:  Container(height: 0,),
-                          onChanged: (String? value)
-                          {
-                            HomeCubit.get(context).setBrand(value!);
-                          },
-                        ),
-                        const SizedBox(width: 6,),
-                      ],
-                    ),onTap: () {},
-                  ),
-                  InputField(
-                    title: 'locationFrom',
-                    note: HomeCubit.get(context).locationFromControllerT ,
-                    widget: Row(
-                      children: [
-                        DropdownButton(
-                          dropdownColor: ColorManager.black,
-                          borderRadius: BorderRadius.circular(10),
-                          items: governmentList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
-                              value: e,
-                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
-                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
-                          iconSize: 32,
-                          elevation: 4,
-                          underline:  Container(height: 0,),
-                          onChanged: (String? value)
-                          {
-                            HomeCubit.get(context).setLocationFrom(value!);
-                          },
-                        ),
-                        const SizedBox(width: 6,),
-                      ],
-                    ),onTap: () {},
-                  ),
-                  InputField(
-                    title: 'locationTo',
-                    note: HomeCubit.get(context).locationToControllerT ,
-                    widget: Row(
-                      children: [
-                        DropdownButton(
-                          dropdownColor: ColorManager.black,
-                          borderRadius: BorderRadius.circular(10),
-                          items: governmentList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
-                              value: e,
-                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
-                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
-                          iconSize: 32,
-                          elevation: 4,
-                          underline:  Container(height: 0,),
-                          onChanged: (String? value)
-                          {
-                            HomeCubit.get(context).setLocationTo(value!);
-                          },
-                        ),
-                        const SizedBox(width: 6,),
-                      ],
-                    ),onTap: () {},
-                  ),
-               /*     const SizedBox(
-                    height: 20.0,
-                  ),
-                   DropdownMenu(
-                     controller: HomeCubit.get(context).categoryController,
-                       label: const Text('category'),
-                       initialSelection: 'category',
-                       leadingIcon:const Icon(Icons.category),
-                       menuStyle: MenuStyle(
-                         surfaceTintColor: MaterialStateProperty.all(ColorManager.black),
-                         elevation: const MaterialStatePropertyAll(5),
-                         maximumSize: MaterialStateProperty.all(Size.fromHeight(MediaQuery.of(context).size.height/3)),
-                         backgroundColor: MaterialStatePropertyAll(ColorManager.white1),
-                         shape: MaterialStateProperty.all(const BeveledRectangleBorder()),
-                       ),
-                       dropdownMenuEntries:const [
-                         DropdownMenuEntry(value: 'Aerial Lifts', label: 'Aerial Lifts'),
-                         DropdownMenuEntry(value: 'Air Compressors', label: 'Air Compressors'),
-                         DropdownMenuEntry(value: 'Cabin', label: 'Cabin'),
-                         DropdownMenuEntry(value: 'Cranes', label: 'Cranes'),
-                         DropdownMenuEntry(value: 'Dump truck', label: 'Dump truck'),
-                         DropdownMenuEntry(value: 'Earth Moving', label: 'Earth Moving'),
-                         DropdownMenuEntry(value: 'Material Handling', label: 'Material Handling'),
-                         DropdownMenuEntry(value: 'Motors', label: 'Motors'),
-                       ]),*/
-                  const SizedBox(
-                    height: 30.0,
-                  ),
-                /*       DropdownMenu(
-                     controller: HomeCubit.get(context).governmentController,
-                       label: const Text('government', style:  TextStyle(fontSize: 10),),
-                       initialSelection: 'government',
-                       leadingIcon:const Icon(Icons.podcasts_sharp),
-                       menuStyle: MenuStyle(
-                         surfaceTintColor: MaterialStateProperty.all(ColorManager.black),
-                         elevation: const MaterialStatePropertyAll(5),
-                         maximumSize: MaterialStateProperty.all(Size.fromHeight(MediaQuery.of(context).size.height/5)),
-                         backgroundColor: MaterialStatePropertyAll(ColorManager.white1),
-                         shape: MaterialStateProperty.all(const BeveledRectangleBorder()),
-                       ),
-                       dropdownMenuEntries:const [
-                         DropdownMenuEntry(value: "الإسكندرية",
-                           label: "الإسكندرية",),
-                         DropdownMenuEntry(    value: "الإسماعيلية",
-                           label: "الإسماعيلية",),
-                         DropdownMenuEntry(    value: "كفر الشيخ",
-                           label: "كفر الشيخ",),
-                         DropdownMenuEntry(    value: "أسوان",
-                           label: "أسوان",),
-                         DropdownMenuEntry(    value: "أسيوط",
-                           label: "أسيوط",),
-                         DropdownMenuEntry(    value: "الأقصر",
-                           label: "الأقصر",),
-                         DropdownMenuEntry(value : "الوادي الجديد",
-                           label: "الوادي الجديد",),
-                         DropdownMenuEntry( value: "شمال سيناء",
-                           label: "شمال سيناء",),
-                         DropdownMenuEntry( value: "البحيرة",
-                           label: "البحيرة",),
-                         DropdownMenuEntry(value: "بني سويف",
-                           label: "بني سويف",),
-                         DropdownMenuEntry( value: "بورسعيد",
-                           label: "بورسعيد",),
-                         DropdownMenuEntry(   value: "البحر الأحمر",
-                           label: "البحر الأحمر",),
-                         DropdownMenuEntry(  value: "الجيزة",
-                           label: "الجيزة",),
-                         DropdownMenuEntry(      value: "الدقهلية",
-                           label: "الدقهلية",),
-                         DropdownMenuEntry( value: "جنوب سيناء",
-                           label: "جنوب سيناء",),
-                         DropdownMenuEntry(  value: "دمياط",
-                           label: "دمياط",),
-                         DropdownMenuEntry(     value: "سوهاج",
-                           label: "سوهاج",),
-                         DropdownMenuEntry( value: "السويس",
-                           label: "السويس",),
-                         DropdownMenuEntry( value: "الشرقية",
-                           label: "الشرقية",),
-                         DropdownMenuEntry( value: "الغربية",
-                           label: "الغربية",),
-                         DropdownMenuEntry(    value: "الفيوم",
-                           label: "الفيوم",),
-                         DropdownMenuEntry(  value: "القاهرة",
-                           label: "القاهرة",),
-                         DropdownMenuEntry(  value: "القليوبية",
-                           label: "القليوبية",),
-                         DropdownMenuEntry(    value: "قنا",
-                           label: "قنا",),
-                         DropdownMenuEntry(   value: "مطروح",
-                           label: "مطروح",),
-                         DropdownMenuEntry(     value: "المنيا",
-                           label: "المنيا",),
-                         DropdownMenuEntry(     value: "المنوفية",
-                           label: "المنوفية",),
-                       ]),*/
-                  TextFormField(
-                    maxLines: 3,
-                    validator: (value){
-                      if(value!.isEmpty)
-                      {
-                        return 'please enter value';
-                      }
-                      return null;
-                    },
-                    keyboardType: TextInputType.multiline,
-                    controller:  HomeCubit.get(context).descriptionController,
-                    decoration:   InputDecoration(
-                      hoverColor: const Color(0XFF408080),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 45),
-                      hintStyle: const TextStyle(
-                        height: 3,
-                      ),
-                      prefixIcon: const Icon(Icons.description),
-                      hintText: 'Description',
-                      counterText: '${HomeCubit.get(context).descriptionController.text.length} / 140',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      labelText: 'Description',
-                    ),
-                  ),
-                 /*             if(HomeCubit.get(context).postImage != null)
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children:
+                  [
                     Stack(
-                      alignment: AlignmentDirectional.topEnd,
+                      alignment: AlignmentDirectional.bottomStart,
                       children: [
                         Container(
-                          height: 140,
-                          decoration: BoxDecoration(
+                          height: 200,
+                          decoration: HomeCubit.get(context).postImage != null ?  BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0),
                             image:  DecorationImage(
                               fit: BoxFit.cover,
                               image: FileImage(HomeCubit.get(context).postImage!),
                             ),
+                          ) :
+                          BoxDecoration(
+                            color: const Color(0XFF408080),
+                            borderRadius: BorderRadius.circular(15.0),
+                          ) ,
+                        ),
+                        Row(
+                          children: [
+                            IconButton(onPressed: (){
+                              _showSelectPhotoOptions(context);
+                            }
+                                , icon:
+                              const CircleAvatar(
+                                radius: 25,
+                                backgroundColor: Colors.white,
+                                child: Icon(Icons.add,
+                                  size: 30,
+                                  color: Color(0XFF408080),),),),
+                            const Text('Add Image',style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20.0,),
+                    TextFormField(
+                      controller: HomeCubit.get(context).textController,
+                      validator: (value){
+                        if(value!.isEmpty)
+                        {
+                          return 'please enter value';
+                        }
+                        return null;
+                      },
+                      decoration:   InputDecoration(
+                        hoverColor: const Color(0XFF408080),
+                        prefixIcon: const Icon(Icons.title),
+                        counterText: '${HomeCubit.get(context).textController.text.length} / 40',
+                        hintText: 'title',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15)
+                        ),
+                        labelText: 'Title',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    TextFormField(
+                      controller: HomeCubit.get(context).priceController,
+                      keyboardType: TextInputType.number,
+                      validator: (value){
+                        if(value!.isEmpty)
+                        {
+                          return 'please enter value';
+                        }
+                        return null;
+                      },
+                      decoration:   InputDecoration(
+                        hoverColor: const Color(0XFF408080),
+                        prefixIcon: const Icon(Icons.price_change),
+                        hintText: 'Price',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15)
+                        ),
+                        labelText: 'Price',
+                      ),
+                    ),
+                    InputField(
+                      title: 'Category',
+                      controller: HomeCubit.get(context).categoryControllerT,
+                      note: HomeCubit.get(context).categoryControllerT.text ,
+                      validator: (value){
+                        if(value == 'Category')
+                        {
+                          return 'please enter value';
+                        }
+                        return null;
+                      },
+                      widget: Row(
+                        children: [
+                          DropdownButton(
+                            dropdownColor: ColorManager.black,
+                            borderRadius: BorderRadius.circular(10),
+                            items: categoryList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                            icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                            iconSize: 32,
+                            elevation: 4,
+                            underline:  Container(height: 0,),
+                            onChanged: (String? value)
+                            {
+                              HomeCubit.get(context).setCategory(value!);
+                            },
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            HomeCubit.get(context).removePostImage() ;
-                          },
-                          icon: const CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Colors.white,
-                              child: Icon(Icons.close,
-                                size: 20,
-                                color: Colors.blue,)),
-                        ),
-                      ],
+                          const SizedBox(width: 6,),
+                        ],
+                      ),onTap: () {},
                     ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 8,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      _showSelectPhotoOptions(context);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:
-                      [
-                        Icon(Icons.image,color: ColorManager.gery,),
-                        const SizedBox(width: 8,),
-                        Text('Add photo',style: TextStyle(color: ColorManager.gery),),
-                      ],
+                    InputField(
+                      title: 'SubCategory',
+                      controller: HomeCubit.get(context).subCategoryControllerT,
+                      note: HomeCubit.get(context).subCategoryControllerT.text ,
+                      validator: (value){
+                        if(value == 'subCategory')
+                        {
+                          return 'please enter value';
+                        }
+                        return null;
+                      },
+                      widget: Row(
+                        children: [
+                          DropdownButton(
+                            dropdownColor: ColorManager.black,
+                            borderRadius: BorderRadius.circular(10),
+                            items: subCategoryList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                            icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                            iconSize: 32,
+                            elevation: 4,
+                            underline:  Container(height: 0,),
+                            onChanged: (String? value)
+                            {
+                              HomeCubit.get(context).setSubCategory(value!);
+                            },
+                          ),
+                          const SizedBox(width: 6,),
+                        ],
+                      ),onTap: () {},
                     ),
-                  ),*/
-                ],
+                    InputField(
+                      title: 'Brand',
+                      controller: HomeCubit.get(context).brandControllerT,
+                      note: HomeCubit.get(context).brandControllerT.text ,
+                      validator: (value){
+                        if(value == 'brand')
+                        {
+                          return 'please enter value';
+                        }
+                        return null;
+                      },
+                      widget: Row(
+                        children: [
+                          DropdownButton(
+                            dropdownColor: ColorManager.black,
+                            borderRadius: BorderRadius.circular(10),
+                            items: brandList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                            icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                            iconSize: 32,
+                            elevation: 4,
+                            underline:  Container(height: 0,),
+                            onChanged: (String? value)
+                            {
+                              HomeCubit.get(context).setBrand(value!);
+                            },
+                          ),
+                          const SizedBox(width: 6,),
+                        ],
+                      ),onTap: () {},
+                    ),
+                    InputField(
+                      title: 'currentLocation',
+                      controller: HomeCubit.get(context).currentLocation,
+                      note: HomeCubit.get(context).currentLocation.text ,
+                      validator: (value){
+                        if(value == 'currentLocation')
+                        {
+                          return 'please enter value';
+                        }
+                        return null;
+                      },
+                      widget: Row(
+                        children: [
+                          DropdownButton(
+                            dropdownColor: ColorManager.black,
+                            borderRadius: BorderRadius.circular(10),
+                            items: governmentList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                            icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                            iconSize: 32,
+                            elevation: 4,
+                            underline:  Container(height: 0,),
+                            onChanged: (String? value)
+                            {
+                              HomeCubit.get(context).setcurrentLocation(value!);
+                            },
+                          ),
+                          const SizedBox(width: 6,),
+                        ],
+                      ),onTap: () {},
+                    ),
+                    const SizedBox(
+                      height: 30.0,
+                    ),
+                    TextFormField(
+                      maxLines: 3,
+                      validator: (value){
+                        if(value!.isEmpty)
+                        {
+                          return 'please enter value';
+                        }
+                        return null;
+                      },
+                      keyboardType: TextInputType.multiline,
+                      controller:  HomeCubit.get(context).descriptionController,
+                      decoration:   InputDecoration(
+                        hoverColor: const Color(0XFF408080),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 45),
+                        hintStyle: const TextStyle(
+                          height: 3,
+                        ),
+                        prefixIcon: const Icon(Icons.description),
+                        hintText: 'Description',
+                        counterText: '${HomeCubit.get(context).descriptionController.text.length} / 140',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: 'Description',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -486,7 +360,7 @@ class NewPostScreen extends StatelessWidget {
 }
 
 
-  void _showSelectPhotoOptions(BuildContext context) {
+void _showSelectPhotoOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

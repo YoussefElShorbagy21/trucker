@@ -33,6 +33,22 @@ class FilterEquipments extends StatelessWidget {
           fallbackBuilder: (context) => Scaffold(
             appBar: AppBar(),
             body: Column(
+              children: [
+                cardView(context),
+                cardView(context),
+                cardView(context),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+/*
+Scaffold(
+            appBar: AppBar(),
+            body: Column(
               children:  [
                 Container(
                   width: double.infinity,
@@ -59,8 +75,4 @@ class FilterEquipments extends StatelessWidget {
               ],
             ),
           ) ,
-        );
-      },
-    );
-  }
-}
+ */

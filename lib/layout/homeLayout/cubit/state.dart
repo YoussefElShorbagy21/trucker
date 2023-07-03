@@ -1,4 +1,3 @@
-import '../../../models/UserData.dart';
 
 abstract class HomeStates {}
 
@@ -24,12 +23,18 @@ class SuccessGetAllUserData extends HomeStates {}
 
 class HomePostEquipmentLoadingState extends HomeStates {}
 class HomePostEquipmentSuccessState extends HomeStates {}
-class HomePostEquipmentErrorState extends HomeStates {}
+class HomePostEquipmentErrorState extends HomeStates {
+  final String error ;
+  HomePostEquipmentErrorState(this.error) ;
+}
 
 
 class LoadingUpdateUSERState extends HomeStates {}
 class SuccessUpdateUSERState extends HomeStates {}
-class ErrorUpdateUSERState extends HomeStates {}
+class ErrorUpdateUSERState extends HomeStates {
+  final String error ;
+  ErrorUpdateUSERState(this.error) ;
+}
 
 
 class HomeSetCategory extends HomeStates {}
@@ -58,14 +63,31 @@ class HomeErrorGetBrand extends HomeStates {}
 
 class LoadingAddFavorite extends HomeStates {}
 class SuccessAddFavorite extends HomeStates {}
-class ErrorAddFavorite extends HomeStates {}
+class ErrorAddFavorite extends HomeStates {
+  final String error ;
+  ErrorAddFavorite(this.error) ;
+}
 
 class LoadingDeleteFavorite extends HomeStates {}
 class SuccessDeleteFavorite extends HomeStates {}
-class ErrorDeleteFavorite extends HomeStates {}
+class ErrorDeleteFavorite extends HomeStates {
+  final String error ;
+  ErrorDeleteFavorite(this.error) ;
+}
 
 class DelayedFunction extends HomeStates {}
 
 class HomeLoadingGetFilterData extends HomeStates {}
 class HomeSuccessGetFilterData extends HomeStates {}
 class HomeErrorGetFilterData extends HomeStates {}
+
+class  LoadingCategoryDataState extends HomeStates {}
+class  SuccessCategoryDataState extends HomeStates {}
+class  ErrorCategoryDataState extends HomeStates {}
+
+class HomeLoadingGetFilterDataCategory extends HomeStates {}
+class HomeSuccessGetFilterDataCategory extends HomeStates {}
+class HomeErrorGetFilterDataCategory extends HomeStates {
+  final String error ;
+  HomeErrorGetFilterDataCategory(this.error) ;
+}

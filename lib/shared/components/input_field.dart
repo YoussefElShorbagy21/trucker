@@ -8,6 +8,8 @@ class InputField extends StatelessWidget {
     this.controller,
     required this.onTap,
     this.widget,
+    this.validator,
+    this.keyboardType = TextInputType.text,
   }) : super(key: key);
 
   final String title ;
@@ -15,6 +17,8 @@ class InputField extends StatelessWidget {
   final TextEditingController? controller ;
   final Widget? widget ;
   final Function() onTap ;
+  final TextInputType keyboardType;
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,7 +34,7 @@ class InputField extends StatelessWidget {
         decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-        color: Color(0XFF408080),
+        color: const Color(0XFF408080),
         )
         ),
         child: Row(
@@ -40,6 +44,8 @@ class InputField extends StatelessWidget {
               onTap: onTap,
               controller: controller,
               autofocus: false,
+              validator: validator,
+              keyboardType: keyboardType,
               cursorColor: const Color(0XFF408080),
               readOnly: widget != null ? true : false,
               decoration: InputDecoration(

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../../shared/resources/color_manager.dart';
 
-//!!!this screen un used because i don't want to make status like whats app :)
-//!!! you can delete this screen !!!
 
 class CategorySelector extends StatefulWidget {
   const CategorySelector({Key? key}) : super(key: key);
