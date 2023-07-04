@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/modules/customer/screens/home/cubit/cubit.dart';
 import 'package:login/modules/customer/screens/home/cubit/state.dart';
+import 'package:login/shared/resources/color_manager.dart';
 
 import '../../../../shared/components/components.dart';
 
@@ -63,9 +64,9 @@ class SearchScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 3),
                     child: Row(
                       children: [
-                        const Icon(
+                         Icon(
                           CupertinoIcons.search,
-                          color: Colors.red,
+                          color: ColorManager.cGold,
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.06,

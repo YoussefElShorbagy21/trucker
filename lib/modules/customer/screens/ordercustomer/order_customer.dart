@@ -20,23 +20,24 @@ class OrderCustomer extends StatelessWidget {
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(left: 10.0),
-                    child: Text('Follow your Order',
+                    child: Text(' Track your\n orders status',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 30
+                          fontSize: 35,
+
                       ),),
                   ),
                   SizedBox(
-                    height:  MediaQuery.of(context).size.height / 20,
+                    height:  MediaQuery.of(context).size.height / 25,
                   ),
                   buildCurrentTransactions(context,cubit.currentTransactions.length),
                   SizedBox(
-                    height:  MediaQuery.of(context).size.height / 15,
+                    height:  MediaQuery.of(context).size.height / 25,
                   ),
                   buildAcceptedTransactions(context,cubit.acceptedTransactions.length),
                   SizedBox(
-                    height:  MediaQuery.of(context).size.height / 15,
+                    height:  MediaQuery.of(context).size.height / 25,
                   ),
                   buildDoneTransactions(context,cubit.doneTransactions.length),
                 ],

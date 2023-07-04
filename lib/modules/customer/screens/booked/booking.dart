@@ -79,7 +79,7 @@ class BookingScreen extends StatelessWidget {
           child: Column(
             children: [
               const Text(
-                'You Must add details for booking?',
+                'You must add details for booking?',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               const SizedBox(

@@ -33,15 +33,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
           IconButton(
             icon: isList ? const Icon(Icons.apps) : const Icon(Icons.list),
             onPressed: (){
-            setState(() {
-              isList = !isList;
-            });
-          }, ),
+              setState(() {
+                    isList = !isList;
+                  });
+                },
+              ),
         ],
       ),
       body:  CategoryView(
         color: ColorManager.cWhite,
-        colum: isList ? 1 : 2,
+        colum: isList ? 1 : 2 ,
         items: HomeCubit.get(context).listCate.length,
         ratio: isList ? 2.6 : 1.3,
         direction: Axis.vertical,

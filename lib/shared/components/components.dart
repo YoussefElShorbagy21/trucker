@@ -365,7 +365,7 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 4),
               child: Container(
                 height: 150,
                 decoration: BoxDecoration(
@@ -382,12 +382,14 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
                 ),
                 child: Row(
                   children: [
-                    Container(
-                      alignment: Alignment.center,
-                      child: Image.network(
-                        equipment.imageCover,
-                        height: 120,
-                        width: 150,
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Image.network(
+                          equipment.imageCover,
+                          height: 120,
+                          width: 150,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -437,12 +439,12 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 7),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           FavoriteButton(
-                            iconSize: 35,
+                            iconSize: 30,
                             isFavorite: HomeCubit.get(context)
                                         .favorites[equipment.id] ==
                                     'find'

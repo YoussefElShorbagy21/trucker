@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/ordercustomer/acceptedTransactions/order_product_accpet.dart';
 import 'package:login/modules/customer/screens/ordercustomer/currentTransactions/order_product_current.dart';
 
+import '../../../../shared/resources/color_manager.dart';
 import 'doneTransaction/order_product_done.dart';
 
 class IconWidget extends StatelessWidget {
@@ -34,8 +35,8 @@ Widget buildCurrentTransactions(context, int length) => ListTile(
     Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderProductCurrent()));
   },
   leading: const IconWidget(
-    icon: Icons.emoji_transportation,
-    color: Colors.blue,
+    icon: Icons.hourglass_empty_outlined,
+    color: Color(0xFFF1B963),
   ),
   title: Text(
     'CurrentTransactions ($length)',
@@ -55,8 +56,8 @@ Widget buildAcceptedTransactions(context , int length) => ListTile(
     Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderProductAccept()));
   },
   leading: const IconWidget(
-    icon: Icons.confirmation_number_outlined,
-    color: Colors.green,
+    icon: Icons.no_crash_outlined,
+    color: Color(0xFF22A699),
   ),
   title:  Text(
     'AcceptedTransactions ($length)',
@@ -74,9 +75,9 @@ Widget buildDoneTransactions(context , int length) => ListTile(
   onTap: () {
     Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderProductDone()));
   },
-  leading: const IconWidget(
-    icon: Icons.bookmark_added_rounded,
-    color: Colors.greenAccent,
+  leading:  IconWidget(
+    icon: Icons.verified_outlined,
+    color: ColorManager.kGold,
   ),
   title: Text(
     'DoneTransactions ($length)',
