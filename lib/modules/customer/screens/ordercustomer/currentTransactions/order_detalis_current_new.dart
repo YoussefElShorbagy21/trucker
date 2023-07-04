@@ -250,7 +250,6 @@ class OrderDetailsCurrentNew extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 70),
                   HomeCubit.get(context).oneUserData.userData.role !=
                           "service_provider"
                       ? const Text(

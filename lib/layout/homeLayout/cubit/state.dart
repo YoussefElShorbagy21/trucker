@@ -91,3 +91,10 @@ class HomeErrorGetFilterDataCategory extends HomeStates {
   final String error ;
   HomeErrorGetFilterDataCategory(this.error) ;
 }
+
+
+class HomeReviewLoadingState extends HomeStates {}
+class HomeReviewSuccessState extends HomeStates {}
+class HomeReviewErrorState extends HomeStates {
+
+}

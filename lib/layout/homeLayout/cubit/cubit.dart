@@ -11,6 +11,7 @@ import 'package:login/modules/category/category_screen.dart';
 import 'package:login/shared/network/remote/dio_helper.dart';
 
 
+import '../../../models/reviewmodel.dart';
 import '../../../modules/customer/screens/chats_screen/chat_home.dart';
 import '../../../modules/customer/screens/home/home.dart';
 import '../../../modules/customer/screens/profile/profile_screen.dart';
@@ -146,11 +147,16 @@ class HomeCubit extends Cubit<HomeStates>{
           currentTransactions: [], acceptedTransactions: [], id: '', reviews: []));
 
  Map<String , String > favorites = {};
+  List<dynamic> reviews = [] ;
+  double finalRatingAverage = 0 ;
+  List<ReviewModel> reviewModel = [];
+  dynamic totalRatingAverage = 0 ;
+
   Future<void> getUserData({String? userID}) async {
     emit(LoadingGetUserData());
     if (uid == null) {
       print('uid is null');
-     await DioHelper.getDate(url: 'users/$userID').then((value) {
+     await DioHelper.getDate(url: 'users/$userID').then((value) async {
         if (kDebugMode) {
           print('userID: $userID because uid null');
         }
@@ -161,6 +167,12 @@ class HomeCubit extends Cubit<HomeStates>{
            favorites.addAll({element: 'find'});
         }
         print(favorites);
+        reviews = oneUserData.userData.reviews ;
+        for(var d = 0 ; d <=  (oneUserData.userData.reviews.length)-1 ; d++)
+        {
+          await getReviewModel(reviews[d],d);
+        }
+        finalRatingAverage = totalRatingAverage / reviews.length ;
         emit(SuccessGetUserData());
       }).catchError((onError) {
         if (kDebugMode) {
@@ -170,20 +182,48 @@ class HomeCubit extends Cubit<HomeStates>{
     }else{
       print('uid is not null');
       print('uid in function getUserData: $uid');
-     await DioHelper.getDate(url: 'users/$uid').then((value) {
+     await DioHelper.getDate(url: 'users/$uid').then((value) async {
         oneUserData = OneUserData.fromJson(value.data);
         print('start search in favoriteList');
         for (var element in oneUserData.userData.favoriteList) {
           favorites.addAll({element: 'find'});
         }
         print(favorites);
+        reviews = oneUserData.userData.reviews ;
+        for(var d = 0 ; d <=  (oneUserData.userData.reviews.length)-1 ; d++)
+        {
+          await getReviewModel(reviews[d],d);
+        }
+        finalRatingAverage = totalRatingAverage / reviews.length ;
         emit(SuccessGetUserData());
       }).catchError((onError) {
+        if(onError is DioError)
+          {
+            print(onError.response!.data);
+            print(onError.response!.data['message']);
+          }
         if (kDebugMode) {
           print(onError.toString());
         }
       });
     }
+  }
+
+  Future<void> getReviewModel(String id,d) async{
+    emit(HomeReviewLoadingState());
+    await DioHelper.getDate(
+      url: 'review/$id',
+    ).then((value)
+    async {
+      reviewModel.add(ReviewModel.fromJson(value.data));
+      totalRatingAverage = totalRatingAverage + reviewModel[d].ratingAverage ;
+      print(totalRatingAverage);
+      emit(HomeReviewSuccessState());
+    }
+    ).catchError((error){
+      print(error.toString());
+      emit(HomeReviewErrorState());
+    });
   }
 
  AllUserData allUserData = AllUserData(allUser: []);

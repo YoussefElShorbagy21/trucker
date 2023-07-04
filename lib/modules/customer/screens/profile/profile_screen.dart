@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:login/layout/homeLayout/cubit/state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/modules/customer/screens/home/cubit/cubit.dart';
 import 'package:login/modules/customer/screens/profile/setting_widget/settings_widget.dart';
 import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../shared/resources/color_manager.dart';
-
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -62,16 +63,24 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 5),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.star, color: Colors.yellow),
-                        Icon(Icons.star, color: Colors.yellow),
-                        Icon(Icons.star, color: Colors.yellow),
-                        Icon(Icons.star, color: Colors.yellow),
-                        Icon(Icons.star, color: Colors.yellow),
-                      ],
-                    ),
+                    HomeCubit.get(context).oneUserData.userData.role == "service_provider" ?
+                    RatingBar.builder(
+                      initialRating: HomeCubit.get(context).finalRatingAverage,
+                      ignoreGestures: true,
+                      allowHalfRating: true ,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      itemCount: 5,
+                      itemSize: 30,
+                      itemPadding: const EdgeInsets.symmetric(horizontal: 5),
+                      itemBuilder: (context, _) => const Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                      ),
+                      onRatingUpdate: (update){
+
+                      },
+                    ) : Container(),
                   ],
                 ),
                 const SizedBox(

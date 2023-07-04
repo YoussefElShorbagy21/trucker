@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:login/models/UserData.dart';
+import 'package:login/models/reviewmodel.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 import 'package:readmore/readmore.dart';
 
@@ -13,6 +15,7 @@ import '../edit_post/editpsot.dart';
 import '../home/cubit/cubit.dart';
 import '../home/cubit/state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DetailScreen extends StatefulWidget {
   String id;
@@ -36,15 +39,12 @@ class _DetailScreenState extends State<DetailScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeScreenCubit()
-        ..getDetailsCategoryData(
-            widget.id, widget.cid, widget.scid, widget.bid),
+        ..getDetailsCategoryData(widget.id, widget.cid, widget.scid, widget.bid),
       child: BlocConsumer<HomeScreenCubit, HomeScreenState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           var cubit = HomeScreenCubit.get(context).detailsEquipment;
-          var userCubit = HomeScreenCubit.get(context).oneUserData;
+          var userCubit = HomeScreenCubit.get(context).oneUserDataForCategory;
           return Scaffold(
             body: SingleChildScrollView(
               child: SizedBox(
@@ -408,7 +408,13 @@ class _DetailScreenState extends State<DetailScreen> {
                             ),
                             child: IconButton(
                               onPressed: () {
-                                _DeliverReviewBottomSheet(context);
+                                _deliverReviewBottomSheet(HomeScreenCubit.get(context).reviewModel,
+                                    context,
+                                    HomeScreenCubit.get(context).reviews.length,
+                                    HomeScreenCubit.get(context).finalRatingAverage,
+                                    HomeScreenCubit.get(context).oneUsersDataForComments,
+                                  userCubit
+                                );
                               },
                               icon: const Icon(
                                 Icons.star_rate_outlined,
@@ -473,8 +479,10 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 }
 
-_DeliverReviewBottomSheet(BuildContext context) {
-  var userCubit = HomeScreenCubit.get(context).oneUserData;
+_deliverReviewBottomSheet(List<ReviewModel> reviewModel,
+    BuildContext context,int len,double finalRatingAverage,List<OneUserData> userData,
+    OneUserData userCubit,
+    ) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -534,7 +542,6 @@ _DeliverReviewBottomSheet(BuildContext context) {
                       ),
                       Text(
                         userCubit.userData.name,
-                        //'userCubit.userData.name',
                         style: const TextStyle(
                           fontSize: 15,
                           color: Colors.black,
@@ -546,24 +553,22 @@ _DeliverReviewBottomSheet(BuildContext context) {
                   const SizedBox(
                     height: 8,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Icon(Icons.star, color: Colors.yellow),
-                        const Icon(Icons.star, color: Colors.yellow),
-                        const Icon(Icons.star, color: Colors.yellow),
-                        const Icon(Icons.star, color: Colors.yellow),
-                        const Icon(Icons.star, color: Colors.yellow),
-                        Text(
-                          '(5.0)',
-                          style: TextStyle(
-                            color: Colors.grey.withOpacity(0.5),
-                          ),
-                        )
-                      ],
+                  RatingBar.builder(
+                    initialRating: finalRatingAverage,
+                    ignoreGestures: true,
+                    allowHalfRating: true ,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    itemCount: 5,
+                    itemSize: 30,
+                    itemPadding: const EdgeInsets.symmetric(horizontal: 5),
+                    itemBuilder: (context, _) => const Icon(
+                      Icons.star,
+                      color: Colors.yellow,
                     ),
+                    onRatingUpdate: (update){
+
+                    },
                   ),
                   const SizedBox(
                     height: 18,
@@ -582,77 +587,13 @@ _DeliverReviewBottomSheet(BuildContext context) {
                     height: 10,
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width/1.2,
-                    child: ListView.builder(
-
-
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical:8.0),
-                          child: Container(
-                            // height: 61,//MediaQuery.of(context).size.height/1,
-                            // width: 300,//MediaQuery.of(context).size.width*2,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.grey.withOpacity(0.1),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 15,
-                                      backgroundImage:
-                                      userCubit.userData.avatar.isNotEmpty
-                                          ? NetworkImage(userCubit.userData.avatar)
-                                          : const NetworkImage(
-                                        'https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',
-                                      ),
-                                      child: userCubit.userData.avatar.isNotEmpty
-                                          ? null
-                                          : Text(
-                                        userCubit.userData.name[0].toUpperCase(),
-                                        style: TextStyle(
-                                          fontSize: 30,
-                                          color: ColorManager.black,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      userCubit.userData.name,
-                                      //'userCubit.userData.name',
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    // Icon(Icons.forum),
-                                    // Text('comments'),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 15.0),
-                                  child: Text(
-                                    'awesome deliver ever',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      itemCount: 50,
-                    ),
+                    child: listBuilderComment(
+                      reviewModel,
+                      context,
+                      userData,
+                        len,
+                 ),
                   ),
-
-                  // const SizedBox(height: 18),
-
                 ],
               ),
             ),
@@ -663,7 +604,78 @@ _DeliverReviewBottomSheet(BuildContext context) {
   );
 }
 
+Widget listBuilderComment(List<ReviewModel> reviewModel, BuildContext context,List<OneUserData> userData,int len) => SizedBox(
+  height: MediaQuery.of(context).size.height,
+  width: MediaQuery.of(context).size.width / 1.2,
+  child:   ListView.builder(
+    itemBuilder: (context, index) {
+      print('in listBuilderComment ${reviewModel[index].title}');
+      print('in listBuilderComment ${userData[index].userData.name}');
+      print(len);
+      return buildCommentItem(reviewModel[index],userData[index]);
 
+    },
+    itemCount:  len,
+  ),
+);
+
+Widget buildCommentItem(ReviewModel reviewModel,OneUserData userData) {
+  print('in buildCommentItem ${reviewModel.title}');
+  print('in buildCommentItem ${userData.userData.name}');
+  return Padding(
+  padding: const EdgeInsets.symmetric(vertical:8.0),
+  child: Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      color: Colors.grey.withOpacity(0.1),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            CircleAvatar(
+              radius: 15,
+              backgroundImage:
+              userData.userData.avatar.isNotEmpty
+                  ? NetworkImage(userData.userData.avatar)
+                  : const NetworkImage(
+                'https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',
+              ),
+              child: userData.userData.avatar.isNotEmpty
+                  ? null
+                  : Text(
+                userData.userData.name[0].toUpperCase(),
+                style: TextStyle(
+                  fontSize: 30,
+                  color: ColorManager.black,
+                ),
+              ),
+            ),
+            const SizedBox(width: 5),
+            Text(
+              userData.userData.name,
+              style: const TextStyle(
+                fontSize: 15,
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 5),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Text(
+            reviewModel.title,
+            style: const TextStyle(color: Colors.grey),
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+}
 
 
 

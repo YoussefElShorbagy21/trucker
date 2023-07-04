@@ -78,3 +78,16 @@ class NewsGetSearchErrorState extends HomeScreenState  {
   final String error ;
   NewsGetSearchErrorState(this.error);
 }
+
+class GetReviewLoadingState extends HomeScreenState {}
+
+class GetReviewSuccessState extends HomeScreenState {}
+
+class GetReviewErrorState extends HomeScreenState  {
+  final String error ;
+  GetReviewErrorState(this.error);
+}
+
+class LoadingGetUsersDataForComment extends HomeScreenState {}
+class SuccessGetUsersDataForComment extends HomeScreenState {}
+class ErrorGetUsersDataForComment extends HomeScreenState {}

@@ -10,6 +10,7 @@ import 'package:login/modules/customer/screens/home/cubit/state.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../models/UserData.dart';
 import '../../../../../models/categeiromodel.dart';
+import '../../../../../models/reviewmodel.dart';
 import '../../../../../shared/components/constants.dart';
 import '../../../../../shared/network/remote/dio_helper.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -395,7 +396,9 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     return File(croppedFile.path);
   }
 
-  OneUserData oneUserData  = OneUserData(
+  List<dynamic> reviews = [] ;
+  double finalRatingAverage = 0 ;
+  OneUserData oneUserDataForCategory = OneUserData(
       userData: UserData(name: 'name', email: 'email', phone: 'phone',
           verified: false, avatar: '', role: '',
           nationalId: null, favoriteList: [],
@@ -404,17 +407,54 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   );
   void getUserDataForCategory(String userId){
     emit(LoadingGetUserData());
-    DioHelper.getDate(url:'users/$userId').then((value){
-        print(userId);
-        print(value.data);
-        oneUserData = OneUserData.fromJson(value.data);
+    DioHelper.getDate(url:'users/$userId').then((value) async {
+        oneUserDataForCategory = OneUserData.fromJson(value.data);
+        reviews = oneUserDataForCategory.userData.reviews ;
+        for(var d = 0 ; d <=  (oneUserDataForCategory.userData.reviews.length)-1 ; d++)
+        {
+          await getReviewModel(reviews[d],d);
+        }
+        finalRatingAverage = totalRatingAverage / reviews.length ;
+        print(reviews);
+        print(finalRatingAverage);
       emit(SuccessGetUserData());
-
     }).catchError((onError){
         print(onError.toString());
     }
     );}
 
+  List<ReviewModel> reviewModel = [];
+  List<OneUserData> oneUsersDataForComments = [];
+  dynamic totalRatingAverage = 0 ;
+  Future<void> getReviewModel(String id,d) async{
+    emit(GetReviewLoadingState());
+    await DioHelper.getDate(
+      url: 'review/$id',
+    ).then((value)
+    async {
+      reviewModel.add(ReviewModel.fromJson(value.data));
+      totalRatingAverage = totalRatingAverage + reviewModel[d].ratingAverage ;
+      print(totalRatingAverage);
+      getUsersDataForComment(reviewModel[d].customerId);
+      emit(GetReviewSuccessState());
+    }
+    ).catchError((error){
+      print(error.toString());
+      emit(GetReviewErrorState(error.toString()));
+    });
+  }
+
+  void getUsersDataForComment(String userId){
+    emit(LoadingGetUsersDataForComment());
+    DioHelper.getDate(url:'users/$userId').then((value) async {
+      oneUsersDataForComments.add( OneUserData.fromJson(value.data));
+      emit(SuccessGetUsersDataForComment());
+    }).catchError((onError){
+      print(onError.toString());
+      emit(ErrorGetUsersDataForComment());
+    }
+    );}
+  ////review
   CategoryModel categoryModel = CategoryModel(id: 'id', name: 'name');
   SubCategory subCategory =SubCategory(id: 'id', name: 'name');
   Brand brand =Brand(id: 'id', name: 'name');
@@ -617,4 +657,6 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       }
     });
   }
+
+
 }
