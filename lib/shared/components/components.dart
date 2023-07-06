@@ -438,7 +438,9 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
                         ],
                       ),
                     ),
-                    Padding(
+                    HomeCubit.get(context).oneUserData.userData.role !=
+                        "service_provider"
+                        ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 7),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -468,7 +470,7 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
                           ),
                         ],
                       ),
-                    ),
+                    ) : Container(),
                   ],
                 ),
               ),
