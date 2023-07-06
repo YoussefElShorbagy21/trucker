@@ -96,10 +96,11 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      Card(
+                      HomeCubit.get(context).oneUserData.userData.role !=
+                          "service_provider" ?Card(
                           color: Colors.white,
                           elevation: 2,
-                          child: buildFavorite(context)),
+                          child: buildFavorite(context)) : Container(),
                       Card(
                           color: Colors.white,
                           elevation: 2,
