@@ -29,7 +29,7 @@ Widget listBuilderOrderUser(List<OneUserData> data, BuildContext context) => Lis
     return GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (_) =>  OrderDetailsCurrentNew(
-           price: OrderCubit.get(context).bookingCurrentTransactions[index].price,
+           price: OrderCubit.get(context).bookingCurrentTransactions[index].price.toString(),
           description: OrderCubit.get(context).bookingCurrentTransactions[index].description,
           id: OrderCubit.get(context).bookingCurrentTransactions[index].id,
         )

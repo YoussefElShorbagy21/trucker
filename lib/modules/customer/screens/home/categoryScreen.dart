@@ -6,7 +6,6 @@ import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../shared/components/components.dart';
 import '../../../../shared/components/input_field.dart';
 import '../../../../shared/resources/color_manager.dart';
-import 'cubit/cubit.dart';
 
 
 class CategoryScreens extends StatelessWidget {

@@ -14,18 +14,21 @@ class NewPostScreen extends StatelessWidget {
       'Truck',
       'pick up',
       'Heavy Equipment',
-      'Others',];
+      'Others',
+    ];
     List<String> subCategoryList = [
       'truck1',
       'truck2',
       'truck3',
       'truck4',
-      'pick up1',];
+      'pick up1',
+    ];
     List<String> brandList = [
       'Scania',
       'Iveco',
       'Man',
-      'Volvo',];
+      'Volvo',
+    ];
     List<String> governmentList = [
       "الإسكندرية","الإسماعيلية",
       "كفر الشيخ","أسوان",

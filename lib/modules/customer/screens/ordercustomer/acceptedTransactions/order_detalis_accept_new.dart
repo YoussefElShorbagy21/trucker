@@ -15,7 +15,7 @@ class OrderDetailsAcceptNew extends StatelessWidget {
   String description;
 
   String id;
-
+  String serviceId;
   double sourceLatLo;
   double sourceLatLa;
   double destinationLo;
@@ -30,6 +30,7 @@ class OrderDetailsAcceptNew extends StatelessWidget {
     required this.sourceLatLo,
     required this.destinationLa,
     required this.destinationLo,
+    required this.serviceId,
   });
 
   @override
@@ -148,120 +149,123 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                     SizedBox(height: MediaQuery.of(context).size.height / 350),
                     SizedBox(
                       width: double.infinity,
-                      height: MediaQuery.of(context).size.height / 3,
+                      height: MediaQuery.of(context).size.height / 2,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0, top: 10.0),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            const Row(
                               children: [
-                                const Row(
-                                  children: [
-                                    Icon(
-                                      Icons.description_outlined,
-                                      size: 25,
-                                      color: Colors.grey,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      'description',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
+                                Icon(
+                                  Icons.description_outlined,
+                                  size: 25,
+                                  color: Colors.grey,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 9.0,
-                                  ),
-                                  child: Text(
-                                    description,
-                                    maxLines: 4,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.grey.withOpacity(0.8),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                const SizedBox(height: 30),
-                                const Text(
-                                  'Booking Details',
+                                SizedBox(width: 10),
+                                Text(
+                                  'description',
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 5.0),
-                                      child: Text(
-                                        'EGP',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      price.toString(),
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.add_location_outlined,
-                                      size: 25,
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 9.0,
+                              ),
+                              child: Text(
+                                description,
+                                maxLines: 4,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey.withOpacity(0.8),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            SizedBox(
+                                height: MediaQuery.of(context).size.height / 30
+                            ),
+                            const Text(
+                              'Booking Details',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              children: [
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 5.0),
+                                  child: Text(
+                                    'EGP',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
                                       color: Colors.grey,
                                     ),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      OrderCubit.get(context)
-                                          .startLocationCurrent,
-                                      style: const TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                                const SizedBox(
-                                  height: 30,
+                                const SizedBox(width: 10),
+                                Text(
+                                  price.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.share_location,
-                                      size: 25,
-                                      color: Colors.grey,
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      OrderCubit.get(context)
-                                          .deliveryLocationCurrent,
-                                      style: const TextStyle(
+                              ],
+                            ),
+                             SizedBox(
+                                height: MediaQuery.of(context).size.height / 30
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.add_location_outlined,
+                                  size: 25,
+                                  color: Colors.grey,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    OrderCubit.get(context)
+                                        .startLocationCurrent,
+                                    maxLines: 2,
+                                    style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
                                         fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                                height: MediaQuery.of(context).size.height / 30
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.share_location,
+                                  size: 25,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    OrderCubit.get(context)
+                                        .deliveryLocationCurrent,
+                                    maxLines: 2,
+                                    style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -269,7 +273,53 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 70),
+
+                    HomeCubit.get(context).oneUserData.userData.role ==
+                        "service_provider"
+                        ? Container(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height / 15,
+                      padding: EdgeInsets.symmetric(
+                        horizontal:
+                        MediaQuery.of(context).size.width / 15,
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => MapTracking(
+                                serviceId: serviceId,
+                                id: id,
+                                sourceLatLa: sourceLatLa,
+                                sourceLatLo: sourceLatLo,
+                                destinationLa: destinationLa,
+                                destinationLo: destinationLo,
+                              ),
+                            ),
+                          );
+                        },
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          backgroundColor: const Color(0xFF22A699),
+                          padding:
+                          const EdgeInsets.symmetric(vertical: 10),
+                        ),
+                        child: Text(
+                          'Follow You Map',
+                          style: TextStyle(
+                            color: ColorManager.white,
+                            fontFamily: FontConstants.fontFamily,
+                            fontSize: 18,
+                            fontWeight: FontWeightManager.semiBold,
+                          ),
+                        ),
+                      ),
+                    )
+                        : Container(),
+                    SizedBox(height: MediaQuery.of(context).size.height / 20),
                     HomeCubit.get(context).oneUserData.userData.role !=
                             "service_provider"
                         ? Container(
@@ -285,6 +335,8 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => MapTracking(
+                                      serviceId: serviceId,
+                                      id: id,
                                       sourceLatLa: sourceLatLa,
                                       sourceLatLo: sourceLatLo,
                                       destinationLa: destinationLa,

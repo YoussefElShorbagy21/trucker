@@ -75,7 +75,9 @@ dev_dependencies:
   flutter_dotenv: ^5.1.0
   mapbox_gl: ^0.16.0
   location: ^4.4.0
-  socket_io_client: ^2.0.2
+  firebase_core: ^2.14.0
+  cloud_firestore: ^4.8.2
+  firebase_database: ^10.2.3
   #chat pub to get app image
   cached_network_image: ^3.2.3
 

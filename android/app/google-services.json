@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "474367438821",
+    "project_id": "trucker-389620",
+    "storage_bucket": "trucker-389620.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474367438821:android:5cfebfd8e0bf2a08c0490c",
+        "android_client_info": {
+          "package_name": "com.trucker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474367438821-n524ioia0a4f40dpdv6976gkfa7ddo7r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trucker",
+            "certificate_hash": "9ce5f5897cfcc90b604a85c096780d0bab578bec"
+          }
+        },
+        {
+          "client_id": "474367438821-lseriu5o8bmor2d55h944ggeahhr7fib.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpmOXvm8fwQ5Bv-aZgF-Q7vI_PLe_n-PY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474367438821-lseriu5o8bmor2d55h944ggeahhr7fib.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

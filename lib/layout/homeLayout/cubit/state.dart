@@ -95,6 +95,9 @@ class HomeErrorGetFilterDataCategory extends HomeStates {
 
 class HomeReviewLoadingState extends HomeStates {}
 class HomeReviewSuccessState extends HomeStates {}
-class HomeReviewErrorState extends HomeStates {
+class HomeReviewErrorState extends HomeStates {}
 
-}
+
+class SocialSendMessageSuccessState extends HomeStates {}
+class SocialSendMessageErrorState extends HomeStates {}
+class SocialGetMessageSuccessState extends HomeStates {}

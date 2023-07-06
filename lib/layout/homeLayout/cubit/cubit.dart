@@ -10,13 +10,13 @@ import 'package:login/models/categeiromodel.dart';
 import 'package:login/modules/category/category_screen.dart';
 import 'package:login/shared/network/remote/dio_helper.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import  'package:intl/intl.dart';
 
 import '../../../models/reviewmodel.dart';
-import '../../../modules/customer/screens/chats_screen/chat_home.dart';
 import '../../../modules/customer/screens/home/home.dart';
 import '../../../modules/customer/screens/profile/profile_screen.dart';
 import '../../../modules/customer/screens/profile/setting_widget/setting_page.dart';
-import '../../../modules/customer/screens/profile/setting_widget/settings_widget.dart';
 import '../../../shared/components/constants.dart';
 import '../../../shared/network/local/cache_helper.dart';
 import 'state.dart';
@@ -866,6 +866,71 @@ class HomeCubit extends Cubit<HomeStates>{
 
   }
 
+  sendMessage({
+    required String text,
+    required String name,
+    required String image,
+  })
+  {
+    FirebaseFirestore.instance.collection('users').doc(uid).collection('chats')
+        .doc('64a02c36a1c4301403be0429').collection('message').add({
+      'text' : text,
+      'dateTime' : "${DateFormat("MM/dd/yyyy").format(DateTime.now())} ${DateFormat("hh:mm:ss a").format(DateTime.now())}",
+      'senderId' : uid,
+      'senderName' : name,
+      'senderImage' : image,
+    }).then((value)
+          {
+            emit(SocialSendMessageSuccessState());
+
+          }
+    ).catchError((error)
+    {
+      emit(SocialSendMessageErrorState());
+    });
+    FirebaseFirestore.instance.collection('users').doc('64a02c36a1c4301403be0429').collection('chats')
+        .doc(uid).collection('message').add({
+      'text' : text,
+      'dateTime' : "${DateFormat("MM/dd/yyyy").format(DateTime.now())} ${DateFormat("hh:mm:ss a").format(DateTime.now())}",
+      'senderId' : uid,
+      'senderName' : name,
+      'senderImage' : image,
+    }).then((value)
+    {
+      print("${DateFormat("MM/dd/yyyy").format(DateTime.now())} ${DateFormat("hh:mm:ss a").format(DateTime.now())}");
+      emit(SocialSendMessageSuccessState());
+
+    }
+    ).catchError((error)
+    {
+      emit(SocialSendMessageErrorState());
+    });
+    }
+  List<dynamic> messages = [];
+
+  getMessage() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('chats')
+        .doc('64a02c36a1c4301403be0429')
+        .collection('message')
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((event) {
+      messages = [];
+      for (var element in event.docs) {
+        messages.add(element.data());
+      }
+      print(messages);
+      messages.sort((a, b) {
+        final dateA = DateFormat("MM/dd/yyyy hh:mm:ss a").parse(a['dateTime']);
+        final dateB = DateFormat("MM/dd/yyyy hh:mm:ss a").parse(b['dateTime']);
+        return dateA.compareTo(dateB);
+      });
+      emit(SocialGetMessageSuccessState());
+    });
+  }
 
 
 }

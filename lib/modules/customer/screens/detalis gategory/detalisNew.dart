@@ -612,8 +612,14 @@ Widget listBuilderComment(List<ReviewModel> reviewModel, BuildContext context,Li
       print('in listBuilderComment ${reviewModel[index].title}');
       print('in listBuilderComment ${userData[index].userData.name}');
       print(len);
-      return buildCommentItem(reviewModel[index],userData[index]);
+      if(len == 0)
+        {
+          const Text('No have Review');
+        }
+      else{
+        return buildCommentItem(reviewModel[index],userData[index]);
 
+      }
     },
     itemCount:  len,
   ),

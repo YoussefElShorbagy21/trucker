@@ -29,13 +29,14 @@ Widget listBuilderOrderUser(List<OneUserData> data, BuildContext context) => Lis
     return GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (_) =>  OrderDetailsAcceptNew(
-           price: OrderCubit.get(context).bookingAcceptedTransactions[index].price,
+           price: OrderCubit.get(context).bookingAcceptedTransactions[index].price.toString(),
           description: OrderCubit.get(context).bookingAcceptedTransactions[index].description,
           id: OrderCubit.get(context).bookingAcceptedTransactions[index].id,
           sourceLatLa: OrderCubit.get(context).bookingAcceptedTransactions[index].startLocationLa,
           sourceLatLo: OrderCubit.get(context).bookingAcceptedTransactions[index].startLocationLo,
           destinationLa: OrderCubit.get(context).bookingAcceptedTransactions[index].deliveryLocationLa,
           destinationLo: OrderCubit.get(context).bookingAcceptedTransactions[index].deliveryLocationLo,
+          serviceId: OrderCubit.get(context).bookingAcceptedTransactions[index].serviceProviderId,
         )
         ));
       },

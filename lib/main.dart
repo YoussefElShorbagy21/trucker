@@ -15,13 +15,17 @@ import 'package:login/shared/resources/color_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'modules/customer/screens/home/cubit/cubit.dart';
 import 'modules/customer/screens/onboarding_screen/onboarding_page.dart';
-import 'modules/customer/screens/ordercustomer/currentTransactions/order_detalis_current_new.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'modules/customer/screens/splash_screen/language.dart';
 import 'modules/customer/screens/splash_screen/splash_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   Bloc.observer = MyBlocObserver();
   DioHelper.inti();
   await dotenv.load(fileName: "assets/config/.env");

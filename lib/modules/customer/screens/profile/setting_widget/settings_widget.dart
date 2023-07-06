@@ -193,7 +193,7 @@ Widget buildAccountSetting(BuildContext context) => ListTile(
 Widget buildSupport(context) => ListTile(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => TestChatScreen()));
+            builder: (BuildContext context) => const TestChatScreen()));
       },
       leading: const IconWidget(
         icon: Icons.support_agent_outlined,
