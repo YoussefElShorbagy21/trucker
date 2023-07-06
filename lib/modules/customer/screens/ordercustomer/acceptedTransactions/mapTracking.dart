@@ -191,6 +191,13 @@ class _MapTrackingState extends State<MapTracking> {
           iconImage: "marker",
           iconOffset: const Offset(0, -150),
         ));
+        controller!.clearSymbols();
+        controller!.addSymbol(SymbolOptions(
+          geometry: LatLng(latitude!,longitude!),
+          iconSize: 0.1,
+          iconImage: "marker",
+          iconOffset: const Offset(0, -150),
+        ));
       }
 
     print('latitude in onMapCreate $latitude');
