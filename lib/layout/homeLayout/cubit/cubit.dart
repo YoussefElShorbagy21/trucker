@@ -381,21 +381,33 @@ class HomeCubit extends Cubit<HomeStates>{
   void setBrand(String selected) {
     brandControllerT.text = selected ;
     switch(brandControllerT.text) {
-      case 'Scania': {
-        idBrandControllerT = "6449dd29bbae94188f228f01";
+      case 'SCANIA': {
+        idBrandControllerF = "64a5fc1c00bbc200323501b9";
       }
       break;
 
-      case 'Iveco': {
-        idBrandControllerT = "6449dd36bbae94188f228f03";
+      case 'MAN': {
+        idBrandControllerF = "64a5fd5900bbc200323501db";
       }
       break;
-      case 'Man': {
-        idBrandControllerT = "6449dd44bbae94188f228f07";
+      case 'MERCEDES BENZ': {
+        idBrandControllerF = "64a5fdb000bbc200323501de";
       }
       break;
-      case 'Volvo': {
-        idBrandControllerT = "6449fba2c1ded773b2a7d1fa";
+      case 'VOLVO': {
+        idBrandControllerF = "64a62efb3605a600324f5682";
+      }
+      break;
+      case 'IVECO': {
+        idBrandControllerF = "64a62f0b3605a600324f5685";
+      }
+      break;
+      case 'DAF': {
+        idBrandControllerF = "64a62f543605a600324f5689";
+      }
+      break;
+      case 'OTHER': {
+        idBrandControllerF = "64a62ffa3605a600324f568c";
       }
       break;
       default: {
@@ -646,21 +658,33 @@ class HomeCubit extends Cubit<HomeStates>{
   void setBrandF(String selected) {
     brandControllerF = selected ;
     switch(brandControllerF) {
-      case 'Scania': {
-        idBrandControllerF = "6449dd29bbae94188f228f01";
+      case 'SCANIA': {
+        idBrandControllerF = "64a5fc1c00bbc200323501b9";
       }
       break;
 
-      case 'Iveco': {
-        idBrandControllerF = "6449dd36bbae94188f228f03";
+      case 'MAN': {
+        idBrandControllerF = "64a5fd5900bbc200323501db";
       }
       break;
-      case 'Man': {
-        idBrandControllerF = "6449dd44bbae94188f228f07";
+      case 'MERCEDES BENZ': {
+        idBrandControllerF = "64a5fdb000bbc200323501de";
       }
       break;
-      case 'Volvo': {
-        idBrandControllerF = "6449fba2c1ded773b2a7d1fa";
+      case 'VOLVO': {
+        idBrandControllerF = "64a62efb3605a600324f5682";
+      }
+      break;
+      case 'IVECO': {
+        idBrandControllerF = "64a62f0b3605a600324f5685";
+      }
+      break;
+      case 'DAF': {
+        idBrandControllerF = "64a62f543605a600324f5689";
+      }
+      break;
+      case 'OTHER': {
+        idBrandControllerF = "64a62ffa3605a600324f568c";
       }
       break;
       default: {
@@ -932,5 +956,18 @@ class HomeCubit extends Cubit<HomeStates>{
     });
   }
 
-
+  List<String> nameBrand = [] ;
+  Future<void> getAllBrand() async{
+    emit(LoadingGetAllBrandState());
+    await DioHelper.getDate(
+      url: 'brand',
+    ).then((value)
+    {
+      value.data.forEach((element) {
+       nameBrand.add(element['name']);
+     });
+     print(nameBrand);
+      emit(SuccessGetAllBrandSState());}
+    );
+  }
 }

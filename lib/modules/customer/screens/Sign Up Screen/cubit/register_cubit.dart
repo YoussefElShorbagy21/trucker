@@ -151,6 +151,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   var nationalIdController = TextEditingController();
   var drivingLicenseController = TextEditingController();
   DateTime date = DateTime.now();
+
   void imageOCR({required File photo,}) async{
       emit(LoadingOCRPostState());
       FormData formData = FormData.fromMap({
@@ -176,8 +177,11 @@ class RegisterCubit extends Cubit<RegisterState> {
         print('go inside driver license');
         ////////////////////////////////////////////////////
         for (var index = 0; index < data.length; index++) {
+          print('go inside for driver license');
           if (data[index].contains('نهاية الترخيص') || data[index].contains('الترخيص')) {
+            print('go inside if driver license');
             if (data[index].length > 22 && data[index].contains('/') && data[index].contains(':')) {
+              print('go inside if 1 driver license');
               print(data[index].substring(15));
               final datas = data[index].substring(15).split('/');
               print('object2');
@@ -194,7 +198,9 @@ class RegisterCubit extends Cubit<RegisterState> {
                 print('finalDate: $finalDate');
                 natid[1] = finalDate;
               }
-            } else if (data[index].length > 20 && data[index].contains('-') && data[index].contains(':')) {
+            }
+            else if (data[index].length > 20 && data[index].contains('-') && data[index].contains(':')) {
+              print('go inside if 2 driver license');
               print(data[index].substring(16));
               final datas = data[index].substring(16).split('-');
               for (var index = 0; index < datas.length; index++) {
@@ -207,7 +213,9 @@ class RegisterCubit extends Cubit<RegisterState> {
                 print('finalDate:$finalDate');
                 natid[1] = finalDate;
               }
-            } else if (data[index].length > 22 && data[index].contains('/') && !data[index].contains(':')) {
+            }
+            else if (data[index].length > 22 && data[index].contains('/') && !data[index].contains(':')) {
+              print('go inside if 3 driver license');
               print(data[index].substring(14));
               final datas = data[index].substring(14).split('/');
               for (var index = 0; index < datas.length; index++) {
@@ -220,16 +228,20 @@ class RegisterCubit extends Cubit<RegisterState> {
                 print('finalDate:$finalDate');
                 natid[1] = finalDate;
               }
-            } else if (data[index].length > 20 &&
-                data[index].contains('-') &&
-                !data[index].contains(':')) {
+            }
+            else if (data[index].length > 20 && data[index].contains('-') && !data[index].contains(':')) {
+              print('go inside if 4 driver license');
               print(data[index].substring(14));
               final datas = data[index].substring(14).split('-');
               for (var index = 0; index < datas.length; index++) {
+                print('datas conv2EnNum(datas[index]).toString()');
                 datas[index] = conv2EnNum(datas[index]).toString();
+                print(datas[index]);
               }
               final finalDate = '${datas[2]}/${datas[1]}/${datas[0]}';
               final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              print('finalDate:$finalDate');
+              print('givenDate:$givenDate');
               if (date.year < givenDate.year) {
                 print('finalDate:$finalDate');
                 natid[1] = finalDate;
@@ -237,8 +249,11 @@ class RegisterCubit extends Cubit<RegisterState> {
             }
           }
         }
+        print('go inside outside driver license');
         final givenDate = DateFormat('dd/MM/yyyy').parse(natid[1]);
+        print(givenDate);
         if (givenDate.year > date.year && int.tryParse(natid[0]) != null) {
+          print('NaTid');
           nationalIdController.text = natid[0];
           drivingLicenseController.text = natid[1];
         } else {
@@ -255,31 +270,19 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   }
 
-  String conv2EnNum(String arabicDate) {
-    String normalizedDate = arabicDate
-        .replaceAll('٠', '0')
-        .replaceAll('١', '1')
-        .replaceAll('٢', '2')
-        .replaceAll('٣', '3')
-        .replaceAll('٤', '4')
-        .replaceAll('٥', '5')
-        .replaceAll('٦', '6')
-        .replaceAll('٧', '7')
-        .replaceAll('٨', '8')
-        .replaceAll('٩', '9');
+  String conv2EnNum(String str) {
+    final convertedStr = str
+        .replaceAllMapped(
+      RegExp(r'[٠١٢٣٤٥٦٧٨٩]'),
+          (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) - 1632),
+    )
+// Convert Arabic numbers
+        .replaceAllMapped(
+      RegExp(r'[۰۱۲۳۴۵۶۷۸۹]'),
+          (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) - 1776),
+    ); // Convert Persian numbers
 
-    DateFormat arabicDateFormat = DateFormat('dd-MM-yyyy');
-    DateTime date;
-    try {
-      date = arabicDateFormat.parse(normalizedDate);
-    } catch (e) {
-      return '';
-    }
-
-    DateFormat englishDateFormat = DateFormat('yyyy-MM-dd');
-    String englishDate = englishDateFormat.format(date);
-
-    return englishDate;
+    return convertedStr;
   }
 
   File? postImageOCR ;

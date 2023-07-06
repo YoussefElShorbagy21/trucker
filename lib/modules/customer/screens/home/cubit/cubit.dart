@@ -256,21 +256,33 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   void idBrand(String bid) {
     editIdBrandControllerT = bid ;
     switch(editIdBrandControllerT) {
-      case '6449dd29bbae94188f228f01': {
-        editBrandControllerT = "Scania";
+      case '64a5fc1c00bbc200323501b9': {
+        editIdBrandControllerT = "SCANIA";
       }
       break;
 
-      case '6449dd36bbae94188f228f03': {
-        editBrandControllerT = "Iveco";
+      case '64a5fd5900bbc200323501db': {
+        editIdBrandControllerT = "MAN";
       }
       break;
-      case '6449dd44bbae94188f228f07': {
-        editBrandControllerT = "Man";
+      case '64a5fdb000bbc200323501de': {
+        editIdBrandControllerT = "MERCEDES BENZ";
       }
       break;
-      case '6449fba2c1ded773b2a7d1fa': {
-        editBrandControllerT = "Volvo";
+      case '64a62efb3605a600324f5682': {
+        editIdBrandControllerT = "VOLVO";
+      }
+      break;
+      case '64a62f0b3605a600324f5685': {
+        editIdBrandControllerT = "IVECO";
+      }
+      break;
+      case '64a62f543605a600324f5689': {
+        editIdBrandControllerT = "DAF";
+      }
+      break;
+      case '64a62ffa3605a600324f568c': {
+        editIdBrandControllerT = "OTHER";
       }
       break;
       default: {
@@ -657,6 +669,4 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       }
     });
   }
-
-
 }

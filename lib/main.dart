@@ -70,7 +70,8 @@ class MyApp extends StatelessWidget {
               ..getAllUserData()
               ..getCategory()
               ..getSubCategory()
-              ..getBrand()),
+              ..getBrand()
+              ..getAllBrand()),
         BlocProvider<HomeScreenCubit>(
             create: (context) => HomeScreenCubit()..getHomeData()..getFavoriteList()),
         BlocProvider<RegisterCubit>(create: (context) => RegisterCubit()),

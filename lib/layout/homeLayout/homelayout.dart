@@ -95,6 +95,7 @@ class _HomeLayoutState extends State<HomeLayout> {
                     icon: Icon(
                       Icons.local_shipping_outlined,
                       size: 30,
+                      grade: 1.5,
                       color: ColorManager.gery,
                     ),
                   ),

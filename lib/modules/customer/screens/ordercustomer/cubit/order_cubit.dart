@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/models/bookingmodel.dart';
@@ -10,6 +10,7 @@ import '../../../../../models/UserData.dart';
 import '../../../../../models/categeiromodel.dart';
 import '../../../../../shared/components/constants.dart';
 import '../../../../../shared/network/remote/dio_helper.dart';
+import 'package:image_picker/image_picker.dart';
 
 class OrderCubit extends Cubit<OrderStates> {
   OrderCubit() : super(OrderInitialState());
@@ -418,12 +419,16 @@ class OrderCubit extends Cubit<OrderStates> {
 
 
   bool clearText = false ;
-  void  confirmProcess(String code,String  ticket){
+  Future<void>  confirmProcess(String code,String  ticket) async {
     emit(LoadingConfirmProcess());
+    FormData formData = FormData.fromMap({
+      'code':code,
+      'image': await MultipartFile.fromFile(orderImage!.path),
+
+    });
     DioHelper.postData(url: 'booking/confirmProccess?ticket=$ticket',
-        data: {
-          'code':code,
-        }).then((value) => {
+        data: formData
+        ).then((value) => {
       clearText = true ,
       emit(SuccessConfirmProcess())
     }).catchError((onError){
@@ -465,4 +470,19 @@ class OrderCubit extends Cubit<OrderStates> {
     });
   }
 
+
+  File? orderImage ;
+  var picker = ImagePicker();
+  Future<void> getPostImage() async  {
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    if(pickedFile != null) {
+      orderImage = File(pickedFile.path) ;
+      print(orderImage.toString());
+      emit(HomePostImagePickedSuccessState());
+    }
+    else {
+      print('No image selected');
+      emit(HomePostImagePickedErrorState());
+    }
+  }
 }

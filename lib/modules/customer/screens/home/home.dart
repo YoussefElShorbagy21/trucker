@@ -29,12 +29,12 @@ class HomeScreen extends StatelessWidget {
     'truck4',
     'pick up1',
   ];
-  List<String> brandList = [
+/*  List<String> brandList = [
     'Scania',
     'Iveco',
     'Man',
     'Volvo',
-  ];
+  ];*/
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +234,7 @@ class HomeScreen extends StatelessWidget {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10),
-                                                      items: brandList
+                                                      items: HomeCubit.get(context).nameBrand
                                                           .map<
                                                               DropdownMenuItem<
                                                                   String>>(

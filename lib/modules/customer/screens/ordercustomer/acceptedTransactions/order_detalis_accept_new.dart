@@ -365,6 +365,27 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                             ),
                           )
                         : Container(),
+
+                    HomeCubit.get(context).oneUserData.userData.role ==
+                        "service_provider" ?
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Add Image',style: TextStyle(fontSize: 25,color: Colors.black  ,fontWeight: FontWeight.bold),),
+                        IconButton(onPressed: (){
+                          OrderCubit.get(context).getPostImage();
+                        }
+                          , icon:
+                          const CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Color(0xFF22A699),
+                            child: Icon(Icons.add,
+                              size: 30,
+                              color: Colors.white,),),),
+
+                      ],
+                    )
+                        : Container(),
                     //مربع لادخال الكود
                     HomeCubit.get(context).oneUserData.userData.role ==
                             "service_provider"

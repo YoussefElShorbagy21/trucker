@@ -101,3 +101,6 @@ class HomeReviewErrorState extends HomeStates {}
 class SocialSendMessageSuccessState extends HomeStates {}
 class SocialSendMessageErrorState extends HomeStates {}
 class SocialGetMessageSuccessState extends HomeStates {}
+
+class  LoadingGetAllBrandState extends HomeStates {}
+class  SuccessGetAllBrandSState extends HomeStates {}

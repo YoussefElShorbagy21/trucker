@@ -91,3 +91,5 @@ class GetReviewErrorState extends HomeScreenState  {
 class LoadingGetUsersDataForComment extends HomeScreenState {}
 class SuccessGetUsersDataForComment extends HomeScreenState {}
 class ErrorGetUsersDataForComment extends HomeScreenState {}
+
+

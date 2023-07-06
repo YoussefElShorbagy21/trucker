@@ -18,11 +18,11 @@ class CategoryScreens extends StatelessWidget {
     'truck3',
     'truck4',
     'pick up1',];
-  List<String> brandList = [
+ /* List<String> brandList = [
     'Scania',
     'Iveco',
     'Man',
-    'Volvo',];
+    'Volvo',];*/
   @override
   Widget build(BuildContext context) {
     print(HomeCubit.get(context).homeModel.equipment.length);
@@ -98,7 +98,8 @@ class CategoryScreens extends StatelessWidget {
                                   DropdownButton(
                                     dropdownColor: ColorManager.black,
                                     borderRadius: BorderRadius.circular(10),
-                                    items: brandList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                                    items: HomeCubit.get(context).nameBrand
+                                        .map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
                                         value: e,
                                         child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
                                     icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
@@ -200,7 +201,8 @@ class CategoryScreens extends StatelessWidget {
                                     DropdownButton(
                                       dropdownColor: ColorManager.black,
                                       borderRadius: BorderRadius.circular(10),
-                                      items: brandList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                                      items: HomeCubit.get(context).nameBrand
+                                          .map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
                                           value: e,
                                           child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
                                       icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),

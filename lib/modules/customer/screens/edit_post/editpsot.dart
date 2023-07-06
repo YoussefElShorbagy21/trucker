@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/modules/customer/screens/home/cubit/state.dart';
 
+import '../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../shared/components/constants.dart';
 import '../../../../shared/components/input_field.dart';
 import '../../../../shared/resources/color_manager.dart';
@@ -23,11 +24,11 @@ class EditPost extends StatelessWidget {
     'truck3',
     'truck4',
     'pick up1',];
-  List<String> brandList = [
+  /*List<String> brandList = [
     'Scania',
     'Iveco',
     'Man',
-    'Volvo',];
+    'Volvo',];*/
   List<String> governmentList = [
     "الإسكندرية","الإسماعيلية",
     "كفر الشيخ","أسوان",
@@ -244,7 +245,8 @@ class EditPost extends StatelessWidget {
                         DropdownButton(
                           dropdownColor: ColorManager.black,
                           borderRadius: BorderRadius.circular(10),
-                          items: brandList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                          items: HomeCubit.get(context).nameBrand
+                              .map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
                               value: e,
                               child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
                           icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
