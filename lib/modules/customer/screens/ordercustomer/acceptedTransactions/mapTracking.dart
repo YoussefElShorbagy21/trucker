@@ -213,7 +213,8 @@ class _MapTrackingState extends State<MapTracking> {
         child: Builder(
           builder: (context) {
             print('Builder');
-            liveLocation();
+            HomeCubit.get(context).oneUserData.userData.role !=
+                "service_provider" ? liveLocation() : print('Builder');
             return BlocConsumer<OrderCubit, OrderStates>(
   listener: (context, state) {
     // TODO: implement listener
