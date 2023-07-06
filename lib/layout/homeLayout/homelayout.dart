@@ -3,6 +3,7 @@ import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 
+import '../../modules/customer/screens/ordercustomer/order_customer.dart';
 import '../../shared/resources/color_manager.dart';
 import 'cubit/cubit.dart';
 import 'cubit/state.dart';
@@ -86,7 +87,11 @@ class _HomeLayoutState extends State<HomeLayout> {
                   elevation: 0,
                   backgroundColor: ColorManager.white,
                   leading: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                      const OrderCustomer(),
+                      ));
+                    },
                     icon: Icon(
                       Icons.local_shipping_outlined,
                       size: 30,
