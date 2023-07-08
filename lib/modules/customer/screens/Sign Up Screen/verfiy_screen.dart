@@ -51,7 +51,8 @@ class VerifyScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),),
             );
-            scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
           }
           else if(state is ErrorVerifyEmailAgain)
           {
@@ -69,7 +70,7 @@ class VerifyScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),),
             );
-            scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         },
         builder: (context, state) {
@@ -102,7 +103,7 @@ class VerifyScreen extends StatelessWidget {
                       focusedBorderColor: ColorManager.black,
                       showFieldAsBox: true,
                       keyboardType: TextInputType.text,
-                      clearText: RegisterCubit.get(context).clearText,
+                      clearText:  RegisterCubit.get(context).clearText ,
                       onSubmit: (String verificationCode){
                         print(verificationCode);
                         verify = verificationCode ;

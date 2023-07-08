@@ -113,7 +113,6 @@ class RegisterCubit extends Cubit<RegisterState> {
       print(value.data),
       print(token),
       print(tokenVerify),
-      clearText = true ,
       emit(SuccessVerifyEmail())
     }).catchError((onError){
       if(onError is DioError)
@@ -121,11 +120,12 @@ class RegisterCubit extends Cubit<RegisterState> {
         print(onError.response);
         print(onError.response!.data['message']);
         print(onError.message);
+        clearText = true ;
         emit(ErrorVerifyEmail(onError.response!.data['message']));
       }
-      clearText = true ;
     });
   }
+
 
   void sendOtpAgain(String  tokenVerify){
     emit(LoadingVerifyEmailAgain());
@@ -190,7 +190,7 @@ class RegisterCubit extends Cubit<RegisterState> {
               }
 
               final finalDate = '${datas[0]}/${datas[1]}/${datas[2]}';
-              final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              final givenDate = DateFormat('yyyy/MM/dd').parse(finalDate);
               if (date.year < givenDate.year) {
                 print('finalDate: $finalDate');
                 natid[1] = finalDate;
@@ -205,7 +205,7 @@ class RegisterCubit extends Cubit<RegisterState> {
               }
 
               final finalDate = '${datas[2]}/${datas[1]}/${datas[0]}';
-              final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              final givenDate = DateFormat('yyyy/MM/dd').parse(finalDate);
               if (date.year < givenDate.year) {
                 print('finalDate:$finalDate');
                 natid[1] = finalDate;
@@ -220,7 +220,7 @@ class RegisterCubit extends Cubit<RegisterState> {
               }
 
               final finalDate = '${datas[0]}/${datas[1]}/${datas[2]}';
-              final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              final givenDate = DateFormat('yyyy/MM/dd').parse(finalDate);
               if (date.year < givenDate.year) {
                 print('finalDate:$finalDate');
                 natid[1] = finalDate;
@@ -230,12 +230,15 @@ class RegisterCubit extends Cubit<RegisterState> {
               final datas = data[index].substring(14).split('-');
               print(datas);
               for (var index = 0; index < datas.length; index++) {
-                datas[index] = conv2EnNum(datas[index]);
+                datas[index] = conv2EnNum(datas[index]).toString();
+                print(datas[index]);
               }
               final finalDate = '${datas[2]}/${datas[1]}/${datas[0]}';
-              final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);
+              final givenDate = DateFormat('yyyy/MM/dd').parse(finalDate);
               print('finalDate:$finalDate');
               print('givenDate:$givenDate');
+              print(date.year);
+              print(givenDate.year);
               if (date.year < givenDate.year) {
                 print('finalDate:$finalDate');
                 natid[1] = finalDate;
@@ -244,7 +247,7 @@ class RegisterCubit extends Cubit<RegisterState> {
           }
         }
         print('go inside outside driver license');
-        final givenDate = DateFormat('dd/MM/yyyy').parse(natid[1]);
+        final givenDate = DateFormat('yyyy/MM/dd').parse(natid[1]);
         print(givenDate);
         if (givenDate.year > date.year && int.tryParse(natid[0]) != null) {
           print('NaTid');
@@ -264,19 +267,21 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   }
 
-  String conv2EnNum(String str) {
-    final convertedStr = str
-        .replaceAllMapped(
-      RegExp(r'[٠١٢٣٤٥٦٧٨٩]'),
-          (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) - 1632),
-    )
-// Convert Arabic numbers
-        .replaceAllMapped(
-      RegExp(r'[۰۱۲۳۴۵۶۷۸۹]'),
-          (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) - 1776),
-    ); // Convert Persian numbers
+  int conv2EnNum(String str) {
+    // Convert Arabic numerals
+    String arabicRegex = RegExp(r'[٠١٢٣٤٥٦٧٨٩]').pattern;
+    String arabicStr = str.replaceAllMapped(RegExp(arabicRegex), (match) {
+      return String.fromCharCode(match.group(0)!.codeUnitAt(0) - 1632 + 48);
+    });
 
-    return convertedStr;
+    // Convert Persian numerals
+    String persianRegex = RegExp(r'[۰۱۲۳۴۵۶۷۸۹]').pattern;
+    String englishStr = arabicStr.replaceAllMapped(RegExp(persianRegex), (match) {
+      return String.fromCharCode(match.group(0)!.codeUnitAt(0) - 1776 + 48);
+    });
+
+    // Convert the resulting string to a double
+    return int.tryParse(englishStr) ?? 0;
   }
 
   File? postImageOCR ;
