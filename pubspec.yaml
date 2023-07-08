@@ -78,6 +78,7 @@ dev_dependencies:
   firebase_core: ^2.14.0
   cloud_firestore: ^4.8.2
   firebase_database: ^10.2.3
+  webview_flutter: ^4.2.2
   #chat pub to get app image
   cached_network_image: ^3.2.3
 

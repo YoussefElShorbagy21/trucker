@@ -41,7 +41,6 @@ Widget buildItem(BuildContext context, Equipment equipment) =>
               builder: (context) => DetailScreen(
                 id: equipment.id,
                 cid: equipment.category,
-                scid: equipment.subcategory,
                 bid: equipment.brand,
               ),
             ));
@@ -355,7 +354,6 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
           builder: (context) => DetailScreen(
             id: equipment.id,
             cid: equipment.category,
-            scid: equipment.subcategory,
             bid: equipment.brand,
           ),
         ));

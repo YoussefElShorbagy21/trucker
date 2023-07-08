@@ -64,7 +64,10 @@ class  SuccessFavCategoryDataState extends HomeScreenState {}
 class  ErrorFavCategoryDataState extends HomeScreenState {}
 
 class  LoadingBookTruckState extends HomeScreenState {}
-class  SuccessBookTruckState extends HomeScreenState {}
+class  SuccessBookTruckState extends HomeScreenState {
+  dynamic value ;
+  SuccessBookTruckState(this.value) ;
+}
 class  ErrorBookTruckState extends HomeScreenState {
   final String error ;
   ErrorBookTruckState(this.error) ;
@@ -92,4 +95,14 @@ class LoadingGetUsersDataForComment extends HomeScreenState {}
 class SuccessGetUsersDataForComment extends HomeScreenState {}
 class ErrorGetUsersDataForComment extends HomeScreenState {}
 
+class PaymentTypeSelect extends HomeScreenState {}
 
+class  LoadingGetPaymentTypeState extends HomeScreenState {}
+class  SuccessGetPaymentTypeState extends HomeScreenState {
+  final String url ;
+  SuccessGetPaymentTypeState(this.url) ;
+}
+class  ErrorGetPaymentTypeState extends HomeScreenState {
+  final String error ;
+  ErrorGetPaymentTypeState(this.error) ;
+}

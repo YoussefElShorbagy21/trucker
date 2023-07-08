@@ -42,9 +42,7 @@ class HomeCubit extends Cubit<HomeStates>{
     required String name ,
     required String description,
     required File? imageCover,
-    required int price ,
     required String category ,
-    required String subcategory ,
     required String brand ,
     required String currentLocation ,
     required String? userId ,
@@ -55,9 +53,7 @@ class HomeCubit extends Cubit<HomeStates>{
       'name' : name,
       'description' : description,
       'imageCover': await MultipartFile.fromFile(imageCover!.path),
-      'price' : price,
       'category' : category,
-      'subcategory' : subcategory,
       'brand' : brand,
       'currentLocation' : currentLocation,
       'userId' : userId,
@@ -312,7 +308,6 @@ class HomeCubit extends Cubit<HomeStates>{
   String idSubCategoryControllerT = '' ;
   String idBrandControllerT = '' ;
   var categoryControllerT = TextEditingController(text: 'Category');
-  var subCategoryControllerT = TextEditingController(text: 'subCategory');
   var brandControllerT = TextEditingController(text: 'brand');
   var currentLocation  =TextEditingController(text: 'currentLocation');
 
@@ -344,70 +339,38 @@ class HomeCubit extends Cubit<HomeStates>{
     emit(HomeSetCategory());
   }
 
-  void setSubCategory(String selected) {
-    subCategoryControllerT.text = selected ;
 
-    switch(subCategoryControllerT.text) {
-      case 'truck1': {
-        idSubCategoryControllerT = "6449906292768740d4790d12";
-      }
-      break;
-
-      case 'truck2': {
-        idSubCategoryControllerT = "6449907b92768740d4790d14";
-      }
-      break;
-      case 'truck3': {
-        idSubCategoryControllerT = "6449908092768740d4790d16";
-      }
-      break;
-      case 'truck4': {
-        idSubCategoryControllerT = "6449908592768740d4790d18";
-      }
-      break;
-
-      case 'pick up1': {
-    idSubCategoryControllerT = "644990f192768740d4790d1c";
-    }
-    break;
-      default: {
-      }
-      break;
-    }
-    print(idSubCategoryControllerT.toString());
-    emit(HomeSetSubCategory());
-  }
 
   void setBrand(String selected) {
     brandControllerT.text = selected ;
     switch(brandControllerT.text) {
       case 'SCANIA': {
-        idBrandControllerF = "64a5fc1c00bbc200323501b9";
+        idBrandControllerT = "64a5fc1c00bbc200323501b9";
       }
       break;
 
       case 'MAN': {
-        idBrandControllerF = "64a5fd5900bbc200323501db";
+        idBrandControllerT = "64a5fd5900bbc200323501db";
       }
       break;
       case 'MERCEDES BENZ': {
-        idBrandControllerF = "64a5fdb000bbc200323501de";
+        idBrandControllerT = "64a5fdb000bbc200323501de";
       }
       break;
       case 'VOLVO': {
-        idBrandControllerF = "64a62efb3605a600324f5682";
+        idBrandControllerT = "64a62efb3605a600324f5682";
       }
       break;
       case 'IVECO': {
-        idBrandControllerF = "64a62f0b3605a600324f5685";
+        idBrandControllerT = "64a62f0b3605a600324f5685";
       }
       break;
       case 'DAF': {
-        idBrandControllerF = "64a62f543605a600324f5689";
+        idBrandControllerT = "64a62f543605a600324f5689";
       }
       break;
       case 'OTHER': {
-        idBrandControllerF = "64a62ffa3605a600324f568c";
+        idBrandControllerT = "64a62ffa3605a600324f568c";
       }
       break;
       default: {
@@ -434,7 +397,6 @@ class HomeCubit extends Cubit<HomeStates>{
        idSubCategoryControllerT = '' ;
        idBrandControllerT = '' ;
         categoryControllerT.text = 'Category';
-       subCategoryControllerT.text = 'subCategory';
        brandControllerT.text = 'brand';
       currentLocation.text  = 'locationFrom';
       postImage = null;
@@ -470,7 +432,6 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
   List<CategoryModel> listCate = [] ;
-  List<SubCategory> listSubCategory = [] ;
   List<Brand> listBrand = [] ;
 
   Future<void> getCategory() async{
@@ -491,23 +452,6 @@ class HomeCubit extends Cubit<HomeStates>{
     });
   }
 
-  Future<void> getSubCategory() async {
-    emit(HomeLoadingGetSubCategory());
-    await DioHelper.getDate(
-      url: 'subcategory',
-    ).then((value)
-    {
-      var re = value.data;
-      for(var data in re)
-      {
-        listSubCategory.add(SubCategory(id: data['_id'], name: data['name']));
-      }
-      emit(HomeSuccessGetSubCategory());}
-    ).catchError((error){
-      print(error.toString());
-      emit(HomeErrorGetSubCategory());
-    });
-  }
 
   Future<void> getBrand() async {
     emit(HomeLoadingGetBrand());
@@ -588,10 +532,9 @@ class HomeCubit extends Cubit<HomeStates>{
 
 
   String categoryControllerF = 'Category';
-  String subCategoryControllerF = 'subCategory';
   String brandControllerF = 'brand';
   String idCategoryControllerF = '' ;
-  String idSubCategoryControllerF = '' ;
+
   String idBrandControllerF = '' ;
   void setCategoryF(String selected) {
     categoryControllerF = selected ;
@@ -621,39 +564,6 @@ class HomeCubit extends Cubit<HomeStates>{
     emit(HomeSetCategory());
   }
 
-  void setSubCategoryF(String selected) {
-    subCategoryControllerF = selected ;
-
-    switch(subCategoryControllerF) {
-      case 'truck1': {
-        idSubCategoryControllerF = "6449906292768740d4790d12";
-      }
-      break;
-
-      case 'truck2': {
-        idSubCategoryControllerF = "6449907b92768740d4790d14";
-      }
-      break;
-      case 'truck3': {
-        idSubCategoryControllerF = "6449908092768740d4790d16";
-      }
-      break;
-      case 'truck4': {
-        idSubCategoryControllerF = "6449908592768740d4790d18";
-      }
-      break;
-
-      case 'pick up1': {
-        idSubCategoryControllerF = "644990f192768740d4790d1c";
-      }
-      break;
-      default: {
-      }
-      break;
-    }
-    print(idSubCategoryControllerF.toString());
-    emit(HomeSetSubCategory());
-  }
 
   void setBrandF(String selected) {
     brandControllerF = selected ;
@@ -696,45 +606,41 @@ class HomeCubit extends Cubit<HomeStates>{
   }
 
   GetEquipment homeModelFilter = GetEquipment(equipment: []);
-  Future<void> getFilterData(String category,String subcategory,String brand) async{
+  Future<void> getFilterData(String category,String brand) async{
     emit(HomeLoadingGetFilterData());
-    if(idCategoryControllerF.isNotEmpty && idSubCategoryControllerF.isNotEmpty && idBrandControllerF.isNotEmpty) {
+    if(idCategoryControllerF.isNotEmpty  && idBrandControllerF.isNotEmpty) {
       await DioHelper.getDate(
-      url: 'truck/?category=$category&subcategory=$subcategory&brand=$brand',
+      url: 'truck/?category=$category&brand=$brand',
     ).then((value) {
       print(value.realUri);
       print(value.data);
       homeModelFilter = GetEquipment.fromJson(value.data);
       emit(HomeSuccessGetFilterData());
        categoryControllerF = 'Category';
-       subCategoryControllerF = 'subCategory';
        brandControllerF = 'brand';
       idCategoryControllerF = '';
-      idSubCategoryControllerF = '';
       idBrandControllerF = '';
     }).catchError((error){
       print(error.toString());
       emit(HomeErrorGetFilterData());
     });
     }
-    else if(idCategoryControllerF.isNotEmpty && idSubCategoryControllerF.isNotEmpty && idBrandControllerF.isEmpty) {
+    else if(idCategoryControllerF.isNotEmpty  && idBrandControllerF.isEmpty) {
         await DioHelper.getDate(
-          url: 'truck/?category=$category&subcategory=$subcategory',
+          url: 'truck/?category=$category',
         ).then((value) {
           print(value.realUri);
           print(value.data);
           homeModelFilter = GetEquipment.fromJson(value.data);
           emit(HomeSuccessGetFilterData());
            categoryControllerF = 'Category';
-           subCategoryControllerF = 'subCategory';
           idCategoryControllerF = '';
-          idSubCategoryControllerF = '';
         }).catchError((error){
           print(error.toString());
           emit(HomeErrorGetFilterData());
         });
       }
-    else if(idCategoryControllerF.isNotEmpty && idSubCategoryControllerF.isEmpty && idBrandControllerF.isNotEmpty) {
+    else if(idCategoryControllerF.isNotEmpty  && idBrandControllerF.isNotEmpty) {
       await DioHelper.getDate(
         url: 'truck/?category=$category&brand=$brand',
       ).then((value) {
@@ -751,7 +657,7 @@ class HomeCubit extends Cubit<HomeStates>{
         emit(HomeErrorGetFilterData());
       });
     }
-    else if(idCategoryControllerF.isNotEmpty && idSubCategoryControllerF.isEmpty && idBrandControllerF.isEmpty) {
+    else if(idCategoryControllerF.isNotEmpty  && idBrandControllerF.isEmpty) {
       await DioHelper.getDate(
         url: 'truck/?category=$category',
       ).then((value) {
@@ -766,22 +672,20 @@ class HomeCubit extends Cubit<HomeStates>{
         emit(HomeErrorGetFilterData());
       });
     }
-    else if(idCategoryControllerF.isEmpty && idSubCategoryControllerF.isNotEmpty && idBrandControllerF.isEmpty) {
+    else if(idCategoryControllerF.isEmpty  && idBrandControllerF.isEmpty) {
       await DioHelper.getDate(
-        url: 'truck/?subcategory=$subcategory',
+        url: 'truck/?',
       ).then((value) {
         print(value.realUri);
         print(value.data);
         homeModelFilter = GetEquipment.fromJson(value.data);
         emit(HomeSuccessGetFilterData());
-        subCategoryControllerF = 'subCategory';
-        idSubCategoryControllerF = '';
       }).catchError((error){
         print(error.toString());
         emit(HomeErrorGetFilterData());
       });
     }
-    else if(idCategoryControllerF.isEmpty && idSubCategoryControllerF.isEmpty && idBrandControllerF.isNotEmpty) {
+    else if(idCategoryControllerF.isEmpty  && idBrandControllerF.isNotEmpty) {
       await DioHelper.getDate(
         url: 'truck/?brand=$brand',
       ).then((value) {
@@ -796,17 +700,15 @@ class HomeCubit extends Cubit<HomeStates>{
         emit(HomeErrorGetFilterData());
       });
     }
-    else if(idCategoryControllerF.isEmpty && idSubCategoryControllerF.isNotEmpty && idBrandControllerF.isNotEmpty) {
+    else if(idCategoryControllerF.isEmpty  && idBrandControllerF.isNotEmpty) {
       await DioHelper.getDate(
-        url: 'truck/?subcategory=$subcategory&brand=$brand',
+        url: 'truck/?brand=$brand',
       ).then((value) {
         print(value.realUri);
         print(value.data);
         homeModelFilter = GetEquipment.fromJson(value.data);
         emit(HomeSuccessGetFilterData());
-         subCategoryControllerF = 'subCategory';
          brandControllerF = 'brand';
-         idSubCategoryControllerF = '' ;
          idBrandControllerF = '' ;
       }).catchError((error){
         print(error.toString());
@@ -833,18 +735,16 @@ class HomeCubit extends Cubit<HomeStates>{
     });
   }
 
-  Future<void> getFilterDataCategory(String category,String subcategory,String brand) async{
+  Future<void> getFilterDataCategory(String category,String brand) async{
     emit(HomeLoadingGetFilterDataCategory());
-    if(idSubCategoryControllerF.isNotEmpty && idBrandControllerF.isEmpty) {
+    if( idBrandControllerF.isEmpty) {
       await DioHelper.getDate(
-        url: 'truck/?category=$category&subcategory=$subcategory',
+        url: 'truck/?category=$category&subcategory',
       ).then((value) {
         print(value.realUri);
         print(value.data);
         homeModel = GetEquipment.fromJson(value.data);
         emit(HomeSuccessGetFilterDataCategory());
-        subCategoryControllerF = 'Category';
-        idSubCategoryControllerF = '';
       }).catchError((error){
         if(error is DioError)
         {
@@ -855,7 +755,7 @@ class HomeCubit extends Cubit<HomeStates>{
         }
       });
     }
-    else if(idSubCategoryControllerF.isEmpty && idBrandControllerF.isNotEmpty) {
+    else if(idBrandControllerF.isNotEmpty) {
       await DioHelper.getDate(
         url: 'truck/?category=$category&brand=$brand',
       ).then((value) {
@@ -870,17 +770,15 @@ class HomeCubit extends Cubit<HomeStates>{
         emit(HomeErrorGetFilterData());
       });
     }
-    else if(idSubCategoryControllerF.isNotEmpty && idBrandControllerF.isNotEmpty) {
+    else if( idBrandControllerF.isNotEmpty) {
       await DioHelper.getDate(
-        url: 'truck/?category=$category&subcategory=$subcategory&brand=$brand',
+        url: 'truck/?category=$category&brand=$brand',
       ).then((value) {
         print(value.realUri);
         print(value.data);
         homeModel = GetEquipment.fromJson(value.data);
         emit(HomeSuccessGetFilterData());
-        subCategoryControllerF = 'subCategory';
         brandControllerF = 'brand';
-        idSubCategoryControllerF = '';
         idBrandControllerF = '';
       }).catchError((error){
         print(error.toString());

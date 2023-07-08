@@ -6,8 +6,13 @@ import '../../map/map.dart';
 import '../home/cubit/cubit.dart';
 import '../home/cubit/state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class BookingScreen extends StatelessWidget {
+
+
   String id ;
   String userId ;
    BookingScreen({Key? key, required this.id , required this.userId}) : super(key: key);
@@ -41,6 +46,10 @@ class BookingScreen extends StatelessWidget {
     "المنوفية",
     "المنيا"
   ];
+  List<String> paymentList = [
+    'cash',
+    'card'
+  ];
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeScreenCubit, HomeScreenState>(
@@ -65,7 +74,23 @@ class BookingScreen extends StatelessWidget {
     }
     else if (state is SuccessBookTruckState)
       {
-        Navigator.pop(context);
+        print('asdsda');
+        if(state.value['ticket']['paymentType'] == 'card'){
+          print('card');
+          HomeScreenCubit.get(context).getPaymentType(ticket:state.value['ticket']['_id'] );
+        }
+        else{
+          print('cash');
+          Navigator.pop(context);
+        }
+      }
+    else if(state is SuccessGetPaymentTypeState )
+      {
+          WebViewController controller = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted)
+            ..loadRequest(Uri.parse(state.url));
+          Navigator.push(context, MaterialPageRoute(builder: (_) => WebViewWidget(controller: controller,
+
+          )));
       }
   },
   builder: (context, state) {
@@ -263,6 +288,38 @@ class BookingScreen extends StatelessWidget {
                         ),
                       ),
                       InputField(
+                        title: 'paymentType',
+                        controller: HomeScreenCubit.get(context).paymentType,
+                        note: HomeScreenCubit.get(context).paymentType.text ,
+                        validator: (value){
+                          if(value == 'Category')
+                          {
+                            return 'please enter value';
+                          }
+                          return null;
+                        },
+                        widget: Row(
+                          children: [
+                            DropdownButton(
+                              dropdownColor: ColorManager.black,
+                              borderRadius: BorderRadius.circular(10),
+                              items: paymentList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
+                                  value: e,
+                                  child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
+                              icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
+                              iconSize: 32,
+                              elevation: 4,
+                              underline:  Container(height: 0,),
+                              onChanged: (String? value)
+                              {
+                                HomeScreenCubit.get(context).setPayment(value!);
+                              },
+                            ),
+                            const SizedBox(width: 6,),
+                          ],
+                        ),onTap: () {},
+                      ),
+                      InputField(
                         controller: HomeScreenCubit
                             .get(context)
                             .descriptionControllerMap,
@@ -335,6 +392,10 @@ class BookingScreen extends StatelessWidget {
                                     .get(
                                     context)
                                     .deliveryLocation,
+                                paymentType:   HomeScreenCubit
+                                    .get(
+                                    context)
+                                    .paymentType.text,
                               );
                             }
                           },

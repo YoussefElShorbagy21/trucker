@@ -20,14 +20,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class DetailScreen extends StatefulWidget {
   String id;
   String cid;
-  String scid;
   String bid;
 
   DetailScreen(
       {super.key,
       required this.id,
       required this.cid,
-      required this.scid,
       required this.bid});
 
   @override
@@ -39,7 +37,7 @@ class _DetailScreenState extends State<DetailScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeScreenCubit()
-        ..getDetailsCategoryData(widget.id, widget.cid, widget.scid, widget.bid),
+        ..getDetailsCategoryData(widget.id, widget.cid, widget.bid),
       child: BlocConsumer<HomeScreenCubit, HomeScreenState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -190,7 +188,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                       MaterialPageRoute(
                                           builder: (_) => EditPost(
                                                 id: widget.id,
-                                                scid: widget.scid,
                                                 cid: widget.cid,
                                                 bid: widget.bid,
                                               )));
@@ -255,7 +252,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                                       onPressed: () {
                                                         DioHelper.deleteData(
                                                             url:
-                                                                'truck/$widget.id');
+                                                                'truck/${widget.id}');
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(

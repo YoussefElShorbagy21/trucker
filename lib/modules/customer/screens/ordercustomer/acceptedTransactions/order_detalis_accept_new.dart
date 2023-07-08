@@ -149,10 +149,11 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                     SizedBox(height: MediaQuery.of(context).size.height / 350),
                     SizedBox(
                       width: double.infinity,
-                      height: MediaQuery.of(context).size.height / 2,
+                      height: MediaQuery.of(context).size.height / 3,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0, top: 10.0),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Row(
                               children: [
@@ -231,9 +232,8 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    OrderCubit.get(context)
-                                        .startLocationCurrent,
-                                    maxLines: 2,
+                                    OrderCubit.get(context).startLocationAccepted,
+                                    maxLines: 1,
                                     style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                         fontSize: 13,
@@ -258,7 +258,7 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                                 Expanded(
                                   child: Text(
                                     OrderCubit.get(context)
-                                        .deliveryLocationCurrent,
+                                        .deliveryLocationAccepted,
                                     maxLines: 2,
                                     style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,

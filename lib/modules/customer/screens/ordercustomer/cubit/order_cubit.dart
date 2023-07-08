@@ -65,7 +65,7 @@ class OrderCubit extends Cubit<OrderStates> {
     async {
       bookingCurrentTransactions.add(Booking.fromJson(value.data['ticket']));
         await getCompanyDataCurrentTransactions(bookingCurrentTransactions[i].companyId);
-        await getDetailsCategoryDataCurrentTransactions(bookingCurrentTransactions[i].truckId);
+        // await getDetailsCategoryDataCurrentTransactions(bookingCurrentTransactions[i].truckId);
       startLocationCurrent  = await getAddressFromLatLngTransactions(bookingCurrentTransactions[i].startLocationLa, bookingCurrentTransactions[i].startLocationLo);
       deliveryLocationCurrent  = await getAddressFromLatLngTransactions(bookingCurrentTransactions[i].deliveryLocationLa, bookingCurrentTransactions[i].deliveryLocationLo);
       emit(SuccessGetCurrentTransactionsData());
@@ -91,7 +91,7 @@ class OrderCubit extends Cubit<OrderStates> {
       images: [],
       name: 'name',
       description: 'description',
-      brand: 'brand', subcategory: 'subcategory', category: 'category', createdAt: DateTime(DateTime.april),
+      brand: 'brand', category: 'category', createdAt: DateTime(DateTime.april),
       updatedAt: DateTime(DateTime.april), imageCover: 'imageCover', truckId: '0', reviews: [], userId: '',
       currentLocation: '');
 
@@ -180,7 +180,7 @@ class OrderCubit extends Cubit<OrderStates> {
     async {
       bookingAcceptedTransactions.add(Booking.fromJson(value.data['ticket']));
       await getCompanyDataAcceptedTransactions(bookingAcceptedTransactions[i].companyId);
-      await getDetailsCategoryDataAcceptedTransactions(bookingAcceptedTransactions[i].truckId);
+      // await getDetailsCategoryDataAcceptedTransactions(bookingAcceptedTransactions[i].truckId);
       startLocationAccepted  = await getAddressFromLatLngTransactions(bookingAcceptedTransactions[i].startLocationLa, bookingAcceptedTransactions[i].startLocationLo);
       deliveryLocationAccepted  = await getAddressFromLatLngTransactions(bookingAcceptedTransactions[i].deliveryLocationLa, bookingAcceptedTransactions[i].deliveryLocationLo);
       await getDirectionsAPIResponse(
@@ -212,7 +212,7 @@ class OrderCubit extends Cubit<OrderStates> {
       images: [],
       name: 'name',
       description: 'description',
-      brand: 'brand', subcategory: 'subcategory', category: 'category', createdAt: DateTime(DateTime.april),
+      brand: 'brand', category: 'category', createdAt: DateTime(DateTime.april),
       updatedAt: DateTime(DateTime.april), imageCover: 'imageCover', truckId: '0', reviews: [], userId: '',
       currentLocation: '');
 
@@ -284,7 +284,7 @@ class OrderCubit extends Cubit<OrderStates> {
       print(Booking.fromJson(value.data['ticket']));
       bookingDoneTransactions.add(Booking.fromJson(value.data['ticket']));
       await getCompanyDataDoneTransactions(bookingDoneTransactions[i].companyId);
-      await getDetailsCategoryDataDoneTransactions(bookingDoneTransactions[i].truckId);
+      // await getDetailsCategoryDataDoneTransactions(bookingDoneTransactions[i].truckId);
       startLocationDone  = await getAddressFromLatLngTransactions(bookingDoneTransactions[i].startLocationLa, bookingDoneTransactions[i].startLocationLo);
       deliveryLocationDone  = await getAddressFromLatLngTransactions(bookingDoneTransactions[i].deliveryLocationLa, bookingDoneTransactions[i].deliveryLocationLo);
 
@@ -312,7 +312,7 @@ class OrderCubit extends Cubit<OrderStates> {
       images: [],
       name: 'name',
       description: 'description',
-      brand: 'brand', subcategory: 'subcategory', category: 'category', createdAt: DateTime(DateTime.april),
+      brand: 'brand', category: 'category', createdAt: DateTime(DateTime.april),
       updatedAt: DateTime(DateTime.april), imageCover: 'imageCover', truckId: '0', reviews: [], userId: '',
       currentLocation: '');
 

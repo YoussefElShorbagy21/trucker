@@ -69,7 +69,6 @@ class MyApp extends StatelessWidget {
               ..getSavedLanguage()
               ..getAllUserData()
               ..getCategory()
-              ..getSubCategory()
               ..getBrand()
               ..getAllBrand()),
         BlocProvider<HomeScreenCubit>(

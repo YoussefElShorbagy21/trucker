@@ -69,8 +69,7 @@ class _RegisterScreenScreenState extends State<RegisterScreenScreen> {
       scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
     }
   }
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
-  GlobalKey<ScaffoldMessengerState>();
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
   void initState()  {
@@ -156,7 +155,6 @@ class _RegisterScreenScreenState extends State<RegisterScreenScreen> {
             return ScaffoldMessenger(
               key: scaffoldMessengerKey,
               child: Scaffold(
-                key: scaffoldMessengerKey,
                 backgroundColor: Colors.white,
                 appBar: AppBar(
                   backgroundColor: ColorManager.white,
@@ -374,7 +372,7 @@ class _RegisterScreenScreenState extends State<RegisterScreenScreen> {
                                                 backgroundColor: ColorManager.black,
                                                 padding: const EdgeInsets.symmetric(vertical: 14),
                                               ),
-                                              child:  Text('login_button'.tr(context),
+                                              child:  Text('Sign Up'.tr(context),
                                                 style: TextStyle(
                                                   color: ColorManager.white,
                                                   fontFamily: FontConstants.fontFamily,
@@ -662,7 +660,7 @@ class _RegisterScreenScreenState extends State<RegisterScreenScreen> {
                                                 backgroundColor: ColorManager.black,
                                                 padding: const EdgeInsets.symmetric(vertical: 14),
                                               ),
-                                              child:  Text('login_button'.tr(context),
+                                              child:  Text('Sign Up'.tr(context),
                                                 style: TextStyle(
                                                   color: ColorManager.white,
                                                   fontFamily: FontConstants.fontFamily,

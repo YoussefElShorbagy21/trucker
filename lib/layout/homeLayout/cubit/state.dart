@@ -38,7 +38,7 @@ class ErrorUpdateUSERState extends HomeStates {
 
 
 class HomeSetCategory extends HomeStates {}
-class HomeSetSubCategory extends HomeStates {}
+
 class HomeSetBrand extends HomeStates {}
 class HomeSetLocationFrom extends HomeStates {}
 class HomeSetLocationTo extends HomeStates {}
@@ -52,9 +52,6 @@ class HomeLoadingGetCategory extends HomeStates {}
 class HomeSuccessGetCategory extends HomeStates {}
 class HomeErrorGetCategory extends HomeStates {}
 
-class HomeLoadingGetSubCategory extends HomeStates {}
-class HomeSuccessGetSubCategory extends HomeStates {}
-class HomeErrorGetSubCategory extends HomeStates {}
 
 
 class HomeLoadingGetBrand extends HomeStates {}

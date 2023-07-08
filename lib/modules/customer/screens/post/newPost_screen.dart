@@ -16,13 +16,6 @@ class NewPostScreen extends StatelessWidget {
       'Heavy Equipment',
       'Others',
     ];
-    List<String> subCategoryList = [
-      'truck1',
-      'truck2',
-      'truck3',
-      'truck4',
-      'pick up1',
-    ];
     /*List<String> brandList = [
       'Scania',
       'Iveco',
@@ -83,11 +76,9 @@ class NewPostScreen extends StatelessWidget {
                           name: HomeCubit.get(context).textController.text,
                           description: HomeCubit.get(context).descriptionController.text,
                           imageCover: HomeCubit.get(context).postImage,
-                          price: int.parse(HomeCubit.get(context).priceController.text),
                           category: HomeCubit.get(context).idCategoryControllerT,
                           currentLocation: HomeCubit.get(context).currentLocation.text,
                           userId: uid,
-                          subcategory: HomeCubit.get(context).idSubCategoryControllerT,
                           brand: HomeCubit.get(context).idBrandControllerT,);
                         HomeCubit.get(context).delayFunction(10);
                         Navigator.pop(context);
@@ -171,29 +162,6 @@ class NewPostScreen extends StatelessWidget {
                         labelText: 'Title',
                       ),
                     ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    TextFormField(
-                      controller: HomeCubit.get(context).priceController,
-                      keyboardType: TextInputType.number,
-                      validator: (value){
-                        if(value!.isEmpty)
-                        {
-                          return 'please enter value';
-                        }
-                        return null;
-                      },
-                      decoration:   InputDecoration(
-                        hoverColor: const Color(0XFF408080),
-                        prefixIcon: const Icon(Icons.price_change),
-                        hintText: 'Price',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)
-                        ),
-                        labelText: 'Price',
-                      ),
-                    ),
                     InputField(
                       title: 'Category',
                       controller: HomeCubit.get(context).categoryControllerT,
@@ -220,38 +188,6 @@ class NewPostScreen extends StatelessWidget {
                             onChanged: (String? value)
                             {
                               HomeCubit.get(context).setCategory(value!);
-                            },
-                          ),
-                          const SizedBox(width: 6,),
-                        ],
-                      ),onTap: () {},
-                    ),
-                    InputField(
-                      title: 'SubCategory',
-                      controller: HomeCubit.get(context).subCategoryControllerT,
-                      note: HomeCubit.get(context).subCategoryControllerT.text ,
-                      validator: (value){
-                        if(value == 'subCategory')
-                        {
-                          return 'please enter value';
-                        }
-                        return null;
-                      },
-                      widget: Row(
-                        children: [
-                          DropdownButton(
-                            dropdownColor: ColorManager.black,
-                            borderRadius: BorderRadius.circular(10),
-                            items: subCategoryList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
-                                value: e,
-                                child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
-                            icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
-                            iconSize: 32,
-                            elevation: 4,
-                            underline:  Container(height: 0,),
-                            onChanged: (String? value)
-                            {
-                              HomeCubit.get(context).setSubCategory(value!);
                             },
                           ),
                           const SizedBox(width: 6,),

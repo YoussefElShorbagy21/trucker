@@ -22,13 +22,6 @@ class HomeScreen extends StatelessWidget {
     'Heavy Equipment',
     'Others',
   ];
-  List<String> subCategoryList = [
-    'truck1',
-    'truck2',
-    'truck3',
-    'truck4',
-    'pick up1',
-  ];
 /*  List<String> brandList = [
     'Scania',
     'Iveco',
@@ -166,63 +159,6 @@ class HomeScreen extends StatelessWidget {
                                                 height: 20,
                                               ),
                                               InputField(
-                                                title: 'SubCategory',
-                                                note: HomeCubit.get(context)
-                                                    .subCategoryControllerF,
-                                                widget: Row(
-                                                  children: [
-                                                    DropdownButton(
-                                                      dropdownColor:
-                                                          ColorManager.black,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      items: subCategoryList
-                                                          .map<
-                                                              DropdownMenuItem<
-                                                                  String>>(
-                                                            (String e) =>
-                                                                DropdownMenuItem<
-                                                                        String>(
-                                                                    value: e,
-                                                                    child: Text(
-                                                                      e,
-                                                                      style:
-                                                                          const TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                      ),
-                                                                    )),
-                                                          )
-                                                          .toList(),
-                                                      icon: const Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down_sharp,
-                                                        color: Colors.grey,
-                                                      ),
-                                                      iconSize: 32,
-                                                      elevation: 4,
-                                                      underline: Container(
-                                                        height: 0,
-                                                      ),
-                                                      onChanged:
-                                                          (String? value) {
-                                                        HomeCubit.get(context)
-                                                            .setSubCategoryF(
-                                                                value!);
-                                                      },
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 6,
-                                                    ),
-                                                  ],
-                                                ),
-                                                onTap: () {},
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              InputField(
                                                 title: 'Brand',
                                                 note: HomeCubit.get(context)
                                                     .brandControllerF,
@@ -294,9 +230,6 @@ class HomeScreen extends StatelessWidget {
                                                                 HomeCubit.get(
                                                                         context)
                                                                     .idCategoryControllerF,
-                                                                HomeCubit.get(
-                                                                        context)
-                                                                    .idSubCategoryControllerF,
                                                                 HomeCubit.get(
                                                                         context)
                                                                     .idBrandControllerF);

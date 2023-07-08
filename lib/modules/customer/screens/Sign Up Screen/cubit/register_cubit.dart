@@ -162,7 +162,6 @@ class RegisterCubit extends Cubit<RegisterState> {
         url: 'users/ocr',
       ).then((value)
       {
-        print(value.data);
         var data = value.data['ocrResult'].toString().split("\n") ;
         print(data);
         List<String> natid = ['', ''];
@@ -177,9 +176,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         print('go inside driver license');
         ////////////////////////////////////////////////////
         for (var index = 0; index < data.length; index++) {
-          print('go inside for driver license');
           if (data[index].contains('نهاية الترخيص') || data[index].contains('الترخيص')) {
-            print('go inside if driver license');
             if (data[index].length > 22 && data[index].contains('/') && data[index].contains(':')) {
               print('go inside if 1 driver license');
               print(data[index].substring(15));
@@ -230,13 +227,10 @@ class RegisterCubit extends Cubit<RegisterState> {
               }
             }
             else if (data[index].length > 20 && data[index].contains('-') && !data[index].contains(':')) {
-              print('go inside if 4 driver license');
-              print(data[index].substring(14));
               final datas = data[index].substring(14).split('-');
+              print(datas);
               for (var index = 0; index < datas.length; index++) {
-                print('datas conv2EnNum(datas[index]).toString()');
-                datas[index] = conv2EnNum(datas[index]).toString();
-                print(datas[index]);
+                datas[index] = conv2EnNum(datas[index]);
               }
               final finalDate = '${datas[2]}/${datas[1]}/${datas[0]}';
               final givenDate = DateFormat('dd/MM/yyyy').parse(finalDate);

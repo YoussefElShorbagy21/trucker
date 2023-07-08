@@ -67,7 +67,6 @@ class Equipment{
   String description;
   String currentLocation;
   String brand;
-  String subcategory;
   String category;
   DateTime createdAt;
   DateTime updatedAt;
@@ -80,7 +79,6 @@ class Equipment{
     required this.description,
     required this.currentLocation,
     required this.brand,
-    required this.subcategory,
     required this.category,
     required this.createdAt,
     required this.updatedAt,
@@ -95,7 +93,6 @@ class Equipment{
         description: json["description"],
         currentLocation: json["currentLocation"],
         brand: json["brand"],
-        subcategory: json["subcategory"],
         category: json["category"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -111,7 +108,6 @@ class DetailsEquipment{
   String description;
   String currentLocation ;
   String brand;
-  String subcategory;
   String category;
   DateTime createdAt;
   DateTime updatedAt;
@@ -125,7 +121,6 @@ class DetailsEquipment{
     required this.name,
     required this.description,
     required this.brand,
-    required this.subcategory,
     required this.category,
     required this.createdAt,
     required this.updatedAt,
@@ -143,7 +138,6 @@ class DetailsEquipment{
         description: json["description"],
         currentLocation: json["currentLocation"],
         brand: json["brand"],
-        subcategory: json["subcategory"],
         category: json["category"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),

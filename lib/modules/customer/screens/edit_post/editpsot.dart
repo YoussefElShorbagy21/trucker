@@ -11,19 +11,13 @@ import '../home/cubit/cubit.dart';
 
 
 class EditPost extends StatelessWidget {
-  String id ; String cid; String scid; String bid;
-   EditPost({required this.id,required this.cid ,required this.scid ,required this.bid, Key? key}) : super(key: key);
+  String id ; String cid; String bid;
+   EditPost({required this.id,required this.cid ,required this.bid, Key? key}) : super(key: key);
   List<String> categoryList = [
     'Truck',
     'pick up',
     'Heavy Equipment',
     'Others',];
-  List<String> subCategoryList = [
-    'truck1',
-    'truck2',
-    'truck3',
-    'truck4',
-    'pick up1',];
   /*List<String> brandList = [
     'Scania',
     'Iveco',
@@ -44,8 +38,8 @@ class EditPost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-  create: (context) => HomeScreenCubit()..getDetailsCategoryData(id,cid,scid,bid)
-    ..idCategory(cid)..idSubCategory(scid)..idBrand(bid),
+  create: (context) => HomeScreenCubit()..getDetailsCategoryData(id,cid,bid)
+    ..idCategory(cid)..idBrand(bid),
   child: BlocConsumer<HomeScreenCubit, HomeScreenState>(
       listener: (context, state) {
         if(state is ErrorUpdatePostState)
@@ -87,7 +81,6 @@ class EditPost extends StatelessWidget {
                         id: id,
                         priceAfterDiscount: 400,
                         category: HomeScreenCubit.get(context).editIdCategoryControllerT,
-                        subcategory: HomeScreenCubit.get(context).editIdSubCategoryControllerT,
                         brand: HomeScreenCubit.get(context).editIdBrandControllerT,
                         locationFrom: HomeScreenCubit.get(context).editLocationFromControllerT,
                         locationTo: HomeScreenCubit.get(context).editLocationToControllerT,
@@ -207,30 +200,6 @@ class EditPost extends StatelessWidget {
                           onChanged: (String? value)
                           {
                             HomeScreenCubit.get(context).updateCategory(value!);
-                          },
-                        ),
-                        const SizedBox(width: 6,),
-                      ],
-                    ),onTap: () {},
-                  ),
-                  InputField(
-                    title: 'SubCategory',
-                    note: HomeScreenCubit.get(context).editSubCategoryControllerT ,
-                    widget: Row(
-                      children: [
-                        DropdownButton(
-                          dropdownColor: ColorManager.black,
-                          borderRadius: BorderRadius.circular(10),
-                          items: subCategoryList.map<DropdownMenuItem<String>>((String e) => DropdownMenuItem<String>(
-                              value: e,
-                              child: Text(e,style: const TextStyle(color: Colors.white,),)),).toList(),
-                          icon: const Icon(Icons.keyboard_arrow_down_sharp,color: Colors.grey,),
-                          iconSize: 32,
-                          elevation: 4,
-                          underline:  Container(height: 0,),
-                          onChanged: (String? value)
-                          {
-                            HomeScreenCubit.get(context).updateSubCategory(value!);
                           },
                         ),
                         const SizedBox(width: 6,),

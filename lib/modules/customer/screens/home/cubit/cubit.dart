@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -53,12 +52,12 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       images: [],
       name: 'name',
       description: 'description',
-      brand: 'brand', subcategory: 'subcategory', category: 'category', createdAt: DateTime(DateTime.april),
+      brand: 'brand', category: 'category', createdAt: DateTime(DateTime.april),
       updatedAt: DateTime(DateTime.april), imageCover: 'imageCover', truckId: '0', reviews: [], userId: '',
       currentLocation: '');
 
 
-  Future<void> getDetailsCategoryData(String id,String cid,String scid,String bid) async{
+  Future<void> getDetailsCategoryData(String id,String cid,String bid) async{
     emit(LoadingDetailsCategoryDataState());
     await DioHelper.getDate(
       url: 'truck/$id',
@@ -69,7 +68,6 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       detailsEquipment = DetailsEquipment.fromJson(value.data);
       print(detailsEquipment.userId);
       getCategory(cid);
-      getSubCategory(scid);
       getBrand(bid);
       editTextController.text = detailsEquipment.name ;
       editDescriptionController.text = detailsEquipment.description ;
@@ -87,10 +85,8 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   var editDescriptionController = TextEditingController();
   var editPriceController = TextEditingController();
   String editIdCategoryControllerT = '' ;
-  String editIdSubCategoryControllerT = '' ;
   String editIdBrandControllerT = '' ;
   String editCategoryControllerT = 'Category';
-  String editSubCategoryControllerT = 'subCategory';
   String editBrandControllerT = 'brand';
   String editLocationFromControllerT  = 'locationFrom';
   String editLocationToControllerT  = 'locationTo';
@@ -121,38 +117,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     emit(HomeUpdateCategory());
   }
 
-  void updateSubCategory(String selected) {
-    editSubCategoryControllerT = selected ;
 
-    switch(editSubCategoryControllerT) {
-      case 'truck1': {
-        editIdSubCategoryControllerT = "6449906292768740d4790d12";
-      }
-      break;
-
-      case 'truck2': {
-        editIdSubCategoryControllerT = "6449907b92768740d4790d14";
-      }
-      break;
-      case 'truck3': {
-        editIdSubCategoryControllerT = "6449908092768740d4790d16";
-      }
-      break;
-      case 'truck4': {
-        editIdSubCategoryControllerT = "6449908592768740d4790d18";
-      }
-      break;
-
-      case 'pick up1': {
-        editIdSubCategoryControllerT = "644990f192768740d4790d1c";
-      }
-      break;
-      default: {
-      }
-      break;
-    }
-    emit(HomeUpdateSubCategory());
-  }
 
   void updateBrand(String selected) {
     editBrandControllerT = selected ;
@@ -220,38 +185,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     emit(HomeIdCategory());
   }
 
-  void idSubCategory(String scid) {
-    editIdSubCategoryControllerT = scid ;
 
-    switch(editIdSubCategoryControllerT) {
-      case '6449906292768740d4790d12': {
-        editSubCategoryControllerT = "truck1";
-      }
-      break;
-
-      case '6449907b92768740d4790d14': {
-        editSubCategoryControllerT = "truck2";
-      }
-      break;
-      case '6449908092768740d4790d16': {
-        editSubCategoryControllerT = "truck3";
-      }
-      break;
-      case '6449908592768740d4790d18': {
-        editSubCategoryControllerT = "truck4";
-      }
-      break;
-
-      case '644990f192768740d4790d1c': {
-        editSubCategoryControllerT = "pick up1";
-      }
-      break;
-      default: {
-      }
-      break;
-    }
-    emit(HomeIdSubCategory());
-  }
 
   void idBrand(String bid) {
     editIdBrandControllerT = bid ;
@@ -299,7 +233,6 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
         required int price ,
         required int priceAfterDiscount ,
         required String category ,
-        required String subcategory ,
         required String brand ,
         required String locationFrom ,
         required String locationTo ,
@@ -316,7 +249,6 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
         'price' : price,
         'priceAfterDiscount' : priceAfterDiscount,
         'category' : category,
-        'subcategory' : subcategory,
         'brand' : brand,
         'locationFrom' : locationFrom,
         'locationTo' : locationTo,
@@ -468,7 +400,6 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     );}
   ////review
   CategoryModel categoryModel = CategoryModel(id: 'id', name: 'name');
-  SubCategory subCategory =SubCategory(id: 'id', name: 'name');
   Brand brand =Brand(id: 'id', name: 'name');
 
   Future<void> getCategory(String cid) async{
@@ -485,19 +416,6 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     });
   }
 
-  Future<void> getSubCategory(String scid) async {
-    emit(HomeLoadingGetSubCategory());
-    await DioHelper.getDate(
-      url: 'subcategory/$scid',
-    ).then((value)
-    {
-      subCategory =  SubCategory.fromJson(value.data);
-      emit(HomeSuccessGetSubCategory());}
-    ).catchError((error){
-      print(error.toString());
-      emit(HomeErrorGetSubCategory());
-    });
-  }
 
   Future<void> getBrand(bid) async {
     emit(HomeLoadingGetBrand());
@@ -613,6 +531,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   var descriptionControllerMap = TextEditingController();
   var startLocationControllerMap = TextEditingController();
   var deliveryLocationControllerMap = TextEditingController();
+  var paymentType = TextEditingController();
 
 
   Future<void> bookTruck({
@@ -622,6 +541,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     required String? truckId ,
     required List<double> startLocation,
     required List<double> deliveryLocation,
+    required String paymentType ,
   }) async {
 
     emit(LoadingBookTruckState());
@@ -632,12 +552,14 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
         'price': price,
         'startLocation': startLocation,
         'deliveryLocation': deliveryLocation,
+        'paymentType':paymentType
       }
     ).then((value)
     {
       print("booking Equipments") ;
       print(value.data);
-      emit(SuccessBookTruckState());
+      print(value.data['ticket']['paymentType']);
+      emit(SuccessBookTruckState(value.data));
     }).catchError((error)
     {
       if(error is DioError)
@@ -649,6 +571,33 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     });
   }
 
+  Future<void> getPaymentType({
+    required String ticket ,
+  }) async {
+
+    emit(LoadingGetPaymentTypeState());
+    DioHelper.postData(
+        url: 'booking/confirmPayment?ticket=$ticket',
+      data: {}
+    ).then((value)
+    {
+      print(value.data['url']);
+      emit(SuccessGetPaymentTypeState(value.data['url']));
+    }).catchError((error)
+    {
+      if(error is DioError)
+      {
+        print(error.response);
+        print(error.response!.data['message']);
+        emit(ErrorGetPaymentTypeState(error.response!.data['message']));
+      }
+    });
+  }
+
+  void setPayment(String selected) {
+    paymentType.text = selected ;
+    emit(PaymentTypeSelect());
+  }
   List<dynamic> search = [];
 
   void getSearch(String value) {

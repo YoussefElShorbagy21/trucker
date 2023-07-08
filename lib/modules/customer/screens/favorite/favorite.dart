@@ -73,7 +73,6 @@ Widget listBuilderOrderFav(List<DetailsEquipment> data, BuildContext context , S
                   DetailScreen(
                     id:data[reverse].truckId,
                     cid:data[reverse].category ,
-                    scid: data[reverse].subcategory,
                     bid: data[reverse].brand,
                   ),
             ),
