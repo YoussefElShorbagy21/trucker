@@ -13,7 +13,7 @@ class DioHelper
   {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://truker.genius0x1.com/api/v1/',
+        baseUrl: 'https://truck.pildextech.cf/api/v1/',
         receiveDataWhenStatusError: true,
       ),
     );

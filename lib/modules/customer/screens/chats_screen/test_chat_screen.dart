@@ -42,7 +42,7 @@ class TestChatScreen extends StatelessWidget {
                Expanded(
                 child: DemoMessageList(messages: HomeCubit.get(context).messages,),
               ),
-              _ActionBar(),
+              const _ActionBar(),
             ],
           ),
         );
