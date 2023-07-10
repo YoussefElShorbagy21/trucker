@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/ordercustomer/acceptedTransactions/order_product_accpet.dart';
 import 'package:login/modules/customer/screens/ordercustomer/currentTransactions/order_product_current.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 
 import '../../../../shared/resources/color_manager.dart';
 import 'doneTransaction/order_product_done.dart';
@@ -39,7 +40,7 @@ Widget buildCurrentTransactions(context, int length) => ListTile(
     color: Color(0xFFF1B963),
   ),
   title: Text(
-    'CurrentTransactions ($length)',
+    'CurrentTransactions '.tr(context)+'($length)',
     style: const TextStyle(
       fontSize: 16,
     ),
@@ -60,7 +61,7 @@ Widget buildAcceptedTransactions(context , int length) => ListTile(
     color: Color(0xFF22A699),
   ),
   title:  Text(
-    'AcceptedTransactions ($length)',
+    'AcceptedTransactions '.tr(context)+'($length)',
     style: const TextStyle(
       fontSize: 16,
     ),
@@ -80,7 +81,7 @@ Widget buildDoneTransactions(context , int length) => ListTile(
     color: ColorManager.kGold,
   ),
   title: Text(
-    'DoneTransactions ($length)',
+    'DoneTransactions '.tr(context)+'($length)',
     style: const TextStyle(
       fontSize: 16,
     ),

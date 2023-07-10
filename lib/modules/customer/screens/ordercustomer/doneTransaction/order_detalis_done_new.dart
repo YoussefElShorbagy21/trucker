@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/ordercustomer/cubit/order_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../shared/resources/color_manager.dart';
 import '../../../../../shared/resources/font_manager.dart';
@@ -80,9 +81,9 @@ class OrderDetailsDoneNew extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text(
-                            'Transportation success',
-                            style: TextStyle(
+                           Text(
+                            'Transportation success'.tr(context),
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -99,19 +100,19 @@ class OrderDetailsDoneNew extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Row(
+                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.emoji_objects_outlined,
                                   size: 25,
                                   color: Colors.grey,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Text(
-                                  'hint',
-                                  style: TextStyle(
+                                  'hint'.tr(context),
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -122,7 +123,7 @@ class OrderDetailsDoneNew extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12.0),
                               child: Text(
-                                'Thank you for confirming the delivery process. We hope you received your order in a timely and satisfactory manner. Please take a moment to rate your experience with the delivery process.',
+                                'Thank you for confirming the delivery process. We hope you received your order in a timely and satisfactory manner. Please take a moment to rate your experience with the delivery process.'.tr(context),
                                 style: TextStyle(
                                   color: Colors.grey.withOpacity(.5),
                                   fontSize: 13.5,
@@ -147,19 +148,19 @@ class OrderDetailsDoneNew extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Row(
+                                 Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.description_outlined,
                                       size: 25,
                                       color: Colors.grey,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
-                                      'description',
-                                      style: TextStyle(
+                                      'description'.tr(context),
+                                      style: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -181,9 +182,9 @@ class OrderDetailsDoneNew extends StatelessWidget {
                                 const SizedBox(
                                   height: 30,
                                 ),
-                                const Text(
-                                  'Booking Details',
-                                  style: TextStyle(
+                                 Text(
+                                  'Booking Details'.tr(context),
+                                  style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -192,12 +193,12 @@ class OrderDetailsDoneNew extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    const Padding(
+                                     Padding(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 5.0),
                                       child: Text(
-                                        'EGP',
-                                        style: TextStyle(
+                                        'EGP'.tr(context),
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.grey),
@@ -263,11 +264,11 @@ class OrderDetailsDoneNew extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 70,),
+                    const SizedBox(height: 70,),
                     HomeCubit.get(context).oneUserData.userData.role ==
                             "service_provider"
-                        ? const Text(
-                            'Done Transaction',
+                        ?  Text(
+                            'Done Transaction'.tr(context),
                             style: TextStyle(
                                 fontSize: 30,
                                 color: Colors.green,
@@ -295,7 +296,7 @@ class OrderDetailsDoneNew extends StatelessWidget {
                                         vertical: 10),
                                   ),
                                   child: Text(
-                                    'Review',
+                                    'Review'.tr(context),
                                     style: TextStyle(
                                       color: ColorManager.white,
                                       fontFamily: FontConstants.fontFamily,
@@ -359,9 +360,9 @@ _showBottomSheet(BuildContext context, String id, String service_providerId) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Rating the mission',
-                    style: TextStyle(
+                   Text(
+                    'Rating the mission'.tr(context),
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),

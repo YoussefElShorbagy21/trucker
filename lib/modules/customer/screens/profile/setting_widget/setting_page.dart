@@ -35,11 +35,11 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(
             height: 8,
           ),
-          buildAccountSetting(context),
+          SetLanguage(),//buildAccountSetting(context),
           const SizedBox(
             height: 8,
           ),
-          buildNotification(context),
+          buildUpdatePassword(context),//buildNotification(context),
           const SizedBox(height: 8,),
           buildJoinUS(context),
           const SizedBox(

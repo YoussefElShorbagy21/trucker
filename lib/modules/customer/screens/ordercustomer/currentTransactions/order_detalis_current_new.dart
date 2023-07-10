@@ -184,12 +184,12 @@ class OrderDetailsCurrentNew extends StatelessWidget {
                             const SizedBox(height: 20),
                             Row(
                               children: [
-                                const Padding(
+                                 Padding(
                                   padding:
-                                  EdgeInsets.symmetric(horizontal: 5.0),
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
                                   child: Text(
-                                    'EGP',
-                                    style: TextStyle(
+                                    'EGP'.tr(context),
+                                    style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey,

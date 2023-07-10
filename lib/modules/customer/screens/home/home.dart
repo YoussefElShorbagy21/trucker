@@ -436,7 +436,7 @@ class HomeScreen extends StatelessWidget {
                               );
                             },
                             child: Text(
-                              'View All(${cubit.homeModel.equipment.length.toString()})',
+                              'View All'.tr(context)+'(${cubit.homeModel.equipment.length.toString()})',
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,

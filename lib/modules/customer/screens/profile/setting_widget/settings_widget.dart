@@ -8,6 +8,7 @@ import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../shared/components/constants.dart';
 import '../../../../../shared/network/remote/dio_helper.dart';
 import '../../../../../shared/resources/color_manager.dart';
+import '../../Sign Up Screen/register_screen.dart';
 import '../../chats_screen/test_chat_screen.dart';
 import '../../favorite/favorite.dart';
 import '../../home/cubit/cubit.dart';
@@ -172,14 +173,14 @@ Widget buildDarkMode(BuildContext context, bool isDarkMode) => SwitchListTile(
       value: false,
       title: Row(
         children: [
-          const IconWidget(
-            icon: Icons.dark_mode,
+           IconWidget(
+            icon: Icons.published_with_changes,
             color: Color(0xFF642ef3),
           ),
           const SizedBox(
             width: 8,
           ),
-          Text('DarkMode'.tr(context)),
+          Text('Verify Account'.tr(context)),
         ],
       ),
     );
@@ -315,7 +316,7 @@ Widget buildUpdatePassword(context) => ListTile(
       },
       leading: const IconWidget(
         icon: Icons.password,
-        color: Colors.blue,
+        color: Colors.orangeAccent,//Colors.blue,
       ),
       title: Text(
         'Update Password'.tr(context),
@@ -352,7 +353,8 @@ Widget buildConfirmAccess(context) => ListTile(
     );
 
 Widget buildJoinUS(BuildContext context) => ListTile(
-      onTap: () {},
+      onTap: () {Navigator.push(
+          context, MaterialPageRoute(builder: (_) => RegisterScreenScreen()));},
       leading: const IconWidget(
         icon: Icons.fire_truck,
         color: Colors.teal,

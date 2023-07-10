@@ -21,7 +21,7 @@ class OrderCustomer extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
                   ' Track your orders status'.tr(context),
                   textAlign: TextAlign.left,

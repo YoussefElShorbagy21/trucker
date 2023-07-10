@@ -227,7 +227,17 @@
   "DarkMode": "DarkMode",
   "Confirm process by Pin Or QR Code": "Confirm process by Pin Or QR Code",
   "View All": "View All",
-  " Track your orders status": " Track your\n orders status"
+  " Track your orders status": " Track your\n orders status",
+  "Transportation success": "Transportation success",
+  "Thank you for confirming the delivery process. We hope you received your order in a timely and satisfactory manner. Please take a moment to rate your experience with the delivery process.": "Thank you for confirming the delivery process. We hope you received your order in a timely and satisfactory manner. Please take a moment to rate your experience with the delivery process.",
+  "Rating the mission": "Rating the mission",
+  "CurrentTransactions ": "CurrentTransactions ",
+  "AcceptedTransactions ": "AcceptedTransactions ",
+  "DoneTransactions ": "DoneTransactions",
+  "Verify Account": "Verify Account",
+  "Done Transaction": "Done Transaction",
+  "Review": "Review",
+  "EGP": "EGP"
 
 
 

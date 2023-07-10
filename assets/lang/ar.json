@@ -91,6 +91,8 @@
   "trend-title": "فئة",
   "home-title": "معدات جديدة",
   "rent-title": "أحجز الان",
+  "Transportation success": "نجاح النقل",
+
 
 
 
@@ -224,6 +226,17 @@
   "Confirm process by Pin Or QR Code": "تأكيد العملية حسب رمز ",
   "View All": "عرض الكل",
   "Support": "الدعم",
-  " Track your orders status": "تتبع حالة الطلبات الخاصة بك"
+  " Track your orders status": "تتبع حالة \nالطلبات الخاصة بك",
+  "Thank you for confirming the delivery process. We hope you received your order in a timely and satisfactory manner. Please take a moment to rate your experience with the delivery process.": "شكرا لتأكيد عملية التسليم. نأمل أن تتلقى طلبك في الوقت المناسب ومرضية. يرجى أخذ لحظة لتقييم تجربتك مع عملية التسليم.",
+  "Rating the mission": "برجاء تقيم الرحلة",
+  "CurrentTransactions ": "المعاملات الحالية",
+  "AcceptedTransactions ": "المعاملات المقبولة",
+  "DoneTransactions": "معاملات المكتملة",
+  "Verify Account": "التحقق من الحساب",
+  "DoneTransactions ": "معاملات المكتملة",
+  "DoneTransaction ": "معاملات المكتملة",
+  "Review": "التقيم",
+  "EGP": "السعر"
+
 
 }

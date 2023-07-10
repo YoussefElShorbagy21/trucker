@@ -3,6 +3,7 @@ import 'package:login/models/UserData.dart';
 import 'package:login/modules/customer/screens/ordercustomer/cubit/order_cubit.dart';
 import 'package:login/modules/customer/screens/ordercustomer/cubit/order_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../../shared/resources/color_manager.dart';
 import 'order_detalis_accept_new.dart';
 
@@ -77,7 +78,7 @@ Widget buildItemUserOrder(BuildContext context, OneUserData oneUserData) =>  Pad
               Text(oneUserData.userData.name,style: const TextStyle(fontSize: 20),),
               Text(oneUserData.userData.phone,style: const TextStyle(fontSize: 20),),
               RichText(text:  TextSpan(
-                  text:'This is your offer, click to view more',
+                  text:'This is your offer, click to view more'.tr(context),
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * 0.03,
                       color: Colors.black)
