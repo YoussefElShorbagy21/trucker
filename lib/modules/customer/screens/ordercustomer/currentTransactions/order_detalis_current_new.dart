@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/ordercustomer/cubit/order_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../../layout/homeLayout/cubit/cubit.dart';
-import '../../../../../shared/components/constants.dart';
 import '../../../../../shared/resources/color_manager.dart';
 import '../../../../../shared/resources/font_manager.dart';
-import '../acceptedTransactions/mapTracking.dart';
 import '../cubit/order_cubit.dart';
 
 class OrderDetailsCurrentNew extends StatelessWidget {
@@ -77,9 +76,9 @@ class OrderDetailsCurrentNew extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          const Text(
-                            'Waiting for accept',
-                            style: TextStyle(
+                           Text(
+                            'Waiting for accept'.tr(context),
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -96,19 +95,19 @@ class OrderDetailsCurrentNew extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Row(
+                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.emoji_objects_outlined,
                                   size: 25,
                                   color: Colors.grey,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Text(
-                                  'hint',
-                                  style: TextStyle(
+                                  'hint'.tr(context),
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -119,7 +118,7 @@ class OrderDetailsCurrentNew extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 9.0),
                               child: Text(
-                                'Your order is currently being processed and we are working to assign a delivery person. Please keep an eye out for a notification with an estimated delivery time.',
+                                'Your order is currently being processed and we are working to assign a delivery person. Please keep an eye out for a notification with an estimated delivery time.'.tr(context),
                                 style: TextStyle(
                                   color: Colors.grey.withOpacity(.5),
                                   fontSize: 14.5,
@@ -141,17 +140,17 @@ class OrderDetailsCurrentNew extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Row(
+                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.description_outlined,
                                   size: 25,
                                   color: Colors.grey,
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 Text(
-                                  'description',
-                                  style: TextStyle(
+                                  'description'.tr(context),
+                                  style: const TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -175,9 +174,9 @@ class OrderDetailsCurrentNew extends StatelessWidget {
                             SizedBox(
                                 height: MediaQuery.of(context).size.height / 30
                             ),
-                            const Text(
-                              'Booking Details',
-                              style: TextStyle(
+                             Text(
+                              'Booking Details'.tr(context),
+                              style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -270,14 +269,14 @@ class OrderDetailsCurrentNew extends StatelessWidget {
                                 fontSize: 30,
                                 color: Colors.green,
                                 fontWeight: FontWeightManager.bold,
-                                fontFamily: 'NiseBuschGardens'),
+                                fontFamily: 'NiseBuschGardens',),
                           )
                         : Container(),
                     HomeCubit.get(context).oneUserData.userData.role ==
                             "service_provider"
                         ? RichText(
                             text: TextSpan(
-                              text: 'Please respond to this request :',
+                              text: 'Please respond to this request :'.tr(context),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 20,
@@ -309,7 +308,7 @@ class OrderDetailsCurrentNew extends StatelessWidget {
                                         const EdgeInsets.symmetric(vertical: 10),
                                   ),
                                   child: Text(
-                                    'reject',
+                                    'reject'.tr(context),
                                     style: TextStyle(
                                       color: ColorManager.white,
                                       fontFamily: FontConstants.fontFamily,
@@ -342,7 +341,7 @@ class OrderDetailsCurrentNew extends StatelessWidget {
                                         const EdgeInsets.symmetric(vertical: 10),
                                   ),
                                   child: Text(
-                                    'Acceptance',
+                                    'Acceptance'.tr(context),
                                     style: TextStyle(
                                       color: ColorManager.white,
                                       fontFamily: FontConstants.fontFamily,

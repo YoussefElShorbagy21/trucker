@@ -2,78 +2,81 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login/layout/homeLayout/cubit/cubit.dart';
 import 'package:login/layout/homeLayout/cubit/state.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 import 'package:login/shared/resources/color_manager.dart';
 import '../../../../shared/components/chat_style.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../shared/components/constants.dart';
 
-
 class TestChatScreen extends StatelessWidget {
-   const TestChatScreen({Key? key,}) : super(key: key);
+  const TestChatScreen({
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-          HomeCubit.get(context).getMessage();
-        return BlocConsumer<HomeCubit, HomeStates>(
-  listener: (context, state) {
-  },
-  builder: (context, state) {
-    return Scaffold(
-          appBar: AppBar(
-            iconTheme: Theme.of(context).iconTheme,
-            centerTitle: false,
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            leadingWidth: 54,
-            leading: Align(
-              alignment: Alignment.centerRight,
-              child: IconBackground(
-                icon: CupertinoIcons.back,
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
+    return Builder(builder: (context) {
+      HomeCubit.get(context).getMessage();
+      return BlocConsumer<HomeCubit, HomeStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              iconTheme: Theme.of(context).iconTheme,
+              centerTitle: false,
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+              leadingWidth: 54,
+              leading: Align(
+                alignment: Alignment.centerRight,
+                child: IconBackground(
+                  icon: CupertinoIcons.back,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ),
+              title: Text('Support Team'.tr(context)),
             ),
-            title: const Text('Support Team'),
-          ),
-          body:   Column(
-            children: [
-               Expanded(
-                child: DemoMessageList(messages: HomeCubit.get(context).messages,),
-              ),
-              const _ActionBar(),
-            ],
-          ),
-        );
-  },
-);
-      }
-    );
+            body: Column(
+              children: [
+                Expanded(
+                  child: DemoMessageList(
+                    messages: HomeCubit.get(context).messages,
+                  ),
+                ),
+                const _ActionBar(),
+              ],
+            ),
+          );
+        },
+      );
+    });
   }
 }
+
 TextEditingController controller = TextEditingController();
-
-
 
 //all message
 class DemoMessageList extends StatelessWidget {
-  List<dynamic> messages ;
-  DemoMessageList({Key? key,required this.messages}) : super(key: key);
+  List<dynamic> messages;
+
+  DemoMessageList({Key? key, required this.messages}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: ListView.builder(
-        itemBuilder: (context , index)
-        {
-          if(uid == messages[index]['senderId'])
-          {
-            return MessageUserTile(text:messages[index]['text'] ,
-              time: messages[index]['dateTime'],);
-          }
-          else {
-            return MessageSupportTile(text:messages[index]['text'] ,
+        itemBuilder: (context, index) {
+          if (uid == messages[index]['senderId']) {
+            return MessageUserTile(
+              text: messages[index]['text'],
+              time: messages[index]['dateTime'],
+            );
+          } else {
+            return MessageSupportTile(
+                text: messages[index]['text'],
                 time: messages[index]['dateTime']);
           }
         },
@@ -85,11 +88,14 @@ class DemoMessageList extends StatelessWidget {
 
 //support team
 class MessageSupportTile extends StatelessWidget {
-  String text ;
-  String time ;
-  MessageSupportTile({super.key, required this.text ,required this.time});
+  String text;
+
+  String time;
+
+  MessageSupportTile({super.key, required this.text, required this.time});
 
   static const _borderRadius = 26.0;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -101,7 +107,7 @@ class MessageSupportTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Container(
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                 color: ColorManager.gery.withOpacity(0.1),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(_borderRadius),
@@ -137,11 +143,13 @@ class MessageSupportTile extends StatelessWidget {
 
 //message user
 class MessageUserTile extends StatelessWidget {
+  String text;
 
-  String text ;
-  String time ;
+  String time;
+
   static const _borderRadius = 26.0;
-  MessageUserTile({super.key,required this.text,required this.time});
+
+  MessageUserTile({super.key, required this.text, required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +173,8 @@ class MessageUserTile extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 12.0, vertical: 20.0),
-                child: Text(text,
+                child: Text(
+                  text,
                   style: const TextStyle(
                     color: ColorManager.textLigth,
                   ),
@@ -179,7 +188,6 @@ class MessageUserTile extends StatelessWidget {
                 fontSize: 10.0,
                 fontWeight: FontWeight.bold,
               ),
-
             ),
           ],
         ),
@@ -191,6 +199,7 @@ class MessageUserTile extends StatelessWidget {
 //Send message
 class _ActionBar extends StatelessWidget {
   const _ActionBar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -219,11 +228,11 @@ class _ActionBar extends StatelessWidget {
               right: 24.0,
             ),
             child: IconButton(
-              onPressed: (){
-                HomeCubit.get(context).sendMessage(text: controller.text,
-                name: HomeCubit.get(context).oneUserData.userData.name,
-                  image: HomeCubit.get(context).oneUserData.userData.avatar
-                );
+              onPressed: () {
+                HomeCubit.get(context).sendMessage(
+                    text: controller.text,
+                    name: HomeCubit.get(context).oneUserData.userData.name,
+                    image: HomeCubit.get(context).oneUserData.userData.avatar);
                 controller.clear();
               },
               icon: const Icon(

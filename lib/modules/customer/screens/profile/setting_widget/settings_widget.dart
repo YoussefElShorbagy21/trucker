@@ -17,7 +17,6 @@ import 'setting_page.dart';
 import '../update_password/updatePassword.dart';
 import 'AccountSetting_page.dart';
 
-
 class IconWidget extends StatelessWidget {
   final IconData icon;
   final Color color;
@@ -50,7 +49,7 @@ Widget buildLogout(BuildContext context) => ListTile(
         icon: Icons.logout,
         color: Colors.blueAccent,
       ),
-      title:  Text(
+      title: Text(
         'Logout'.tr(context),
         style: const TextStyle(
           fontSize: 16,
@@ -61,22 +60,25 @@ Widget buildLogout(BuildContext context) => ListTile(
         size: 12,
       ),
     );
+
 Widget buildDeleteAccount(BuildContext context) => ListTile(
       onTap: () {
-        showDialog(context: context,
+        showDialog(
+            context: context,
             builder: (BuildContext context) {
-              return  AlertDialog(
-                content:
-                Column(
+              return AlertDialog(
+                content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const SizedBox(
                       height: 50,
                     ),
-                    const Text.rich(
-                      TextSpan( text: 'Are you sure?? \n You want delete account !!'),
+                    Text.rich(
+                      TextSpan(
+                          text: 'Are you sure? \n You want delete account !'
+                              .tr(context)),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 23,
                         fontWeight: FontWeight.bold,
                       ),
@@ -86,28 +88,30 @@ Widget buildDeleteAccount(BuildContext context) => ListTile(
                     ),
                     Row(
                       children: [
-                        ElevatedButton(onPressed: (){
-                          Navigator.pop(context);
-                        }, child: const Text('Cancel')),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('Cancel'.tr(context))),
                         const Spacer(),
-                        ElevatedButton(onPressed: (){
-                          DioHelper.deleteData(url: 'users/deleteMe');
-                          sinOut(context);
-                        }, child: const Text('Apply')),
+                        ElevatedButton(
+                            onPressed: () {
+                              DioHelper.deleteData(url: 'users/deleteMe');
+                              sinOut(context);
+                            },
+                            child: Text('Apply'.tr(context))),
                       ],
                     ),
                   ],
                 ),
-
               );
-            }
-        );
+            });
       },
       leading: const IconWidget(
         icon: Icons.delete,
         color: Colors.pinkAccent,
       ),
-      title:  Text(
+      title: Text(
         'Delete Account'.tr(context),
         style: const TextStyle(
           fontSize: 16,
@@ -118,23 +122,38 @@ Widget buildDeleteAccount(BuildContext context) => ListTile(
         size: 12,
       ),
     );
+
 Widget buildImageChange(BuildContext context) => ListTile(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => EditProfileScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => EditProfileScreen()));
       },
       leading: CircleAvatar(
         radius: 24,
-        backgroundImage: HomeCubit.get(context).oneUserData.userData.avatar.isNotEmpty ? NetworkImage(HomeCubit.get(context).oneUserData.userData.avatar) :
-        const NetworkImage('https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',),
-        child: HomeCubit.get(context).oneUserData.userData.avatar.isNotEmpty ? null : Text(
-          HomeCubit.get(context).oneUserData.userData.name[0].toUpperCase(),
-          style: TextStyle(
-            fontSize: 22,
-            color: ColorManager.black,
-          ),
-        ),
+        backgroundImage: HomeCubit.get(context)
+                .oneUserData
+                .userData
+                .avatar
+                .isNotEmpty
+            ? NetworkImage(HomeCubit.get(context).oneUserData.userData.avatar)
+            : const NetworkImage(
+                'https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',
+              ),
+        child: HomeCubit.get(context).oneUserData.userData.avatar.isNotEmpty
+            ? null
+            : Text(
+                HomeCubit.get(context)
+                    .oneUserData
+                    .userData
+                    .name[0]
+                    .toUpperCase(),
+                style: TextStyle(
+                  fontSize: 22,
+                  color: ColorManager.black,
+                ),
+              ),
       ),
-      title:  Text(
+      title: Text(
         'Profile'.tr(context),
         style: const TextStyle(
           fontSize: 16,
@@ -151,16 +170,16 @@ Widget buildDarkMode(BuildContext context, bool isDarkMode) => SwitchListTile(
         isDarkMode = !isDarkMode;
       },
       value: false,
-      title: const Row(
+      title: Row(
         children: [
-          IconWidget(
+          const IconWidget(
             icon: Icons.dark_mode,
             color: Color(0xFF642ef3),
           ),
-          SizedBox(
+          const SizedBox(
             width: 8,
           ),
-          Text('DarkMode'),
+          Text('DarkMode'.tr(context)),
         ],
       ),
     );
@@ -174,14 +193,14 @@ Widget buildAccountSetting(BuildContext context) => ListTile(
         icon: Icons.person,
         color: Colors.green,
       ),
-      title: const Text(
-        'Account Settings',
-        style: TextStyle(
+      title: Text(
+        'Account Settings'.tr(context),
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
-      subtitle: const Text(
-        'Privacy, Security, Language',
+      subtitle: Text(
+        'Privacy, Security, Language'.tr(context),
       ),
       subtitleTextStyle: const TextStyle(color: Colors.blueGrey, fontSize: 10),
       trailing: const Icon(
@@ -199,9 +218,9 @@ Widget buildSupport(context) => ListTile(
         icon: Icons.support_agent_outlined,
         color: Colors.blue,
       ),
-      title: const Text(
-        'Support',
-        style: TextStyle(
+      title: Text(
+        'Support'.tr(context),
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -211,15 +230,15 @@ Widget buildSupport(context) => ListTile(
       ),
     );
 
-Widget buildPaymentMethod() => ListTile(
+Widget buildPaymentMethod(context) => ListTile(
       onTap: () {},
       leading: const IconWidget(
         icon: Icons.payments_rounded,
         color: Colors.amber,
       ),
-      title: const Text(
-        'Payment Method',
-        style: TextStyle(
+      title: Text(
+        'Payment Method'.tr(context),
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -229,15 +248,15 @@ Widget buildPaymentMethod() => ListTile(
       ),
     );
 
-Widget buildNotification() => ListTile(
+Widget buildNotification(context) => ListTile(
       onTap: () {},
       leading: const IconWidget(
         icon: Icons.notifications,
         color: Colors.orangeAccent,
       ),
-      title: const Text(
-        'Notifications',
-        style: TextStyle(
+      title: Text(
+        'Notifications'.tr(context),
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -249,15 +268,16 @@ Widget buildNotification() => ListTile(
 
 Widget buildMyOrder(context) => ListTile(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderCustomer()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const OrderCustomer()));
       },
       leading: const IconWidget(
         icon: Icons.add_task_outlined,
         color: Colors.green,
       ),
-      title: const Text(
-        'My Orders',
-        style: TextStyle(
+      title: Text(
+        'My Orders'.tr(context),
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -268,34 +288,36 @@ Widget buildMyOrder(context) => ListTile(
     );
 
 Widget buildFavorite(context) => ListTile(
-  onTap: () {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => FavoriteScreen()));
-  },
-  leading: const IconWidget(
-    icon: Icons.favorite,
-    color: Colors.red,
-  ),
-  title:  const Text(
-    'Favorites',
-    style: TextStyle(
-      fontSize: 16,
-    ),
-  ),
-  trailing:  const Icon(
-    Icons.arrow_forward_ios,
-    size: 12,
-  ),
-);
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => FavoriteScreen()));
+      },
+      leading: const IconWidget(
+        icon: Icons.favorite,
+        color: Colors.red,
+      ),
+      title: Text(
+        'Favorites'.tr(context),
+        style: const TextStyle(
+          fontSize: 16,
+        ),
+      ),
+      trailing: const Icon(
+        Icons.arrow_forward_ios,
+        size: 12,
+      ),
+    );
 
 Widget buildUpdatePassword(context) => ListTile(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => UpdatePassword()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => UpdatePassword()));
       },
       leading: const IconWidget(
         icon: Icons.password,
         color: Colors.blue,
       ),
-      title:  Text(
+      title: Text(
         'Update Password'.tr(context),
         style: const TextStyle(
           fontSize: 16,
@@ -307,20 +329,20 @@ Widget buildUpdatePassword(context) => ListTile(
       ),
     );
 
-Widget buildConfirmAccess() => ListTile(
+Widget buildConfirmAccess(context) => ListTile(
       onTap: () {},
       leading: const IconWidget(
         icon: Icons.qr_code_2,
         color: Colors.teal,
       ),
-      title: const Text(
-        'Confirm Access',
-        style: TextStyle(
+      title: Text(
+        'Confirm Access'.tr(context),
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
-      subtitle: const Text(
-        'Confirm process by Pin Or QR Code ',
+      subtitle: Text(
+        'Confirm process by Pin Or QR Code '.tr(context),
       ),
       subtitleTextStyle: const TextStyle(color: Colors.blueGrey, fontSize: 10),
       trailing: const Icon(
@@ -335,14 +357,14 @@ Widget buildJoinUS(BuildContext context) => ListTile(
         icon: Icons.fire_truck,
         color: Colors.teal,
       ),
-      title: const Text(
-        'Join Us',
-        style: TextStyle(
+      title: Text(
+        'Join Us'.tr(context),
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
-      subtitle: const Text(
-        'Become a trucker to get your job',
+      subtitle: Text(
+        'Become a trucker to get your job'.tr(context),
       ),
       subtitleTextStyle: const TextStyle(color: Colors.blueGrey, fontSize: 10),
       trailing: const Icon(
@@ -368,6 +390,7 @@ Widget buildReportBug() => ListTile(
         size: 12,
       ),
     );
+
 Widget buildSendFeedback() => ListTile(
       onTap: () {},
       leading: const IconWidget(
@@ -405,39 +428,38 @@ class _SetLanguageState extends State<SetLanguage> {
         icon: Icons.language,
         color: Colors.blueAccent,
       ),
-      title:  Text(
+      title: Text(
         'Languages'.tr(context),
         style: const TextStyle(
           fontSize: 16,
         ),
       ),
       trailing: BlocConsumer<HomeCubit, HomeStates>(
-  listener: (context, state) {
-  },
-  builder: (context, state) {
-    return DropdownButton<String>(
-        value: selectedlanguage,
-        onChanged: (language) {
-          if (language == languageList[0]) {
-            context.read<HomeCubit>().cachedLanguageCode('en');
-          } else {
-            context.read<HomeCubit>().cachedLanguageCode('ar');
-          }
+        listener: (context, state) {},
+        builder: (context, state) {
+          return DropdownButton<String>(
+            value: selectedlanguage,
+            onChanged: (language) {
+              if (language == languageList[0]) {
+                context.read<HomeCubit>().cachedLanguageCode('en');
+              } else {
+                context.read<HomeCubit>().cachedLanguageCode('ar');
+              }
+            },
+            items: languageList
+                .map(
+                  (item) => DropdownMenuItem(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ),
+                )
+                .toList(),
+          );
         },
-        items: languageList
-            .map(
-              (item) => DropdownMenuItem(
-                value: item,
-                child: Text(
-                  item,
-                  style: const TextStyle(fontSize: 12),
-                ),
-              ),
-            )
-            .toList(),
-      );
-  },
-),
+      ),
     );
   }
 }
@@ -484,9 +506,9 @@ class _SetLocationState extends State<SetLocation> {
         icon: Icons.location_on,
         color: Colors.deepOrangeAccent,
       ),
-      title: const Text(
-        'Location',
-        style: TextStyle(
+      title: Text(
+        'Location'.tr(context),
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),

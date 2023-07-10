@@ -427,7 +427,7 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
                         ),*/
                           Text(
                             equipment.name,
-                            style:  TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
                               color: Colors.grey.withOpacity(0.5),
@@ -437,38 +437,40 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
                       ),
                     ),
                     HomeCubit.get(context).oneUserData.userData.role !=
-                        "service_provider"
+                            "service_provider"
                         ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 7),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          FavoriteButton(
-                            iconSize: 30,
-                            isFavorite: HomeCubit.get(context)
-                                        .favorites[equipment.id] ==
-                                    'find'
-                                ? true
-                                : false,
-                            valueChanged: (isFavorite) {
-                              if (isFavorite == true) {
-                                HomeCubit.get(context)
-                                    .addFavorite(truck: equipment.id);
-                                HomeCubit.get(context).delayTime(5);
-                                HomeCubit.get(context).favorites[equipment.id] =
-                                    'find';
-                              } else {
-                                HomeCubit.get(context)
-                                    .deleteFavorite(truck: equipment.id);
-                                HomeCubit.get(context).delayTime(5);
-                                HomeCubit.get(context).favorites[equipment.id] =
-                                    '';
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ) : Container(),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 7),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                FavoriteButton(
+                                  iconSize: 30,
+                                  isFavorite: HomeCubit.get(context)
+                                              .favorites[equipment.id] ==
+                                          'find'
+                                      ? true
+                                      : false,
+                                  valueChanged: (isFavorite) {
+                                    if (isFavorite == true) {
+                                      HomeCubit.get(context)
+                                          .addFavorite(truck: equipment.id);
+                                      HomeCubit.get(context).delayTime(5);
+                                      HomeCubit.get(context)
+                                          .favorites[equipment.id] = 'find';
+                                    } else {
+                                      HomeCubit.get(context)
+                                          .deleteFavorite(truck: equipment.id);
+                                      HomeCubit.get(context).delayTime(5);
+                                      HomeCubit.get(context)
+                                          .favorites[equipment.id] = '';
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),

@@ -22,6 +22,7 @@ class HomeScreen extends StatelessWidget {
     'Heavy Equipment',
     'Others',
   ];
+
 /*  List<String> brandList = [
     'Scania',
     'Iveco',
@@ -87,8 +88,9 @@ class HomeScreen extends StatelessWidget {
                                           MaterialPageRoute(
                                               builder: (_) => SearchScreen()));
                                     },
-                                    decoration: const InputDecoration(
-                                      hintText: 'What would you like? ',
+                                    decoration: InputDecoration(
+                                      hintText:
+                                          'What would you like? '.tr(context),
                                       border: InputBorder.none,
                                     ),
                                   ),
@@ -102,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                                           return AlertDialog(
                                             actions: [
                                               InputField(
-                                                title: 'Category',
+                                                title: 'Category'.tr(context),
                                                 note: HomeCubit.get(context)
                                                     .categoryControllerF,
                                                 widget: Row(
@@ -159,7 +161,7 @@ class HomeScreen extends StatelessWidget {
                                                 height: 20,
                                               ),
                                               InputField(
-                                                title: 'Brand',
+                                                title: 'Brand'.tr(context),
                                                 note: HomeCubit.get(context)
                                                     .brandControllerF,
                                                 widget: Row(
@@ -170,7 +172,9 @@ class HomeScreen extends StatelessWidget {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10),
-                                                      items: HomeCubit.get(context).nameBrand
+                                                      items: HomeCubit.get(
+                                                              context)
+                                                          .nameBrand
                                                           .map<
                                                               DropdownMenuItem<
                                                                   String>>(
@@ -220,8 +224,8 @@ class HomeScreen extends StatelessWidget {
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       },
-                                                      child:
-                                                          const Text('Cancel')),
+                                                      child: Text('Cancel'
+                                                          .tr(context))),
                                                   const Spacer(),
                                                   ElevatedButton(
                                                       onPressed: () {
@@ -240,8 +244,8 @@ class HomeScreen extends StatelessWidget {
                                                                 builder: (_) =>
                                                                     const FilterEquipments()));
                                                       },
-                                                      child:
-                                                          const Text('Apply')),
+                                                      child: Text(
+                                                          'Apply'.tr(context))),
                                                 ],
                                               ),
                                             ],
@@ -474,9 +478,10 @@ class HomeScreen extends StatelessWidget {
                     : FloatingActionButton(
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => NewPostScreen()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NewPostScreen()),
+                          );
                         },
                         materialTapTargetSize: MaterialTapTargetSize.padded,
                         elevation: 5,

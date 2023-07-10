@@ -22,11 +22,12 @@ class DetailScreen extends StatefulWidget {
   String cid;
   String bid;
 
-  DetailScreen(
-      {super.key,
-      required this.id,
-      required this.cid,
-      required this.bid});
+  DetailScreen({
+    super.key,
+    required this.id,
+    required this.cid,
+    required this.bid,
+  });
 
   @override
   _DetailScreenState createState() => _DetailScreenState();
@@ -151,13 +152,15 @@ class _DetailScreenState extends State<DetailScreen> {
                                 bottomLeft: Radius.circular(60),
                               ),
                               child: Container(
-
                                 decoration: BoxDecoration(
-                               image: DecorationImage(fit: BoxFit.cover,image: NetworkImage(cubit.imageCover),),
-                               ),
-                              ),//cubit.imageCover.isNotEmpty?Image.network(
-                                //cubit.imageCover,
-                                //fit: BoxFit.cover,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(cubit.imageCover),
+                                  ),
+                                ),
+                              ), //cubit.imageCover.isNotEmpty?Image.network(
+                              //cubit.imageCover,
+                              //fit: BoxFit.cover,
                               // ),
                             ),
                           ),
@@ -226,12 +229,14 @@ class _DetailScreenState extends State<DetailScreen> {
                                               const SizedBox(
                                                 height: 50,
                                               ),
-                                              const Text.rich(
+                                              Text.rich(
                                                 TextSpan(
-                                                    text:
-                                                        'Are you sure?? \n You want delete you post !!'),
+                                                  text:
+                                                      'Are you sure? \n You Want To Delete Your post !'
+                                                          .tr(context),
+                                                ),
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 23,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -245,22 +250,24 @@ class _DetailScreenState extends State<DetailScreen> {
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       },
-                                                      child:
-                                                          const Text('Cancel')),
+                                                      child: Text('Cancel'
+                                                          .tr(context))),
                                                   const Spacer(),
                                                   ElevatedButton(
-                                                      onPressed: () {
-                                                        DioHelper.deleteData(
-                                                            url:
-                                                                'truck/${widget.id}');
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (_) =>
-                                                                    const HomeLayout()));
-                                                      },
-                                                      child:
-                                                          const Text('Apply')),
+                                                    onPressed: () {
+                                                      DioHelper.deleteData(
+                                                          url:
+                                                              'truck/${widget.id}');
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (_) =>
+                                                                  const HomeLayout()));
+                                                    },
+                                                    child: Text(
+                                                      'Apply'.tr(context),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ],
@@ -322,10 +329,10 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
 
                     ///About text
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 32),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
                       child: Text(
-                        "About",
+                        "About".tr(context),
                       ),
                     ),
 
@@ -342,12 +349,12 @@ class _DetailScreenState extends State<DetailScreen> {
                         trimLines: 2,
                         colorClickableText: ColorManager.gery,
                         trimMode: TrimMode.Length,
-                        trimCollapsedText: 'Show more !',
+                        trimCollapsedText: 'Show more !'.tr(context),
                         lessStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                             color: ColorManager.black),
-                        trimExpandedText: 'Show less !',
+                        trimExpandedText: 'Show less !'.tr(context),
                         moreStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
@@ -359,7 +366,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       height: 40,
                     ),
                     Text(
-                      '  Renter',
+                      '  Driver'.tr(context),
                       style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 20,
@@ -405,13 +412,15 @@ class _DetailScreenState extends State<DetailScreen> {
                             ),
                             child: IconButton(
                               onPressed: () {
-                                _deliverReviewBottomSheet(HomeScreenCubit.get(context).reviewModel,
+                                _deliverReviewBottomSheet(
+                                    HomeScreenCubit.get(context).reviewModel,
                                     context,
                                     HomeScreenCubit.get(context).reviews.length,
-                                    HomeScreenCubit.get(context).finalRatingAverage,
-                                    HomeScreenCubit.get(context).oneUsersDataForComments,
-                                  userCubit
-                                );
+                                    HomeScreenCubit.get(context)
+                                        .finalRatingAverage,
+                                    HomeScreenCubit.get(context)
+                                        .oneUsersDataForComments,
+                                    userCubit);
                               },
                               icon: const Icon(
                                 Icons.star_rate_outlined,
@@ -476,10 +485,14 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 }
 
-_deliverReviewBottomSheet(List<ReviewModel> reviewModel,
-    BuildContext context,int len,double finalRatingAverage,List<OneUserData> userData,
-    OneUserData userCubit,
-    ) {
+_deliverReviewBottomSheet(
+  List<ReviewModel> reviewModel,
+  BuildContext context,
+  int len,
+  double finalRatingAverage,
+  List<OneUserData> userData,
+  OneUserData userCubit,
+) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -553,7 +566,7 @@ _deliverReviewBottomSheet(List<ReviewModel> reviewModel,
                   RatingBar.builder(
                     initialRating: finalRatingAverage,
                     ignoreGestures: true,
-                    allowHalfRating: true ,
+                    allowHalfRating: true,
                     minRating: 1,
                     direction: Axis.horizontal,
                     itemCount: 5,
@@ -563,18 +576,16 @@ _deliverReviewBottomSheet(List<ReviewModel> reviewModel,
                       Icons.star,
                       color: Colors.yellow,
                     ),
-                    onRatingUpdate: (update){
-
-                    },
+                    onRatingUpdate: (update) {},
                   ),
                   const SizedBox(
                     height: 18,
                   ),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Comments',
-                      style: TextStyle(
+                      'Comments'.tr(context),
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -588,8 +599,8 @@ _deliverReviewBottomSheet(List<ReviewModel> reviewModel,
                       reviewModel,
                       context,
                       userData,
-                        len,
-                 ),
+                      len,
+                    ),
                   ),
                 ],
               ),
@@ -601,87 +612,79 @@ _deliverReviewBottomSheet(List<ReviewModel> reviewModel,
   );
 }
 
-Widget listBuilderComment(List<ReviewModel> reviewModel, BuildContext context,List<OneUserData> userData,int len) => SizedBox(
-  height: MediaQuery.of(context).size.height,
-  width: MediaQuery.of(context).size.width / 1.2,
-  child:   ListView.builder(
-    itemBuilder: (context, index) {
-      print('in listBuilderComment ${reviewModel[index].title}');
-      print('in listBuilderComment ${userData[index].userData.name}');
-      print(len);
-      if(len == 0)
-        {
-          const Text('No have Review');
-        }
-      else{
-        return buildCommentItem(reviewModel[index],userData[index]);
+Widget listBuilderComment(List<ReviewModel> reviewModel, BuildContext context,
+        List<OneUserData> userData, int len) =>
+    SizedBox(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width / 1.2,
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          print('in listBuilderComment ${reviewModel[index].title}');
+          print('in listBuilderComment ${userData[index].userData.name}');
+          print(len);
+          if (len == 0) {
+            Text('No have Review'.tr(context));
+          } else {
+            return buildCommentItem(reviewModel[index], userData[index]);
+          }
+        },
+        itemCount: len,
+      ),
+    );
 
-      }
-    },
-    itemCount:  len,
-  ),
-);
-
-Widget buildCommentItem(ReviewModel reviewModel,OneUserData userData) {
+Widget buildCommentItem(ReviewModel reviewModel, OneUserData userData) {
   print('in buildCommentItem ${reviewModel.title}');
   print('in buildCommentItem ${userData.userData.name}');
   return Padding(
-  padding: const EdgeInsets.symmetric(vertical:8.0),
-  child: Container(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
-      color: Colors.grey.withOpacity(0.1),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            CircleAvatar(
-              radius: 15,
-              backgroundImage:
-              userData.userData.avatar.isNotEmpty
-                  ? NetworkImage(userData.userData.avatar)
-                  : const NetworkImage(
-                'https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.grey.withOpacity(0.1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 15,
+                backgroundImage: userData.userData.avatar.isNotEmpty
+                    ? NetworkImage(userData.userData.avatar)
+                    : const NetworkImage(
+                        'https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',
+                      ),
+                child: userData.userData.avatar.isNotEmpty
+                    ? null
+                    : Text(
+                        userData.userData.name[0].toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: ColorManager.black,
+                        ),
+                      ),
               ),
-              child: userData.userData.avatar.isNotEmpty
-                  ? null
-                  : Text(
-                userData.userData.name[0].toUpperCase(),
-                style: TextStyle(
-                  fontSize: 30,
-                  color: ColorManager.black,
+              const SizedBox(width: 5),
+              Text(
+                userData.userData.name,
+                style: const TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            const SizedBox(width: 5),
-            Text(
-              userData.userData.name,
-              style: const TextStyle(
-                fontSize: 15,
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 5),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Text(
-            reviewModel.title,
-            style: const TextStyle(color: Colors.grey),
+            ],
           ),
-        ),
-      ],
+          const SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Text(
+              reviewModel.title,
+              style: const TextStyle(color: Colors.grey),
+            ),
+          ),
+        ],
+      ),
     ),
-  ),
-);
+  );
 }
-
-
-
-
-
-

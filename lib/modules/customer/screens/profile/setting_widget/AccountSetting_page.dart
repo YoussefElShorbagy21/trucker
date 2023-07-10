@@ -18,7 +18,7 @@ class AccountSettingPage extends StatelessWidget {
           const SizedBox(height: 35),
           buildUpdatePassword(context),
           const SizedBox(height: 8),
-          buildConfirmAccess(),
+          buildConfirmAccess(context),
         ],
       ),
     );

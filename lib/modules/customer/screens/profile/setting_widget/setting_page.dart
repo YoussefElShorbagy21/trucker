@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/profile/setting_widget/settings_widget.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -16,8 +17,8 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
-          const Text(
-            'Settings',
+           Text(
+            'Settings'.tr(context),
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
@@ -38,7 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(
             height: 8,
           ),
-          buildNotification(),
+          buildNotification(context),
           const SizedBox(height: 8,),
           buildJoinUS(context),
           const SizedBox(
@@ -46,9 +47,9 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           // const Divider(),
 
-          const Padding(
+           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Text('Account'),
+            child: Text('Account'.tr(context)),
           ),
           const SizedBox(height: 8),
           buildLogout(context),

@@ -72,7 +72,6 @@ class IconBorder extends StatelessWidget {
 
 // =========================================
 
-
 class Avatar extends StatelessWidget {
   const Avatar({
     Key? key,

@@ -165,7 +165,72 @@
 
   "confirm": "Confirm",
 
-  "Settings" : "Settings",
 
-  "Sign Up": "Sign Up"
+
+  "Sign Up": "Sign Up",
+
+  "Check Your Connection": "Check Your Connection",
+  "cash": "cash",
+  "card": "card",
+  "You must add details for booking?": "You must add details for booking?",
+  "StartLocation": "StartLocation",
+  "DeliveryLocation": "DeliveryLocation",
+  "paymentType": "paymentType",
+  "description": "description",
+  "Submit": "Submit",
+  "please enter value": "Please enter value",
+  "Support Team": "Support Team",
+  "Add Image": "Add Image",
+  "Are you sure? \n You Want To Delete Your post !": "Are you sure? \n You Want To Delete Your post !",
+  "Brand": "Brand",
+  "Cancel": "Cancel",
+  "Apply": "Apply",
+  "About": "About",
+  "Show more !": "Show more !",
+  "Show less !": "Show less !",
+  "  Driver": "  Driver",
+  "Comments": "Comments",
+  "No have Review": "No have Review",
+  "please chose photo card" : "please chose photo card",
+
+  "National Id" : "National Id",
+
+  "Please Enter National Id" : "Please Enter National Id",
+
+  "Driving License" : "Driving License",
+
+  "sendOtpAgain" : "sendOtpAgain",
+  "search must not be empty" : "search must not be empty",
+
+  "What would you like? " : "What would you like? ",
+  "Favorites" : "Favorites",
+
+  "Support" : "Support",
+  "currentLocation" : "currentLocation",
+  "Booking Details": "Booking Details",
+  "Acceptance": "Acceptance",
+  "Please respond to this request :": "Please respond to this request :",
+  "Your order is currently being processed and we are working to assign a delivery person. Please keep an eye out for a notification with an estimated delivery time.": "Your order is currently being processed and we are working to assign a delivery person. Please keep an eye out for a notification with an estimated delivery time.",
+  "hint": "hint",
+  "Waiting for accept": "Waiting for accept",
+  "your order has been accepted by the delivery person. Please wait for the delivery of your order and enter the OTP code": "your order has been accepted by the delivery person. Please wait for the delivery of your order and enter the OTP code",
+  "Follow You Map": "Follow You Map",
+  "Follow Your Product": "Follow Your Product",
+  "Send Code": "Send Code",
+  "Filter": "Filter",
+  "Update Post": "Update Post",
+  "Change Image": "Change Image",
+  "locationTo": "locationTo",
+  "locationFrom": "locationFrom",
+  "Confirm Access": "Confirm Access",
+  "Are you sure? \n You want delete account !": "Are you sure? \n You want delete account !",
+  "DarkMode": "DarkMode",
+  "Confirm process by Pin Or QR Code": "Confirm process by Pin Or QR Code",
+  "View All": "View All",
+  " Track your orders status": " Track your\n orders status"
+
+
+
+
+
 }

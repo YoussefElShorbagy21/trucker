@@ -18,7 +18,6 @@ import 'cubit/login_state.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class LoginScreen extends StatefulWidget {
-
   LoginScreen({super.key});
 
   @override
@@ -26,37 +25,41 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
   var emailController = TextEditingController();
 
   var passwordController = TextEditingController();
-  void checkConnectivity(context) async{
+
+  void checkConnectivity(context) async {
     var result = await Connectivity().checkConnectivity();
     print(result);
-    if(result == ConnectivityResult.none)
-      {
-        print('snakbar');
-        const snackBar = SnackBar(
-          margin: EdgeInsets.all(50),
-          duration: Duration(seconds: 5),
-          shape: StadiumBorder(),
-          elevation: 5,
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.red,
-          content: Text('Check Your Connection',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-            ),),
-        );
-        scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
-      }
+    if (result == ConnectivityResult.none) {
+      print('snakbar');
+      dynamic snackBar = SnackBar(
+        margin: const EdgeInsets.all(50),
+        duration: const Duration(seconds: 5),
+        shape: const StadiumBorder(),
+        elevation: 5,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.red,
+        content: Text(
+          'Check Your Connection'.tr(context),
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      );
+      scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
+    }
   }
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-@override
-  void initState()  {
+  @override
+  void initState() {
     super.initState();
     checkConnectivity(context);
   }
@@ -65,9 +68,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => LoginCubit(),
-      child: BlocConsumer<LoginCubit,LoginState>(
-      listener: (context,state) {
-        if(state is LoginSuccessState) {
+      child: BlocConsumer<LoginCubit, LoginState>(
+        listener: (context, state) {
+          if (state is LoginSuccessState) {
             final snackBar = SnackBar(
               margin: const EdgeInsets.all(50),
               duration: const Duration(seconds: 5),
@@ -75,270 +78,326 @@ class _LoginScreenState extends State<LoginScreen> {
               elevation: 5,
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.green,
-              content: Text(state.model.message.toString(),
+              content: Text(
+                state.model.message.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
-                ),),
-            );
-            scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
-            HomeCubit.get(context).changeBottomNavIndex(0);
-         if(state.model.verified)
-        {
-          CacheHelper.saveData(key: 'TokenId', value: state.model.token);
-          CacheHelper.saveData(key: 'ID', value: state.model.id);
-          navigateFish(context, const HomeLayout());
-        }
-        else{
-        navigateFish(context, VerifyScreen(state.model.token,idR: state.model.id,));
-        }
-        HomeCubit.get(context).getUserData(userID: state.model.id);
-        }
-        else if(state is LoginErrorState){
-          final snackBar = SnackBar(
-            margin: const EdgeInsets.all(50),
-            duration: const Duration(seconds: 5),
-            shape: const StadiumBorder(),
-            elevation: 5,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
-            content: Text(state.errorModel.toString(),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),),
-          );
-          scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
-        }
-      },
-      builder: (context,state) {
-        return StreamBuilder<ConnectivityResult>(
-          stream: Connectivity().onConnectivityChanged,
-          builder: (context, snapshot) {
-            if(snapshot.data == ConnectivityResult.none)
-            {
-              print(snapshot.data);
-              const snackBar = SnackBar(
-                margin: EdgeInsets.all(50),
-                duration: Duration(seconds: 5),
-                shape: StadiumBorder(),
-                elevation: 5,
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.red,
-                content: Text('Check Your Connection',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),),
-              );
-              scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
-            }
-            return ScaffoldMessenger(
-              key: scaffoldMessengerKey,
-              child: Scaffold(
-                body: SafeArea(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 30),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 10,
-                          ),
-                          Center(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('titleLogin'.tr(context),
-                                  style: TextStyle(
-                                    color: ColorManager.black,
-                                    fontFamily: FontConstants.fontFamily,
-                                    fontSize: FontSize.s24,
-                                    fontWeight: FontWeightManager.bold,
-                                  ),
-                                ),
-                                Text('subTitleLogin'.tr(context),
-                                  style: TextStyle(
-                                    color: ColorManager.gery,
-                                    fontFamily: FontConstants.fontFamily,
-                                    fontSize: FontSize.s16,
-                                    fontWeight: FontWeightManager.medium,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 12.5,
-                          ),
-                          Form(
-                              key: formKey,
-                              child: Column(
-                                children:
-                                [
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                        labelText: 'login_button'.tr(context),
-                                        prefixIcon: Icon(Icons.person_outlined,color: ColorManager.gery,),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(35.0),
-                                        )
-                                    ),
-                                    controller: emailController,
-                                    keyboardType: TextInputType.emailAddress,
-                                    textInputAction: TextInputAction.next,
-                                    validator:(value){
-                                      if(value!.isEmpty)
-                                        {
-                                          return 'emailAddress'.tr(context);
-                                        }
-                                      return null;
-                                      },
-                                  ),
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height/35,
-                                  ),
-                                  TextFormField(
-                                    obscureText: LoginCubit.get(context).isPasswordShown,
-                                    controller: passwordController,
-                                    keyboardType: TextInputType.visiblePassword,
-                                    textInputAction: TextInputAction.done,
-                                    validator: (value){
-                                      if(value!.isEmpty)
-                                      {
-                                        return 'passwordError'.tr(context);
-                                      }
-                                      return null;
-                                    },
-                                    onFieldSubmitted: (value){
-                                      if(formKey.currentState!.validate())
-                                      {
-                                        LoginCubit.get(context).userLogin(email: emailController.text,
-                                            password: passwordController.text);
-                                      }
-                                    },
-                                    decoration: InputDecoration(
-                                        labelText: 'password_hint'.tr(context),
-                                        prefixIcon: const Icon(Icons.lock_outline_sharp),
-                                        suffixIcon: IconButton(
-                                          onPressed: (){
-                                            LoginCubit.get(context).changePasswordVisibility() ;
-                                          } ,
-                                          icon: Icon(LoginCubit.get(context).suffix),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(35.0),
-                                        )
-                                    ),
-                                  ),
-                                  Row(
-                                    children:
-                                    [
-                                      TextButton(onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterScreenScreen()));
-                                      },
-                                        child: Text('register_text'.tr(context),
-                                          style: TextStyle(
-                                            color: ColorManager.brightBlue,
-                                            fontWeight: FontWeightManager.semiBold,
-                                            fontFamily: FontConstants.fontFamily,
-                                          ),
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      TextButton(onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (_) =>  ForgotPassword()));
-                                      },
-                                          child: Text('forgot_password_text'.tr(context),
-                                            style: TextStyle(
-                                              color: ColorManager.black,
-                                              fontWeight: FontWeightManager.semiBold,
-                                              fontFamily: FontConstants.fontFamily,
-                                            ),
-                                          ),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height/50,
-                                  ),
-                                  Conditional.single(
-                                    context: context ,
-                                    conditionBuilder: (BuildContext  context) => state is! LoginLoadingState,
-                                      widgetBuilder: (context){
-                                      return Container(
-                                        width: double.infinity,
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: MediaQuery.of(context).size.width/35,
-                                        ),
-                                        child: TextButton(
-                                          onPressed:(){
-                                            if(formKey.currentState!.validate()){
-                                              LoginCubit.get(context).userLogin(email: emailController.text,
-                                                  password: passwordController.text);
-                                            }
-                                        } ,
-                                          style: TextButton.styleFrom(
-                                            shape: const StadiumBorder(),
-                                            backgroundColor: ColorManager.black,
-                                            padding: const EdgeInsets.symmetric(vertical: 14),
-                                          ),
-                                          child:  Text("login_button".tr(context),
-                                            style: TextStyle(
-                                              color: ColorManager.white,
-                                              fontFamily: FontConstants.fontFamily,
-                                              fontSize: FontSize.s22,
-                                              fontWeight: FontWeightManager.semiBold,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                      },
-                                      fallbackBuilder: (context) {
-                                        return const Center(child: CircularProgressIndicator()) ;
-                                      }
-                                  ),
-                                  const OrDivider(),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SocialIcons(
-                                          iconSource: "assets/icons/facebook.svg",
-                                          press: (){
-                                            print("facebook");
-                                          }
-                                      ),
-                                      SocialIcons(
-                                          iconSource: "assets/icons/twitter.svg",
-                                          press: (){
-                                            print("twitter");
-                                          }
-                                      ),
-                                      SocialIcons(
-                                          iconSource: "assets/icons/google-plus.svg",
-                                          press: (){
-                                            print("google");
-                                          }
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                 ),
               ),
             );
+            scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
+            HomeCubit.get(context).changeBottomNavIndex(0);
+            if (state.model.verified) {
+              CacheHelper.saveData(key: 'TokenId', value: state.model.token);
+              CacheHelper.saveData(key: 'ID', value: state.model.id);
+              navigateFish(context, const HomeLayout());
+            } else {
+              navigateFish(
+                  context,
+                  VerifyScreen(
+                    state.model.token,
+                    idR: state.model.id,
+                  ));
+            }
+            HomeCubit.get(context).getUserData(userID: state.model.id);
+          } else if (state is LoginErrorState) {
+            final snackBar = SnackBar(
+              margin: const EdgeInsets.all(50),
+              duration: const Duration(seconds: 5),
+              shape: const StadiumBorder(),
+              elevation: 5,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+              content: Text(
+                state.errorModel.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+            scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
           }
-        );
-      },
+        },
+        builder: (context, state) {
+          return StreamBuilder<ConnectivityResult>(
+              stream: Connectivity().onConnectivityChanged,
+              builder: (context, snapshot) {
+                if (snapshot.data == ConnectivityResult.none) {
+                  print(snapshot.data);
+                  dynamic snackBar = SnackBar(
+                    margin: const EdgeInsets.all(50),
+                    duration: const Duration(seconds: 5),
+                    shape: const StadiumBorder(),
+                    elevation: 5,
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.red,
+                    content: Text(
+                      'Check Your Connection'.tr(context),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                  scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
+                }
+                return ScaffoldMessenger(
+                  key: scaffoldMessengerKey,
+                  child: Scaffold(
+                    body: SafeArea(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width / 30),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 10,
+                              ),
+                              Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'titleLogin'.tr(context),
+                                      style: TextStyle(
+                                        color: ColorManager.black,
+                                        fontFamily: FontConstants.fontFamily,
+                                        fontSize: FontSize.s24,
+                                        fontWeight: FontWeightManager.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      'subTitleLogin'.tr(context),
+                                      style: TextStyle(
+                                        color: ColorManager.gery,
+                                        fontFamily: FontConstants.fontFamily,
+                                        fontSize: FontSize.s16,
+                                        fontWeight: FontWeightManager.medium,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height / 12.5,
+                              ),
+                              Form(
+                                key: formKey,
+                                child: Column(
+                                  children: [
+                                    TextFormField(
+                                      decoration: InputDecoration(
+                                          labelText: 'login_button'.tr(context),
+                                          prefixIcon: Icon(
+                                            Icons.person_outlined,
+                                            color: ColorManager.gery,
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(35.0),
+                                          )),
+                                      controller: emailController,
+                                      keyboardType: TextInputType.emailAddress,
+                                      textInputAction: TextInputAction.next,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'emailAddress'.tr(context);
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              35,
+                                    ),
+                                    TextFormField(
+                                      obscureText: LoginCubit.get(context)
+                                          .isPasswordShown,
+                                      controller: passwordController,
+                                      keyboardType:
+                                          TextInputType.visiblePassword,
+                                      textInputAction: TextInputAction.done,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'passwordError'.tr(context);
+                                        }
+                                        return null;
+                                      },
+                                      onFieldSubmitted: (value) {
+                                        if (formKey.currentState!.validate()) {
+                                          LoginCubit.get(context).userLogin(
+                                              email: emailController.text,
+                                              password:
+                                                  passwordController.text);
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                          labelText:
+                                              'password_hint'.tr(context),
+                                          prefixIcon: const Icon(
+                                              Icons.lock_outline_sharp),
+                                          suffixIcon: IconButton(
+                                            onPressed: () {
+                                              LoginCubit.get(context)
+                                                  .changePasswordVisibility();
+                                            },
+                                            icon: Icon(
+                                                LoginCubit.get(context).suffix),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(35.0),
+                                          )),
+                                    ),
+                                    Row(
+                                      children: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        RegisterScreenScreen()));
+                                          },
+                                          child: Text(
+                                            'register_text'.tr(context),
+                                            style: TextStyle(
+                                              color: ColorManager.brightBlue,
+                                              fontWeight:
+                                                  FontWeightManager.semiBold,
+                                              fontFamily:
+                                                  FontConstants.fontFamily,
+                                            ),
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        ForgotPassword()));
+                                          },
+                                          child: Text(
+                                            'forgot_password_text'.tr(context),
+                                            style: TextStyle(
+                                              color: ColorManager.black,
+                                              fontWeight:
+                                                  FontWeightManager.semiBold,
+                                              fontFamily:
+                                                  FontConstants.fontFamily,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              50,
+                                    ),
+                                    Conditional.single(
+                                        context: context,
+                                        conditionBuilder:
+                                            (BuildContext context) =>
+                                                state is! LoginLoadingState,
+                                        widgetBuilder: (context) {
+                                          return Container(
+                                            width: double.infinity,
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  35,
+                                            ),
+                                            child: TextButton(
+                                              onPressed: () {
+                                                if (formKey.currentState!
+                                                    .validate()) {
+                                                  LoginCubit.get(context)
+                                                      .userLogin(
+                                                          email: emailController
+                                                              .text,
+                                                          password:
+                                                              passwordController
+                                                                  .text);
+                                                }
+                                              },
+                                              style: TextButton.styleFrom(
+                                                shape: const StadiumBorder(),
+                                                backgroundColor:
+                                                    ColorManager.black,
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 14),
+                                              ),
+                                              child: Text(
+                                                "login_button".tr(context),
+                                                style: TextStyle(
+                                                  color: ColorManager.white,
+                                                  fontFamily:
+                                                      FontConstants.fontFamily,
+                                                  fontSize: FontSize.s22,
+                                                  fontWeight: FontWeightManager
+                                                      .semiBold,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        fallbackBuilder: (context) {
+                                          return const Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        }),
+                                    const OrDivider(),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SocialIcons(
+                                            iconSource:
+                                                "assets/icons/facebook.svg",
+                                            press: () {
+                                              print("facebook");
+                                            }),
+                                        SocialIcons(
+                                            iconSource:
+                                                "assets/icons/twitter.svg",
+                                            press: () {
+                                              print("twitter");
+                                            }),
+                                        SocialIcons(
+                                            iconSource:
+                                                "assets/icons/google-plus.svg",
+                                            press: () {
+                                              print("google");
+                                            })
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              });
+        },
       ),
     );
   }

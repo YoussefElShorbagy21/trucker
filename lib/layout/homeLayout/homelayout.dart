@@ -62,17 +62,17 @@ class _HomeLayoutState extends State<HomeLayout> {
           builder: (context, snapshot) {
             if (snapshot.data == ConnectivityResult.none) {
               print(snapshot.data);
-              const snackBar = SnackBar(
-                margin: EdgeInsets.all(50),
-                duration: Duration(seconds: 5),
-                shape: StadiumBorder(),
+              dynamic snackBar = SnackBar(
+                margin: const EdgeInsets.all(50),
+                duration: const Duration(seconds: 5),
+                shape: const StadiumBorder(),
                 elevation: 5,
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: Colors.red,
                 content: Text(
-                  'Check Your Connection',
+                  'Check Your Connection'.tr(context),
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
@@ -88,9 +88,11 @@ class _HomeLayoutState extends State<HomeLayout> {
                   backgroundColor: ColorManager.white,
                   leading: IconButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                      const OrderCustomer(),
-                      ));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const OrderCustomer(),
+                          ));
                     },
                     icon: Icon(
                       Icons.local_shipping_outlined,

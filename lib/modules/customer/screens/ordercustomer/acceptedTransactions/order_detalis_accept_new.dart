@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/modules/customer/screens/ordercustomer/cubit/order_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/shared/resources/app_localizations.dart';
 import '../../../../../layout/homeLayout/cubit/cubit.dart';
 import '../../../../../shared/resources/color_manager.dart';
 import '../../../../../shared/resources/font_manager.dart';
@@ -90,9 +91,9 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text(
-                            'Accepted order',
-                            style: TextStyle(
+                          Text(
+                            'Accepted order'.tr(context),
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -112,17 +113,17 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                           // mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Row(
+                            Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.emoji_objects_outlined,
                                   size: 25,
                                   color: Colors.grey,
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 Text(
-                                  'hint',
-                                  style: TextStyle(
+                                  'hint'.tr(context),
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -133,7 +134,8 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
-                                'your order has been accepted by the delivery person. Please wait for the delivery of your order and enter the OTP code',
+                                'your order has been accepted by the delivery person. Please wait for the delivery of your order and enter the OTP code'
+                                    .tr(context),
                                 style: TextStyle(
                                   color: Colors.grey.withOpacity(.5),
                                   fontSize: 15,
@@ -155,17 +157,17 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Row(
+                            Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.description_outlined,
                                   size: 25,
                                   color: Colors.grey,
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 Text(
-                                  'description',
-                                  style: TextStyle(
+                                  'description'.tr(context),
+                                  style: const TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -187,11 +189,11 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                                height: MediaQuery.of(context).size.height / 30
-                            ),
-                            const Text(
-                              'Booking Details',
-                              style: TextStyle(
+                                height:
+                                    MediaQuery.of(context).size.height / 30),
+                            Text(
+                              'Booking Details'.tr(context),
+                              style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -220,9 +222,9 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                                 ),
                               ],
                             ),
-                             SizedBox(
-                                height: MediaQuery.of(context).size.height / 30
-                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height / 30),
                             Row(
                               children: [
                                 const Icon(
@@ -232,10 +234,11 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    OrderCubit.get(context).startLocationAccepted,
+                                    OrderCubit.get(context)
+                                        .startLocationAccepted,
                                     maxLines: 1,
                                     style: const TextStyle(
-                                      overflow: TextOverflow.ellipsis,
+                                        overflow: TextOverflow.ellipsis,
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -243,8 +246,8 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                               ],
                             ),
                             SizedBox(
-                                height: MediaQuery.of(context).size.height / 30
-                            ),
+                                height:
+                                    MediaQuery.of(context).size.height / 30),
                             Row(
                               children: [
                                 const Icon(
@@ -275,49 +278,49 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                     ),
 
                     HomeCubit.get(context).oneUserData.userData.role ==
-                        "service_provider"
+                            "service_provider"
                         ? Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: MediaQuery.of(context).size.height / 15,
-                      padding: EdgeInsets.symmetric(
-                        horizontal:
-                        MediaQuery.of(context).size.width / 15,
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => MapTracking(
-                                serviceId: serviceId,
-                                id: id,
-                                sourceLatLa: sourceLatLa,
-                                sourceLatLo: sourceLatLo,
-                                destinationLa: destinationLa,
-                                destinationLo: destinationLo,
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: MediaQuery.of(context).size.height / 15,
+                            padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width / 15,
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => MapTracking(
+                                      serviceId: serviceId,
+                                      id: id,
+                                      sourceLatLa: sourceLatLa,
+                                      sourceLatLo: sourceLatLo,
+                                      destinationLa: destinationLa,
+                                      destinationLo: destinationLo,
+                                    ),
+                                  ),
+                                );
+                              },
+                              style: TextButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                backgroundColor: const Color(0xFF22A699),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                              ),
+                              child: Text(
+                                'Follow You Map'.tr(context),
+                                style: TextStyle(
+                                  color: ColorManager.white,
+                                  fontFamily: FontConstants.fontFamily,
+                                  fontSize: 18,
+                                  fontWeight: FontWeightManager.semiBold,
+                                ),
                               ),
                             ),
-                          );
-                        },
-                        style: TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          backgroundColor: const Color(0xFF22A699),
-                          padding:
-                          const EdgeInsets.symmetric(vertical: 10),
-                        ),
-                        child: Text(
-                          'Follow You Map',
-                          style: TextStyle(
-                            color: ColorManager.white,
-                            fontFamily: FontConstants.fontFamily,
-                            fontSize: 18,
-                            fontWeight: FontWeightManager.semiBold,
-                          ),
-                        ),
-                      ),
-                    )
+                          )
                         : Container(),
                     SizedBox(height: MediaQuery.of(context).size.height / 20),
                     HomeCubit.get(context).oneUserData.userData.role !=
@@ -354,7 +357,7 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                                     const EdgeInsets.symmetric(vertical: 10),
                               ),
                               child: Text(
-                                'Follow Your Product',
+                                'Follow Your Product'.tr(context),
                                 style: TextStyle(
                                   color: ColorManager.white,
                                   fontFamily: FontConstants.fontFamily,
@@ -367,24 +370,33 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                         : Container(),
 
                     HomeCubit.get(context).oneUserData.userData.role ==
-                        "service_provider" ?
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text('Add Image',style: TextStyle(fontSize: 25,color: Colors.black  ,fontWeight: FontWeight.bold),),
-                        IconButton(onPressed: (){
-                          OrderCubit.get(context).getPostImage();
-                        }
-                          , icon:
-                          const CircleAvatar(
-                            radius: 25,
-                            backgroundColor: Color(0xFF22A699),
-                            child: Icon(Icons.add,
-                              size: 30,
-                              color: Colors.white,),),),
-
-                      ],
-                    )
+                            "service_provider"
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Add Image'.tr(context),
+                                style: const TextStyle(
+                                    fontSize: 25,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  OrderCubit.get(context).getPostImage();
+                                },
+                                icon: const CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Color(0xFF22A699),
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 30,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
                         : Container(),
                     //مربع لادخال الكود
                     HomeCubit.get(context).oneUserData.userData.role ==
@@ -430,7 +442,7 @@ class OrderDetailsAcceptNew extends StatelessWidget {
                                               vertical: 14),
                                         ),
                                         child: Text(
-                                          "ارسال الكود",
+                                          "Send Code",
                                           style: TextStyle(
                                             color: ColorManager.white,
                                             fontFamily:
