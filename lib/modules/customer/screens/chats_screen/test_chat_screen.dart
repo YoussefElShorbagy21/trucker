@@ -215,8 +215,8 @@ class _ActionBar extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 14.0,
                 ),
-                decoration: const InputDecoration(
-                  hintText: 'Type Something',
+                decoration:  InputDecoration(
+                  hintText: 'Type Something'.tr(context),
                   border: InputBorder.none,
                 ),
               ),

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/shared/resources/app_localizations.dart';
 
 import '../../modules/customer/screens/ordercustomer/order_customer.dart';
+import '../../modules/customer/screens/profile/edit_profile/edit_profile.dart';
 import '../../shared/resources/color_manager.dart';
 import 'cubit/cubit.dart';
 import 'cubit/state.dart';
@@ -104,39 +105,48 @@ class _HomeLayoutState extends State<HomeLayout> {
                   actions: [
                     Padding(
                       padding: const EdgeInsets.only(right: 15, top: 5),
-                      child: CircleAvatar(
-                        radius: 25,
-                        backgroundImage: HomeCubit.get(context)
-                                .oneUserData
-                                .userData
-                                .avatar
-                                .isNotEmpty
-                            ? NetworkImage(
-                                HomeCubit.get(context)
-                                    .oneUserData
-                                    .userData
-                                    .avatar,
-                              )
-                            : const NetworkImage(
-                                'https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',
-                              ),
-                        child: HomeCubit.get(context)
-                                .oneUserData
-                                .userData
-                                .avatar
-                                .isNotEmpty
-                            ? null
-                            : Text(
-                                HomeCubit.get(context)
-                                    .oneUserData
-                                    .userData
-                                    .name[0]
-                                    .toUpperCase(),
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: ColorManager.black,
+                      child: GestureDetector (
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => EditProfileScreen()),
+                          );
+                        },
+                        child: CircleAvatar(
+                          radius: 25,
+                          backgroundImage: HomeCubit.get(context)
+                                  .oneUserData
+                                  .userData
+                                  .avatar
+                                  .isNotEmpty
+                              ? NetworkImage(
+                                  HomeCubit.get(context)
+                                      .oneUserData
+                                      .userData
+                                      .avatar,
+                                )
+                              : const NetworkImage(
+                                  'https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',
                                 ),
-                              ),
+                          child: HomeCubit.get(context)
+                                  .oneUserData
+                                  .userData
+                                  .avatar
+                                  .isNotEmpty
+                              ? null
+                              : Text(
+                                  HomeCubit.get(context)
+                                      .oneUserData
+                                      .userData
+                                      .name[0]
+                                      .toUpperCase(),
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    color: ColorManager.black,
+                                  ),
+                                ),
+                        ),
                       ),
                     ),
                   ],

@@ -53,8 +53,8 @@ class CategoryScreens extends StatelessWidget {
               HomeCubit.get(context).homeModel.equipment.isNotEmpty,
           widgetBuilder: (context) => Scaffold(
             appBar: AppBar(title: Text(name), actions: [
-              const Text(
-                'Filter',
+               Text(
+                'Filter'.tr(context),
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
               ),
               IconButton(
@@ -68,7 +68,7 @@ class CategoryScreens extends StatelessWidget {
                                 height: 20,
                               ),
                               InputField(
-                                title: 'Brand',
+                                title: 'Brand'.tr(context),
                                 note: HomeCubit.get(context).brandControllerF,
                                 widget: Row(
                                   children: [
@@ -119,7 +119,7 @@ class CategoryScreens extends StatelessWidget {
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: const Text('Cancel'),
+                                    child:  Text('Cancel'.tr(context)),
                                   ),
                                   const Spacer(),
                                   ElevatedButton(
@@ -131,7 +131,7 @@ class CategoryScreens extends StatelessWidget {
                                                   .idBrandControllerF);
                                       Navigator.pop(context);
                                     },
-                                    child: const Text('Apply'),
+                                    child:  Text('Apply'.tr(context)),
                                   ),
                                 ],
                               ),
