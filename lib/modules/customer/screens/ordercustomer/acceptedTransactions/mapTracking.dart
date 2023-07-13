@@ -93,7 +93,8 @@ class _MapTrackingState extends State<MapTracking> {
       );
     }
     _addSourceAndLineLayer();
-    _startTracking();
+    HomeCubit.get(context).oneUserData.userData.role ==
+        "service_provider" ? _startTracking() : print('service_provider');
   }
 
   _addSourceAndLineLayer() async {
@@ -230,7 +231,8 @@ class _MapTrackingState extends State<MapTracking> {
               height: MediaQuery.of(context).size.height,
               child: MapboxMap(
                 trackCameraPosition: true,
-                myLocationEnabled:   true,
+                myLocationEnabled:   HomeCubit.get(context).oneUserData.userData.role ==
+                    "service_provider" ? true : false,
                 accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
                 initialCameraPosition: _initialCameraPosition,
                 onMapCreated: _onMapCreated,

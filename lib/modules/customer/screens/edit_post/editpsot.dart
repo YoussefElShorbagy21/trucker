@@ -25,11 +25,7 @@ class EditPost extends StatelessWidget {
     'Others',
   ];
 
-  /*List<String> brandList = [
-    'Scania',
-    'Iveco',
-    'Man',
-    'Volvo',];*/
+
   List<String> governmentList = [
     "الإسكندرية",
     "الإسماعيلية",
