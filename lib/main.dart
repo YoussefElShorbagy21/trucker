@@ -15,15 +15,17 @@ import 'package:login/shared/resources/color_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'modules/customer/screens/home/cubit/cubit.dart';
 import 'modules/customer/screens/onboarding_screen/onboarding_page.dart';
-import 'modules/customer/screens/ordercustomer/currentTransactions/order_detalis_current_new.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'modules/customer/screens/splash_screen/language.dart';
 import 'modules/customer/screens/splash_screen/splash_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   Bloc.observer = MyBlocObserver();
   DioHelper.inti();
   await dotenv.load(fileName: "assets/config/.env");
@@ -35,25 +37,19 @@ void main() async {
   print("onBoarding: $onBoarding");
   print("language: $language");
 
-  if(language != null)
-    {
-      if(onBoarding != null)
-      {
-              if (uid != null) {
-                widget = const HomeLayout(); //HomeLayout
-              }
-              else {
-                widget = LoginScreen();
-              }
+  if (language != null) {
+    if (onBoarding != null) {
+      if (uid != null) {
+        widget = const HomeLayout(); //HomeLayout
+      } else {
+        widget = LoginScreen();
       }
-      else{
-        widget = const OnBoardingPage();
-      }
+    } else {
+      widget = const OnBoardingPage();
     }
-  else
-    {
-      widget = const SettingsPage();
-    }
+  } else {
+    widget = const SettingsPage();
+  }
 
   runApp(MyApp(widget));
 }
@@ -67,51 +63,57 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-            BlocProvider<HomeCubit>(create: (context) => HomeCubit()..getUserData()..getSavedLanguage()..getAllUserData()
-               ..getCategory()..getSubCategory()..getBrand()),
-            BlocProvider<HomeScreenCubit>(create: (context) => HomeScreenCubit()..getHomeData()..getFavoriteList()),
-            BlocProvider<RegisterCubit>(create: (context) => RegisterCubit()),
-            BlocProvider<OrderCubit>(create: (context) => OrderCubit()..getUserDataCurrentTransactions()
-              ..getUserDataAcceptedTransactions()..getUserDataDoneTransactions()),
+        BlocProvider<HomeCubit>(
+            create: (context) => HomeCubit()
+              ..getUserData()
+              ..getSavedLanguage()
+              ..getAllUserData()
+              ..getCategory()
+              ..getBrand()
+              ..getAllBrand()),
+        BlocProvider<HomeScreenCubit>(
+            create: (context) => HomeScreenCubit()..getHomeData()..getFavoriteList()),
+        BlocProvider<RegisterCubit>(create: (context) => RegisterCubit()),
+        BlocProvider<OrderCubit>(
+            create: (context) => OrderCubit()
+              ..getUserDataCurrentTransactions()
+              ..getUserDataAcceptedTransactions()
+              ..getUserDataDoneTransactions()),
       ],
       child: BlocConsumer<HomeCubit, HomeStates>(
-        listener: (context, state) {
-        },
+        listener: (context, state) {},
         builder: (context, state) {
-                return MaterialApp(
-                  locale: HomeCubit.get(context).locale,
-                  theme: ThemeData(
-                    useMaterial3: true,
-                      colorScheme: ColorScheme.fromSeed(seedColor: ColorManager.accentColor),
-                  ),
-                  supportedLocales: const [
-                    Locale('ar'),
-                    Locale('en'),
-                  ],
-                  localizationsDelegates:  const [
-                    AppLocalizations.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                  ],
-                  localeResolutionCallback: (deviceLocal,supportedLocales){
-                    for(var locale in supportedLocales)
-                    {
-                      if(deviceLocal != null && deviceLocal.languageCode == locale.languageCode)
-                      {
-                        return deviceLocal;
-                      }
-                    }
-                    return supportedLocales.first;
-
-                  },
-                  debugShowCheckedModeBanner: false,
-                  home: SplashScreen(widget: startWidget),
-                );
-
+          return MaterialApp(
+            locale: HomeCubit.get(context).locale,
+            theme: ThemeData(
+              useMaterial3: true,
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: ColorManager.accentColor),
+            ),
+            supportedLocales: const [
+              Locale('ar'),
+              Locale('en'),
+            ],
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            localeResolutionCallback: (deviceLocal, supportedLocales) {
+              for (var locale in supportedLocales) {
+                if (deviceLocal != null &&
+                    deviceLocal.languageCode == locale.languageCode) {
+                  return deviceLocal;
+                }
+              }
+              return supportedLocales.first;
+            },
+            debugShowCheckedModeBanner: false,
+            home: SplashScreen(widget: startWidget),
+          );
         },
       ),
     );
-
   }
 }

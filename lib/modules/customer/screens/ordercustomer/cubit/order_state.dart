@@ -68,3 +68,7 @@ class ErrorCreateReview extends OrderStates {
   final String error ;
   ErrorCreateReview(this.error);
 }
+
+class HomePostImagePickedSuccessState extends OrderStates {}
+
+class HomePostImagePickedErrorState extends OrderStates {}

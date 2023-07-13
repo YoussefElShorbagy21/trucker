@@ -9,14 +9,14 @@ import '../home/cubit/cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChangePhoto extends StatelessWidget {
-  String id ;
+  String id;
 
-  ChangePhoto({required this.id,super.key});
+  ChangePhoto({required this.id, super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeScreenCubit, HomeScreenState>(
-      listener: (context, state){},
+      listener: (context, state) {},
       builder: (context, state) {
         print(HomeScreenCubit.get(context).newPostImage);
         return Scaffold(
@@ -29,30 +29,43 @@ class ChangePhoto extends StatelessWidget {
                   Container(
                       height: 300,
                       margin: const EdgeInsets.all(5),
-                      decoration: HomeScreenCubit.get(context).newPostImage != null ? BoxDecoration(
-                        borderRadius: BorderRadius.circular(4.0),
-                        image:  DecorationImage(
-                          fit: BoxFit.cover,
-                          image: FileImage(HomeScreenCubit.get(context).newPostImage!),
-                        ),
-                      ) : BoxDecoration(
-                        color: const Color(0XFF408080),
-                        borderRadius: BorderRadius.circular(15.0),
-                      )
-                  ),
+                      decoration: HomeScreenCubit.get(context).newPostImage !=
+                              null
+                          ? BoxDecoration(
+                              borderRadius: BorderRadius.circular(4.0),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: FileImage(
+                                    HomeScreenCubit.get(context).newPostImage!),
+                              ),
+                            )
+                          : BoxDecoration(
+                              color: const Color(0XFF408080),
+                              borderRadius: BorderRadius.circular(15.0),
+                            )),
                   Row(
                     children: [
-                      IconButton(onPressed: (){
-                        _showSelectPhotoOptionsNew(context) ;
-                      }
-                        , icon:
-                        const CircleAvatar(
+                      IconButton(
+                        onPressed: () {
+                          _showSelectPhotoOptionsNew(context);
+                        },
+                        icon: const CircleAvatar(
                           radius: 25,
                           backgroundColor: Colors.white,
-                          child: Icon(Icons.add,
+                          child: Icon(
+                            Icons.add,
                             size: 30,
-                            color: Color(0XFF408080),),),),
-                      const Text('Add Image',style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),),
+                            color: Color(0XFF408080),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Add Image'.tr(context),
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ],
                   ),
                 ],
@@ -63,21 +76,23 @@ class ChangePhoto extends StatelessWidget {
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width/35,
+                  horizontal: MediaQuery.of(context).size.width / 35,
                 ),
                 child: TextButton(
-                  onPressed:(){
-                    HomeScreenCubit.get(context).updateImagePostData(id: id,
+                  onPressed: () {
+                    HomeScreenCubit.get(context).updateImagePostData(
+                        id: id,
                         photo: HomeScreenCubit.get(context).newPostImage);
 
                     Navigator.pop(context);
-                  } ,
+                  },
                   style: TextButton.styleFrom(
                     shape: const StadiumBorder(),
-                    backgroundColor: const Color.fromRGBO(255, 188, 0,1),
+                    backgroundColor: const Color.fromRGBO(255, 188, 0, 1),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
-                  child:  Text("confirm".tr(context),
+                  child: Text(
+                    "confirm".tr(context),
                     style: TextStyle(
                       color: ColorManager.white,
                       fontFamily: FontConstants.fontFamily,
@@ -91,7 +106,7 @@ class ChangePhoto extends StatelessWidget {
           ),
         );
       },
-);
+    );
   }
 }
 
@@ -112,7 +127,7 @@ void _showSelectPhotoOptionsNew(BuildContext context) {
         builder: (context, scrollController) {
           return SingleChildScrollView(
             controller: scrollController,
-            child:  SelectPhotoOptionsScreen(
+            child: SelectPhotoOptionsScreen(
               onTap: HomeScreenCubit.get(context).getNewPostImage,
             ),
           );

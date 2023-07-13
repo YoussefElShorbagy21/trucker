@@ -1,19 +1,29 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:login/layout/homeLayout/cubit/cubit.dart';
 import 'package:login/modules/customer/screens/ordercustomer/cubit/order_cubit.dart';
+import 'package:login/modules/customer/screens/ordercustomer/cubit/order_state.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:location/location.dart';
+import 'package:firebase_database/firebase_database.dart';
 
+import '../../../../../shared/components/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class MapTracking extends StatefulWidget {
+  String id ;
+  String serviceId ;
   double sourceLatLo;
   double sourceLatLa;
   double destinationLo;
   double destinationLa;
   MapTracking({Key? key,
     required this.sourceLatLa,required this.sourceLatLo,required this.destinationLa,required this.destinationLo,
+    required this.id , required this.serviceId
   }) : super(key: key);
 
   @override
@@ -23,13 +33,16 @@ class MapTracking extends StatefulWidget {
 class _MapTrackingState extends State<MapTracking> {
   // Mapbox Maps SDK related
   final List<CameraPosition> _kTripEndPoints = [];
-  late MapboxMapController controller;
+  MapboxMapController? controller ;
   late CameraPosition _initialCameraPosition;
-
+  Future<Uint8List> loadMarkerImage() async {
+    var byteData = await rootBundle.load("assets/images/6643396.png");
+    return byteData.buffer.asUint8List();
+  }
   // Directions API response related
   late Map geometry;
   late LocationData _locationData;
-
+  final referenceDataset = FirebaseDatabase.instance ;
   @override
   void initState() {
     print(
@@ -53,9 +66,11 @@ class _MapTrackingState extends State<MapTracking> {
               widget.destinationLo,
               widget.destinationLa)));
     }
+
     super.initState();
   }
-
+  dynamic latitude ;
+  dynamic longitude ;
   _initialiseDirectionsResponse() {
     print('in _initialiseDirectionsResponse');
     geometry = OrderCubit.get(context).modifiedResponse['geometry'];
@@ -68,7 +83,7 @@ class _MapTrackingState extends State<MapTracking> {
 
   _onStyleLoadedCallback() async {
     for (int i = 0; i < _kTripEndPoints.length; i++) {
-      await controller.addSymbol(
+      await controller!.addSymbol(
         SymbolOptions(
           geometry: _kTripEndPoints[i].target,
           iconSize: 0.1,
@@ -78,7 +93,8 @@ class _MapTrackingState extends State<MapTracking> {
       );
     }
     _addSourceAndLineLayer();
-    _startTracking();
+    HomeCubit.get(context).oneUserData.userData.role ==
+        "service_provider" ? _startTracking() : print('service_provider');
   }
 
   _addSourceAndLineLayer() async {
@@ -96,8 +112,8 @@ class _MapTrackingState extends State<MapTracking> {
     };
 
     // Add new source and lineLayer
-    await controller.addSource("fills", GeojsonSourceProperties(data: _fills));
-    await controller.addLineLayer(
+    await controller!.addSource("fills", GeojsonSourceProperties(data: _fills));
+    await controller!.addLineLayer(
       "fills",
       "lines",
       LineLayerProperties(
@@ -111,22 +127,82 @@ class _MapTrackingState extends State<MapTracking> {
   }
 
   void _startTracking() {
+    final ref = referenceDataset.ref();
     Location().onLocationChanged.listen((LocationData currentLocation) {
       setState(() {
         _locationData = currentLocation;
         print('for update tracking');
-        print(currentLocation);
+        print(currentLocation.latitude);
+        ref.child(widget.id.toString()).child(uid.toString()).child('currentLocation')
+        .child('latitude').set(currentLocation.latitude)
+        .asStream();
+
+        ref.child(widget.id.toString()).child(uid.toString()).child('currentLocation')
+            .child('longitude').set(currentLocation.longitude)
+            .asStream();
       });
       _updateCamera();
     });
   }
 
   void _updateCamera() {
-    controller.animateCamera(
+    controller!.animateCamera(
       CameraUpdate.newLatLng(
         LatLng(_locationData.latitude!, _locationData.longitude!),
       ),
     );
+  }
+
+  Future<void> liveLocation() async{
+    print('liveLocation');
+      final DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
+      final DatabaseReference latitudeRef = databaseRef.child(widget.id)
+          .child(widget.serviceId)
+          .child('currentLocation')
+          .child('latitude');
+
+      final DatabaseReference longitudeRef = databaseRef.child(widget.id)
+          .child(widget.serviceId)
+          .child('currentLocation')
+          .child('longitude');
+
+      latitudeRef.onValue.listen((event) {
+        setState(() {
+          latitude = event.snapshot.value;
+          print('latitude in snapshot.value $latitude');
+        });
+      });
+
+      longitudeRef.onValue.listen((event) {
+        setState(() {
+          longitude = event.snapshot.value;
+          print('longitude in snapshot.value $longitude');
+        });
+      });
+
+    var markerImage = await loadMarkerImage();
+    await controller!.addImage('marker', markerImage);
+
+    if (latitude != null && longitude != null)
+      {
+        await controller!.addSymbol(SymbolOptions(
+          geometry: LatLng(latitude!,longitude!),
+          iconSize: 0.1,
+          iconImage: "marker",
+          iconOffset: const Offset(0, -150),
+        ));
+        controller!.clearSymbols();
+        controller!.addSymbol(SymbolOptions(
+          geometry: LatLng(latitude!,longitude!),
+          iconSize: 0.1,
+          iconImage: "marker",
+          iconOffset: const Offset(0, -150),
+        ));
+      }
+
+    print('latitude in onMapCreate $latitude');
+    print('longitude in onMapCreate $longitude');
+    // setState(() {});
   }
 
   @override
@@ -141,17 +217,35 @@ class _MapTrackingState extends State<MapTracking> {
         title: const Text('Review Ride'),
       ),
       body: SafeArea(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: MapboxMap(
-            trackCameraPosition: true,
-            myLocationEnabled: true,
-            accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
-            initialCameraPosition: _initialCameraPosition,
-            onMapCreated: _onMapCreated,
-            onStyleLoadedCallback: _onStyleLoadedCallback,
-            myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
-          ),
+        child: Builder(
+          builder: (context) {
+            print('Builder');
+            HomeCubit.get(context).oneUserData.userData.role !=
+                "service_provider" ? liveLocation() : print('Builder');
+            return BlocConsumer<OrderCubit, OrderStates>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, state) {
+    return SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: MapboxMap(
+                trackCameraPosition: true,
+                myLocationEnabled:   HomeCubit.get(context).oneUserData.userData.role ==
+                    "service_provider" ? true : false,
+                accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
+                initialCameraPosition: _initialCameraPosition,
+                onMapCreated: _onMapCreated,
+                onStyleLoadedCallback: _onStyleLoadedCallback,
+                onUserLocationUpdated: (value){
+                  print(value);
+                },
+                myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
+              ),
+            );
+  },
+);
+          }
         ),
       ),
     );

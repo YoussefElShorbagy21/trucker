@@ -49,3 +49,5 @@ class ErrorOCRPostState extends RegisterState {
   ErrorOCRPostState(this.error) ;
 }
 
+
+

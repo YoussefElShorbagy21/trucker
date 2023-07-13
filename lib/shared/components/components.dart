@@ -41,7 +41,6 @@ Widget buildItem(BuildContext context, Equipment equipment) =>
               builder: (context) => DetailScreen(
                 id: equipment.id,
                 cid: equipment.category,
-                scid: equipment.subcategory,
                 bid: equipment.brand,
               ),
             ));
@@ -355,7 +354,6 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
           builder: (context) => DetailScreen(
             id: equipment.id,
             cid: equipment.category,
-            scid: equipment.subcategory,
             bid: equipment.brand,
           ),
         ));
@@ -365,7 +363,7 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 4),
               child: Container(
                 height: 150,
                 decoration: BoxDecoration(
@@ -382,12 +380,14 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
                 ),
                 child: Row(
                   children: [
-                    Container(
-                      alignment: Alignment.center,
-                      child: Image.network(
-                        equipment.imageCover,
-                        height: 120,
-                        width: 150,
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Image.network(
+                          equipment.imageCover,
+                          height: 120,
+                          width: 150,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -427,7 +427,7 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
                         ),*/
                           Text(
                             equipment.name,
-                            style:  TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
                               color: Colors.grey.withOpacity(0.5),
@@ -436,37 +436,41 @@ Widget buildNewItem(BuildContext context, Equipment equipment) =>
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          FavoriteButton(
-                            iconSize: 35,
-                            isFavorite: HomeCubit.get(context)
-                                        .favorites[equipment.id] ==
-                                    'find'
-                                ? true
-                                : false,
-                            valueChanged: (isFavorite) {
-                              if (isFavorite == true) {
-                                HomeCubit.get(context)
-                                    .addFavorite(truck: equipment.id);
-                                HomeCubit.get(context).delayTime(5);
-                                HomeCubit.get(context).favorites[equipment.id] =
-                                    'find';
-                              } else {
-                                HomeCubit.get(context)
-                                    .deleteFavorite(truck: equipment.id);
-                                HomeCubit.get(context).delayTime(5);
-                                HomeCubit.get(context).favorites[equipment.id] =
-                                    '';
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                    HomeCubit.get(context).oneUserData.userData.role !=
+                            "service_provider"
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 7),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                FavoriteButton(
+                                  iconSize: 30,
+                                  isFavorite: HomeCubit.get(context)
+                                              .favorites[equipment.id] ==
+                                          'find'
+                                      ? true
+                                      : false,
+                                  valueChanged: (isFavorite) {
+                                    if (isFavorite == true) {
+                                      HomeCubit.get(context)
+                                          .addFavorite(truck: equipment.id);
+                                      HomeCubit.get(context).delayTime(5);
+                                      HomeCubit.get(context)
+                                          .favorites[equipment.id] = 'find';
+                                    } else {
+                                      HomeCubit.get(context)
+                                          .deleteFavorite(truck: equipment.id);
+                                      HomeCubit.get(context).delayTime(5);
+                                      HomeCubit.get(context)
+                                          .favorites[equipment.id] = '';
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),

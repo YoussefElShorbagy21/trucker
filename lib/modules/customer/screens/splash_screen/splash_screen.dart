@@ -64,12 +64,12 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           Expanded(
             child: Image(
-              image:  AssetImage("assets/images/Logo.png"),
+              image:  const AssetImage("assets/images/Logo.png"),
               color: ColorManager.kGold,
 
             ),
           ),
-          Image(
+          const Image(
             image:  AssetImage("assets/images/splash_logo/trucker_logo.png"),
 
           ),

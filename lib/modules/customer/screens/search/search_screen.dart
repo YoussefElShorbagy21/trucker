@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/modules/customer/screens/home/cubit/cubit.dart';
 import 'package:login/modules/customer/screens/home/cubit/state.dart';
+import 'package:login/shared/resources/app_localizations.dart';
+import 'package:login/shared/resources/color_manager.dart';
 
 import '../../../../shared/components/components.dart';
 
@@ -63,9 +65,9 @@ class SearchScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 3),
                     child: Row(
                       children: [
-                        const Icon(
+                         Icon(
                           CupertinoIcons.search,
-                          color: Colors.red,
+                          color: ColorManager.cGold,
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.06,
@@ -79,12 +81,12 @@ class SearchScreen extends StatelessWidget {
                               },
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'search must not be empty';
+                                  return 'search must not be empty'.tr(context);
                                 }
                                 return null;
                               },
-                              decoration: const InputDecoration(
-                                hintText: 'What would you like? ',
+                              decoration:  InputDecoration(
+                                hintText: 'What would you like? '.tr(context),
                                 border: InputBorder.none,
                               ),
                             ),
@@ -97,7 +99,7 @@ class SearchScreen extends StatelessWidget {
               ),
               Expanded(
                   child: articleBuilder(list, list.length, context,
-                      isSearch: true)),
+                      isSearch: true),),
             ],
           ),
         );

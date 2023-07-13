@@ -17,8 +17,7 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {
-        if(state is ErrorUpdateUSERState)
-        {
+        if (state is ErrorUpdateUSERState) {
           final snackBar = SnackBar(
             margin: const EdgeInsets.all(50),
             duration: const Duration(seconds: 5),
@@ -26,12 +25,14 @@ class EditProfileScreen extends StatelessWidget {
             elevation: 5,
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.red,
-            content: Text(state.error.toString(),
+            content: Text(
+              state.error.toString(),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
-              ),),
+              ),
+            ),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
@@ -69,7 +70,7 @@ class EditProfileScreen extends StatelessWidget {
                   },
                   child: Text(
                     'Update'.tr(context),
-                    style: TextStyle(color: Colors.blue),
+                    style: const TextStyle(color: Colors.blue),
                   ),
                 ),
               ),
@@ -112,15 +113,35 @@ class EditProfileScreen extends StatelessWidget {
                                     Theme.of(context).scaffoldBackgroundColor,
                                 child: CircleAvatar(
                                   radius: 50,
-                                  backgroundImage: HomeCubit.get(context).oneUserData.userData.avatar.isNotEmpty ? NetworkImage(HomeCubit.get(context).oneUserData.userData.avatar) :
-                                  const NetworkImage('https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',),
-                                  child: HomeCubit.get(context).oneUserData.userData.avatar.isNotEmpty ? null : Text(
-                                    HomeCubit.get(context).oneUserData.userData.name[0].toUpperCase(),
-                                    style: TextStyle(
-                                      fontSize: 35,
-                                      color: ColorManager.black,
-                                    ),
-                                  ),
+                                  backgroundImage: HomeCubit.get(context)
+                                          .oneUserData
+                                          .userData
+                                          .avatar
+                                          .isNotEmpty
+                                      ? NetworkImage(HomeCubit.get(context)
+                                          .oneUserData
+                                          .userData
+                                          .avatar)
+                                      : const NetworkImage(
+                                          'https://t3.ftcdn.net/jpg/03/29/17/78/360_F_329177878_ij7ooGdwU9EKqBFtyJQvWsDmYSfI1evZ.jpg',
+                                        ),
+                                  child: HomeCubit.get(context)
+                                          .oneUserData
+                                          .userData
+                                          .avatar
+                                          .isNotEmpty
+                                      ? null
+                                      : Text(
+                                          HomeCubit.get(context)
+                                              .oneUserData
+                                              .userData
+                                              .name[0]
+                                              .toUpperCase(),
+                                          style: TextStyle(
+                                            fontSize: 35,
+                                            color: ColorManager.black,
+                                          ),
+                                        ),
                                 ),
                               ),
                             IconButton(

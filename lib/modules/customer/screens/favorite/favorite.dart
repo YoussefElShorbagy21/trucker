@@ -73,7 +73,6 @@ Widget listBuilderOrderFav(List<DetailsEquipment> data, BuildContext context , S
                   DetailScreen(
                     id:data[reverse].truckId,
                     cid:data[reverse].category ,
-                    scid: data[reverse].subcategory,
                     bid: data[reverse].brand,
                   ),
             ),
@@ -130,14 +129,14 @@ Widget buildItemFav(BuildContext context, DetailsEquipment equipment) => Padding
                   maxLines: 1,
                 ),
               ),
-              Row(
+              const Row(
                 children: [
-                  Icon(
-                    Icons.location_on_outlined,
-                    color: ColorManager.gery,
-                    size: 25,
-                  ),
-                  const SizedBox(
+                  // Icon(
+                  //   Icons.location_on_outlined,
+                  //   color: ColorManager.gery,
+                  //   size: 25,
+                  // ),
+                  SizedBox(
                     width: 5,
                   ),
               /*    Flexible(
@@ -153,16 +152,16 @@ Widget buildItemFav(BuildContext context, DetailsEquipment equipment) => Padding
               const SizedBox(
                 height: 5,
               ),
-              Row(
+              const Row(
                 children: [
                   Expanded(
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.attach_money_outlined,
-                          color: ColorManager.gery,
-                          size: 25,
-                        ),
+                        // Icon(
+                        //   Icons.attach_money_outlined,
+                        //   color: ColorManager.gery,
+                        //   size: 25,
+                        // ),
                       /*  Flexible(
                           child: Text(
                             equipment.price.toString(),

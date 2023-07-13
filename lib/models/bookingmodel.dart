@@ -1,6 +1,6 @@
 class Booking{
   String id;
-  String price;
+  dynamic price;
   String description;
   String companyId;
   String truckId;
